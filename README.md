@@ -2,7 +2,8 @@
 
 #### 项目介绍
 敏捷工作流基础版
-http://doc.agilebpm.cn/
+
+文档 http://doc.agilebpm.cn/
 
 #### 软件架构
 软件架构说明
