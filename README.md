@@ -18,5 +18,8 @@ http://doc.agilebpm.cn/
 
 具备超快流程实施，业务迭代开发的能力。
 
+流程设计器
+![输入图片说明](https://gitee.com/uploads/images/2018/0525/231459_95401bef_1861740.png "屏幕截图.png")
 
 ## 目前基础版源码正在整理中...
+qq 交流群 :four:  :seven:  :seven:  :seven:  :eight:  :one:  :eight:  :five:  :seven: 
