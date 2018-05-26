@@ -5,11 +5,21 @@
 
 文档 http://doc.agilebpm.cn/
 
+#### 工作流解决方案
+我们通过业务对象、表单、流程引擎共同协作来解决业务流难实施的痛点。
+业务对象用来承载、持久化业务数据；表单则是业务数据的展示层；流程则用来驱动业务数据流转。
+三者协作完成流程实施。
+
+ **业务对象** 由实体（表）组成，居然支持任意数据结构（关联关系），并且可以跨库来组织业务对象。而且支持N层。
+这简直令人难以置信。恐怕强大到只有被抄袭的份了。
+ **表单** 表单完美的支撑了业务对象的展示，并支持丰富的前端组件。
+**流程引擎** 高效、解构、强大、灵活。核心引擎连续鲁码两个月一气呵成，一切功能皆插件。抽象程度有五六层楼那么高。
+
 #### 软件架构
 软件架构说明
 - 每个模块分 API core rest 三个组件组成
 - 前端 angular bootstrap-table bootstrap 等 js组件。 前后端分离，使用webpack 模块化打包
-- 后端 spring4.3.17 mybatis  activiti5.22 redis groovy quartz mq 等
+- 后端 spring4.3.17 mybatis  activiti5.22 redis groovy quartz mq atomikos spring security等
 
 
 ![如图所示](https://gitee.com/uploads/images/2018/0525/230104_41370bb1_1861740.png "屏幕截图.png")
