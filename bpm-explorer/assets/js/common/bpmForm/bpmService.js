@@ -167,6 +167,10 @@ bpmModel.factory('bpmService', ['$rootScope','baseService', function($rootScope,
 				$.getResultMsg(defer,function(){
 					layer.close(ii);
 					scope.execuFn(button.afterScript);
+					
+					if(window.opener && window.opener.reloadGrid){
+						window.opener.reloadGrid();
+					}
 					layer.closeAll();
 					parent.layer.closeAll();
 				},function(){
