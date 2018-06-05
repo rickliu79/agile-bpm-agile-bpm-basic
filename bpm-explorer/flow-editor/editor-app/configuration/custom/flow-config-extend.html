@@ -3,7 +3,7 @@
 	
 	<div class="panel  panel-default inline col-md-4">
 	  	<div class="toolbar-head"> 节点表单初始化
-	  		<span class="btn btn-primary glyphicon glyphicon-plus pull-right btn-sm" ng-click="editNodeInit()"></span>
+	  		<span class="btn btn-primary glyphicon glyphicon-plus pull-right btn-sm" ng-hide="b && nodeInitList.length>0" ng-click="editNodeInit()"></span>
 	  	 </div>
 	  	<div class="panel-body">
 		  	<table class="table table-hover table-striped table-bordered">
@@ -22,7 +22,7 @@
 	</div>
 	<div class="panel  panel-default inline col-md-5">
 	  	<div class="toolbar-head"> 节点通知消息
-	  		<span class="btn btn-primary glyphicon glyphicon-plus pull-right btn-sm" ng-click="editNodeMessage()"></span>
+	  		<span class="btn btn-primary glyphicon glyphicon-plus pull-right btn-sm" ng-hide="b && nodeMessageList.length>1" ng-click="editNodeMessage()"></span>
 	  	 </div>
 	  	<div class="panel-body">
 		  	<table class="table table-hover table-striped table-bordered">
