@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dstz.sys.core.dao.SysScheduleJobDao">
+
+    <resultMap id="SysScheduleJob" type="com.dstz.sys.core.model.SysScheduleJob">
+        <id column="id_" jdbcType="VARCHAR" property="id"/>
+        <result column="name_" jdbcType="VARCHAR" property="name"/>
+        <result column="group_" jdbcType="VARCHAR" property="group"/>
+        <result column="description_" jdbcType="VARCHAR" property="description"/>
+        <result column="invoke_target_" jdbcType="VARCHAR" property="invokeTarget"/>
+        <result column="cron_expression_" jdbcType="VARCHAR" property="cronExpression"/>
+        <result column="running_state_" jdbcType="VARCHAR" property="runningState"/>
+        <result column="is_concurrent_" jdbcType="BIT" property="isConcurrent"/>
+        <result column="create_by_" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time_" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by_" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_time_" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="delete_flag_" jdbcType="BIT" property="deleteFlag"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id_, name_, group_, description_, invoke_target_, cron_expression_, running_state_,
+        is_concurrent_, create_by_, create_time_, update_by_, update_time_, delete_flag_
+    </sql>
+
+    <insert id="create" parameterType="com.dstz.sys.core.model.SysScheduleJob">
+        insert into sys_schedule_job (id_, name_, group_,
+         description_, invoke_target_, cron_expression_,
+         running_state_, is_concurrent_, create_by_,
+         create_time_, update_by_, update_time_,
+         delete_flag_)
+        values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{group,jdbcType=VARCHAR},
+         #{description,jdbcType=VARCHAR}, #{invokeTarget,jdbcType=VARCHAR}, #{cronExpression,jdbcType=VARCHAR},
+         #{runningState,jdbcType=VARCHAR}, #{isConcurrent,jdbcType=BIT}, #{createBy,jdbcType=VARCHAR},
+         #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+         #{deleteFlag,jdbcType=BIT})
+    </insert>
+
+    <update id="update" parameterType="com.dstz.sys.core.model.SysScheduleJob">
+        update sys_schedule_job
+        set name_ = #{name,jdbcType=VARCHAR},
+          group_ = #{group,jdbcType=VARCHAR},
+          description_ = #{description,jdbcType=VARCHAR},
+          invoke_target_ = #{invokeTarget,jdbcType=VARCHAR},
+          cron_expression_ = #{cronExpression,jdbcType=VARCHAR},
+          running_state_ = #{runningState,jdbcType=VARCHAR},
+          is_concurrent_ = #{isConcurrent,jdbcType=BIT},
+          create_by_ = #{createBy,jdbcType=VARCHAR},
+          create_time_ = #{createTime,jdbcType=TIMESTAMP},
+          update_by_ = #{updateBy,jdbcType=VARCHAR},
+          update_time_ = #{updateTime,jdbcType=TIMESTAMP},
+          delete_flag_ = #{deleteFlag,jdbcType=BIT}
+        where id_ = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="remove" parameterType="string">
+        DELETE FROM sys_schedule_job WHERE id_ = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="get" resultMap="SysScheduleJob">
+        SELECT
+           <include refid="Base_Column_List" />
+        FROM
+           sys_schedule_job
+        WHERE id_ = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="removeByIds">
+        DELETE FROM sys_schedule_job WHERE id_ IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <select id="query" resultMap="SysScheduleJob">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            sys_schedule_job
+        <where>
+            <if test="whereSql!=null">
+                ${whereSql}
+            </if>
+        </where>
+        <if test="orderBySql!=null">
+            ORDER BY ${orderBySql}
+        </if>
+        <if test="orderBySql==null">
+            ORDER BY id_ DESC
+        </if>
+    </select>
+
+    <select id="getAll" resultMap="SysScheduleJob">
+        SELECT
+           <include refid="Base_Column_List" />
+        FROM
+           sys_schedule_job
+    </select>
+    
+    <insert id="insertSelective" parameterType="com.dstz.sys.core.model.SysScheduleJob">
+        insert into sys_schedule_job
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id_,
+            </if>
+            <if test="name != null">
+                name_,
+            </if>
+            <if test="group != null">
+                group_,
+            </if>
+            <if test="description != null">
+                description_,
+            </if>
+            <if test="invokeTarget != null">
+                invoke_target_,
+            </if>
+            <if test="cronExpression != null">
+                cron_expression_,
+            </if>
+            <if test="runningState != null">
+                running_state_,
+            </if>
+            <if test="isConcurrent != null">
+                is_concurrent_,
+            </if>
+            <if test="createBy != null">
+                create_by_,
+            </if>
+            <if test="createTime != null">
+                create_time_,
+            </if>
+            <if test="updateBy != null">
+                update_by_,
+            </if>
+            <if test="updateTime != null">
+                update_time_,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag_,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="group != null">
+                #{group,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="invokeTarget != null">
+                #{invokeTarget,jdbcType=VARCHAR},
+            </if>
+            <if test="cronExpression != null">
+                #{cronExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="runningState != null">
+                #{runningState,jdbcType=VARCHAR},
+            </if>
+            <if test="isConcurrent != null">
+                #{isConcurrent,jdbcType=BIT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    
+    <update id="updateByPrimaryKeySelective" parameterType="com.dstz.sys.core.model.SysScheduleJob">
+        UPDATE sys_schedule_job
+        <set>
+            <if test="name != null">
+                name_ = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="group != null">
+                group_ = #{group,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description_ = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="invokeTarget != null">
+                invoke_target_ = #{invokeTarget,jdbcType=VARCHAR},
+            </if>
+            <if test="cronExpression != null">
+                cron_expression_ = #{cronExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="runningState != null">
+                running_state_ = #{runningState,jdbcType=VARCHAR},
+            </if>
+            <if test="isConcurrent != null">
+                is_concurrent_ = #{isConcurrent,jdbcType=BIT},
+            </if>
+            <if test="createBy != null">
+                create_by_ = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time_ = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by_ = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time_ = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag_ = #{deleteFlag,jdbcType=BIT},
+            </if>
+        </set>
+        WHERE id_ = #{id,jdbcType=VARCHAR}
+    </update>
+    
+    <select id="exists" resultType="boolean">
+      SELECT
+         IF(COUNT(*) > 0, TRUE, FALSE) AS `exists`
+      FROM
+        sys_schedule_job
+      WHERE
+        name_ = #{jobName,jdbcType=VARCHAR} AND group_ = #{jobGroup,jdbcType=VARCHAR}
+    </select>
+</mapper>

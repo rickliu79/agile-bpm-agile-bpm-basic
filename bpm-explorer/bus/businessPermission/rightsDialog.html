@@ -1,0 +1,64 @@
+<html ng-app="app">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="../../build/common/ngEdit.css" rel="stylesheet">
+<script type="text/javascript" src="../../build/common/ngEdit-ori.js"></script>
+<script type="text/javascript" src="../../assets/js/platform/bus/businessObject/editAndDialogCommon.js"></script>
+
+<script type="text/javascript">
+	var app = angular.module('app', [ 'baseDirective' ]);
+	app.controller("ctrl", [ '$scope', 'baseService', 'ArrayToolService', function($scope, baseService, ArrayToolService) {
+		$scope.ArrayTool = ArrayToolService;
+
+		$scope.init = function() {
+			ToolsController.getInterFaceImpls("com.dstz.sys.api2.permission.IPermission").then(function(data) {
+
+				$scope.$apply(function() {
+					$scope.dialogPermissions = [];//对话框的权限列表
+					//复选框的权限列表
+					$scope.checkboxPermissions = [ {
+						type : "everyone",
+						title : "所有人"
+					}, {
+						type : "none",
+						title : "无"
+					} ];
+					angular.forEach(data, function(item) {
+						if (item.type != "everyone" && item.type != "none") {
+							$scope.dialogPermissions.push(item);
+						}
+					});
+				});
+			});
+
+			$scope.data = window.passData;
+		};
+
+	} ]);
+
+	//父页面打开按【确定】按钮时的回调函数
+	function getData() {
+		return AngularUtil.getScope().data;
+	}
+</script>
+</head>
+<body ng-controller="ctrl" ng-init="init()">
+	<form name="form">
+		<table class="form-table">
+			<tr>
+				<th>类型</th>
+				<th>内容</th>
+				<th>操作</th>
+			</tr>
+			<!-- 对话框权限列表 -->
+			<tr ng-repeat="permission in dialogPermissions">
+				<th>{{permission.title}}</th>
+				<td>{{permission.title}}</td>
+				<td>
+					<a style="float: right;" class="btn btn-sm btn-default btn-mini fa-edit" ng-click="" />
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

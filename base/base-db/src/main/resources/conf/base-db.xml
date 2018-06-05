@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <context:annotation-config/>
+
+
+    <bean id="uniqueIdUtil" class="com.dstz.base.db.id.UniqueIdUtil">
+        <property name="idGenerator" ref="idGenerator"></property>
+    </bean>
+
+    <bean id="idGenerator" class="com.dstz.base.db.id.DefaultIdGenerator">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="machineName" value="${machine.name}"/>
+        <property name="increaseBound" value="${increaseBound}"/>
+    </bean>
+
+    <!-- 系统默认atomikos数据源 -->
+    <bean id="dataSourceDefault" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"  destroy-method="close">
+        <property name="uniqueResourceName" value="dataSourceDefault" /> 
+       	<property name="xaDataSourceClassName" value="com.alibaba.druid.pool.xa.DruidXADataSource"/>  
+       	<property name="poolSize" value="10" />    
+       	<property name="minPoolSize" value="${db.minimumConnectionCount}"/>    
+       	<property name="maxPoolSize" value="${db.maximumConnectionCount}"/>    
+       	<property name="borrowConnectionTimeout" value="300"/>    
+       	<property name="maxIdleTime" value="60"/>    
+       	<property name="maintenanceInterval" value="60"/>    
+       	<property name="loginTimeout" value="60"/>    
+        <property name="testQuery" value="select 1"/>
+        <property name="xaProperties">
+        	<props>
+		        <!-- 基本属性 url、user、password -->
+		        <prop key="url">${jdbc.url}</prop>
+		        <prop key="username" >${jdbc.username}</prop>
+		        <prop key="password" >${jdbc.password}</prop>
+				<prop key="initialSize">${db.minimumConnectionCount}</prop>  
+				<prop key="maxActive">${db.maximumConnectionCount}</prop> <!-- 若不配置则代码执行"{dataSource-1} inited"此处停止  -->  
+			 	<prop key="minIdle">${db.minimumConnectionCount}</prop>  
+				<prop key="maxWait">60000</prop>
+				<prop key="validationQuery">select 1</prop>   
+				<prop key="testOnBorrow">false</prop>
+				<prop key="testOnReturn">false</prop>
+				<prop key="testWhileIdle">true</prop>
+				<!-- <prop key="removeAbandoned">false</prop>
+				<prop key="removeAbandonedTimeout">28800</prop> -->
+				<prop key="logAbandoned">true</prop>
+				<prop key="filters">stat</prop>
+				<!-- 每60秒运行一次空闲连接回收器 -->
+				<prop key="timeBetweenEvictionRunsMillis">60000</prop>
+				<!-- 池中的连接空闲5分钟后被回收 -->
+				<prop key="minEvictableIdleTimeMillis">300000</prop>
+    		</props>
+    	</property>
+    </bean>
+
+    <!-- 动态数据源配置 -->
+    <bean id="dataSource" class="com.dstz.base.db.datasource.DynamicDataSource">
+        <property name="targetDataSources">
+            <map>
+                <entry key="dataSourceDefault" value-ref="dataSourceDefault"/>
+            </map>
+        </property>
+        <property name="defaultDbtype" value="${jdbc.dbType}"></property>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations">
+	        <array>
+	            <value>classpath*:com/dstz/*/mapping/*.xml</value>
+	            <value>classpath*:com/dstz/*/*/mapping/*.xml</value>
+	        </array>
+	    </property>
+       <property name="plugins">
+	        <array>
+	            <bean class="com.github.pagehelper.PageInterceptor">
+	            	<property name="properties">
+	            		<value>
+                            autoRuntimeDialect=true
+                            rowBoundsWithCount=true
+                        </value>
+	            	</property>
+	            </bean>
+	        	<bean class="com.dstz.base.dao.baseinterceptor.QueryInterceptor">  </bean>
+	        	<bean class="com.dstz.base.dao.baseinterceptor.SaveInterceptor">  </bean>
+	        </array>
+	    </property>   
+    </bean>
+    
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.dstz.**.dao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean> 
+
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+    <!-- 表创建器 -->
+    <bean id="tableOperator" class="com.dstz.base.db.table.factory.TableOperatorFactoryBean">
+        <property name="dbType" value="${jdbc.dbType}"/>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <!-- 索引操作类  -->
+    <bean id="indexOperator" class="com.dstz.base.db.table.factory.IndexOperatorFactoryBean">
+        <property name="dbType" value="${jdbc.dbType}"/>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="tableMeta" class="com.dstz.base.db.table.factory.TableMetaFactoryBean">
+        <property name="dbType" value="${jdbc.dbType}"/>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+</beans>
