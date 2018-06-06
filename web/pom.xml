@@ -5,7 +5,7 @@
     <parent>
         <artifactId>agile-bpm</artifactId>
         <groupId>com.dstz.agilebpm</groupId>
-        <version>1.0.3</version>
+        <version>1.0.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -70,12 +70,53 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.2.v20170220</version>
+                <configuration>
+                    <httpConnector>
+                        <port>8080</port>
+                    </httpConnector>
+
+                    <webApp>
+                        <contextPath>/agile-bpm-platform</contextPath>
+                        <tempDirectory>${project.build.directory}/tmp</tempDirectory>
+                    </webApp>
+
+                    <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                    <webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory>
+                    <reload>manual</reload>
+
+                    <contextHandlers>
+                        <contextHandler implementation="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
+                            <contextPath>/</contextPath>
+                            <resourceBase>${project.basedir}/../bpm-explorer</resourceBase>
+                        </contextHandler>
+                    </contextHandlers>
+
+                    <requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
+                        <filename>target/access.log</filename>
+                        <retainDays>30</retainDays>
+                        <append>true</append>
+                        <extended>false</extended>
+                        <logDateFormat>yyyy-MM-dd HH:mm:ss:SSS</logDateFormat>
+                        <logTimeZone>GMT+8:00</logTimeZone>
+                    </requestLog>
+                </configuration>
+            </plugin>
+
+        </plugins>
     </build>
 
     <properties>
-        <base.version>1.0.3</base.version>
-        <bpm.version>1.0.3</bpm.version>
-        <platform.version>1.0.3</platform.version>
+        <base.version>1.0.5-SNAPSHOT</base.version>
+        <bpm.version>1.0.5-SNAPSHOT</bpm.version>
+        <platform.version>1.0.5-SNAPSHOT</platform.version>
     </properties>
 
     <dependencies>
@@ -126,7 +167,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
         </dependency>
-	
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
@@ -168,7 +209,7 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
         </dependency>
-        
+
     </dependencies>
 
 </project>
