@@ -5,7 +5,7 @@
     <parent>
         <artifactId>agile-bpm</artifactId>
         <groupId>com.dstz.agilebpm</groupId>
-        <version>1.0.5-SNAPSHOT</version>
+        <version>1.0.3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -114,9 +114,9 @@
     </build>
 
     <properties>
-        <base.version>1.0.5-SNAPSHOT</base.version>
-        <bpm.version>1.0.5-SNAPSHOT</bpm.version>
-        <platform.version>1.0.5-SNAPSHOT</platform.version>
+        <base.version>1.0.3</base.version>
+        <bpm.version>1.0.3</bpm.version>
+        <platform.version>1.0.3</platform.version>
     </properties>
 
     <dependencies>
