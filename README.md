@@ -30,6 +30,7 @@
 
 
 ![如图所示](https://gitee.com/uploads/images/2018/0525/230104_41370bb1_1861740.png "屏幕截图.png")
+ [组件更多介绍](http://agile-bpm.gitee.io/docs/base/module.html)
 
 
 ### 流程表单
