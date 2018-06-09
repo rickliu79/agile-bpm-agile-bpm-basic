@@ -1,7 +1,7 @@
 # agile-bpm-basic
 
 #### 项目介绍
-敏捷工作流基础版
+敏捷工作流基础版 
 
 文档 http://doc.agilebpm.cn/
 部署文档 http://agile-bpm.gitee.io/docs/bpm/bootstrap.html

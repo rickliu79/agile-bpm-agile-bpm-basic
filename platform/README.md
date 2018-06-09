@@ -1,5 +1,5 @@
 # platform
-## 平台相关项目
+## 平台相关项目 
 
 - **auth：** 鉴权项目模块，用于登录用户资源访问鉴权
 - **org：** 组织结构模块，该模块详细信息可以访问 agile-bpm.gitee.io/docs/base/module.html

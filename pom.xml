@@ -7,7 +7,7 @@
     <packaging>pom</packaging>
     <name>package</name>
     
-    <!-- 子模块 -->
+    <!-- 子模块  -->
     <modules>
         <module>base</module>
         <module>platform</module>

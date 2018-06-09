@@ -1,5 +1,5 @@
 # bpm-explorer 
-## 前端项目 
+## 前端项目  
 
 前端使用 angular bootstrap-table bootstrap  等 js组件，详细可以看 assets/js/plugins 目录
 
