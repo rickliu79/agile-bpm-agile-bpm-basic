@@ -54,4 +54,33 @@ public class EmailUtil {
             e.printStackTrace();
         }
     }
+    
+    
+
+    /**
+     * 发送邮件。
+     * <pre>
+     * 	调用方法：
+     * 	EmailUtil.sendEmail("收信人地址","抄送人地址","秘密抄送","发送人地址","主题","邮件内容");
+     * </pre>
+     *
+     * @param to      收件人
+     * @param from    发件人
+     * @param subject 标题
+     * @param content 内容
+     * @throws MessagingException void
+     */
+    public static void sendEmail(String to, String subject, String content) throws MessagingException {
+        MailUtil mailSender = (MailUtil) AppUtil.getBean("mailSender");
+        Mail mail = new Mail();
+        mail.setSubject(subject);
+        mail.setContent(content);
+        mail.setReceiverAddresses(to);
+        mail.setSendDate(new Date());
+        try {
+            mailSender.send(mail);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
 }

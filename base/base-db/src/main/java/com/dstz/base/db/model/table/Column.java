@@ -1,8 +1,11 @@
 package com.dstz.base.db.model.table;
 
+import java.io.Serializable;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.dstz.base.api.constant.ColumnType;
 import com.dstz.base.core.util.EnumUtil;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * <pre>
@@ -11,7 +14,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  * @author aschs
  */
-public class Column {
+public class Column implements Serializable{
     /**
      * 列名
      */

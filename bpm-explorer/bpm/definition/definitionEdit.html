@@ -10,7 +10,7 @@ app.controller("newDefinition", [ '$scope', 'baseService', function($scope, base
 	
 	$scope.save = function(){
 		if (!$scope.myForm.$valid) return;
-		var defer = baseService.postForm(__ctx+"/bpm/definition/save", $scope.def);
+		var defer = baseService.post(__ctx+"/bpm/definition/save", $scope.def);
 		$.getResultData(defer,function(data){
 			$.Toast.success("添加成功!");
 			parent.reloadGrid();

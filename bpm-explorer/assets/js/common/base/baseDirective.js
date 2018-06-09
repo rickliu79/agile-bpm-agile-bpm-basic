@@ -486,7 +486,7 @@ var directive = angular.module("baseDirective", [ "base" ])
 			if(format.indexOf("HH:mm:ss") != -1){
 				type = "datetime";
 			}
-			
+		 
 			laydate.render({ 
 				  elem: element[0]
 				  ,calendar: true
@@ -752,6 +752,96 @@ var directive = angular.module("baseDirective", [ "base" ])
             $compile(element)(scope);
 		}
 	};
+})
+/**
+ * <pre>
+ * 上传指令
+ * 实例：<a href="javascript:void(0)" class="btn btn-primary fa-reply" ab-upload ng-model="test">指令测试</a>
+ * test的字符串内容是：
+ * $scope.test = '[ {
+ * 		id : "20000011550001",//sysFile的id
+ * 		name : "Penguins.jpg"//文件名
+ * 		}, {
+ * 		id : "20000011550006",
+ * 		name : "Desert.jpg"
+ * } ]';
+ * </pre>
+ * @returns
+ */
+.directive('abUpload', function() {
+	return {
+		restrict : 'AE',
+		require : '?ngModel',
+		scope : {
+			ngModel : "=",
+			folder : "="
+		},
+		link : function(scope, element, attrs, ngModel) {
+			$(element).on("click", function() {
+				var list = ngModel.$viewValue;
+				if (!list) {
+					list = "[]";
+					ngModel.$setViewValue(list);
+				}
+				var conf = {
+					height : 600,
+					width : 800,
+					url : "/sys2/sysFile/uploadDialog.html",
+					title : "附件上传",
+					topOpen : true,
+					btn : true,
+					closeBtn : 1,
+					passData : {
+						fileList : JSON.parse(list),
+					}
+				};
+				conf.ok = function(index, innerWindow) {
+					scope.$apply(function() {
+						ngModel.$setViewValue(JSON.stringify(innerWindow.getData()));
+						ngModel.$render();// 调用数据修改函数
+					});
+					$.Dialog.close(innerWindow);
+				}
+				jQuery.Dialog.open(conf);
+			});
+
+			// Model数据更新时 在td 下增加按钮
+			ngModel.$render = function() {
+				if (!ngModel.$viewValue) {
+					return;
+				}
+				var list = JSON.parse(ngModel.$viewValue);
+				var parent = $(element).parent();
+				// 增加没有的下载链接
+				$.each(list, function(index, file) {
+					// 已存在，不存在则增加
+					if (parent.find("[fileId='"+file.id+"']").length > 0) {
+						return;
+					}
+					var a = $("<a>" + file.name + "</a>");
+					var href = __ctx + "/sys/sysFile/download?fileId=" + file.id;
+					a.attr("href", href);
+					a.attr("fileId", file.id);
+					a.attr("style", "margin-right:10px");
+					$(element).before(a);
+				});
+				// 删除多余的没有的下载链接
+				$.each(parent.find("a[fileId]"), function(index, a) {
+					var exist = false;
+					var fileId = $(a).attr("fileId");
+					$.each(list, function(i, file) {
+						if (file.id == fileId) {
+							exist = true;
+						}
+					});
+					if (!exist) {
+						$(a).remove();
+					}
+				});
+
+			};
+		}
+	}
 })
 /**
  * 数字转成中文大写。 用法： <input class="inputText" type="text" ng-model="jinge" />

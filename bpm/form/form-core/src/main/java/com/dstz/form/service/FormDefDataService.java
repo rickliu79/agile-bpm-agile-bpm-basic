@@ -56,8 +56,8 @@ public class FormDefDataService implements IFormDefDataService {
 		
 		IBusinessPermission businessPermission = businessPermissionService.getByObjTypeAndObjVal(BusinessPermissionObjType.FORM.getKey(), formDef.getKey(), formDef.getBoKey(), true);
 		
-		formDefData.setPermission(businessPermission.getPermission());
-		formDefData.setTablePermission(businessPermission.getTablePermission());
+		formDefData.setPermission(businessPermission.getPermission(false));
+		formDefData.setTablePermission(businessPermission.getTablePermission(false));
 		
 		handleInitData(formDef, formDefData);
 		handleData(formDef, id, formDefData,businessPermission);

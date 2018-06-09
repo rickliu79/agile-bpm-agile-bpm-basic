@@ -1,5 +1,6 @@
 package com.dstz.base.db.model.table;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  *            字段类型
  * @author aschs
  */
-public class Table<C extends Column> {
+public class Table<C extends Column> implements Serializable{
 	/**
 	 * 表名
 	 */

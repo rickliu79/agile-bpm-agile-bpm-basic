@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dstz.agilebpm</groupId>
     <artifactId>agile-bpm</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.5</version>
     <packaging>pom</packaging>
     <name>package</name>
     
@@ -250,7 +250,7 @@
                         <docencoding>${project.build.sourceEncoding}</docencoding>
                     </configuration>
                 </plugin>
-
+<!-- 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
@@ -264,7 +264,7 @@
                         </execution>
                     </executions>
                 </plugin>
-
+ -->
             </plugins>
         </pluginManagement>
 

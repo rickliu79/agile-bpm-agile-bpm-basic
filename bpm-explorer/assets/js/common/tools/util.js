@@ -491,7 +491,10 @@ jQuery.extend({
 		defer.then(function(result){
 			$.getResult(result,fn,msgType,null,null,isFastJson);
 			},function(status){
-				$.Dialog.alert("加载失败！"+status,2);
+				if(status ==!0){
+					$.Dialog.alert("加载失败！"+status,2);
+				}
+				
 			}
 		);
 	},
@@ -594,7 +597,23 @@ String.prototype.lTrim = function() {
 String.prototype.rTrim = function() {
 	return this.replace(/(\s*$)/g, "");
 };
-
+/**
+ * 判断文件名是否是图片
+ */
+String.prototype.isPicture = function(){
+    //判断是否是图片 - strFilter必须是小写列举
+    var strFilter=".jpeg|.gif|.jpg|.png|.bmp|.pic|"
+    if(this.indexOf(".")>-1)
+    {
+        var p = this.lastIndexOf(".");
+        var strPostfix=this.substring(p,this.length) + '|';        
+        strPostfix = strPostfix.toLowerCase();
+        if(strFilter.indexOf(strPostfix)>-1){
+            return true;
+        }
+    }        
+    return false;            
+}
 /**
  * 去除数组中的重复项
  * @function [method] 判断对象是否相同的方法(可选参数，默认实现是深度匹配两个对象是否相同)，示例：function(x,y){if(x.id===y.id)return true;}

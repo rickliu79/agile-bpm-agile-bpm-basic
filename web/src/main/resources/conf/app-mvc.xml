@@ -21,6 +21,7 @@
 
     <mvc:annotation-driven>
         <mvc:message-converters>
+        	<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/> 
             <ref bean="fastJsonHttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>

@@ -39,8 +39,8 @@ formServiceModule.directive('abSubAdd', [ function($compile) {
 } ])
 /**
  * <pre>
- * abSubDetail:对话框的divId
- * ngModel:要操作的对象
+ * abSubDetail: 对话框的divId
+ * ngModel: 要操作的对象
  * </pre>
  */
 .directive('abSubDetail', [ '$compile', function($compile) {
@@ -49,7 +49,7 @@ formServiceModule.directive('abSubAdd', [ function($compile) {
 		link : function(scope, element, attrs, ctrl) {
 			$(element).on("click", function() {
 				scope.$apply(function() {
-					scope.$parent[attrs.ngModel] = ctrl.$viewValue;
+					scope.$parent[attrs.ngModel] = CloneUtil.deep(ctrl.$viewValue);
 				});
 				var conf = {
 					height : 600,
@@ -60,6 +60,10 @@ formServiceModule.directive('abSubAdd', [ function($compile) {
 					content : $('#' + attrs.abSubDetail)
 				};
 				conf.ok = function(index, innerWindow) {
+					// 确定才数据才生效
+					scope.$apply(function() {
+						jQuery.extend(true, ctrl.$viewValue, scope.$parent[attrs.ngModel])
+					});
 					layer.close(index);
 				};
 				$.Dialog.open(conf);

@@ -16,6 +16,8 @@ require('../../js/plugins/jquery-qtip/jquery.qtip.js');
 
 require('../../js/common/tools/dialogCreator.js');
 require('../../js/plugins/layer/laydate/laydate.js');
+require('../../js/plugins/layer/laydate/theme/default/laydate.css');
+
 //require('../../js/common/tools/layerDateInit.js');
 
 //引入对话框的js

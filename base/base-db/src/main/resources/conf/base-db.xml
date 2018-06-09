@@ -10,7 +10,6 @@
 
     <context:annotation-config/>
 
-
     <bean id="uniqueIdUtil" class="com.dstz.base.db.id.UniqueIdUtil">
         <property name="idGenerator" ref="idGenerator"></property>
     </bean>
@@ -21,42 +20,41 @@
         <property name="increaseBound" value="${increaseBound}"/>
     </bean>
 
-    <!-- 系统默认atomikos数据源 -->
-    <bean id="dataSourceDefault" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"  destroy-method="close">
-        <property name="uniqueResourceName" value="dataSourceDefault" /> 
-       	<property name="xaDataSourceClassName" value="com.alibaba.druid.pool.xa.DruidXADataSource"/>  
-       	<property name="poolSize" value="10" />    
-       	<property name="minPoolSize" value="${db.minimumConnectionCount}"/>    
-       	<property name="maxPoolSize" value="${db.maximumConnectionCount}"/>    
-       	<property name="borrowConnectionTimeout" value="300"/>    
-       	<property name="maxIdleTime" value="60"/>    
-       	<property name="maintenanceInterval" value="60"/>    
-       	<property name="loginTimeout" value="60"/>    
-        <property name="testQuery" value="select 1"/>
-        <property name="xaProperties">
-        	<props>
-		        <!-- 基本属性 url、user、password -->
-		        <prop key="url">${jdbc.url}</prop>
-		        <prop key="username" >${jdbc.username}</prop>
-		        <prop key="password" >${jdbc.password}</prop>
-				<prop key="initialSize">${db.minimumConnectionCount}</prop>  
-				<prop key="maxActive">${db.maximumConnectionCount}</prop> <!-- 若不配置则代码执行"{dataSource-1} inited"此处停止  -->  
-			 	<prop key="minIdle">${db.minimumConnectionCount}</prop>  
-				<prop key="maxWait">60000</prop>
-				<prop key="validationQuery">select 1</prop>   
-				<prop key="testOnBorrow">false</prop>
-				<prop key="testOnReturn">false</prop>
-				<prop key="testWhileIdle">true</prop>
-				<!-- <prop key="removeAbandoned">false</prop>
-				<prop key="removeAbandonedTimeout">28800</prop> -->
-				<prop key="logAbandoned">true</prop>
-				<prop key="filters">stat</prop>
-				<!-- 每60秒运行一次空闲连接回收器 -->
-				<prop key="timeBetweenEvictionRunsMillis">60000</prop>
-				<!-- 池中的连接空闲5分钟后被回收 -->
-				<prop key="minEvictableIdleTimeMillis">300000</prop>
-    		</props>
-    	</property>
+     <!-- 系统默认数据源 -->
+    <bean id="dataSourceDefault" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"  destroy-method="close">
+        <!-- 基本属性 url、user、password -->
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${db.minimumConnectionCount}"/>
+        <property name="minIdle" value="${db.minimumConnectionCount}"/>
+        <property name="maxActive" value="${db.maximumConnectionCount}"/>
+
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000"/>
+
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+
+        <property name="validationQuery" value="select * from ACT_GE_PROPERTY"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="stat"/>
+        <!-- 连接泄漏监测 -->
+        <property name="removeAbandoned" value="true"/> <!-- 打开removeAbandoned功能 -->
+        <property name="removeAbandonedTimeout" value="28800"/> <!-- 28800秒，也就是8小时，一个连接超过8小时会自动删除这个连接 -->
+        <property name="logAbandoned" value="true"/> <!-- 关闭abanded连接时输出错误日志 -->
     </bean>
 
     <!-- 动态数据源配置 -->
@@ -105,21 +103,5 @@
     <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
         <constructor-arg index="0" ref="sqlSessionFactory"/>
     </bean>
-
-    <!-- 表创建器 -->
-    <bean id="tableOperator" class="com.dstz.base.db.table.factory.TableOperatorFactoryBean">
-        <property name="dbType" value="${jdbc.dbType}"/>
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
-    </bean>
-
-    <!-- 索引操作类  -->
-    <bean id="indexOperator" class="com.dstz.base.db.table.factory.IndexOperatorFactoryBean">
-        <property name="dbType" value="${jdbc.dbType}"/>
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
-    </bean>
-
-    <bean id="tableMeta" class="com.dstz.base.db.table.factory.TableMetaFactoryBean">
-        <property name="dbType" value="${jdbc.dbType}"/>
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
-    </bean>
+   
 </beans>

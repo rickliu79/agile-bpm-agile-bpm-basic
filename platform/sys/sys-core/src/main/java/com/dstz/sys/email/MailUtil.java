@@ -1,5 +1,6 @@
 package com.dstz.sys.email;
 
+import com.dstz.base.core.util.string.StringUtil;
 import com.dstz.sys.email.model.Mail;
 import com.dstz.sys.email.model.MailAddress;
 import com.dstz.sys.email.model.MailAttachment;
@@ -15,6 +16,9 @@ import javax.mail.internet.*;
 import javax.mail.search.MessageIDTerm;
 import javax.mail.search.SearchTerm;
 import javax.mail.util.ByteArrayDataSource;
+
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.security.Security;
@@ -167,6 +171,7 @@ public class MailUtil {
         transport.connect(mailSetting.getSendHost(),
                 mailSetting.getMailAddress(), mailSetting.getPassword());
         transport.sendMessage(message, message.getAllRecipients());
+        
     }
 
     /**
@@ -589,21 +594,22 @@ public class MailUtil {
      * @see    RecipientType
      */
     private void addAddressInfo(Message message, String address, RecipientType recipientType) throws UnsupportedEncodingException, MessagingException {
+    	if (StringUtil.isEmpty(address)) return ;
+    	
         MailAddress mailAddress = new MailAddress();
         List<MailAddress> addressList = new ArrayList<MailAddress>();
-        if (address != null && !"".equals(address)) {
-            String[] addressArr = address.split(",");
-            for (String id : addressArr) {
-                mailAddress = new MailAddress();
-                mailAddress.setAddress(id);
-                mailAddress.setName(id);
-                addressList.add(mailAddress);
-            }
+        
+        String[] addressArr = address.split(",");
+        for (String id : addressArr) {
+            mailAddress = new MailAddress();
+            mailAddress.setAddress(id);
+            mailAddress.setName(id);
+            addressList.add(mailAddress);
         }
-        if (addressList == null || addressList.size() < 1) return;
-        InternetAddress addressArr[] = toInternetAddress(addressList);
-        if (addressArr != null)
-            message.addRecipients(recipientType, addressArr);
+        
+        InternetAddress InternetAddressArr[] = toInternetAddress(addressList);
+        if (InternetAddressArr != null)
+            message.addRecipients(recipientType, InternetAddressArr);
     }
 
     /**

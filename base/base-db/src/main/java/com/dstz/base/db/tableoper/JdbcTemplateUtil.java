@@ -13,6 +13,7 @@ import org.springframework.transaction.jta.JtaTransactionManager;
 
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.core.util.AppUtil;
+
 /**
  * <pre>
  * 描述：jdbc的工具类
@@ -26,7 +27,8 @@ import com.dstz.base.core.util.AppUtil;
  * </pre>
  */
 public class JdbcTemplateUtil {
-	protected static  Logger LOG = LoggerFactory.getLogger(JdbcTemplateUtil.class);
+	protected static Logger LOG = LoggerFactory.getLogger(JdbcTemplateUtil.class);
+
 	/**
 	 * <pre>
 	 * 执行某个sql不需要任何事务保护
@@ -39,23 +41,28 @@ public class JdbcTemplateUtil {
 	 */
 	public static void executeWithTransaction(JdbcTemplate jdbcTemplate, String sql) {
 		JtaTransactionManager jtm = AppUtil.getBean(JtaTransactionManager.class);
+		if (jtm == null) {
+			jdbcTemplate.execute(sql);
+			return;
+		}
+
 		Connection conn = null;
 		Statement stat = null;
 		Transaction tobj = null;
 		try {
-			tobj = jtm.getTransactionManager().suspend();//挂起spring的事务管理
+			tobj = jtm.getTransactionManager().suspend();// 挂起spring的事务管理
 			conn = jdbcTemplate.getDataSource().getConnection();
 			stat = conn.createStatement();
 			stat.execute(sql);
 		} catch (Exception e) {
-			LOG.error("执行SQL出错【 {}】,错误原因为：{}", sql,e.getMessage(),e);
+			LOG.error("执行SQL出错【 {}】,错误原因为：{}", sql, e.getMessage(), e);
 			throw new BusinessException(e);
 		} finally {
 			JdbcUtils.closeStatement(stat);
 			JdbcUtils.closeConnection(conn);
 			if (tobj != null) {
 				try {
-					jtm.getTransactionManager().resume(tobj);//恢复事务处理
+					jtm.getTransactionManager().resume(tobj);// 恢复事务处理
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -12,6 +12,7 @@ import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
+import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.string.StringUtil;
 import com.dstz.base.db.datasource.DataSourceUtil;
@@ -90,6 +91,10 @@ public class SysDataSourceManagerImpl extends BaseManager<String, SysDataSource>
 
     @Override
     public JdbcTemplate getJdbcTemplateByKey(String key) {
+    	//本地数据源 拿系统配置的jdbc 为了事务保护 哎 处理好jta事务就没这种问题了，nnd
+    	if(DataSourceUtil.DEFAULT_DATASOURCE.equals(key)) {
+    		return AppUtil.getBean(JdbcTemplate.class);
+    	}
         return new JdbcTemplate(getDataSourceByKey(key));
     }
 

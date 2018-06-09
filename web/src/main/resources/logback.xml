@@ -32,8 +32,8 @@
         </triggeringPolicy>
     </appender>
     
-	<logger name="com.dstz.bpm.core.dao" level="DEBUG"/>
-    <logger name="com.dstz" level="TRACE"/>
+	<logger name="com.dstz.bpm.core.dao" level="INFO"/>
+    <logger name="com.dstz" level="DEBUG"/>
 
     <!-- 日志输出级别 -->
     <root level="INFO">

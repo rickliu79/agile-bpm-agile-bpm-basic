@@ -47,11 +47,11 @@ window.ZtreeCreator = function(treeId,url,initJson){
 		
 		//如果异步加载
 		if(_setting.async.url){
-			_treeObj=$.fn.zTree.init($("#"+treeId), _setting);
+			_treeObj=jQuery.fn.zTree.init(jQuery("#"+treeId), _setting);
 			return this;
 		}
 		//一次性加载
-		$.post(url,param,function(result){
+		jQuery.post(url,param,function(result){
 			if(Object.prototype.toString.call(result) === "[object String]"){
 				result =eval('(' + result + ')');
 			}
@@ -64,7 +64,7 @@ window.ZtreeCreator = function(treeId,url,initJson){
 		return this;
 	}
 	 function pushJsonToBuildTree(json,level,callBack){
-		_treeObj = $.fn.zTree.init($("#"+treeId),_setting,json);
+		_treeObj = jQuery.fn.zTree.init(jQuery("#"+treeId),_setting,json);
 		//展开层级
 		if(level){
 			_treeObj.expandAll(false);
@@ -72,7 +72,7 @@ window.ZtreeCreator = function(treeId,url,initJson){
 		}
 		else{ _treeObj.expandAll(true); }
 		
-		if($.isFunction(callBack)) callBack(_treeObj,treeId); 
+		if(jQuery.isFunction(callBack)) callBack(_treeObj,treeId); 
 		
 		if(outLookStyle){
 			try{
@@ -129,7 +129,7 @@ window.ZtreeCreator = function(treeId,url,initJson){
 	this.setCallback = function(callBack){
 		if(callBack instanceof Object) 
 		for(call in callBack){
-			if(!$.isFunction(callBack[call])) alert(call+" :is not a function");
+			if(!jQuery.isFunction(callBack[call])) alert(call+" :is not a function");
 			_setting.callback[call]	= callBack[call];
 		}
 		return this; 
@@ -160,8 +160,8 @@ window.ZtreeCreator = function(treeId,url,initJson){
 				selectedMulti: false, dblClickExpand: false,
 				addDiyDom: function(treeId, treeNode){
 						var spaceWidth = 15;
-						var switchObj = $("#" + treeNode.tId + "_switch"),
-						icoObj = $("#" + treeNode.tId + "_ico");
+						var switchObj = jQuery("#" + treeNode.tId + "_switch"),
+						icoObj = jQuery("#" + treeNode.tId + "_ico");
 						switchObj.remove();
 						if(!treeNode.children ||treeNode.children.length==0){
 							switchObj.removeClass("switch");
@@ -174,7 +174,7 @@ window.ZtreeCreator = function(treeId,url,initJson){
 				}
 			}});
 		
-		$("#"+treeId).addClass("showIcon"); 
+		jQuery("#"+treeId).addClass("showIcon"); 
 		outLookStyle =true;
 		return this;
 	}
@@ -187,37 +187,37 @@ window.ZtreeCreator = function(treeId,url,initJson){
 	var _isShowIn,_menuContent;
 	this.makeCombTree = function(isShowIn,width,height){
 		height = height? height:300;
-		width = width || $("#"+isShowIn).outerWidth() || 163;
+		width = width || jQuery("#"+isShowIn).outerWidth() || 163;
 		_menuContent = treeId+"MenuContent";
 		_isShowIn = isShowIn; 
 		var menuContent ='<div id="'+_menuContent+'" style="width:'+width+'px; height:'+height+'px;overflow-y:scroll; position:absolute;z-index: 9999;display:none;background-color:#F5F5F5">'
 					+'<ul id="'+treeId+'" class="ztree" ></ul></div>';
-		$("#"+isShowIn).after(menuContent); 
-		$("#"+isShowIn).bind("click",this.showMenu);  
+		jQuery("#"+isShowIn).after(menuContent); 
+		jQuery("#"+isShowIn).bind("click",this.showMenu);  
 		return this;
 	}
 	// 可以添加一个目标对象，如果是添加了点击事件的，则默认
 	this.showMenu = function(target){
 		if(!target || target.currentTarget) {
-			target = $(this);
+			target = jQuery(this);
 		}
 
 		var btnOffset =  target.offset();
-		$("#"+_menuContent).css({left:btnOffset.left + "px", top:btnOffset.top + target.outerHeight() + "px"}).slideDown("fast");
-		$("body").bind("mousedown",onBodyDown);
+		jQuery("#"+_menuContent).css({left:btnOffset.left + "px", top:btnOffset.top + target.outerHeight() + "px"}).slideDown("fast");
+		jQuery("body").bind("mousedown",onBodyDown);
 	}
 	this.hideMenu =function(){
 		hideMenu(); 
 	}
 	
 	var onBodyDown = function (event){
-		if (!(event.target.id == _isShowIn || event.target.id == _menuContent || $(event.target).parents("#"+_menuContent).length>0)){
+		if (!(event.target.id == _isShowIn || event.target.id == _menuContent || jQuery(event.target).parents("#"+_menuContent).length>0)){
 			hideMenu();
 		}
 	}
 	var hideMenu = function(){
-		$("#"+_menuContent).fadeOut("fast");
-		$("body").unbind("mousedown", onBodyDown);
+		jQuery("#"+_menuContent).fadeOut("fast");
+		jQuery("body").unbind("mousedown", onBodyDown);
 	}
 	
 	/**_setting 私有 配置项**/ 

@@ -45,7 +45,7 @@ public class FormElementGenerator {
 			
 			case DIC: return getColumnDic(column);
 			
-			case IDENTITY: return getColumnIdentity(column);
+			//case IDENTITY: return getColumnIdentity(column);
 			
 			case MULTITEXT: return getColumnMultitext(column);
 			
@@ -56,6 +56,8 @@ public class FormElementGenerator {
 			case RADIO: return getColumnRadio(column);	
 			
 			case SELECT: return getColumnSelect(column,false);	
+			
+			case FILE: return getColumnFile(column);	
 				
 			default: return "";
 		
@@ -262,7 +264,16 @@ public class FormElementGenerator {
 		return permissionElement.toString();
 	}
 
-	
+	private String getColumnFile(IBusinessColumn column) {
+		//<a href="javascript:void(0)" class="btn btn-primary fa-upload" ab-upload ng-model="test">指令测试</a>
+		Element element = getElement("a").attr("href", "javascript:void(0)").addClass("btn btn-primary fa-upload");
+		element.attr("ab-upload","");
+		handleNgModel(element, column);
+		handlePermission(element, column);
+		handleValidateRules(element, column);
+		
+		return element.toString();
+	}
 	
 	/**
 	 * <pre>

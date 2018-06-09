@@ -161,6 +161,7 @@ bpmModel.factory('bpmService', ['$rootScope','baseService', function($rootScope,
 			}
 			
 			scope.postAction = function(flowData){
+				ii = layer.load();
 				// 执行动作
 				var url =  __ctx + (flowData.taskId? "/bpm/task/doAction":"/bpm/instance/doAction");
 				var defer = baseService.postForm(url,{flowData:JSON.stringify(flowData)});

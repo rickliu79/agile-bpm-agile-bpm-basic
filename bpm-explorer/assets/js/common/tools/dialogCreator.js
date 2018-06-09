@@ -37,12 +37,10 @@ dialogHelper__.initDialogs = function(){
 			
 			top.layer.alert(content,conf,function(index){
 				if(fn && jQuery.isFunction(fn))fn();
-				
 				if(top && top.layer){
 					top.layer.close(index);
-				}else{
-					window.layer.close(index);
-				}
+				} 
+				layer.close(index);
 			});//http://layer.layui.com/skin.html#publish
 		},
 		error:function(content,fn){

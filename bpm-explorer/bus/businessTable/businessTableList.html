@@ -3,7 +3,7 @@
 <title>业务表列表</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="../../build/common/gridList.css" rel="stylesheet">
-<script type="text/javascript" src="../../build/common/gridList.js"></script>
+<script type="text/javascript" src="../../build/common/gridList-ori.js"></script>
 <script type="text/javascript" src="../../build/common/easyLayout.js"></script>
 </head>
 <body class="easy-layout">
@@ -55,7 +55,7 @@
 					<th data-formatter="innerHtmlFormatter" data-title="管理">
 						<span class='btn btn-outline btn-primary fa-edit' if="{external}" openDialog='编辑外部表' qtip='编辑外部表' url='./businessExtTableEdit.html?id={id}'></span>
 						<span class='btn btn-outline btn-primary fa-edit' if="!{external}" openDialog='编辑' qtip='编辑' url='./businessTableEdit.html?id={id}'></span>
-						<span class='btn btn-outline btn-primary fa  fa-trash' sendAction='删除' qtip='删除' url='/bus/businessTable/remove?id={id}'></span>
+						<span class='btn btn-outline btn-primary fa-trash' sendAction='删除' qtip='删除' url='/bus/businessTable/remove?id={id}'></span>
 					</th>
 				</tr>
 			</thead>

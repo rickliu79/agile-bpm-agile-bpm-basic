@@ -8,33 +8,17 @@
            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd"
        default-autowire="byType" default-lazy-init="false">
 
-	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">  
-        <property name="forceShutdown">  
-            <value>true</value>  
-        </property>
+ 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
     </bean>
-    
-    <bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">  
-        <property name="transactionTimeout" value="300" /> <!-- 构建UserTransactionImp时（也就是启动时）的事务超时时间 -->
-    </bean>
-    
-    <!-- spring 事务管理器 -->
-    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">  
-        <property name="transactionManager" ref="atomikosTransactionManager" />  
-        <property name="userTransaction" ref="atomikosUserTransaction" />  
-        <!-- 必须设置，否则程序出现异常 JtaTransactionManager does not support custom isolation levels by default -->  
-        <property name="allowCustomIsolationLevels" value="true"/>
-        <property name="defaultTimeout" value="300" /><!-- 所有事务的超时时间 -->
-    </bean>
-	
-    <!-- 我们约定只有manager层被事物保护。若有特殊的需要添加@Transactional注解 -->
+		
+	<!-- 我们约定只有manager层被事物保护。若有特殊的需要添加@Transactional注解 -->
     <!-- service 方法勿用事物保护,需要将独立逻辑放在manager层。有利于功能逻辑的复用，且对接口异常拦截后方便使用标准resultMsg反馈，减少service方法的异常处理代码 -->
     <aop:config proxy-target-class="true">
         <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.dstz.*.*.manager.*.*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.dstz.*.manager.*.*(..))"/>
     </aop:config>
-	
-	 <!-- 开启事务控制的注解支持 -->  
+
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
@@ -46,6 +30,5 @@
             <tx:method name="*" isolation="READ_COMMITTED"/>
         </tx:attributes>
     </tx:advice>
-
 
 </beans>

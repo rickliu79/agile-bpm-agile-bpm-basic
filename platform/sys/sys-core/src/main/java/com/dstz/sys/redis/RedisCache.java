@@ -20,19 +20,19 @@ public class RedisCache<T extends Object> implements ICache<T> {
 
     @Override
     public synchronized void add(String key, T obj) {
-        logger.error("key=" + key);
+        logger.info("key=" + key);
         redisService.set(key, obj);
     }
 
     @Override
     public synchronized void add(String key, T obj, int timeout) {
-        logger.error("key=" + key);
+        logger.info("key=" + key);
         redisService.set(key, obj, timeout);
     }
 
     @Override
     public synchronized void delByKey(String key) {
-        logger.error("key=" + key);
+        logger.info("key=" + key);
         redisService.del(key);
     }
 

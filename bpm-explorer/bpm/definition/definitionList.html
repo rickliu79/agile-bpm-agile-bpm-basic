@@ -34,8 +34,7 @@
 		<!--grid区域  -->
 		<div class="btn-group toolbar">
 			<a class="btn btn-outline btn-primary fa-plus" openDialog="创建流程定义" url="definitionEdit" dialogConf="{height:300,width:500}" href="javascript:void(0)">新增 </a>
-			<button class="btn btn-outline btn-primary fa-pencil">修改</button>
-			<button class="btn btn-outline btn-primary fa-remove">删除</button>
+			<button class="btn btn-outline btn-primary fa-clear" qtip='清除系统所有缓存，用于数据库更新发布内容等系统无法感知数据被更新的场景' sendAction="清除系统缓存" url="/bpm/definition/clearSysCache">清除系统缓存</button>
 		</div>
 		<table ab-grid data-id-field="id" data-url="bpm/definition/listJson">
 			<thead>

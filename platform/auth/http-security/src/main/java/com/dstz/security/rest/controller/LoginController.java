@@ -36,7 +36,6 @@ public class LoginController extends GenericController {
     @RequestMapping(value = "login/valid")
     @CatchErr
     public ResultMsg login(HttpServletRequest request, HttpServletResponse response) {
-
         String account = RequestUtil.getString(request, "account");
         String password = RequestUtil.getString(request, "password");
         if (StringUtil.isEmpty(account)) {
