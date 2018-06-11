@@ -415,6 +415,13 @@ dialogHelper__.getProjectUrl = function(url){
 	if(url && url.indexOf("http://")==-1 && url.substring(0,1)==="/"){
 		 var pathname =window.document.location.pathname;
 		 var projectPath = pathname.substring(0,pathname.substr(1).indexOf('/')+1);
+		 // 特殊处理下流程设计器
+		 if(projectPath === 'flow-editor'){
+			 return url;
+		 }
+		if(url.startWith(projectPath)){
+			return url;
+		}
 		 return projectPath+url;
 	}
 	return url;
