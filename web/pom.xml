@@ -94,7 +94,6 @@
 
                     <contextHandlers>
                         <contextHandler implementation="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
-       		 				<version>1.0.3</version>
                             <contextPath>/bpm-explorer</contextPath>
                             <resourceBase>${project.basedir}/../bpm-explorer</resourceBase>
                         </contextHandler>
