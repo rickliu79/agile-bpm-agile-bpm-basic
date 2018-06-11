@@ -1,6 +1,6 @@
 
 var bpmModel = angular.module('bpm', ['base','formServiceModule'])
-bpmModel.factory('bpmService', ['$rootScope','baseService', function($rootScope,baseService) { 
+bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', function($rootScope,baseService,ArrayToolService) { 
 	//如果只有流程定义ID说明启动流程
 	var defId = "";
 	//如果有实例id说明草稿
@@ -24,11 +24,15 @@ bpmModel.factory('bpmService', ['$rootScope','baseService', function($rootScope,
 		}
 		
 		var defer=baseService.get(dataUrl);
+		
 		$.getResultData(defer,function(data){
 			bpmTask = data.task;
-			scope.$emit('html:update',data)
+			scope.$emit('data:loaded',data)
 			jQuery.extend(scope, data);
 		},"alert");
+		
+		scope.ArrayTool = ArrayToolService;
+		
 	}
 	
 	//获取表单的数据
@@ -95,6 +99,12 @@ bpmModel.factory('bpmService', ['$rootScope','baseService', function($rootScope,
 		link:function(scope, element, attrs){
 			var paramKey = attrs.bpmInit || "bpmInitParam";
 			bpmService.init(scope,scope[paramKey]);
+			scope.$root.$on("afterBindHtmlEvent", function(event) {
+				$(function() {
+					// 隐藏
+					$("[hide]").hide();
+				});
+			});
 		},
 		template: '<div>\
 					<form ng-show="form.type==\'INNER\'" name="custForm" ab-bind-html="form.formHtml"></form>\
@@ -114,7 +124,7 @@ bpmModel.factory('bpmService', ['$rootScope','baseService', function($rootScope,
 		link:function(scope, element, attrs){
 			var ii;
 			var button;
-			scope.$root.$on("html:update",function(event,data){
+			scope.$root.$on("data:loaded",function(event,data){
 				scope.buttonList = data.buttonList; 
 			})
 			

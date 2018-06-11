@@ -48,7 +48,7 @@
 	<#assign relationList = relation.getChildren('oneToMany')>
 	<#assign rtn>
 		 <#if relationList?? && (relationList?size > 0) >
-		<div class="pull-left"><#list relationList as relation><a href="#" class="btn btn-link btn-sm fa fa-detail" ng-click="detail(${generator.getScopePath(relation)},'${relation.getBusObj().getKey()}-${relation.tableKey}')" ab-show-permission="" >${relation.tableComment}</a>
+		<div class="pull-left"><#list relationList as relation><a href="#" class="btn btn-link btn-sm fa fa-detail" ng-model="${relation.parent.tableKey}" ab-sub-detail="${relation.getBusObj().getKey()}-${relation.tableKey}" ab-show-permission="tablePermission.${relation.busObj.key}.${relation.tableKey}">${relation.tableComment}</a>
 		</#list>
 		</div>
 		</#if>

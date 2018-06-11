@@ -19,8 +19,7 @@ var formServiceModule = angular.module("formServiceModule", [ "base", "baseDirec
 formServiceModule.directive('abSubAdd', [ function($compile) {
 	return {
 		scope : {
-			abSubAdd : "=",
-			ngModel : "="
+			abSubAdd : "="
 		},
 		require : "ngModel",
 		link : function(scope, element, attrs, ctrl) {

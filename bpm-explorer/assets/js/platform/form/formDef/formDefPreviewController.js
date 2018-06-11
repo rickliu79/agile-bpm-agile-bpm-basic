@@ -21,7 +21,7 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', function($
 	});
 	
 	//把scope.html 用ngjs编译后的处理
-	$scope.$on("afterBindHtmlEvent", function(event) {
+	$scope.$root.$on("afterBindHtmlEvent", function(event) {
 		$(function() {
 			// 隐藏
 			$("[hide]").hide();

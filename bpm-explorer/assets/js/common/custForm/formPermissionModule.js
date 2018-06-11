@@ -30,7 +30,7 @@ var formPermissionModule = angular.module("formPermissionModule", [ "base" ])
 				
 				
 				var permission = getPermission(attrs.abBasicPermission,scope);
-				if(permission=='r')	{
+				if(permission=='r')	{	
 					element.after(value);
 	    			element.hide();
 	    			return ;
@@ -130,8 +130,31 @@ var formPermissionModule = angular.module("formPermissionModule", [ "base" ])
 			var handlePermission = function(){
 				var permission = getPermission(attrs.abShowPermission,scope);
 				
-				if(permission === 'n' || permission === 'r'){
+				if(permission === 'n'){
 					element.hide();
+				}
+			}
+			
+			if(!scope.permission){
+				scope.$root.$on("permission:update",function(event,data){
+					handlePermission();
+				})
+			}else{
+				handlePermission();
+			}
+		}
+	};
+} ])
+
+.directive('abEditPermission', [ function() {
+	return {
+		link : function(scope, element, attrs) {
+			
+			var handlePermission = function(){
+				var permission = getPermission(attrs.abEditPermission,scope);
+				
+				if(permission === 'n' || permission === 'r' ){
+					element.remove();
 				}
 			}
 			

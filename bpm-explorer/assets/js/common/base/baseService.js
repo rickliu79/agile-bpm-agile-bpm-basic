@@ -228,7 +228,7 @@ base.factory("$jsonToFormData",function() {
         					window.setTimeout(window.ngFormReady,10,scope);
         				}
         				//html加载后发布事件
-        				scope.$root.$broadcast('afterBindHtmlEvent');
+        				scope.$emit('afterBindHtmlEvent');
                     }
                     else{
                         //避免重复添加监视

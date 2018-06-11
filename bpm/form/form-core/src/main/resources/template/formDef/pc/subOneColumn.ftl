@@ -1,8 +1,8 @@
-<div ${generator.getSubAttrs(relation)} >
+<div ${generator.getSubAttrs(relation)} ab-show-permission="tablePermission.${relation.busObj.key}.${relation.tableKey}" >
 	<div class="ibox-title"><span class="title">${relation.tableComment}</span>
-		<a href="javascript:void(0)" class="btn btn-primary btn-sm fa fa-plus" ng-model="${generator.getScopePath(relation)}" ab-sub-add="initData.${relation.busObj.key}.${relation.tableKey}" ab-basic-permission="" >添加</a>
+		<a href="javascript:void(0)" class="btn btn-primary btn-sm fa fa-plus" ng-model="${generator.getScopePath(relation)}" ab-sub-add="initData.${relation.busObj.key}.${relation.tableKey}" ab-edit-permission="tablePermission.${relation.busObj.key}.${relation.tableKey}">添加</a>
 	</div>
-	<div class="ibox-content" ng-repeat="${relation.tableKey} in ${generator.getScopePath(relation)} track by $index"> ${getOne2ManyChild(relation)}<a class="btn btn-danger btn-xs fa fa-delete pull-right" ng-click="ArrayTool.del($index,${generator.getScopePath(relation)})"> 移除</a>
+	<div class="ibox-content" ng-repeat="${relation.tableKey} in ${generator.getScopePath(relation)} track by $index"> ${getOne2ManyChild(relation)}<a class="btn btn-danger btn-xs fa fa-delete pull-right" ng-click="ArrayTool.del($index,${generator.getScopePath(relation)})" ab-edit-permission="tablePermission.${relation.busObj.key}.${relation.tableKey}"> 移除</a>
 		<table class="form-table">
 		<#list relation.table.columnsWithOutHidden as column>
 			<tr>
@@ -42,7 +42,7 @@
 	<#assign relationList = relation.getChildren('oneToMany')>
 	<#assign rtn>
 		 <#if relationList?? && (relationList?size > 0) >
-		<div class="pull-left"><#list relationList as relation><a href="javascript:void(0)" class="btn btn-link btn-sm fa fa-detail" ng-model="${relation.parent.tableKey}" ab-sub-detail="${relation.busObj.key}-${relation.tableKey}" ab-show-permission="" >${relation.tableComment}</a>
+		<div class="pull-left"><#list relationList as relation><a href="javascript:void(0)" class="btn btn-link btn-sm fa fa-detail" ng-model="${relation.parent.tableKey}" ab-sub-detail="${relation.getBusObj().getKey()}-${relation.tableKey}" ab-show-permission="tablePermission.${relation.busObj.key}.${relation.tableKey}" >${relation.tableComment}</a>
 		</#list>
 		</div>
 		</#if>
