@@ -28,9 +28,10 @@
 - 前端 angular bootstrap-table bootstrap 等 js组件。 前后端分离，使用webpack 模块化打包
 - 后端 spring4.3.17 mybatis  activiti5.22 redis groovy quartz mq atomikos spring security等
 
+[模块介绍介绍]( http://agile-bpm.gitee.io/docs/base/framework.html)
 
-![如图所示](https://gitee.com/uploads/images/2018/0525/230104_41370bb1_1861740.png "屏幕截图.png")
- [组件更多介绍](http://agile-bpm.gitee.io/docs/base/module.html)
+[组件更多介绍](http://agile-bpm.gitee.io/docs/base/module.html)
+ 
 
 
 ### 流程表单
