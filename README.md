@@ -2,7 +2,9 @@
 
 #### 项目介绍
 
-项目部署、实施文档 请参考 http://doc.agilebpm.cn/
+项目部署、实施文档 请参考 http://doc.agilebpm.cn/  
+[在线测试地址](http://test.agilebpm.cn/login.html)
+[功能缺陷提测](http://zentao.agilebpm.cn 账号 test 密码 test123456)
 
 ## 工作流解决方案
 **我们通过业务对象、表单、流程引擎共同协作来解决业务流难实施的痛点**
