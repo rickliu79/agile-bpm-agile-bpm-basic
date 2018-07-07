@@ -96,12 +96,10 @@
                 <artifactId>spring-core</artifactId>
                 <version>${spring.framework.version}</version>
                 <exclusions>
-
                     <exclusion>
                         <groupId>commons-logging</groupId>
                         <artifactId>commons-logging</artifactId>
                     </exclusion>
-
                     <exclusion>
                         <groupId>log4j</groupId>
                         <artifactId>log4j</artifactId>
