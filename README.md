@@ -29,7 +29,7 @@
 当然、流程也支持url表单，方便已有业务、异构系统的流程实施
 
 **具体实施步骤请参考 [文档](https://agile-bpm.gitee.io/docs/implement/businessObject.html) 中的敏捷流程实施三部曲** :smirk: 
-> 截图
+> 流程配置页面、任务处理页面、流程实例页面截图
 
 <img src="https://images.gitee.com/uploads/images/2018/0719/110744_34dddb3b_1861740.png" width="33%" hegiht="300" align=left /> 
 <img src="https://images.gitee.com/uploads/images/2018/0719/110900_7f2d6a78_1861740.png" width="33%" hegiht="300" align=left /> 
