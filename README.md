@@ -6,6 +6,9 @@
 [在线测试地址](http://test.agilebpm.cn/login.html)
 [功能缺陷提测](http://zentao.agilebpm.cn账号test密码test123456)
 
+![移动端测试地址](https://images.gitee.com/uploads/images/2018/0719/100556_de9bc8a4_1861740.png "屏幕截图.png")
+账号密码 admin 1
+
 ## 工作流解决方案
 **我们通过业务对象、表单、流程引擎共同协作来解决业务流难实施的痛点**
 
