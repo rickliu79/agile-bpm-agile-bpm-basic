@@ -30,9 +30,9 @@
 
 **具体实施步骤请参考 [文档](https://agile-bpm.gitee.io/docs/implement/businessObject.html) 中的敏捷流程实施三部曲** :smirk: 
 
-<img src="https://images.gitee.com/uploads/images/2018/0719/105525_606ed6a5_1861740.png" width="330" hegiht="300" align=left /> 
-<img src="https://images.gitee.com/uploads/images/2018/0719/105525_606ed6a5_1861740.png" width="330" hegiht="300" align=left /> 
-<img src="https://images.gitee.com/uploads/images/2018/0719/105525_606ed6a5_1861740.png" width="330" hegiht="300" align=left /> 
+<img src="https://images.gitee.com/uploads/images/2018/0719/105525_606ed6a5_1861740.png" width="33%" hegiht="300" align=left /> 
+<img src="https://images.gitee.com/uploads/images/2018/0719/105525_606ed6a5_1861740.png" width="33%" hegiht="300" align=left /> 
+<img src="https://images.gitee.com/uploads/images/2018/0719/105525_606ed6a5_1861740.png" width="33%" hegiht="300" align=left /> 
 
 
 ## 软件架构说明
