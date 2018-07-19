@@ -30,7 +30,7 @@
 
 **具体实施步骤请参考 [文档](https://agile-bpm.gitee.io/docs/implement/businessObject.html) 中的敏捷流程实施三部曲** :smirk: 
 
-![敏捷实施三部曲](https://images.gitee.com/uploads/images/2018/0719/105525_606ed6a5_1861740.png "屏幕截图.png")
+![敏捷实施三部曲](https://images.gitee.com/uploads/images/2018/0719/105525_606ed6a5_1861740.png "屏幕截图.png" =200x300)
 
 ## 软件架构说明
 
