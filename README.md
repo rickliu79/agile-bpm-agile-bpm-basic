@@ -3,7 +3,7 @@
 #### 项目介绍
 
 项目部署、实施文档 请参考 http://doc.agilebpm.cn/  
-[在线测试地址](http://test.agilebpm.cn/login.html)
+[PC在线测试地址](http://test.agilebpm.cn/login.html)
 [功能缺陷提测](http://zentao.agilebpm.cn账号test密码test123456)
 
 ![移动端测试地址](https://images.gitee.com/uploads/images/2018/0719/100556_de9bc8a4_1861740.png "屏幕截图.png")
