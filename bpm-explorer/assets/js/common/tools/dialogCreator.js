@@ -290,7 +290,6 @@ dialogHelper__.initCustDialogs = function(){
 					btn:true, 
 					closeBtn:1,
 			};
-			
 			jQuery.post(__ctx+"/form/formCustDialog/getObject?key="+key,{},function(result){
 				var dialogConf = result.data;
 				if(!dialogConf){
@@ -416,7 +415,7 @@ dialogHelper__.getProjectUrl = function(url){
 		 var pathname =window.document.location.pathname;
 		 var projectPath = pathname.substring(0,pathname.substr(1).indexOf('/')+1);
 		 // 特殊处理下流程设计器
-		 if(projectPath === 'flow-editor'){
+		 if(projectPath === '' || "/bus,/bpm,/sys,/org,/form,/flow-editor".indexOf(projectPath)!= -1){
 			 return url;
 		 }
 		if(url.startWith(projectPath)){

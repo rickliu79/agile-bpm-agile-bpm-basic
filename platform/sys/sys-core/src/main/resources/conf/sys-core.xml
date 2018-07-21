@@ -53,7 +53,7 @@
     
     <!-- 缓存配置实现 -->
     <!-- com.dstz.sys.redis.RedisCache  可切换为redis 的实现-->
-    <bean id="iCache" class="com.dstz.sys.redis.RedisCache"></bean>
+    <bean id="iCache" class="com.dstz.base.core.cache.impl.MemoryCache"></bean>
 
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxIdle" value="${redis.maxIdle}"/>

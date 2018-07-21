@@ -121,39 +121,58 @@ public class DefaultQueryField implements QueryField {
         if (sql.lastIndexOf("^") != -1) {
             sql = sql.substring(0, sql.lastIndexOf("^"));
         }
-        if (QueryOP.EQUAL.equals(compare)) {
-            sql += " = " + fieldParam;
-        } else if (QueryOP.EQUAL_IGNORE_CASE.equals(compare)) {
-            sql = "upper(" + sql + ") = " + fieldParam;
-        } else if (QueryOP.LESS.equals(compare)) {
-            sql += " < " + fieldParam;
-        } else if (QueryOP.LESS_EQUAL.equals(compare)) {
-            sql += " <= " + fieldParam;
-        } else if (QueryOP.GREAT.equals(compare)) {
-            sql += " > " + fieldParam;
-        } else if (QueryOP.GREAT_EQUAL.equals(compare)) {
-            sql += " >= " + fieldParam;
-        } else if (QueryOP.NOT_EQUAL.equals(compare)) {
-            sql += " != " + fieldParam;
-        } else if (QueryOP.LEFT_LIKE.equals(compare)) {
-            sql += " like %" + fieldParam ;
-        } else if (QueryOP.RIGHT_LIKE.equals(compare)) {
-            sql += " like  " + fieldParam + "%";;
-        } else if (QueryOP.LIKE.equals(compare)) {
-            sql += " like  %" + fieldParam+ "%";
-        } else if (QueryOP.IS_NULL.equals(compare)) {
-            sql += " is null";
-        } else if (QueryOP.NOTNULL.equals(compare)) {
-            sql += " is not null";
-        } else if (QueryOP.IN.equals(compare)) {
-            sql += " in  " + this.value;
-        } else if (QueryOP.NOT_IN.equals(compare)) {
-            sql += " not in  " + this.value;
-        } else if (QueryOP.BETWEEN.equals(compare)) {
-            sql += getBetweenSql();
-        } else {
-            sql += " =  " + fieldParam;
-        }
+        
+        switch (compare) {
+		case EQUAL:
+			 sql += " = " + fieldParam;
+			 break;
+		case EQUAL_IGNORE_CASE:
+			 sql = "upper(" + sql + ") = " + fieldParam;
+			 break;
+		case LESS:
+			sql += " < " + fieldParam;
+			 break;
+		case LESS_EQUAL:
+			 sql = "upper(" + sql + ") = " + fieldParam;
+			 break;
+		case GREAT:
+			sql += " > " + fieldParam;
+			 break;
+		case GREAT_EQUAL:
+			 sql += " >= " + fieldParam;
+			 break;
+		case NOT_EQUAL:
+			 sql += " != " + fieldParam;
+			 break;
+		case LEFT_LIKE:
+			sql += " like " + fieldParam ;
+			this.setValue("%" + String.valueOf(this.value));
+			
+			break;
+		case RIGHT_LIKE:
+			 sql += " like  " + fieldParam ;
+			 this.setValue(String.valueOf(this.value)+ "%" );
+			 
+			 break;
+		case LIKE:
+			 sql += " like  " + fieldParam ;
+			 this.setValue("%"+ String.valueOf(this.value)+ "%" );
+			 
+			 break;
+		case IS_NULL:
+			  sql += " is null";
+			  break;
+		case IN:
+			  sql += " in  " + this.value;
+			  break;
+		case NOT_IN:
+			 sql += " not in  " + this.value;
+			 break;
+		default:
+			 sql += " =  " + fieldParam;
+			 break;
+		}
+			  
         return sql;
     }
     

@@ -34,7 +34,7 @@ public class PageJson {
         	Integer total = new Long(pageList.getTotal()).intValue();
         	this.pageSize = pageList.getPageSize();
             this.setPage(pageList.getPages());
-            this.setPageResult(new PageResult(pageList.getPages(), pageList.getPageSize(),total));
+            this.setPageResult(new PageResult(pageList.getPageNum(), pageList.getPageSize(),total));
            this.setTotal(total);
         	
         } else this.total = arrayList.size();

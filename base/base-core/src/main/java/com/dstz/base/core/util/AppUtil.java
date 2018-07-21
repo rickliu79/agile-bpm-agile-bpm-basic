@@ -1,6 +1,7 @@
 package com.dstz.base.core.util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -116,6 +117,17 @@ public class AppUtil implements ApplicationContextAware {
      */
     public static <T> Map<String, T> getImplInstance(Class<T> clazz){
         return context.getBeansOfType(clazz);
+    }
+    
+    public static <T> List<T> getImplInstanceArray(Class<T> clazz){
+    	List<T> list = new ArrayList<>();
+    	
+    	Map<String,T> map = context.getBeansOfType(clazz);
+    	
+    	for (T t : map.values()) {
+    		list.add(t);
+		}
+    	return list;
     }
 
     /**

@@ -21,10 +21,16 @@ window.getCtxUrl = function(url,replaceRequestParam){
 
 
 window.getProjectUrl = function(url){
-	//以/开头则自动加上前端的 projectpath，不以开头则说明相对路径。自动装载地址
 	if(url && url.indexOf("http://")==-1 && url.substring(0,1)==="/"){
 		 var pathname =window.document.location.pathname;
 		 var projectPath = pathname.substring(0,pathname.substr(1).indexOf('/')+1);
+		 // 特殊处理下流程设计器
+		 if("/bus,/bpm,/sys,/org,/form,/flow-editor".indexOf(projectPath)!= -1){
+			 return url;
+		 }
+		if(url.startWith(projectPath)){
+			return url;
+		}
 		 return projectPath+url;
 	}
 	return url;

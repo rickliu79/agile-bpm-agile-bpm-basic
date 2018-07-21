@@ -2,23 +2,25 @@ var app = angular.module("app", [ 'base', 'baseDirective' ]);
 app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter', function($scope, baseService, ArrayToolService, $filter) {
 	var filter = $filter('filter');
 	$scope.ArrayTool = ArrayToolService;
-
+	
+	var type = formType ? formType : "pc";
+	var ifremeCssUrl = type==='pc' ? '../../assets/js/plugins/ueditor/themes/pcframe.css' : '../../assets/js/plugins/ueditor/themes/mobileFormIframe.css';
+	
 	$scope.init = function() {
-		// 初始化数据
-		$scope.data = {};
 		// uedtor的配置
 		$scope.editorConfig = {
 			toolbars : [ [ 'source', 'undo', 'redo', 'bold', 'italic', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', '|', 'selectTemplate' ] ],
 			initialFrameHeight : window.innerHeight - 260,
 			enableAutoSave : false,
-			autoHeightEnabled:false,
-			allHtmlEnabled:true,
+			autoHeightEnabled : false,
+			allHtmlEnabled : true,
 			focus : true,
-			iframeCssUrl : '../../assets/js/plugins/ueditor/themes/pcframe.css',// 加入css
+			iframeCssUrl : ifremeCssUrl,// 加入css
 		};
 	};
 
 	$scope.$on("afterLoadEvent", function(event, data) {
+		$scope.data.type = type;
 	});
 
 	/**
@@ -70,5 +72,28 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 			$.Toast.success("同步成功");
 			$scope.data.html = data;
 		});
+	};
+
+	/**
+	 * 选择模板
+	 */
+	$scope.selectTemplate = function(type) {
+		if(!type)type="pc";
+		var conf = {
+			height : 600,
+			width : 800,
+			url : "/form/formDef/selectTemplate.html?type="+type,// url不为空则使用iframe类型对话框
+			title : "选择模板",
+			topOpen : true,
+			btn : true,
+			closeBtn : 1,
+		};
+		conf.passData = {
+			parentScope : $scope
+		};
+		conf.ok = function(index, innerWindow) {
+			innerWindow.createHtml();
+		};
+		jQuery.Dialog.open(conf);
 	};
 } ]);

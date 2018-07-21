@@ -8,10 +8,8 @@
 
         <bean id="serialization" class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
         <bean id="stringserialization" class="org.springframework.data.redis.serializer.StringRedisSerializer" />
-    
         <bean id="messageListener" class="com.dstz.sys.simplemq.RedisConsumer"/>
-    
-    
+        
 	     <!--订阅者适配器-->
 	    <bean id="messageListenerAdapter" class="org.springframework.data.redis.listener.adapter.MessageListenerAdapter">
 	        <property name="serializer" ref="serialization" />
@@ -29,7 +27,7 @@
 	        <property name="connectionFactory" ref="connectionFactory"/>
 	        <property name="topicSerializer" ref="stringserialization"/> <!--通道序列化-->
 	        <property name="messageListeners">
-	            <map key-type="org.springframework.data.redis.connection.MessageListener" value-type="org.springframework.data.redis.listener.PatternTopic">
+	            <map key-type="org.springframework.data.redis.connection.MessageListener" merge="default" value-type="org.springframework.data.redis.listener.PatternTopic">
 	                <entry key-ref="messageListenerAdapter"  value-ref="topic"/>
 	            </map>
 	        </property>

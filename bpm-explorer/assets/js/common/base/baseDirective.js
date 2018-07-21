@@ -677,24 +677,80 @@ var directive = angular.module("baseDirective", [ "base" ])
 	};
 })
 /**
+ * <pre>
  * 自定义对话框
- * 暂时只支持单选
+ * ab-cust-dialog=对话框key
+ * value-对话框的返回数据中的某个字段key:绑定到某个scope值中
+ * ng-model:如果有这个值（必须是数组），则会返回值拼装成json然后push到ng-model中，对于ngModel只增不减
+ * TODO value-这种风格有个致命缺陷，就是标签属性中不能存在大小写 例如value-aBc 所以现在返回值都是忽略大小写映射的。以后出问题再整体改一下
+ * eg:
+ * <a class="btn btn-sm btn-primary fa-search" href="javascript:void(0)" ab-cust-dialog="busObjectSelect" value-key="data.boKey" value-name="data.boName">选择</a>
+ * </pre>
  */
 .directive('abCustDialog', function($injector) {
 	return {
 		restrict : 'A',
-		scope : {},
-		link : function(scope, element, attrs) {
+		scope : {
+			ngModel : "="
+		},
+		link : function(scope, element, attrs ) {
+			//指令中的映射关系 {对话框返回字段:赋值的对象}
+			var valueMap = {};
+			angular.forEach(attrs, function(val, key) {
+				// 找到value开头的赋值配置
+				if (key.indexOf("value") !== 0) {
+					return;
+				}
+				var str = key.replace("value", "");
+				var name = str.substring(0, 1).toLowerCase();
+				name =name + str.substring(1, key.length);
+				valueMap[name] = val;
+			});
+			
+			
 			$(element).on("click",function(){
+				if(attrs.ngModel&&!scope.ngModel){//帮其初始化
+					scope.ngModel = [];
+				}
+				
 				var initData = [];
-				var json =null;
-				angular.forEach(attrs, function(val, key) {
-					// 找到value开头的赋值配置
-					if (key.indexOf("value") !== 0) {
+				if(!attrs.ngModel){
+					initData = handleInitData();
+				}else{
+					initData = handleNgModelInitData();
+				}
+				
+				var param = attrs.param?parseToJson(attrs.param):null;
+				var dialogSetting = attrs.dialogSetting?parseToJson(attrs.dialogSetting):null;
+				CustUtil.openCustDialog(attrs.abCustDialog, param, function(data) {
+					if (data.length < 1) {
 						return;
 					}
-					var str = key.replace("value", "");
-					var name = str.substring(0, 1).toLowerCase() + str.substring(1, key.length);
+					//忽略大小写的数据 value-这种属性的赋值形式不能存在大小写的，真郁闷，以后要改掉
+					var dataIgnoreCase = [];
+					angular.forEach(data, function(item) {
+						var json = {};
+						angular.forEach(item, function(val,key) {
+							json[key.toLowerCase()] = val;
+						});
+						dataIgnoreCase.push(json);
+					});
+					
+					scope.$apply(function() {
+						if(!attrs.ngModel){
+							handleData(dataIgnoreCase);
+						}else{
+							handleNgModelData(dataIgnoreCase);
+						}
+					});
+				}, initData, dialogSetting, true);
+			});
+			
+			//无ngModel下的初始化数据处理
+			var handleInitData = function(){
+				var initData = [];
+				var json = null;
+				angular.forEach(valueMap, function(val, key) {
 					eval("var data = scope.$parent." + val );
 					if(!data){
 						return;
@@ -702,33 +758,84 @@ var directive = angular.module("baseDirective", [ "base" ])
 					if(!json){
 						json = {};
 					}
-					eval("json[name]=data");
+					eval("json[key]=data");
 				});
-				if(json){
-					initData.push(json);
+				if(!json){
+					return initData;
 				}
-				var param = attrs.param?parseToJson(attrs.param):null;
-				var dialogSetting = attrs.dialogSetting?parseToJson(attrs.dialogSetting):null;
-				if(!dialogSetting){
-					dialogSetting = { multiple : false };
+				//切割json中的,当作多选
+				angular.forEach(json, function(val, key) {
+					var list = val.split(",");
+					var index = 0;
+					angular.forEach(list, function(item) {
+						if(!initData[index]){
+							initData[index] = {};
+						}
+						initData[index][key] = item;
+						index++;
+					});
+				});
+				return initData;
+			};
+			
+			//有ngModel下的初始化数据处理
+			var handleNgModelInitData = function(){
+				//因为对ngmodel只增不减，所以不需要初始化数据
+			};
+			
+			//无ngModel下的数据处理
+			var handleData = function(data){
+				angular.forEach(valueMap, function(val, key) {
+					var list = [];
+					angular.forEach(data, function(item) {
+						list.push(item[key]);
+					});
+					eval("scope.$parent." + val + " = list.join(',');");
+				});
+			};
+			
+			//有ngmodel下的数据处理
+			var handleNgModelData = function(data){
+				if(!scope.ngModel){
+					scope.ngModel = [];
 				}
-				CustUtil.openCustDialog(attrs.abCustDialog, param, function(data) {
-					if (data.length < 1) {
+				//ng-model 为对象则直接赋值即可
+				if(!Array.isArray(scope.ngModel)){
+					angular.forEach(valueMap, function(val, key) {
+						var list = [];
+						angular.forEach(data, function(item) {
+							list.push(item[key]);
+						});
+						scope.ngModel[val] = list.join(',');
+					}); 
+					return;
+				}
+				
+				
+				
+				angular.forEach(data, function(item) {
+					if($.isEmptyObject(valueMap)){
+						scope.ngModel.push(data);
 						return;
 					}
-					scope.$apply(function() {
-						angular.forEach(attrs, function(val, key) {
-							// 找到value开头的赋值配置
-							if (key.indexOf("value") !== 0) {
-								return;
+					
+					var json = {};
+					angular.forEach(valueMap, function(val, key) {
+						//如果val是a.b这样的，则需要对json.a初始化，不然直接操作json.a.b会报错
+						var strs = val.split(".");
+						var exp = "json";
+						for (var i=0;i<strs.length-1;i++){
+							exp = exp + "."+strs[i];
+							if(eval("!"+exp)){//为空则初始化
+								eval(exp+" = {};");
 							}
-							var str = key.replace("value", "");
-							var name = str.substring(0, 1).toLowerCase() + str.substring(1, key.length);
-							eval("scope.$parent." + val + " = data[0][name]");
-						});
+						}
+						console.info(item[key]);
+						eval("json."+val+" = item[key];");
 					});
-				}, initData, dialogSetting, true);
-			});
+					scope.ngModel.push(json);
+				});
+			};
 		}
 	}
 })
@@ -773,8 +880,7 @@ var directive = angular.module("baseDirective", [ "base" ])
 		restrict : 'AE',
 		require : '?ngModel',
 		scope : {
-			ngModel : "=",
-			folder : "="
+			ngModel : "="
 		},
 		link : function(scope, element, attrs, ngModel) {
 			$(element).on("click", function() {
@@ -843,6 +949,46 @@ var directive = angular.module("baseDirective", [ "base" ])
 		}
 	}
 })
+/**
+ * <pre>
+ * 流水号
+ * 每次加载会消耗一次流水号
+ * <input type="text" class="form-control" ng-model="data.kjcs.zd" ab-basic-permission="permission.kjcs.cskj.zd" ab-serial-no="dayNo">
+ * </pre>
+ */
+.directive('abSerialNo', [ 'baseService', function(baseService) {
+	return {
+		restrict : 'AE',
+		require : '?ngModel',
+		scope : {
+			ngModel : "=",
+			abBasicPermission :"="
+		},
+		link : function(scope, element, attrs,ctrl) {
+			var fn = function(){
+				//无权限或者已经有值了，则不需要处理
+				if(scope.abBasicPermission ==="n"||scope.abBasicPermission ==="r"||scope.ngModel){
+					return;
+				}
+				
+				var defer = baseService.postForm(__ctx + "/sys/serialNo/getNextIdByAlias",{
+					alias:attrs.abSerialNo
+				});
+				$.getResultData(defer,function(data){
+					scope.ngModel = data;
+				});
+			};
+			
+			if(scope.abBasicPermission){
+				fn();
+			}else{
+				scope.$parent.$on("permission:update",function(event,data){
+					fn();
+				});
+			}
+		}
+	}
+}])
 /**
  * 数字转成中文大写。 用法： <input class="inputText" type="text" ng-model="jinge" />
  * 

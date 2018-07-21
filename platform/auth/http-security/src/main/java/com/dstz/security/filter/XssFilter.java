@@ -1,8 +1,11 @@
 package com.dstz.security.filter;
 
+import com.alibaba.fastjson.JSON;
+import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.string.StringUtil;
 import com.dstz.security.IngoreChecker;
+import com.dstz.security.constans.PlatformConsts;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -43,16 +46,8 @@ public class XssFilter extends IngoreChecker implements Filter {
             //检测是否有XSS攻击。
             boolean hasXss = checkXss(req);
             if (hasXss) {
-                String reqWith = req.getHeader("x-requested-with");
-                //非ajax请求。
-                if (StringUtil.isEmpty(reqWith)) {
-                    request.getRequestDispatcher("/commons/xss.jsp")
-                            .forward(request, response);
-                } else {
-                    ResultMsg resultMsg = new ResultMsg(ResultMsg.FAIL, "检测到XSS攻击，请检是否输入了HTML字符！");
-                    //resultMessage.setCause("nologin");
-                    response.getWriter().print(resultMsg);
-                }
+            	ResultMsg resultMsg = new ResultMsg<>(BaseStatusCode.PARAM_ILLEGAL, "系统不支持当前域名的访问，请联系管理员！");
+                response.getWriter().print(JSON.toJSONString(resultMsg));
             } else {
                 chain.doFilter(request, response);
             }

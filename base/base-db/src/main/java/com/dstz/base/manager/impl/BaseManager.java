@@ -57,7 +57,7 @@ public abstract class BaseManager<PK extends Serializable, T extends Serializabl
      * <pre>
      * 根据QueryFilter获取唯一值
      * </pre>
-     *
+     * @deprecated 请尽量写SQL。列表查询不会包含大数据文本 比如 form.html
      * @param queryFilter
      * @return
      */

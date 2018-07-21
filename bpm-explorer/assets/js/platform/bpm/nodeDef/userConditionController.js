@@ -5,13 +5,13 @@ app.controller('userConditionCtrl', [ '$scope', 'baseService', 'ArrayToolService
 	$scope.userCondition = {calcs:[],rule:""};
 	
 	if(window.passData){
-		$scope.$apply(function(){
 			$scope.userCondition=window.passData;
-		})
 	}
 	
 	var post = ToolsController.getInterFaceImpls("com.dstz.bpm.api.engine.plugin.context.UserCalcPluginContext").then(function(data){
-		$scope.nodeUserPluginList = data;
+		$scope.$apply(function(){
+			$scope.nodeUserPluginList = data;
+		})
 	})
 	
 	$scope.addCalc = function() {

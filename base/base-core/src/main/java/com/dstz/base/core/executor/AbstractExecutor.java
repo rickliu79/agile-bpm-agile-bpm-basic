@@ -1,10 +1,12 @@
 package com.dstz.base.core.executor;
 
+import java.util.List;
+
 import com.dstz.base.api.executor.Executor;
+import com.dstz.base.api.executor.ExecutorType;
 import com.dstz.base.api.executor.checker.ExecutorChecker;
 import com.dstz.base.core.executor.checker.ExecutorCheckerService;
-
-import java.util.List;
+import com.dstz.base.core.executor.checker.FreeExecutorChecker;
 
 /**
  * 执行器的抽象类
@@ -41,7 +43,19 @@ public abstract class AbstractExecutor<T> implements Executor<T> {
     public int compareTo(Executor<T> executor) {
         return Integer.valueOf(this.getSn()).compareTo(Integer.valueOf(executor.getSn()));
     }
+    
+    @Override
+	public String type() {
+    	//默认是必要执行器
+		return ExecutorType.NECESSARY.getKey();
+	}
 
+	@Override
+	public String getCheckerKey() {
+		//默认免费
+		return FreeExecutorChecker.class.getSimpleName();
+	}
+    
     /**
      * <pre>
      * 运行这个执行器

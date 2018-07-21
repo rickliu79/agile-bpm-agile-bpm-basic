@@ -1,5 +1,8 @@
 package com.dstz.security.filter;
 
+import com.alibaba.fastjson.JSON;
+import com.dstz.base.api.constant.BaseStatusCode;
+import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.security.IngoreChecker;
 
 import javax.servlet.*;
@@ -15,13 +18,14 @@ public class RefererCsrfFilter extends IngoreChecker implements Filter {
 
     @Override
     public void destroy() {
+    	
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-
+       
         //判断是否外链。
         String referer = req.getHeader("Referer");
         String serverName = request.getServerName();
@@ -32,7 +36,8 @@ public class RefererCsrfFilter extends IngoreChecker implements Filter {
             if (isIngoreUrl) {
                 chain.doFilter(request, response);
             } else {
-                req.getRequestDispatcher("/commons/csrf.jsp").forward(req, response);
+            	 ResultMsg resultMsg = new ResultMsg<>(BaseStatusCode.PARAM_ILLEGAL,referer + "系统不支持当前域名的访问，请联系管理员！");
+                 response.getWriter().print(JSON.toJSONString(resultMsg));
             }
         } else {
             chain.doFilter(request, response);

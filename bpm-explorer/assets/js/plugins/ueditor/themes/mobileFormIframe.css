@@ -1,3 +1,7 @@
-@import url(../../../../../mobile/assets/css/light7.min.css);
-@import url(../../../../../mobile/assets/css/font-awesome.min.css);
-@import url(../../../../../mobile/assets/css/mobile.css);
+@import url(./mobile/weui.css);
+@import url(../../../../css/font-awesome.min.css);
+
+.fa {
+  display: inline-block;
+  line-height: 1.8;
+}

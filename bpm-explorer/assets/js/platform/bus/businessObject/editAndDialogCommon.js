@@ -5,7 +5,7 @@ var editAndDialogCommon = {};
 /**
  * 初始化
  */
-editAndDialogCommon.init = function(scope,baseService) {
+editAndDialogCommon.init = function(scope, baseService) {
 	// 增加外键
 	scope.addFk = function(fks) {
 		fks.push({
@@ -23,7 +23,7 @@ editAndDialogCommon.init = function(scope,baseService) {
 			height : 700,
 			title : "[" + parent.tableComment + "(" + parent.tableKey + ")]子表配置",
 			passData : parent,
-			ok : function(index,innerWindow) {
+			ok : function(index, innerWindow) {
 				var data = innerWindow.getData();
 				scope.$apply(function() {
 					angular.copy(data, parent);
@@ -33,14 +33,14 @@ editAndDialogCommon.init = function(scope,baseService) {
 			topOpen : true
 		});
 	};
-	
+
 	scope.tableMap = {};
 	/**
 	 * 增加table详情
 	 */
 	scope.addTableDetail = function(key) {
 		var table = scope.tableMap[key];
-		if(!table){
+		if (!table) {
 			var url = __ctx + "/bus/businessTable/getObject";
 			var defer = baseService.postForm(url, {
 				key : key,
@@ -51,7 +51,7 @@ editAndDialogCommon.init = function(scope,baseService) {
 			});
 		}
 	};
-	
+
 	/**
 	 * 增加子table
 	 */
@@ -70,8 +70,10 @@ editAndDialogCommon.init = function(scope,baseService) {
 						children.push({
 							tableKey : item.key,
 							tableComment : item.comment,
-							fks : [],
-							type:scope.BusTableRelType.ONE_TO_ONE.key
+							fks : [ {
+								type : scope.BusTableRelFkType.PARENT_FIELD.key
+							} ],
+							type : scope.BusTableRelType.ONE_TO_ONE.key
 						});
 					}
 				});

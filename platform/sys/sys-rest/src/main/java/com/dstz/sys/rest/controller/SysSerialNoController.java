@@ -7,15 +7,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
+import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.string.StringUtil;
 import com.dstz.base.db.model.page.PageJson;
 import com.dstz.base.rest.GenericController;
@@ -158,12 +157,12 @@ public class SysSerialNoController extends GenericController {
      * @throws Exception
      */
     @RequestMapping("getNextIdByAlias")
-    public String getNextIdByAlias(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResultMsg<String> getNextIdByAlias(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String alias = RequestUtil.getString(request, "alias");
         if (serialNoManager.isAliasExisted(null, alias)) {
             String nextId = serialNoService.genNextNo(alias);
-            return nextId;
+            return getSuccessResult(nextId,"请求成功");
         }
-        return "";
+        return getSuccessResult("","请求成功");
     }
 }

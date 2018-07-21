@@ -1,13 +1,15 @@
 package com.dstz.sys.util;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+
+import javax.mail.MessagingException;
+
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.string.StringUtil;
 import com.dstz.sys.email.MailUtil;
 import com.dstz.sys.email.model.Mail;
-
-import javax.mail.MessagingException;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
+import com.dstz.sys.email.model.MailSetting;
 
 /**
  * 这个类用于发送邮件。
@@ -83,4 +85,28 @@ public class EmailUtil {
             e.printStackTrace();
         }
     }
+    
+    public static void main(String[] args) throws Exception{
+    	MailSetting setting = new MailSetting();
+    	setting.setSendHost("smtp.qq.com");
+    	setting.setSendPort("465");
+    	setting.setSSL(true);
+    	setting.setProtocal("smtp");
+    	setting.setValidate(true);
+    	setting.setNickName("agileBpm");
+    	setting.setMailAddress("agileBpm@qq.com");
+    	setting.setPassword("fywouffpohiibdee");
+    	
+    	MailUtil mailSender = new MailUtil(setting);
+    	
+    	 Mail mail = new Mail();
+         mail.setSubject("subject");
+         mail.setSenderName("senderName");
+         mail.setContent("content");
+         mail.setReceiverAddresses("632266504@qq.com");
+         mail.setSenderAddress("SenderAddress");
+
+         mail.setSendDate(new Date());
+         mailSender.send(mail);
+	}
 }

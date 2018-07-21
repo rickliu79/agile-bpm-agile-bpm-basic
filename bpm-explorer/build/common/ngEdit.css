@@ -2923,6 +2923,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  /* form validate */
 input.form-control,select.form-control{
 	max-width: 360px;	
+	display: inline;
 }
 input.ng-valid, textarea.ng-valid, select.ng-valid, .edui-editor.ng-valid, div.ng-valid .ht-input {
     border-color: #5eb95e !;

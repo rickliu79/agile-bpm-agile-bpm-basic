@@ -47,8 +47,12 @@ formServiceModule.directive('abSubAdd', [ function($compile) {
 		require : "ngModel",
 		link : function(scope, element, attrs, ctrl) {
 			$(element).on("click", function() {
+				var listName = attrs.abSubDetail.split("-")[1]+"List";
+				if(!scope.$parent.subTempData){
+					scope.$parent.subTempData = {};
+				}
 				scope.$apply(function() {
-					scope.$parent[attrs.ngModel] = CloneUtil.deep(ctrl.$viewValue);
+					scope.$parent.subTempData[listName] = CloneUtil.list(ctrl.$viewValue[listName]);
 				});
 				var conf = {
 					height : 600,
@@ -61,7 +65,7 @@ formServiceModule.directive('abSubAdd', [ function($compile) {
 				conf.ok = function(index, innerWindow) {
 					// 确定才数据才生效
 					scope.$apply(function() {
-						jQuery.extend(true, ctrl.$viewValue, scope.$parent[attrs.ngModel])
+						ctrl.$viewValue[listName] = scope.$parent.subTempData[listName];
 					});
 					layer.close(index);
 				};

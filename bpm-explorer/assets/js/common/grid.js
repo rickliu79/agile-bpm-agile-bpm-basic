@@ -339,15 +339,15 @@ window.labelFormatter = function(value, row, index){
 	}
 	/** 第二种实现 data-value-style="key-val-style,key2-val2-style2,"*/
 	if(this.valueStyle){
-		var patt = new RegExp("(?<="+value+"-).*?(?=,)");
+		var patt = new RegExp("(?="+value+"-).*?(?=,)","g");
 		try{
 		var result = patt.exec(this.valueStyle);
 		if(result && result[0]){
 			var vs = result[0].split("-");
-			if(vs.length==2){
-				lableStyle =vs[1];
+			if(vs.length==3){
+				lableStyle =vs[2];
 			}
-			return '<span class="label label-'+lableStyle+'">'+vs[0]+'</span>';
+			return '<span class="label label-'+lableStyle+'">'+vs[1]+'</span>';
 		}
 		}catch(e){
 			console.error(row);

@@ -66,9 +66,9 @@ public class QueryInterceptor  implements Interceptor{
 	
 
 	private Map<String, Object> getQueryParamsByFilter(QueryFilter filter) {
-		Map<String, Object> params = filter.getParams();
         //构建动态条件SQL
         String dynamicWhereSql = filter.getFieldLogic().getSql();
+        Map<String, Object> params = filter.getParams();
 
         //默认条件过虑
         String defaultWhere = params.containsKey("defaultWhere") ? params.get("defaultWhere").toString() : "";

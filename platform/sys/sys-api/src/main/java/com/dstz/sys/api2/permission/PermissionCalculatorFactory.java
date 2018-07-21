@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.core.util.AppUtil;
 
 /**
@@ -44,7 +45,7 @@ public class PermissionCalculatorFactory {
 	 * </pre>
 	 * 
 	 * @param jsonArray
-	 *            :[{type:"user",id:"a,b,.."},{type:"group",groupType:"org",id:"a,b,..."}]
+	 *            :[{type:"user",id:"a,b,.."},{type:"org",id:"a,b,..."}]
 	 * @return
 	 */
 	public static boolean haveRights(JSONArray jsonArray) {
@@ -54,6 +55,9 @@ public class PermissionCalculatorFactory {
 		for (Object obj : jsonArray) {
 			JSONObject json = (JSONObject) obj;
 			IPermissionCalculator permission = permissionMap().get(json.getString("type"));
+			if(permission==null) {
+				throw new BusinessException("权限类型["+json.getString("type")+"]找不到处理器");
+			}
 			if (permission.haveRights(json)) {// 有一个满足就true
 				return true;
 			}

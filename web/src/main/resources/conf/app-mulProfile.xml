@@ -5,8 +5,8 @@
 
     <!--
         【多环境配置】
-           修改Tomcat运行环境即可（-Dspring.profiles.active=SIT）。默认为DEV,
-       JAVA_OPTS=" -Xms1024m -Xmx1024m  -XX:PermSize=512m -XX:MaxPermSize=512m -Dspring.profiles.active=SIT"
+           修改Tomcat运行环境即可（-Dspring.profiles.active=test）。默认为dev,
+       JAVA_OPTS=" -Xms1024m -Xmx1024m  -XX:PermSize=512m -XX:MaxPermSize=512m -Dspring.profiles.active=test"
 
           若使用jenkins打包直接修改web也可以,将dev改成相应的环境
       <context-param>

@@ -118,7 +118,7 @@ var formPermissionModule = angular.module("formPermissionModule", [ "base" ])
 } ])
 
 /**
- * 只对是否展示进行权限判断。【只读】，或者【无权限】下不展示该标签
+ * 只对是否展示进行权限判断。或者【无权限】下不展示该标签
  * 比如某块使用权限路径判断后。发现无权限。则直接remove掉。
  * 不会处理任何数据。
  * 多用于子表，或者块、整个区域的权限断定。
@@ -126,7 +126,6 @@ var formPermissionModule = angular.module("formPermissionModule", [ "base" ])
 .directive('abShowPermission', [ function() {
 	return {
 		link : function(scope, element, attrs) {
-			
 			var handlePermission = function(){
 				var permission = getPermission(attrs.abShowPermission,scope);
 				

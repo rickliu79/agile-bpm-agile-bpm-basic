@@ -11,6 +11,8 @@ import com.dstz.base.db.model.query.DefaultPage;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.rest.util.RequestUtil;
 import org.apache.ibatis.session.RowBounds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GenericController {
+	protected  Logger LOG = LoggerFactory.getLogger(getClass());
+	
 	   protected <T> ResultMsg<T> getSuccessResult(T data, String msg) throws IOException {
 	        ResultMsg<T> resultMsg = new ResultMsg<T>();
 	        resultMsg.IsOk(true);

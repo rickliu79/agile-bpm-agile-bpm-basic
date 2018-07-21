@@ -33,9 +33,9 @@
 				
 				<div class="form-inline">
 					<label class="control-label col-sm-3">状态:</label>
-						<label class="radio-inline"> <input type="radio" ng-model="properties.status" value="deploy" /> 正常 </label>
-						<label class="radio-inline"> <input type="radio" ng-model="properties.status" value="forbidden" /> 禁止 </label>
-						<label class="radio-inline"> <input type="radio" ng-model="properties.status" value="forbidden_instance" /> 禁止实例 </label>
+						<label class="radio-inline"> <input type="radio" ng-model="properties.status" value="draft" />草稿</label>
+						<label class="radio-inline"> <input type="radio" ng-model="properties.status" value="deploy" />发布</label>
+						<label class="radio-inline"> <input type="radio" ab-tip title="流程实例将会被禁用" ng-model="properties.status" value="forbidden" /> 禁用 </label>
 				</div>
 				
 				

@@ -18,7 +18,9 @@
 		<table class="form-table">
 			<tr>
 				<th>分类</th>
-				<td>TODO</td>
+				<td>
+					<span ab-combox="data.groupId" value-name="data.groupName" tree-key="ywdxfl" ng-model="data.groupName" ab-validate="{required:true}"></span>
+				</td>
 				<th>持久化方式</th>
 				<td>
 					<select class="form-control" ng-model="data.persistenceType" ng-options="v.key as v.desc for (k,v) in BusinessObjectPersistenceType">
@@ -46,59 +48,49 @@
 					<a class="btn btn-sm btn-primary fa-search" href="javascript:void(0)" ng-click="selectMainTable()">选择</a>
 				</td>
 			</tr>
+		</table>
+		<br />
+		<div class="btn-group toolbar">
+			<a class="btn btn-primary btn-outline fa-add " ng-click="addSubTable(data.relation.children)">
+				<span>添加子业务实体</span>
+			</a>
+		</div>
+		<table ng-show="data.relation" class="table table-hover table-bordered" cellspacing="0">
 			<tr>
+				<th style="width: 150px;">类型</th>
+				<th style="width: 180px;">名称</th>
+				<th style="width: 180px;">实体名</th>
+				<th>外键</th>
+				<th style="width: 150px;">操作</th>
+			</tr>
+			<tr ng-repeat="child in data.relation.children">
 				<td>
-					<div class="buttons">
-						<a class="btn btn-primary fa-add" ng-click="addSubTable(data.relation.children)">
-							<span>添加</span>
-						</a>
+					<select class="form-control" ab-validate="{required:true}" ng-model="child.type" ng-options="v.key as v.desc for (k,v) in BusTableRelType">
+					</select>
+				</td>
+				<td>{{child.tableComment}}</td>
+				<td>{{child.tableKey}}</td>
+				<td>
+					<a href="javaScript:void(0)" class="btn btn-xs btn-default fa-add" ng-click="addFk(child.fks)"></a>
+					<div ng-repeat="fk in child.fks">
+						<select ng-model="fk.from" ab-validate="{required:true}" ng-options="m.key as m.comment for m in tableMap[child.tableKey].columns">
+							<option value="">请选择</option>
+						</select>
+						<select ng-model="fk.type" ng-options="v.key as v.desc for (k,v) in BusTableRelFkType">
+						</select>
+						<input ng-if="fk.type=='fixedValue'" type="text" ng-model="fk.value" />
+						<span ng-if="fk.type=='parentField'||fk.type=='childField'">
+							<select ng-model="fk.value" ab-validate="{required:true}" ng-options="m.key as m.comment for m in tableMap[data.relation.tableKey].columns">
+								<option value="">请选择</option>
+							</select>
+						</span>
+						<a ng-show="child.fks.length>1" href="javaScript:void(0)" class="btn btn-xs btn-default fa-times" ng-click="child.fks.remove(fk)"></a>
 					</div>
 				</td>
-				<th colspan="3" style="text-align: center;">子业务表</th>
-			</tr>
-
-			<!-- 以下是子实例 -->
-			<tr ng-show="data.relation">
-				<td colspan="4">
-					<table class="table-grid" cellspacing="0">
-						<tr>
-							<th>类型</th>
-							<th>描叙</th>
-							<th>名称</th>
-							<th>外键</th>
-							<th>操作</th>
-						</tr>
-						<tr ng-repeat="child in data.relation.children">
-							<td>
-								<select class="form-control" ab-validate="{required:true}" ng-model="child.type" ng-options="v.key as v.desc for (k,v) in BusTableRelType">
-								</select>
-							</td>
-							<td>{{child.tableComment}}</td>
-							<td>{{child.tableKey}}</td>
-							<td>
-								<a href="javaScript:void(0)" class="btn btn-xs btn-default fa-add" ng-click="addFk(child.fks)"></a>
-								<div ng-repeat="fk in child.fks">
-									<select ng-model="fk.from" ng-options="m.key as m.comment for m in tableMap[child.tableKey].columns">
-										<option value="">请选择</option>
-									</select>
-									<select ng-model="fk.type" ng-options="v.key as v.desc for (k,v) in BusTableRelFkType">
-									</select>
-									<input ng-if="fk.type=='fixedValue'" type="text" ng-model="fk.value" />
-									<span ng-if="fk.type=='parentField'">
-										<select ng-model="fk.value" ng-options="m.key as m.comment for m in tableMap[data.relation.tableKey].columns">
-											<option value="">请选择</option>
-										</select>
-									</span>
-									<a href="javaScript:void(0)" class="btn btn-xs btn-default fa-times" ng-click="child.fks.remove(fk)"></a>
-								</div>
-							</td>
-							<td>
-								<a href="javaScript:void(0)" ng-click="ArrayTool.del($index,data.relation.children)" class="btn btn-sm btn-default fa-times"></a>
-								<a href="javaScript:void(0)" ng-click="openChildrenDialog(child)" class="btn btn-sm btn-default fa-edit">配置子表</a>
-								<a href="javaScript:void(0)" onclick="javascript:alert('复制表的字段控件，控件可配置顺序，控件列表可插入换行符')" class="btn btn-sm btn-default fa-edit">配置控件与布局</a>
-							</td>
-						</tr>
-					</table>
+				<td>
+					<a href="javaScript:void(0)" ng-click="ArrayTool.del($index,data.relation.children)" class="btn btn-outline btn-primary fa  fa-trash"></a>
+					<a href="javaScript:void(0)" ng-click="openChildrenDialog(child)" class="btn btn-sm btn-primary btn-outline fa-edit">配置子表</a>
+					<a href="javaScript:void(0)" onclick="javascript:alert('复制表的字段控件，控件可配置顺序，控件列表可插入换行符')" class="btn btn-sm btn-primary btn-outline fa-edit">配置控件与布局</a>
 				</td>
 			</tr>
 		</table>

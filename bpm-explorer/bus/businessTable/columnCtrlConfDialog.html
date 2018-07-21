@@ -40,8 +40,7 @@
 				 </tr>
 			
 			</thead>
-			<!-- 需要配选项的控件类型 -->
-			<tr ng-if="column.ctrl.type=='select'||column.ctrl.type=='multiselect'||column.ctrl.type=='checkbox'||column.ctrl.type=='radio'" ng-repeat="opt in column.ctrl.config.options">
+			<tr ng-repeat="opt in column.ctrl.config.options">
 				<td>
 					<input class="form-control" type="text" ng-model="opt.txt" style="width: 90%" ab-validate="{required:true}" />
 				</td>

@@ -5,13 +5,14 @@
 <script type="text/javascript" src="../../build/common/ngEdit-ori.js"></script>
 
 <script type="text/javascript">
+	var type = $.getParam("type")
 	var app = angular.module('app', [ 'baseDirective' ]);
 	app.controller("ctrl", [ '$scope', 'baseService', 'ArrayToolService', function($scope, baseService, ArrayToolService) {
 		$scope.ArrayTool = ArrayToolService;
 		$scope.init = function() {
 			$scope.parentScope = window.passData.parentScope;
 			//获取bo信息
-			var url = __ctx + "/form/formDef/templateData?boKey=" + $scope.parentScope.data.boKey;
+			var url = __ctx + "/form/formDef/templateData?boKey=" + $scope.parentScope.data.boKey+"&type="+type;
 			var defer = baseService.post(url, {});
 			$.getResultData(defer, function(data) {
 				$scope.data = data;

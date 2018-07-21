@@ -27,7 +27,7 @@
 	  	<div class="panel-body">
 		  	<table class="table table-hover table-striped table-bordered">
 		  		<tr><th style="max-width:100px">节点</th><th>时机</th><th>描述</th><th>操作</th></tr>
-		  		<tr  ng-repeat="nodeMessage in nodeMessageList">
+		  		<tr  ng-repeat="nodeMessage in nodeMessageList track by $index" >
 		  			<th>{{nodeMessage.nodeId?nodeMessage.nodeId:'所有节点'}}</th>
 		  			<td>{{nodeMessage.event}}</td>
 		  			<td ab-tip title="任务创建时通知任务候选人处理任务">{{nodeMessage.desc}}</td>

@@ -269,6 +269,11 @@ jQuery.extend({
 		if(url && url.indexOf("http://")==-1 && url.substring(0,1)==="/"){
 			 var pathname =window.document.location.pathname;
 			 var projectPath = pathname.substring(0,pathname.substr(1).indexOf('/')+1);
+			 
+			 if(projectPath === '/flow-editor' || projectPath === "/bpm" || projectPath === "/sys" || projectPath === "/org" || projectPath === "/form"){
+				 return url;
+			 }
+			 
 			 return projectPath+url;
 		}
 		return url;

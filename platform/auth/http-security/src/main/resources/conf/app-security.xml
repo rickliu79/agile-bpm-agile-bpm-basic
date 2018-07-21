@@ -43,7 +43,9 @@
     <bean id="csrfFilter" class="com.dstz.security.filter.RefererCsrfFilter">
         <property name="ingores">
             <list>
-                <value>/login.*</value>
+                 <value>127.0.0.1</value>
+                 <value>47.106.139.29</value>
+                 <value>47.106.139.29</value>
             </list>
         </property>
     </bean>

@@ -1,37 +1,52 @@
 package com.dstz.sys2.permission.impl;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dstz.base.core.util.AppUtil;
+import com.dstz.base.core.util.ThreadMapUtil;
+import com.dstz.org.api.model.IGroup;
+import com.dstz.org.api.service.GroupService;
 import com.dstz.sys.api2.permission.IPermissionCalculator;
+import com.dstz.sys.util.ContextUtil;
 /**
  * <pre>
- * 描述：组
+ * 描述：组 抽象类
  * 作者:aschs
  * 邮箱:aschs@qq.com
  * 日期:2018年5月8日
  * 版权:summer
  * </pre>
  */
-@Service
-public class GroupPermissionCalculator implements IPermissionCalculator {
+public abstract class GroupPermissionCalculator implements IPermissionCalculator {
 	/**
 	 * 线程变量ThreadMapUtil中关于当前权限解析器的线程变量
 	 */
 	private static String threadMapKey = "com.dstz.sys.permission.impl.GroupPermission";
 	
-    @Override
-    public String getTitle() {
-        return "组";
-    }
-
-    @Override
-    public String getType() {
-        return "group";
-    }
-
 	@Override
 	public boolean haveRights(JSONObject json) {
+		Map<String, List<IGroup>> allGroup = (Map<String, List<IGroup>>) ThreadMapUtil.get(threadMapKey);
+		if(allGroup ==null) {
+			GroupService groupService = AppUtil.getBean(GroupService.class);
+			allGroup = groupService.getAllGroupByUserId(ContextUtil.getCurrentUserId());
+			ThreadMapUtil.put(threadMapKey, allGroup);
+		}
+		
+		List<IGroup> groups;
+		if("post".equals(this.getType())) {//岗位的命名不一致
+			groups = allGroup.get("position");
+		}else {
+			groups = allGroup.get(this.getType());
+		}
+		
+		for(IGroup group:groups) {
+			if(json.getString("id").contains(group.getId())) {
+				return true;
+			}
+		}
+		
 		return false;
 	}
 	

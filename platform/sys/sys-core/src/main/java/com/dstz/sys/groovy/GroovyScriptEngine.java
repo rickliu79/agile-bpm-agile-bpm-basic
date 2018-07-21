@@ -9,10 +9,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.sys.api.groovy.IGroovyScriptEngine;
 import com.dstz.sys.api.groovy.IScript;
@@ -67,9 +65,7 @@ public class GroovyScriptEngine implements IGroovyScriptEngine, ApplicationListe
         
         if(logger.isDebugEnabled()) {
         	logger.debug("执行:" + script);
-        	logger.debug("variables ========================start==================================");
-        	logger.debug(JSON.toJSONString(vars));
-        	logger.debug("variables ========================end================================");
+        	logger.debug("variables:" +vars+"");
         }
         GroovyShell shell = new GroovyShell(groovyBinding);
         this.setParameters(shell, vars);

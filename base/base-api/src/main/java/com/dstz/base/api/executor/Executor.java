@@ -7,49 +7,6 @@ package com.dstz.base.api.executor;
  * @author aschs
  */
 public interface Executor<T> extends Comparable<Executor<T>> {
-    /**
-     * 执行器的类型的枚举
-     *
-     * @author aschs
-     */
-    public enum TYPE {
-        /**
-         * 必要性执行器，没有这个执行器，执行器服务功能无法正常运行
-         */
-        NECESSARY("necessary", "必要性执行器"),
-        /**
-         * 非必要性执行器，没有这个执行器服务，服务能跑，但可能有些东西不完整
-         */
-        UNNECESSARY("unnecessary", "非必要性执行器");
-
-        private String key;
-        private String desc;
-
-        private TYPE(String key, String desc) {
-            this.key = key;
-            this.desc = desc;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public String getDesc() {
-            return desc;
-        }
-
-        /**
-         * <pre>
-         * 根据key来判断是否跟当前一致
-         * </pre>
-         *
-         * @param key
-         * @return
-         */
-        public boolean equalsWithKey(String key) {
-            return this.key.equals(key);
-        }
-    }
 
     /**
      * <pre>

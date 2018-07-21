@@ -182,7 +182,7 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 				less : "",// 小于
 				format : "yyyy-MM-dd HH:mm:ss"
 			};
-		} else if (ctrl.type === "dic" || ctrl.type === "identity") {// 数据字典
+		} else if (ctrl.type === "dic" || ctrl.type === "serialno") {// 数据字典
 			// 或
 			// 流水号
 			ctrl.config = {

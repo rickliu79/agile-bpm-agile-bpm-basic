@@ -91,7 +91,8 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 	   		} catch (e) {
 	   		}
 	   	}
-		$frame[0].contentWindow.document.location.reload(true);
+		$frame.attr("src", menu.url);
+	//	$frame[0].contentWindow.document.location.reload(true); IE 下无效
 	}
 	
 	scope.closeTab = function(menu){

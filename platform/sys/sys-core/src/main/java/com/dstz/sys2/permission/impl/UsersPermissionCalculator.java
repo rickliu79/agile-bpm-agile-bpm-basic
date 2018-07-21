@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.sys.api2.permission.IPermissionCalculator;
+import com.dstz.sys.util.ContextUtil;
 
 /**
  * <pre>
@@ -29,6 +30,11 @@ public class UsersPermissionCalculator implements IPermissionCalculator {
 
 	@Override
 	public boolean haveRights(JSONObject json) {
+		for(String id :json.getString("id").split(",")) {
+			if(id.equals(ContextUtil.getCurrentUserId())) {
+				return true;
+			}
+		}
 		return false;
 	}
 

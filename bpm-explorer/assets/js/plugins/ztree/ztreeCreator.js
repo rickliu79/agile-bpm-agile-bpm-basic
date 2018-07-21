@@ -203,7 +203,11 @@ window.ZtreeCreator = function(treeId,url,initJson){
 		}
 
 		var btnOffset =  target.offset();
+		btnOffset.top = btnOffset.top + target.outerHeight();
+		
 		jQuery("#"+_menuContent).css({left:btnOffset.left + "px", top:btnOffset.top + target.outerHeight() + "px"}).slideDown("fast");
+		jQuery("#"+_menuContent).offset(btnOffset);
+		
 		jQuery("body").bind("mousedown",onBodyDown);
 	}
 	this.hideMenu =function(){
