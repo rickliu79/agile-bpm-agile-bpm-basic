@@ -4,7 +4,7 @@
 
 项目部署、实施文档 请参考 http://doc.agilebpm.cn/  
 
-PC在线测试地址 http://test.agilebpm.cn/login.html
+PC在线测试地址（1核Linux机器，部署了一堆东西，略慢请见谅） http://47.106.139.29:8081/bpm-explorer/login.html
 
 功能缺陷请在项目上创建建 **issues**，可以查看已完成issues来寻找问题解决方法
 
