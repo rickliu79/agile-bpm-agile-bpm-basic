@@ -10,7 +10,7 @@
     <!-- 子模块 -->
     <modules>
         <module>base</module>
-        <module>platform</module>
+        <module>platform</module> 
         <module>web</module>
     </modules>
 
