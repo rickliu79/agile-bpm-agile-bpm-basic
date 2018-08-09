@@ -10,7 +10,7 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.encrypt.Base64;
 import com.dstz.base.core.util.BeanUtils;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.core.util.time.DateFormatUtil;
 import com.dstz.base.db.model.query.DefaultFieldLogic;
 import com.dstz.base.db.model.query.DefaultQueryField;
@@ -531,7 +531,14 @@ public class RequestUtil {
         Enumeration<String> paramNames = request.getParameterNames();
         while (paramNames.hasMoreElements()) {
             String key = paramNames.nextElement();
-            if (!key.contains("^")) {
+            //老版本用的^但是Tomcat8 get请求不支持此类型参数。故这里做兼容使用-
+            String specialSplitKey = "$";
+            if (key.contains("^")) {
+            	specialSplitKey = "^";
+            }
+            
+            
+            if (!key.contains(specialSplitKey)) {
                 continue;
             }
 
@@ -540,7 +547,7 @@ public class RequestUtil {
                 continue;
             }
 
-            String[] aryParamKey = key.split("\\^");
+            String[] aryParamKey = key.split("\\"+specialSplitKey);
             if (aryParamKey.length != 2) {
                 continue;
             }
@@ -556,9 +563,9 @@ public class RequestUtil {
             } else if ("D".equals(columnType)) {
                 columnType = ColumnType.DATE.getKey();
             }
-
+            //仅仅将参数设置进入mapper环境
             if (condition.length() == 1) {
-                queryFilter.addParamsFilter(columnName, BeanUtils.getValue(columnType, QueryOP.EQUAL, value));
+                queryFilter.addParamsFilter(columnName, BeanUtils.getValue(columnType,value));
             } else {
                 QueryOP queryOP = QueryOP.getByVal(condition.substring(1, condition.length()));
                 andFieldLogic.getWhereClauses().add(new DefaultQueryField(columnName, queryOP, BeanUtils.getValue(columnType, queryOP, value)));

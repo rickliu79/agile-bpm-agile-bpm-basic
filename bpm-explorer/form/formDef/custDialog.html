@@ -2,7 +2,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="../../build/common/ngEdit.css" rel="stylesheet">
-<script type="text/javascript" src="../../build/common/ngEdit-ori.js"></script>
+<script type="text/javascript" src="../../build/common/ngEdit.js"></script>
 
 <script type="text/javascript">
 	var app = angular.module('app', [ 'baseDirective' ]);
@@ -19,6 +19,8 @@
 				$scope.targetNgModelPath =  $scope.data.targetNgModelPath;
 				getDialog($scope.data.dialogKey,$scope.data.dialogName);
 			}
+			$scope.dialogParam =  $scope.data.dialogParam || {};
+			$scope.dialogSetting = $scope.data.dialogSetting || {};
 
 			//获取bo信息
 			var url = __ctx + "/bus/businessObject/getObject";
@@ -90,7 +92,8 @@
 					}
 				}
 			}
-			
+			//初始化可以为对话框设置的scope阐述
+			$scope.initScopeValuePaths();
 		};
 		// 第三层往后，均不在支持一对一的主表设值
 		function setThridChildTablePath(children,parentPath){
@@ -140,9 +143,44 @@
 				angular.forEach($scope.dialog.returnFields, function(field) {
 					$scope.dialog.returnFieldList.push(field.returnName.toLowerCase());
 				});
+				
+				
+				//说明重新选择了对话框，则重置参数调节
+				if(!dialogName){
+					$scope.dialogParam = {};
+					//更多可以在此处配置
+					$scope.dialogSetting = {multiple:$scope.dialog.multiple};
+				}
+				$scope.dialogParamArray = [];
+				angular.forEach($scope.dialog.conditionFields, function(condition) {
+					if(!condition.value.ctrlType && !condition.value.text){
+						var param = {key:condition.columnName,name:condition.showName,path:""};
+						if($scope.dialogParam[condition.columnName]){
+							param.path = $scope.dialogParam[condition.columnName];
+						}
+						$scope.dialogParamArray.push(param) 
+					}
+				});
+				
 			});
 		}
 		
+		//获取可设值得对话框参数值
+		$scope.initScopeValuePaths = function(){
+			$scope.scopeValuePath = [];
+			angular.forEach($scope.ngModelPathList, function(ngModelPath) {
+				//处理当前选中的子表作用域
+				if(currentSubTableName === ngModelPath.key){
+					angular.forEach(ngModelPath.columns,function(colom){
+						$scope.scopeValuePath.push({path:ngModelPath.key+"."+colom.key,name: ngModelPath.comment+"-"+colom.comment});
+					});
+				}
+				
+				angular.forEach($scope.bo.relation.table.columns,function(colom){
+					$scope.scopeValuePath.push({path:"data."+$scope.boCode+"."+colom.key,name:$scope.bo.relation.table.comment+"-"+colom.comment});
+				});
+			});
+		}
 		 
 		$scope.clearMappingSet = function(){
 			$scope.targetNgModelPath = "";
@@ -158,12 +196,21 @@
 			$.Toast.error("请完善表单！");
 			return;
 		}
+		var dialogParam = {};
+		angular.forEach(scope.dialogParamArray,function(param){
+			if(param.path){
+				dialogParam[param.key] = param.path;
+			}
+		});
+		
 		
 		var data = {
 			mapList:scope.data.mapList,
-			dialogKey:scope.dialog.key,
-			dialogName:scope.dialog.name,
-			targetNgModelPath:scope.targetNgModelPath
+			dialogKey:scope.dialog.key,		//对话框KEY
+			dialogName:scope.dialog.name,	//对话框的名字
+			targetNgModelPath:scope.targetNgModelPath, // ngModel
+			dialogParam:dialogParam,	//对话框动态参数
+			dialogSetting:scope.dialogSetting //是否多选二次配置
 		}
 		return data;
 	}
@@ -181,7 +228,7 @@
 			<tr ng-show="ngModelPathList.length>0">
 				<th>赋值对象(选填)</th>
 				<td style="width: 300px">
-					<select class="form-control" ng-model="targetTable" ng-change="clearMappingSet()" ng-options="m as m.comment for m in ngModelPathList">
+					<select class="form-control" ng-model="targetTable" ab-validate="{required:true}" ng-change="clearMappingSet()" ng-options="m as m.comment for m in ngModelPathList">
 						<option value="">请选择</option>
 					</select>
 				</td>
@@ -192,6 +239,26 @@
 					<label ng-show="targetTable.pushPath" ab-tip="{}" title="对话框选择数据后，对当前子表以添加行的形式push 数据，常用于从数据库选择子表数据，做特殊场景的添加按钮">
 						<input type="radio" ng-model="targetNgModelPath" ab-validate="{require:true}"  value="{{targetTable.pushPath}}"   on-click="initngModelPathList()">{{targetTable.comment}}数组PUSH </label>
 				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					 <table ng-if="dialogParamArray.length>0" class="form-table" >
+					 	<tr>
+					 		<th>对话框动态参数</th><th>参数值</th>
+					 	</tr>
+					 	<tr ng-repeat="param in dialogParamArray">
+					 		<td>{{param.name}}</td>
+					 		<td>
+					 			<select ng-options="m.path as m.name for m in scopeValuePath" ng-model="param.path" ng-show="!showScript">
+					 			</select>
+					 			<input type="text" ng-model="param.path" class="form-control" ng-show="showScript">
+					 			<label ab-tip title="可以手动写js脚本获取当前作用域下值"> <input type="checkbox" ng-model="showScript" >展示取值脚本</label>
+					 		</td>
+					 	</tr>
+					 </table>
+				</td>
+				<th>对话框特殊属性配置</th>
+				<td><label><span ab-boolean text="多选/单选" ab-tip title="不配置则使用默认属性" ng-model="dialogSetting.multiple"></label></td>
 			</tr>
 		</table>
 		<div class="btn-group toolbar">

@@ -94,7 +94,7 @@
 		p.height_,p.display_content_,p.more_url_,l.cust_width_,l.cust_height_,l.id_ as custLayOutId
 		FROM sys_workbench_panel p inner join sys_workbench_layout l on p.id_ = l.panel_id_
 	    ${rightsSql}
-		and l.user_id_ = #{userId} )t   order by sn_
+		where l.user_id_ = #{userId} )t   order by sn_
 	</select>
 
     <select id="getUsablePanelsByUserRight" parameterType="java.util.Map" resultMap="WorkbenchPanel">

@@ -5,7 +5,7 @@ import com.dstz.base.api.query.Direction;
 import com.dstz.base.api.query.FieldSort;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.query.DefaultFieldSort;
 import com.dstz.base.db.model.query.DefaultPage;
 import com.dstz.base.db.model.query.DefaultQueryFilter;

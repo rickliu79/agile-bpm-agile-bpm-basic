@@ -24,14 +24,6 @@ public interface RoleManager extends Manager<String, Role> {
     List<Role> getListByUserId(String userId);
 
     /**
-     * 根据用户账号获取角色列表
-     *
-     * @param userId
-     * @return
-     */
-    List<Role> getListByAccount(String account);
-
-    /**
      * 判断角色是否存在。
      *
      * @param role

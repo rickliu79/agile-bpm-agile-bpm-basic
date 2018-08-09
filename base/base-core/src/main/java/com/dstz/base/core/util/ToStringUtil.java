@@ -1,7 +1,5 @@
 package com.dstz.base.core.util;
 
-import com.dstz.base.core.util.string.StringUtil;
-
 import java.lang.reflect.Method;
 
 /**

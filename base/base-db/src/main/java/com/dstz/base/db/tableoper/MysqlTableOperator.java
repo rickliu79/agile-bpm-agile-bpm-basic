@@ -3,7 +3,7 @@ package com.dstz.base.db.tableoper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.dstz.base.api.constant.ColumnType;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.api.table.DbType;
 import com.dstz.base.db.dboper.DbOperator;
 import com.dstz.base.db.dboper.DbOperatorFactory;

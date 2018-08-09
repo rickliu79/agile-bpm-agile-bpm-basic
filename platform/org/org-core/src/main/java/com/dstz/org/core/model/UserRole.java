@@ -1,7 +1,9 @@
 package com.dstz.org.core.model;
 
-import com.dstz.base.core.model.BaseModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.dstz.base.core.model.BaseModel;
+import com.dstz.org.api.model.IUserRole;
 
 
 /**
@@ -9,7 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * 描述：用户角色管理 实体对象
  * </pre>
  */
-public class UserRole extends BaseModel {
+public class UserRole extends BaseModel implements IUserRole {
 
     /**
      * role_id_

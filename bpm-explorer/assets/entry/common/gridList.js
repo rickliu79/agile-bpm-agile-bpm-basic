@@ -34,5 +34,3 @@ require('../../js/plugins/ztree/ztreeCreator.js');
 require('expose-loader?toastr!../../js/plugins/toastr/toastr.min.js');
 require('../../js/plugins/layer/layer.min.js');
 require('../../js/plugins/layer/skin/layer.css');
-
-

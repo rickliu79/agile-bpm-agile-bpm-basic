@@ -44,6 +44,14 @@ UE.registerUI('custDialog', function(editor, uiName) {
 						returnField : v.name.replace("value-", "")
 					});
 				});
+				
+				if($(selectedDom).attr("param")){
+					data.dialogParam = parseToJson($(selectedDom).attr("param"));
+				}
+				if($(selectedDom).attr("dialog-setting")){
+					data.dialogSetting = parseToJson($(selectedDom).attr("dialog-setting"));
+				}
+				
 				conf.passData.data = data;
 			}
 
@@ -54,6 +62,9 @@ UE.registerUI('custDialog', function(editor, uiName) {
 					elm = $('<a class="btn btn-primary fa-search" href="javascript:void(0)">' + data.dialogName + '</a>');
 					elm.attr("ab-cust-dialog", data.dialogKey);
 					elm.attr("ng-model",data.targetNgModelPath);
+					
+					elm.attr("param",JSON.stringify(data.dialogParam));
+					elm.attr("dialog-setting",JSON.stringify(data.dialogSetting));
 					
 					angular.forEach(data.mapList, function(map) {
 						elm.attr("value-" + map.returnField, map.key);

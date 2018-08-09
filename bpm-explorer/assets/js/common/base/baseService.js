@@ -28,9 +28,9 @@ var base = angular.module("base", [])
 	      },
 	      'response': function(response) {
 	    	  if(response.data && !response.data.isOk && response.data.code==="401" && window.location.href.indexOf("index") == -1 && !window.location.href.endWith("bpm-explorer/")){
+	    		  jQuery.Toast.error("登录超时，请重新登录");
 	    		  console.info(response.data);
 	    		  console.info(window.location.href);
-	    		  alert("登录超时，请重新登录， TODO登录对话框!");
 			  }
 	    	  if(response.data && !response.data.isOk && response.data.code==="403" ){
 	    		  alert("访问受限! "+data.msg);

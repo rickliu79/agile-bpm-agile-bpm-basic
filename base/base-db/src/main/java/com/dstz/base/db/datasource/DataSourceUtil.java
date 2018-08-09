@@ -1,7 +1,8 @@
 package com.dstz.base.db.datasource;
 
 import com.dstz.base.core.util.AppUtil;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;

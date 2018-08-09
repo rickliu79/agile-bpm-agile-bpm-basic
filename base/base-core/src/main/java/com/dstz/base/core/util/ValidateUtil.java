@@ -2,7 +2,6 @@ package com.dstz.base.core.util;
 
 import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.exception.BusinessException;
-import com.dstz.base.core.util.string.StringUtil;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

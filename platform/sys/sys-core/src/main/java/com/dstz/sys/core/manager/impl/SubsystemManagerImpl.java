@@ -61,7 +61,7 @@ public class SubsystemManagerImpl extends BaseManager<String, Subsystem> impleme
     @Override
     public List<Subsystem> getCuurentUserSystem() {
         IUser user = ContextUtil.getCurrentUser();
-        if (user.isAdmin()) {
+        if (ContextUtil.isAdmin(user)) {
             return subsystemDao.getList();
         }
 

@@ -14,7 +14,7 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.BeanUtils;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.datasource.DataSourceUtil;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.impl.BaseManager;

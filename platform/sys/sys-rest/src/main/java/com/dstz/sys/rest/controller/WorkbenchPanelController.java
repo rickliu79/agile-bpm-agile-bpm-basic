@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.response.impl.ResultMsg;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.Manager;
 import com.dstz.base.rest.BaseController;
@@ -112,7 +112,7 @@ public class WorkbenchPanelController extends BaseController<WorkbenchPanel>{
 		
 		List<WorkbenchPanel> workbenchPanelList = null;
 		
-		if(StringUtil.isNotEmpty(layoutKey) && ContextUtil.getCurrentUser().isAdmin()){
+		if(StringUtil.isNotEmpty(layoutKey) && ContextUtil.currentUserIsAdmin()){
 			workbenchPanelList = workbenchPanelManager.getBylayoutKey(layoutKey);
 		}else{
 			workbenchPanelList = workbenchPanelManager.getByUserId(ContextUtil.getCurrentUserId());

@@ -12,17 +12,13 @@
         <security:logout success-handler-ref="logoutSuccessHandler"/>
 
         <security:custom-filter ref="csrfFilter" after="CAS_FILTER"/>
-        <security:custom-filter ref="xssFilter" before="FORM_LOGIN_FILTER"/>
 
         <security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="securityInterceptor"/>
         <security:access-denied-handler ref="accessDeniedHandler"/>
         <security:csrf disabled="true"/>
     </security:http>
 
-    <!-- 待改造https://www.jianshu.com/p/672b6390c25f
-        <security:csrf request-matcher-ref="csrfSecurityRequestMatcher" token-repository-ref="tokenRepository" />
-
-      <b:bean id="tokenRepository" class="org.springframework.security.web.csrf.CookieCsrfTokenRepository"  p:cookieHttpOnly="false"/> -->
+    <!--  <security:custom-filter ref="xssFilter" before="FORM_LOGIN_FILTER"/>  部分容器有bug先移除掉 xss校验-->
 
     <bean id="authenticationLoginEntry" class="com.dstz.security.forbidden.DefualtAuthenticationEntryPoint"/>
     <bean id="accessDeniedHandler" class="com.dstz.security.forbidden.DefaultAccessDeniedHandler"/>
@@ -39,6 +35,7 @@
             </list>
         </property>
     </bean>
+    
     <!-- 防止CSRF攻击 -->
     <bean id="csrfFilter" class="com.dstz.security.filter.RefererCsrfFilter">
         <property name="ingores">

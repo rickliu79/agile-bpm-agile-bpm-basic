@@ -7,6 +7,7 @@
 	
 	<link href="./build/home/index.css" rel="stylesheet">
 	<script type="text/javascript" src="./build/home/index.js"></script>
+	<script type="text/javascript" src="./assets/js/plugins/pace/pace.min.js"></script>
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden" >
 	<div id="wrapper">
@@ -20,20 +21,6 @@
            		<li class="nav-header">
                      <div class="dropdown profile-element">
                          <span><img alt="image"   src="./assets/img/logo/4.png" style="width: 166px; height: 57px;"/></span>
-                         <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:void(0);">
-                             <span class="clear">
-                             <span class="text-muted text-xs block">{{userMsg.user.fullname}}<b class="caret"></b></span>
-                             </span>
-                         </a>
-                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                             <li><a class="J_menuItem" href="javascript:void(0)">{{userMsg.currentOrg.name}}</a>
-                             </li>
-                             <li><a class="J_menuItem" onclick="userInfo()" href="javascript:void(0)">个人资料</a>
-                             </li>
-                             <li class="divider"></li>
-                             <li><a href="#" ng-click="logout()">安全退出</a>
-                             </li>
-                         </ul>
                      </div>
                      <div class="logo-element">ANGILE-BPM
                      </div>
@@ -73,7 +60,21 @@
                    		  	<i class="fa fa-{{topMenu.icon ||'server'}} fa-2x" style="display: block;" ></i> {{topMenu.name}}
                    		</a>
                     </div>
-                    
+                    <ul class="nav navbar-top-links navbar-right">
+                    	<li>
+                    	 <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:void(0);">
+                             <span class="clear">
+                             <span class="text-muted text-xs block ">{{userMsg.user.fullname}}<b class="caret"></b></span>
+                             </span>
+                         </a>
+                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                             <li><a class="J_menuItem" href="javascript:void(0)">{{userMsg.currentOrg.name}}</a></li>
+                             <li><a class="J_menuItem" onclick="userInfo()" href="javascript:void(0)">个人资料</a></li>
+                             <li class="divider"></li>
+                             <li><a href="#" ng-click="logout()">安全退出</a></li>
+                         </ul>
+                         </li>
+                    </ul>
                     <ul class="nav navbar-top-links navbar-right">
                         <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="javascript:void(0);">
@@ -83,7 +84,7 @@
                                 <li>
                                     <a href="#">
                                         <div>
-                                            <i class="fa fa-envelope fa-fw"></i> 您有16条未读消息
+                                            <i class="fa fa-envelope fa-fw"></i> 您有**条未读消息
                                             <span class="pull-right text-muted small">4分钟前</span>
                                         </div>
                                     </a>
@@ -92,7 +93,7 @@
                                 <li>
                                     <a href="profile.html">
                                         <div>
-                                            <i class="fa fa-qq fa-fw"></i> 3条新回复
+                                            <i class="fa fa-qq fa-fw"></i> *条新回复
                                             <span class="pull-right text-muted small">12分钟钱</span>
                                         </div>
                                     </a>
@@ -131,10 +132,10 @@
                     <ul role="menu" class="dropdown-menu dropdown-menu-right">
                         <li class="J_tabShowActive"><a>定位当前选项卡</a>
                         </li>
-                        <li class="divider"></li>
-                        <li class="J_tabCloseAll"><a>关闭全部选项卡</a>
+                        <li class="divider" ng-click="scrollCurrent()"></li>
+                        <li class="J_tabCloseAll" ng-click="closeAll()"><a>关闭全部选项卡</a>
                         </li>
-                        <li class="J_tabCloseOther"><a>关闭其他选项卡</a>
+                        <li class="J_tabCloseOther" ng-click="closeOthers()"><a>关闭其他选项卡</a>
                         </li>
                     </ul>
                 </div>
@@ -142,7 +143,7 @@
             <!-- iframe 内容区 -->
             <div class="row J_mainContent" id="content-main">
                 <iframe class="J_iframe" width="100%" height="100%"  frameborder="0"  seamless ng-repeat="menu in openedMenu" 
-                	src="" style="display:{{menu.active=='active'?'block':'none'}};" id="{{menu.id}}iframe"></iframe> 
+                	ng-src="{{menu.url}}" style="display:{{menu.active=='active'?'block':'none'}};" id="{{menu.id}}iframe"></iframe> 
             </div>
             
             <div class="footer">

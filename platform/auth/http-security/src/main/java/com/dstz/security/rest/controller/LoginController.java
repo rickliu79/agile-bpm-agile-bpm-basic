@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.response.impl.ResultMsg;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.api.service.UserService;

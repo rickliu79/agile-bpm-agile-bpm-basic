@@ -6,14 +6,14 @@
     <parent>
         <artifactId>org</artifactId>
         <groupId>com.dstz.agilebpm</groupId>
-        <version>1.1.3</version>
+        <version>1.1.5</version>
     </parent>
     <artifactId>org-rest</artifactId>
     <name>org-rest</name>
-    <dependencies>
+    <dependencies> 
         <dependency>
             <groupId>com.dstz.agilebpm</groupId>
-            <artifactId>org-core</artifactId>
+            <artifactId>org-adaptor</artifactId>
         </dependency>
 
         <dependency>

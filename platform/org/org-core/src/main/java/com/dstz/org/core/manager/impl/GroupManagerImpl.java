@@ -32,7 +32,6 @@ public class GroupManagerImpl extends BaseManager<String, Group> implements Grou
     }
 
     public List<Group> getByUserId(String userId) {
-    	groupDao.getByCode("1");
         return groupDao.getByUserId(userId);
     }
 

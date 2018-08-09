@@ -6,9 +6,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dstz.base.api.exception.SerializeException;
 
 public class SerializeUtil {
+	protected static Logger LOG = LoggerFactory.getLogger(SerializeUtil.class);
 
     /**
      * 序列化
@@ -36,7 +40,7 @@ public class SerializeUtil {
                     baos.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+            	LOG.warn("序列化异常",e);
             }
         }
     }
@@ -61,7 +65,7 @@ public class SerializeUtil {
                     bais.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+            	LOG.warn("反序列化异常",e);
             }
         }
     }

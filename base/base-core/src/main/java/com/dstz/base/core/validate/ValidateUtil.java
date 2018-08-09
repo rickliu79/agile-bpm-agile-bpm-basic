@@ -2,7 +2,8 @@ package com.dstz.base.core.validate;
 
 import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.exception.BusinessException;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

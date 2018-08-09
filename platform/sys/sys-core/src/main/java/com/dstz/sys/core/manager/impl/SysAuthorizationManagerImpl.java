@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dstz.base.core.util.BeanUtils;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.org.api.model.IGroup;
 import com.dstz.org.api.service.GroupService;
@@ -60,7 +60,7 @@ public class SysAuthorizationManagerImpl extends BaseManager<String, SysAuthoriz
      *
      * @param targetKey    为permissionTarget的 字段ID
      * @param targetObject 为授权对象名字
-     * @rightsSql = inner join sys_authorization rights on id_ = rights.rights_id_ where rights_permission_code_ in ( id-type,groupid-type )
+     * @rightsSql = inner join sys_authorization rights on id_ = rights.rights_id_ and rights_permission_code_ in ( id-type,groupid-type )
      */
     @Override
     public Map<String, Object> getUserRightsSql(RightsObjectConstants rightsObject, String userId, String targetKey) {
@@ -78,7 +78,7 @@ public class SysAuthorizationManagerImpl extends BaseManager<String, SysAuthoriz
             }
             sb.append("'").append(r).append("'");
         }
-        sb.insert(0, "inner join sys_authorization rights on " + targetKey + " = rights.rights_target_  where  rights.rights_object_ ='" + rightsObject.key() + "' and rights_permission_code_ in ( ");
+        sb.insert(0, "inner join sys_authorization rights on " + targetKey + " = rights.rights_target_  and  rights.rights_object_ ='" + rightsObject.key() + "' and rights_permission_code_ in ( ");
         sb.append(")");
 
         Map<String, Object> param = new HashMap<String, Object>();

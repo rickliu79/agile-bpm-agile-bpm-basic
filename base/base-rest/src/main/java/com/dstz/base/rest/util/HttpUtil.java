@@ -1,22 +1,12 @@
 package com.dstz.base.rest.util;
 
-import com.dstz.base.core.util.FileUtil;
-import com.dstz.base.core.util.MyX509TrustManager;
-import com.dstz.base.core.util.ZipUtil;
-import com.dstz.base.core.util.string.StringUtil;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.*;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -27,6 +17,28 @@ import java.security.NoSuchProviderException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import com.dstz.base.core.util.FileUtil;
+import com.dstz.base.core.util.MyX509TrustManager;
+import com.dstz.base.core.util.StringUtil;
+import com.dstz.base.core.util.ZipUtil;
 
 
 public class HttpUtil {

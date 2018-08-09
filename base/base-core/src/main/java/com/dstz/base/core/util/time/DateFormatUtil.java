@@ -10,46 +10,47 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.dstz.base.core.util.string.StringPool;
+import com.dstz.base.api.constant.StringConstants;
 
 
 public class DateFormatUtil {
+	
     /**
      * yyyy-MM-dd 时间格式
      */
     public static final DateFormat DATE_FORMAT_DATE = new SimpleDateFormat(
-            StringPool.DATE_FORMAT_DATE);
+            StringConstants.DATE_FORMAT_DATE);
     /**
      * yyyy-MM-dd HH:mm:ss 时间格式
      */
     public static final DateFormat DATE_FORMAT_DATETIME = new SimpleDateFormat(
-            StringPool.DATE_FORMAT_DATETIME);
+            StringConstants.DATE_FORMAT_DATETIME);
     /**
      * yyyy-MM-dd HH:mm 时间格式
      */
     public static final DateFormat DATE_FORMAT_DATETIME_NOSECOND = new SimpleDateFormat(
-            StringPool.DATE_FORMAT_DATETIME_NOSECOND);
+            StringConstants.DATE_FORMAT_DATETIME_NOSECOND);
 
     /**
      * yyyy-MM-dd HH 时间格式
      */
     public static final DateFormat DATE_FORMAT_DATETIME_NOMINUTE = new SimpleDateFormat(
-            StringPool.DATE_FORMAT_DATETIME_NOMINUTE);
+            StringConstants.DATE_FORMAT_DATETIME_NOMINUTE);
     /**
      * HH:mm:ss 时间格式
      */
     public static final DateFormat DATE_FORMAT_TIME = new SimpleDateFormat(
-            StringPool.DATE_FORMAT_TIME);
+            StringConstants.DATE_FORMAT_TIME);
     /**
      * HH:mm 时间格式
      */
     public static final DateFormat DATE_FORMAT_TIME_NOSECOND = new SimpleDateFormat(
-            StringPool.DATE_FORMAT_TIME_NOSECOND);
+            StringConstants.DATE_FORMAT_TIME_NOSECOND);
     /**
      * yyyy-MM-dd HH:mm:ss.SSS 时间格式
      */
     public static final DateFormat DATE_FORMAT_TIMESTAMP = new SimpleDateFormat(
-            StringPool.DATE_FORMAT_TIMESTAMP);
+            StringConstants.DATE_FORMAT_TIMESTAMP);
 
     private static final Log logger = LogFactory.getLog(DateFormatUtil.class);
 
@@ -62,15 +63,15 @@ public class DateFormatUtil {
      */
     public static Date parse(String dateString){
     	try {
-    		if (dateString.trim().indexOf(StringPool.SPACE) > 0
-                    && dateString.trim().indexOf(StringPool.DOT) > 0) {
+    		if (dateString.trim().indexOf(StringConstants.SPACE) > 0
+                    && dateString.trim().indexOf(StringConstants.DOT) > 0) {
                 return new java.sql.Timestamp(DATE_FORMAT_TIMESTAMP.parse(
                         dateString).getTime());
-            } else if (dateString.trim().indexOf(StringPool.SPACE) > 0) {
-                if (dateString.trim().indexOf(StringPool.COLON) > 0) {
+            } else if (dateString.trim().indexOf(StringConstants.SPACE) > 0) {
+                if (dateString.trim().indexOf(StringConstants.COLON) > 0) {
                     // 如果有两个:，则有时分秒,一个冒号只有时分
-                    if (dateString.trim().indexOf(StringPool.COLON) != dateString
-                            .trim().lastIndexOf(StringPool.COLON)) {
+                    if (dateString.trim().indexOf(StringConstants.COLON) != dateString
+                            .trim().lastIndexOf(StringConstants.COLON)) {
                         return new java.sql.Timestamp(DATE_FORMAT_DATETIME.parse(
                                 dateString).getTime());
                     } else {
@@ -81,10 +82,10 @@ public class DateFormatUtil {
                     return new java.sql.Timestamp(DATE_FORMAT_DATETIME_NOMINUTE
                             .parse(dateString).getTime());
                 }
-            } else if (dateString.indexOf(StringPool.COLON) > 0) {
+            } else if (dateString.indexOf(StringConstants.COLON) > 0) {
                 // 如果有两个:，则有时分秒,一个冒号只有时分
-                if (dateString.trim().indexOf(StringPool.COLON) != dateString
-                        .trim().lastIndexOf(StringPool.COLON)) {
+                if (dateString.trim().indexOf(StringConstants.COLON) != dateString
+                        .trim().lastIndexOf(StringConstants.COLON)) {
                     return new java.sql.Time(DATE_FORMAT_TIME.parse(dateString)
                             .getTime());
                 } else {
@@ -104,7 +105,7 @@ public class DateFormatUtil {
      * 按指定的格式输出string到date
      *
      * @param dateString 时间字符串
-     * @param style      格式化参数 （请使用{@link StringPool}的变量）
+     * @param style      格式化参数 （请使用{@link StringConstants}的变量）
      * @return 格式化的时间
      * @throws ParseException
      */
@@ -124,7 +125,7 @@ public class DateFormatUtil {
      * 将日期字符串转成日期对象，该字符串支持的格式是传入的格式数组
      *
      * @param dateString 日期字符串
-     * @param style      日期格式数组（请使用{@link StringPool}的变量）
+     * @param style      日期格式数组（请使用{@link StringConstants}的变量）
      * @return
      */
     public static Date parse(String dateString, String... style) {
@@ -224,7 +225,7 @@ public class DateFormatUtil {
      */
     public static String format(long millisecond) {
         Date date = new Date(millisecond);
-        return format(date, StringPool.DATE_FORMAT_DATETIME);
+        return format(date, StringConstants.DATE_FORMAT_DATETIME);
     }
 
     /**

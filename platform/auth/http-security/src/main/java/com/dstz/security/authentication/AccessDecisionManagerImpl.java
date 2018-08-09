@@ -1,7 +1,7 @@
 package com.dstz.security.authentication;
 
-import com.dstz.security.constans.PlatformConsts;
-import com.dstz.security.login.model.LoginUser;
+import java.util.Collection;
+
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -11,7 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
+import com.dstz.security.constans.PlatformConsts;
+import com.dstz.security.login.model.LoginUser;
 
 public class AccessDecisionManagerImpl implements AccessDecisionManager {
 

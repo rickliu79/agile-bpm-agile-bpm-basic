@@ -24,7 +24,7 @@ var aryJs__=[ "/assets/app-conf.js",
             "/assets/js/common/tools/customValid.js",
             "/assets/js/common/tools/dialogCreator.js",
             
-            "/assets/js/plugins/pace/pace.min.js",
+           // "/assets/js/plugins/pace/pace.min.js",
             "/assets/js/hplus.js",
             "/assets/js/platform/home/index.js",
             "/assets/js/plugins/metisMenu/jquery.metisMenu.js",

@@ -1,7 +1,6 @@
 package com.dstz.base.core.util;
 
 import com.dstz.base.core.spring.CustPropertyPlaceholderConfigurer;
-import com.dstz.base.core.util.string.StringUtil;
 
 /**
  * 属性工具类。

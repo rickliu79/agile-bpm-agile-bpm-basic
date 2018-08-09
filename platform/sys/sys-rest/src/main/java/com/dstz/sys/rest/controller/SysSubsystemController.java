@@ -5,7 +5,7 @@ import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.id.UniqueIdUtil;
 import com.dstz.base.db.model.page.PageJson;
 import com.github.pagehelper.Page;
@@ -13,6 +13,7 @@ import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.api.model.IUser;
 import com.dstz.sys.core.manager.SubsystemManager;
+import com.dstz.sys.core.model.Subsystem;
 import com.dstz.sys.core.model.Subsystem;
 import com.dstz.sys.util.ContextUtil;
 import org.springframework.stereotype.Controller;
@@ -58,7 +59,7 @@ public class SysSubsystemController extends GenericController {
     @CatchErr(write2response = true)
     public @ResponseBody
     void getUserSystem(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (!ContextUtil.getCurrentUser().isAdmin()) {
+        if (!ContextUtil.currentUserIsAdmin()) {
             throw new BusinessException("目前仅仅支持超管操作，尚未开发分管授权功能！");
         }
 

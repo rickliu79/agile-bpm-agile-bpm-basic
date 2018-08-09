@@ -28,14 +28,6 @@ public interface GroupManager extends Manager<String, Group> {
     List<Group> getByUserId(String userId);
 
     /**
-     * 根据用户账号获取组织列表
-     *
-     * @param account
-     * @return
-     */
-    List<Group> getByUserAccount(String account);
-
-    /**
      * 获取主组织。
      *
      * @param userId

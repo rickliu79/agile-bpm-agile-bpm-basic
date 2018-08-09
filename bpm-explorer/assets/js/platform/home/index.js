@@ -53,7 +53,6 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 		if(!menu.defaultUrl){
 			menu.opened = !menu.opened;
 		}
-		
 		if(!menu.url){
 			var url = menu.defaultUrl;
 			if(!url) return;
@@ -73,26 +72,21 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 		if(!hasOpened){
 			scope.openedMenu.push(menu);
 		}
-		
+		if(noReload)return;
 		window.setTimeout(function(){
-			if(!hasOpened){
-				$("#"+menu.id+"iframe").attr("src", menu.url);
-			}
-			scrollToTab($("#"+menu.id));
-		},10)
+			var $frame = $("#"+menu.id+"iframe");
+			if(!$frame[0])return;
+			var index = layer.load();
+			$frame.load(function (){
+				var index = layer.load();
+				layer.close(index);  
+	        });
+		},2)
 	}
 	
 	scope.relaodIfream = function(menu){
 		var $frame = $("#"+menu.id+"iframe");
-		if ($frame.length > 0) {
-	   		try {// 跨域会拒绝访问，这里处理掉该异常
-	   			$frame[0].contentWindow.document.write('');
-	   			//$frame[0].contentWindow.close();
-	   		} catch (e) {
-	   		}
-	   	}
-		$frame.attr("src", menu.url);
-	//	$frame[0].contentWindow.document.location.reload(true); IE 下无效
+		$frame[0].contentWindow.location.reload();
 	}
 	
 	scope.closeTab = function(menu){
@@ -129,6 +123,37 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 		$.getResultData(get,function(){
 			window.location = "login.html";
 		})
+	}
+	scope.closeAll = function(){
+		scope.openedMenu = [{id:"indexpage",active:"active",name:"首页",noclose:true,url:"sys/workbenchPanel/myWorkbench.html"}]; 
+	}
+	scope.cloaseOther = function(){
+		var array = [{id:"indexpage",active:"active",name:"首页",noclose:true,url:"sys/workbenchPanel/myWorkbench.html"}];
+		for(var i=0,item;item = scope.openedMenu[i++];){
+			if(item.active === "active" && item.name !=="首页"){
+				array.push(item);
+			}
+		}
+		 scope.openedMenu = array;
+	}
+	
+	scope.closeOthers = function(){
+		var array = [{id:"indexpage",active:"active",name:"首页",noclose:true,url:"sys/workbenchPanel/myWorkbench.html"}];
+		for(var i=0,item;item = scope.openedMenu[i++];){
+			if(item.active === "active" && item.name !=="首页"){
+				array.push(item);
+			}
+		}
+		 scope.openedMenu = array;
+	}
+	
+	scope.scrollCurrent = function(){
+		for(var i=0,item;item = scope.openedMenu[i++];){
+			if(item.active === "active"){
+				scrollToTab($("#"+item.id))
+				return;
+			}
+		}
 	}
 	 
 	scope.openedMenu = [{id:"indexpage",active:"active",name:"首页",noclose:true,url:"sys/workbenchPanel/myWorkbench.html"}]; 

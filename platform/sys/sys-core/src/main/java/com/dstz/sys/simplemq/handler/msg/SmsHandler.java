@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.dstz.base.core.util.BeanUtils;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.org.api.model.IUser;
 import com.dstz.sys.api.jms.model.msg.NotifyMessage;
 

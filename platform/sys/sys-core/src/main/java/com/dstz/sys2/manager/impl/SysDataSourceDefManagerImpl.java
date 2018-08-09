@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.dstz.base.api.exception.BusinessException;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys2.dao.SysDataSourceDefDao;
 import com.dstz.sys2.manager.SysDataSourceDefManager;

@@ -19,7 +19,7 @@ import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.BeanUtils;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageJson;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;

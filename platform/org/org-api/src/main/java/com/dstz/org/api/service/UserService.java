@@ -1,6 +1,7 @@
 package com.dstz.org.api.service;
 
 import com.dstz.org.api.model.IUser;
+import com.dstz.org.api.model.IUserRole;
 
 import java.util.List;
 
@@ -37,6 +38,13 @@ public interface UserService {
      * @return
      */
     List<IUser> getUserListByGroup(String groupType, String groupId);
+    
+    /**
+     * 获取用户的角色关系
+     * @param userId
+     * @return
+     */
+	List<IUserRole> getUserRole(String userId);
 
 
 }

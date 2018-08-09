@@ -3,6 +3,7 @@ package com.dstz.sys.core.model;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.dstz.base.api.model.IDModel;
+import com.dstz.sys.api.model.system.ISubsystem;
 
 
 /**
@@ -10,7 +11,7 @@ import com.dstz.base.api.model.IDModel;
  * 描述：子系统定义 实体对象
  * </pre>
  */
-public class Subsystem implements IDModel {
+public class Subsystem implements IDModel,ISubsystem {
 
     /**
      * 主键

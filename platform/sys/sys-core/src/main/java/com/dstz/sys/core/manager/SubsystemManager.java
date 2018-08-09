@@ -1,9 +1,9 @@
 package com.dstz.sys.core.manager;
 
+import java.util.List;
+
 import com.dstz.base.manager.Manager;
 import com.dstz.sys.core.model.Subsystem;
-
-import java.util.List;
 
 /**
  * <pre>

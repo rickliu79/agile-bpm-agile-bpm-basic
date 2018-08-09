@@ -1,13 +1,13 @@
 package com.dstz.base.db.model.query;
 
-import com.dstz.base.api.query.QueryField;
-import com.dstz.base.api.query.QueryOP;
-import com.dstz.base.core.util.string.StringPool;
-import com.dstz.base.core.util.time.DateFormatUtil;
-
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import com.dstz.base.api.constant.StringConstants;
+import com.dstz.base.api.query.QueryField;
+import com.dstz.base.api.query.QueryOP;
+import com.dstz.base.core.util.time.DateFormatUtil;
 
 /**
  * 默认条件接口实现类。
@@ -188,7 +188,7 @@ public class DefaultQueryField implements QueryField {
                     sb.append(" and ");
                 }
                 if (obj instanceof Date) {
-                    String dateString = DateFormatUtil.format((Date) obj, StringPool.DATE_FORMAT_DATETIME);
+                    String dateString = DateFormatUtil.format((Date) obj, StringConstants.DATE_FORMAT_DATETIME);
                     sb.append("\"" + dateString + "\"");
                 } else {
                     sb.append("\"" + obj.toString() + "\"");

@@ -6,7 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dstz.base.core.util.BeanUtils;
+import com.dstz.base.core.util.SerializeUtil;
 
 /**
  * 时间操作类
@@ -17,6 +21,7 @@ public class TimeUtil {
     public final static int HOUR = 2;
     public final static int DAY = 3;
     public final static int MONTH = 4;
+	protected static Logger LOG = LoggerFactory.getLogger(TimeUtil.class);
 
     /**
      * 将字符串转固定格式的日期类型
@@ -161,7 +166,7 @@ public class TimeUtil {
             tmp += minute + "分钟";
             return tmp;
         } catch (Exception e) {
-            e.printStackTrace();
+        	LOG.warn("获取时间差异常",e);
             return "-1";
         }
     }
@@ -495,7 +500,7 @@ public class TimeUtil {
             }
             return ca.getTimeInMillis();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.warn("获取时间异常",e);
             return -1;
         }
     }

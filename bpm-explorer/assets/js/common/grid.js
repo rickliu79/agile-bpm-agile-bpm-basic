@@ -199,7 +199,7 @@ $(function() {
 
 function dataCheck(data){
 	if(data.isOk === false && data.code === "401"){
-		 alert("登录超时，请重新登录， TODO登录对话框!");
+		 jQuery.Toast.error("登录超时，请重新登录");
 	}
 }
 

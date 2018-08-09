@@ -3,8 +3,6 @@ package com.dstz.base.core.cache;
 /**
  * 缓存操作接口。
  * 定义了增加缓存，删除缓存，清除缓存，读取缓存接口。
- *
- * @author dstz
  */
 public interface ICache<T extends Object> {
     /**

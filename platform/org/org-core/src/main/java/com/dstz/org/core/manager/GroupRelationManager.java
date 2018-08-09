@@ -32,12 +32,4 @@ public interface GroupRelationManager extends Manager<String, GroupRelation> {
      * @return
      */
     List<GroupRelation> getListByUserId(String userId);
-
-    /**
-     * 根据用户账号获取对应的岗位列表
-     *
-     * @param account
-     * @return
-     */
-    List<GroupRelation> getListByAccount(String account);
 }

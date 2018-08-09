@@ -20,6 +20,7 @@ module.exports = {
 	        {test: /\.(png|jpg|gif)$/,loader: 'url-loader?limit=8192&name=../images/[name]-[hash:8].[ext]'},
 	        { test: /\.(woff|woff2|ttf|eot|svg|)$/, loader: "url-loader?limit=5000&name=../font/[name].[ext]" },
 	        { test: require.resolve("jquery"), loader: "expose-loader?$!expose-loader?jQuery"}
+
 	    ]
 	} ,
 	devtool: false,//'eval-source-map',// 开发环境配置。其他环境请设置为false  

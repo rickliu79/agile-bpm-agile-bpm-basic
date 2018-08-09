@@ -332,6 +332,7 @@ dialogHelper__.initCustDialogs = function(){
 		 */
 		doCustQuery:function(key, param, callBack, dialogSetting){
 			if (jQuery.isFunction(param)) {
+				dialogSetting = callBack;
 				callBack = param;
 				param = {};
 			}

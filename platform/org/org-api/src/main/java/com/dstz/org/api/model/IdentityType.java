@@ -19,7 +19,6 @@ public interface IdentityType extends Serializable {
      */
     public static final String GROUP = "group";
 
-
     /**
      * 返回用户标识类型
      *

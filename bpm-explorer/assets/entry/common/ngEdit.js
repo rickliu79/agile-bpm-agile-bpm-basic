@@ -38,6 +38,4 @@ require('../../js/common/base/baseDirective.js');
 require('../../js/common/tools/customValid.js');
 require('../../js/common/tools/toolsControllerUtil.js');
 
-
-
-
+require('../../js/plugins/fastjson/FastJson-1.0.min.js');

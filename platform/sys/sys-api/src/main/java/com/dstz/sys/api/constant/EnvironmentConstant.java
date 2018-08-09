@@ -1,6 +1,6 @@
 package com.dstz.sys.api.constant;
 
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 
 
 public enum EnvironmentConstant {

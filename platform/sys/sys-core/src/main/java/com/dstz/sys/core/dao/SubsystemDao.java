@@ -1,11 +1,11 @@
 package com.dstz.sys.core.dao;
 
-import com.dstz.base.dao.BaseDao;
-import com.dstz.sys.core.model.Subsystem;
-
 import java.util.List;
 
 import org.mybatis.spring.annotation.MapperScan;
+
+import com.dstz.base.dao.BaseDao;
+import com.dstz.sys.core.model.Subsystem;
 
 /**
  * <pre>

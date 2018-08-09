@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.core.cache.ICache;
 import com.dstz.base.core.util.BeanUtils;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.org.api.context.ICurrentContext;
 import com.dstz.org.core.dao.GroupUserDao;

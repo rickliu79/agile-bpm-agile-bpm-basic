@@ -1,5 +1,6 @@
 package com.dstz.org.api.model;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import com.dstz.base.api.model.IBaseModel;
@@ -7,7 +8,7 @@ import com.dstz.base.api.model.IBaseModel;
 /**
  * 描述：用户实体接口
  */
-public interface IUser extends IdentityType ,IBaseModel{
+public interface IUser extends IdentityType ,Serializable{
     /**
      * 男性=Male
      */
@@ -71,10 +72,6 @@ public interface IUser extends IdentityType ,IBaseModel{
      * @param map
      */
     void setAttributes(Map<String, String> map);
-
-
-    boolean isAdmin();
-
 
     /**
      * 获取用户其它属性

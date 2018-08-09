@@ -1,14 +1,15 @@
 package com.dstz.base.db.table.colmap;
 
-import com.dstz.base.core.util.string.StringPool;
-import com.dstz.base.db.api.table.model.Column;
-import com.dstz.base.db.table.impl.mysql.MySQLTableMeta;
-import com.dstz.base.db.table.model.DefaultColumn;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.RowMapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.dstz.base.api.constant.StringConstants;
+import com.dstz.base.db.api.table.model.Column;
+import com.dstz.base.db.table.impl.mysql.MySQLTableMeta;
+import com.dstz.base.db.table.model.DefaultColumn;
 
 /**
  * mysql 列的元数据到columnmodel的映射。 用于从数据库元数据读取到列对象。
@@ -133,7 +134,7 @@ public class MySQLColumnMap implements RowMapper<Column> {
         }
 
         if (dbtype.contains("time")) {//精确到秒
-            columnModel.setFormat(StringPool.DATE_FORMAT_DATETIME);
+            columnModel.setFormat(StringConstants.DATE_FORMAT_DATETIME);
         }
 
         if (dbtype.startsWith("date")) {

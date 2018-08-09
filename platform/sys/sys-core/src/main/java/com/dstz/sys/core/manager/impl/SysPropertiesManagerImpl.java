@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.dstz.base.core.cache.ICache;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.BeanUtils;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys.api.constant.EnvironmentConstant;
 import com.dstz.sys.api.service.PropertyService;

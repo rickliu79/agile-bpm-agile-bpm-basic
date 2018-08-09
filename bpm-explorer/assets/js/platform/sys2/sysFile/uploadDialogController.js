@@ -93,7 +93,6 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 	 */
 	$scope.del = function(file) {
 		var url = __ctx + "/sys/sysFile/del";
-		// 拿出数据源
 		baseService.postForm(url, {
 			fileId : file.id,
 		}).then(function(result) {
@@ -104,8 +103,8 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 				}
 			} else {
 				toastr.error(result.msg);
-				ArrayToolService.remove(file, $scope.fileList);
 			}
+			ArrayToolService.remove(file, $scope.fileList);
 		});
 	};
 

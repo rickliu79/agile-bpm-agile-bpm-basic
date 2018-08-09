@@ -77,30 +77,6 @@
     </filter>
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/logout</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/j_spring_security_check</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/j_spring_cas_security_check</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/j_spring_security_switch_user</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/j_spring_security_exit_user</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/j_spring_security_logout</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 

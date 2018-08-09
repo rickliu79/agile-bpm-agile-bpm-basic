@@ -12,7 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.query.DefaultQueryField;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.impl.BaseManager;

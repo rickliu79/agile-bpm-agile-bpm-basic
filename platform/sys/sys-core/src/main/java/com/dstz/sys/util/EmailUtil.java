@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.mail.MessagingException;
 
 import com.dstz.base.core.util.AppUtil;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.sys.email.MailUtil;
 import com.dstz.sys.email.model.Mail;
 import com.dstz.sys.email.model.MailSetting;

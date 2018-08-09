@@ -30,8 +30,6 @@ import java.util.Properties;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.dstz.base.core.util.string.StringUtil;
-
 public class FileUtil {
 
     /**
@@ -920,7 +918,8 @@ public class FileUtil {
         path = StringUtil.trimSuffix(path, "/");
         return path;
     }
-
+    
+    
     public static void main(String[] args) {
         System.out.println(FileUtil.getClassesPath());
     }

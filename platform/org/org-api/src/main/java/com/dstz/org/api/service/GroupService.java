@@ -23,17 +23,6 @@ public interface GroupService {
      */
     List<IGroup> getGroupsByGroupTypeUserId(String groupType, String userId);
 
-
-    /**
-     * 根据用户ID和组类别获取相关的组GroupId。
-     *
-     * @param groupType 用户组类型
-     * @param userId    用户ID
-     * @return
-     */
-    List<IGroup> getGroupsByGroupTypeAccount(String groupType, String account);
-
-
     /**
      * 根据用户账号获取用户当前所在的组。
      *
@@ -59,15 +48,6 @@ public interface GroupService {
      * @return
      */
     List<IGroup> getGroupsByUserId(String userId);
-
-
-    /**
-     * 根据用户获取用户所属的组。
-     *
-     * @param account
-     * @return
-     */
-    List<IGroup> getGroupsByAccount(String account);
 
 
     /**

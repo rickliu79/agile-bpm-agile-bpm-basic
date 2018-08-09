@@ -5,7 +5,7 @@ import com.dstz.base.api.aop.annotion.ParamValidate;
 import com.dstz.base.api.response.impl.BaseResult;
 import com.dstz.base.api.response.impl.PageResult;
 import com.dstz.base.api.response.impl.ResultMsg;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.core.validate.ValidateUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

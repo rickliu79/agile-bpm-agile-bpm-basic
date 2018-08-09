@@ -14,7 +14,7 @@ import java.util.Map;
  * 描述：用户表 实体对象
  * </pre>
  */
-public class User extends BaseModel implements IUser {
+public class User extends BaseModel implements IUser{
 
     /**
      * id_
@@ -86,8 +86,7 @@ public class User extends BaseModel implements IUser {
      * 组织ID，用于在组织下添加用户。
      */
     protected String groupId = "";
-
-
+    
     public void setId(String id) {
         this.id = id;
     }
@@ -293,11 +292,6 @@ public class User extends BaseModel implements IUser {
 
     public void setAttributes(Map<String, String> map) {
 
-    }
-
-    public boolean isAdmin() {
-        String tmp = SysPropertyUtil.getByAlias("admin.account", "admin");
-        return tmp.equals(this.account);
     }
 
     public Map<String, String> getAttributes() {

@@ -1,9 +1,9 @@
 package com.dstz.base.db.datasource;
 
-import com.dstz.base.core.util.string.StringUtil;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import com.dstz.base.core.util.StringUtil;
 
 /**
  * spring数据源，设置当前数据源。<br>

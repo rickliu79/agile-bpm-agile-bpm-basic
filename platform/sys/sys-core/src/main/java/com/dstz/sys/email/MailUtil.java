@@ -1,6 +1,6 @@
 package com.dstz.sys.email;
 
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.sys.email.model.Mail;
 import com.dstz.sys.email.model.MailAddress;
 import com.dstz.sys.email.model.MailAttachment;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.dstz.base.core.util.PropertyUtil;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.org.api.model.IUser;
 import com.dstz.sys.api.jms.model.msg.NotifyMessage;
 import com.dstz.sys.api.service.SysIdentityConvert;

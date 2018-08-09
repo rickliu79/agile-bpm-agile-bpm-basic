@@ -136,4 +136,16 @@ public class ContextUtil {
         cleanLocale();
         clearCurrentUser();
     }
+    
+    public static boolean isAdmin(IUser user) {
+    	  String tmp = SysPropertyUtil.getByAlias("admin.account", "admin");
+          return tmp.equals(user.getAccount());
+    }
+    
+    public static boolean currentUserIsAdmin() {
+    	IUser user = getCurrentUser();
+    	
+  	  	String tmp = SysPropertyUtil.getByAlias("admin.account", "admin");
+        return tmp.equals(user.getAccount());
+  }
 }

@@ -1,13 +1,14 @@
 package com.dstz.base.core.util.time;
 
-import com.dstz.base.core.util.string.StringPool;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.Calendar;
-import java.util.Date;
+import com.dstz.base.api.constant.StringConstants;
 
 /**
  * @描述 日期转换、计算工具类(可以参考使用DateUtils的方法)
@@ -65,7 +66,7 @@ public class DateUtil {
      */
     public static String getCurrentTime(String style) {
         if (StringUtils.isEmpty(style))
-            style = StringPool.DATE_FORMAT_DATETIME;
+            style = StringConstants.DATE_FORMAT_DATETIME;
         return DateFormatUtil.format(new Date(), style);
     }
 

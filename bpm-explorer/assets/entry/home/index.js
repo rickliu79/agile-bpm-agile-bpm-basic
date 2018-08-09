@@ -22,7 +22,6 @@ require('../../js/common/tools/dialogCreator.js');
 
 
 require('../../js/hplus.js');
-require('../../js/plugins/pace/pace.min.js');
 require('../../js/bootstrap.min.js');
 
 require('../../js/common/tools/util.js');

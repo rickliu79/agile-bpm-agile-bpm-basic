@@ -42,7 +42,7 @@ public abstract class GroupPermissionCalculator implements IPermissionCalculator
 		}
 		
 		for(IGroup group:groups) {
-			if(json.getString("id").contains(group.getId())) {
+			if(json.getString("id").contains(group.getGroupId())) {
 				return true;
 			}
 		}

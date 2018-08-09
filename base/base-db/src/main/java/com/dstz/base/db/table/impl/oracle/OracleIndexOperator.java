@@ -1,7 +1,7 @@
 package com.dstz.base.db.table.impl.oracle;
 
 import com.dstz.base.core.util.AppUtil;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.api.table.ITableOperator;
 import com.dstz.base.db.api.table.model.Index;
 import com.dstz.base.db.table.BaseIndexOperator;

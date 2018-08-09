@@ -13,7 +13,7 @@ import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.ConstantUtil;
 import com.dstz.base.core.util.EnumUtil;
 import com.dstz.base.core.util.PinyinUtil;
-import com.dstz.base.core.util.string.StringUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
 

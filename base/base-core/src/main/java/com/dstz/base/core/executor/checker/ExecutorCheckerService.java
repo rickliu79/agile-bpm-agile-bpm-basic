@@ -1,13 +1,13 @@
 package com.dstz.base.core.executor.checker;
 
-import com.dstz.base.api.executor.checker.ExecutorChecker;
-import com.dstz.base.core.util.AppUtil;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.dstz.base.api.executor.checker.ExecutorChecker;
+import com.dstz.base.core.util.AppUtil;
 
 /**
  * 执行器校验器的服务类
@@ -38,14 +38,10 @@ public class ExecutorCheckerService {
     public static ExecutorChecker getChecker(String key) {
         //初始化校验器
         if (checkerMap.isEmpty()) {
-            try {
-                Map<String, ExecutorChecker> map = AppUtil.getImplInstance(ExecutorChecker.class);
-                for (Entry<String, ExecutorChecker> entry : map.entrySet()) {
-                    ExecutorChecker checker = entry.getValue();
-                    checkerMap.put(checker.getKey(), checker);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            Map<String, ExecutorChecker> map = AppUtil.getImplInstance(ExecutorChecker.class);
+            for (Entry<String, ExecutorChecker> entry : map.entrySet()) {
+                ExecutorChecker checker = entry.getValue();
+                checkerMap.put(checker.getKey(), checker);
             }
         }
         if (checkerMap.get(key) == null) {

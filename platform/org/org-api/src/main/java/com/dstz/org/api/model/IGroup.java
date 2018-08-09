@@ -1,5 +1,6 @@
 package com.dstz.org.api.model;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import com.dstz.base.api.model.IBaseModel;
@@ -8,7 +9,7 @@ import com.dstz.base.api.model.IBaseModel;
 /**
  * 描述：抽象用户组类型
  */
-public interface IGroup extends IdentityType,IBaseModel {
+public interface IGroup extends IdentityType,Serializable {
 
 
     /**
@@ -64,10 +65,4 @@ public interface IGroup extends IdentityType,IBaseModel {
     //路径 例如xxx.xxxx
     String getPath();
 
-    /**
-     * 获取参数。
-     *
-     * @return
-     */
-    Map<String, Object> getParams();
 }
