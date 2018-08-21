@@ -28,10 +28,9 @@ public class SysScript implements IScript {
 	}
 	
 	
-	public IUser getCuurentUser() {
+	public IUser getCurentUser() {
 		return ContextUtil.getCurrentUser();
 	}
-	
 	
 	
 }

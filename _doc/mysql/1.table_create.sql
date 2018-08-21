@@ -21,19 +21,19 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `act_evt_log`;
 CREATE TABLE `act_evt_log` (
   `LOG_NR_` bigint(20) NOT NULL AUTO_INCREMENT,
-  `TYPE_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TYPE_` varchar(64)  DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64)  DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64)  DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64)  DEFAULT NULL,
+  `TASK_ID_` varchar(64)  DEFAULT NULL,
   `TIME_STAMP_` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `USER_ID_` varchar(255)  DEFAULT NULL,
   `DATA_` longblob,
-  `LOCK_OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `LOCK_OWNER_` varchar(255)  DEFAULT NULL,
   `LOCK_TIME_` timestamp NULL DEFAULT NULL,
   `IS_PROCESSED_` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`LOG_NR_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_ge_bytearray
@@ -49,7 +49,7 @@ CREATE TABLE `act_ge_bytearray` (
   PRIMARY KEY (`ID_`),
   KEY `act_ge_bytearray_ibfk_1` (`DEPLOYMENT_ID_`) USING BTREE,
   CONSTRAINT `act_ge_bytearray_ibfk_1` FOREIGN KEY (`DEPLOYMENT_ID_`) REFERENCES `act_re_deployment` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_ge_property
@@ -60,7 +60,7 @@ CREATE TABLE `act_ge_property` (
   `VALUE_` varchar(300) DEFAULT NULL,
   `REV_` int(11) DEFAULT NULL,
   PRIMARY KEY (`NAME_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_hi_actinst
@@ -84,7 +84,7 @@ CREATE TABLE `act_hi_actinst` (
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_HI_ACT_INST_EXEC` (`ACT_ID_`,`EXECUTION_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_ACT_INST_PROCINST` (`PROC_INST_ID_`,`ACT_ID_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_hi_attachment
@@ -103,7 +103,7 @@ CREATE TABLE `act_hi_attachment` (
   `CONTENT_ID_` varchar(64) DEFAULT NULL,
   `TIME_` datetime DEFAULT NULL,
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_hi_comment
@@ -120,7 +120,7 @@ CREATE TABLE `act_hi_comment` (
   `FULL_MSG_` longblob,
   `TIME_` datetime NOT NULL,
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_hi_detail
@@ -147,7 +147,7 @@ CREATE TABLE `act_hi_detail` (
   KEY `ACT_IDX_HI_DETAIL_NAME` (`NAME_`) USING BTREE,
   KEY `ACT_IDX_HI_DETAIL_PROC_INST` (`PROC_INST_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_DETAIL_TASK_ID` (`TASK_ID_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_hi_identitylink
@@ -164,7 +164,7 @@ CREATE TABLE `act_hi_identitylink` (
   KEY `ACT_IDX_HI_IDENT_LNK_PROCINST` (`PROC_INST_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_IDENT_LNK_TASK` (`TASK_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_IDENT_LNK_USER` (`USER_ID_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_hi_procinst
@@ -188,7 +188,7 @@ CREATE TABLE `act_hi_procinst` (
   PRIMARY KEY (`ID_`),
   KEY `PROC_INST_ID_` (`PROC_INST_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_PRO_I_BUSKEY` (`BUSINESS_KEY_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_hi_taskinst
@@ -217,7 +217,7 @@ CREATE TABLE `act_hi_taskinst` (
   `DUE_DATE_` datetime DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_HI_TASK_INST_PROCINST` (`PROC_INST_ID_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_hi_varinst
@@ -242,21 +242,21 @@ CREATE TABLE `act_hi_varinst` (
   KEY `ACT_IDX_HI_PROCVAR_NAME_TYPE` (`NAME_`,`VAR_TYPE_`) USING BTREE,
   KEY `ACT_IDX_HI_PROCVAR_PROC_INST` (`PROC_INST_ID_`) USING BTREE,
   KEY `ACT_IDX_HI_PROCVAR_TASK_ID` (`TASK_ID_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_procdef_info
 -- ----------------------------
 DROP TABLE IF EXISTS `act_procdef_info`;
 CREATE TABLE `act_procdef_info` (
-  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ID_` varchar(64)  NOT NULL,
+  `PROC_DEF_ID_` varchar(64)  NOT NULL,
   `REV_` int(11) DEFAULT NULL,
-  `INFO_JSON_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `INFO_JSON_ID_` varchar(64)  DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   UNIQUE KEY `ACT_UNIQ_INFO_PROCDEF` (`PROC_DEF_ID_`) USING BTREE,
   KEY `ACT_IDX_INFO_PROCDEF` (`PROC_DEF_ID_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB ;
 
 -- ----------------------------
 -- Table structure for act_re_deployment
@@ -269,7 +269,7 @@ CREATE TABLE `act_re_deployment` (
   `TENANT_ID_` varchar(255) DEFAULT NULL,
   `DEPLOY_TIME_` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_re_model
@@ -290,7 +290,7 @@ CREATE TABLE `act_re_model` (
   `CREATE_TIME_` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `LAST_UPDATE_TIME_` datetime NOT NULL,
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_re_procdef
@@ -313,7 +313,7 @@ CREATE TABLE `act_re_procdef` (
   `HAS_GRAPHICAL_NOTATION_` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`ID_`),
   KEY `ACT_UNIQ_PROCDEF` (`KEY_`,`VERSION_`,`TENANT_ID_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_ru_event_subscr
@@ -333,7 +333,7 @@ CREATE TABLE `act_ru_event_subscr` (
   `CREATED_` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID_`),
   KEY `ACT_IDX_EVENT_SUBSCR_CONFIG_` (`CONFIGURATION_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_ru_execution
@@ -365,7 +365,7 @@ CREATE TABLE `act_ru_execution` (
   CONSTRAINT `act_ru_execution_ibfk_1` FOREIGN KEY (`SUPER_EXEC_`) REFERENCES `act_ru_execution` (`ID_`),
   CONSTRAINT `act_ru_execution_ibfk_2` FOREIGN KEY (`PARENT_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE CASCADE,
   CONSTRAINT `act_ru_execution_ibfk_3` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_ru_identitylink
@@ -389,7 +389,7 @@ CREATE TABLE `act_ru_identitylink` (
   CONSTRAINT `act_ru_identitylink_ibfk_1` FOREIGN KEY (`TASK_ID_`) REFERENCES `act_ru_task` (`ID_`),
   CONSTRAINT `act_ru_identitylink_ibfk_2` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`),
   CONSTRAINT `act_ru_identitylink_ibfk_3` FOREIGN KEY (`PROC_INST_ID_`) REFERENCES `act_ru_execution` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_ru_job
@@ -416,7 +416,7 @@ CREATE TABLE `act_ru_job` (
   PRIMARY KEY (`ID_`),
   KEY `act_ru_job_ibfk_1` (`EXCEPTION_STACK_ID_`) USING BTREE,
   CONSTRAINT `act_ru_job_ibfk_1` FOREIGN KEY (`EXCEPTION_STACK_ID_`) REFERENCES `act_ge_bytearray` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_ru_task
@@ -449,7 +449,7 @@ CREATE TABLE `act_ru_task` (
   CONSTRAINT `act_ru_task_ibfk_1` FOREIGN KEY (`PROC_INST_ID_`) REFERENCES `act_ru_execution` (`ID_`),
   CONSTRAINT `act_ru_task_ibfk_2` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE CASCADE,
   CONSTRAINT `act_ru_task_ibfk_3` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for act_ru_variable
@@ -476,7 +476,7 @@ CREATE TABLE `act_ru_variable` (
   CONSTRAINT `act_ru_variable_ibfk_1` FOREIGN KEY (`PROC_INST_ID_`) REFERENCES `act_ru_execution` (`ID_`),
   CONSTRAINT `act_ru_variable_ibfk_2` FOREIGN KEY (`BYTEARRAY_ID_`) REFERENCES `act_ge_bytearray` (`ID_`),
   CONSTRAINT `act_ru_variable_ibfk_3` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
  
 
 -- ----------------------------
@@ -490,7 +490,7 @@ CREATE TABLE `bpm_bus_link` (
   `biz_id_` varchar(64) DEFAULT NULL COMMENT '业务主键',
   `biz_code_` varchar(64) NOT NULL COMMENT 'bo_code',
   PRIMARY KEY (`id_`,`biz_code_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='流程实例与业务数据关系表'
+) ENGINE=InnoDB COMMENT='流程实例与业务数据关系表'
 /*!50500 PARTITION BY LIST  COLUMNS(biz_code_)
 (PARTITION p01 VALUES IN ('unknown') ENGINE = InnoDB) */;
 
@@ -521,7 +521,7 @@ CREATE TABLE `bpm_definition` (
   `rev_` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_`),
   KEY `bpm_process_def_key` (`key_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='流程定义';
+) ENGINE=InnoDB COMMENT='流程定义';
 
 -- ----------------------------
 -- Table structure for bpm_instance
@@ -556,7 +556,7 @@ CREATE TABLE `bpm_instance` (
   KEY `idx_proinst_bpminstid` (`act_inst_id_`) USING BTREE,
   KEY `idx_proinst_parentId` (`parent_inst_id_`) USING BTREE,
   KEY `idx_proinst_bizkey` (`biz_key_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='流程实例';
+) ENGINE=InnoDB COMMENT='流程实例';
 
 -- ----------------------------
 -- Table structure for bpm_reminder_history
@@ -573,7 +573,7 @@ CREATE TABLE `bpm_reminder_history` (
   `user_id_` varchar(255) DEFAULT NULL,
   `note_` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for bpm_task
@@ -606,7 +606,7 @@ CREATE TABLE `bpm_task` (
   KEY `idx_bpmtask_taskid` (`task_id_`) USING BTREE,
   KEY `idx_bpmtask_parentid` (`parent_id_`) USING BTREE,
   KEY `idx_bpmtask_userid` (`assignee_id_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='流程任务';
+) ENGINE=InnoDB COMMENT='流程任务';
 
 -- ----------------------------
 -- Table structure for bpm_task_identitylink
@@ -624,7 +624,7 @@ CREATE TABLE `bpm_task_identitylink` (
   KEY `idx_taskcandidate_taskid` (`task_id_`) USING BTREE,
   KEY `idx_candidate_instid` (`inst_id_`) USING BTREE,
   KEY `idx_permission_code_` (`permission_code_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务候选人';
+) ENGINE=InnoDB COMMENT='任务候选人';
 
 -- ----------------------------
 -- Table structure for bpm_task_opinion
@@ -652,7 +652,7 @@ CREATE TABLE `bpm_task_opinion` (
   KEY `idx_opinion_supinstid` (`sup_inst_id_`) USING BTREE,
   KEY `idx_opinion_task` (`task_id_`) USING BTREE,
   KEY `idx_opinion_instId` (`inst_id_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='流程任务审批记录';
+) ENGINE=InnoDB COMMENT='流程任务审批记录';
 
 -- ----------------------------
 -- Table structure for bpm_task_reminder
@@ -676,7 +676,7 @@ CREATE TABLE `bpm_task_reminder` (
   `warningset_` varchar(255) DEFAULT NULL,
   `trigger_date_` datetime DEFAULT NULL,
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for bpm_task_stack
@@ -695,7 +695,7 @@ CREATE TABLE `bpm_task_stack` (
   `path_` varchar(512) DEFAULT NULL COMMENT '路径',
   PRIMARY KEY (`id_`),
   KEY `idx_exestack_instid` (`inst_id_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='流程执行堆栈树';
+) ENGINE=InnoDB COMMENT='流程执行堆栈树';
 
 -- ----------------------------
 -- Table structure for bus_column
@@ -714,7 +714,7 @@ CREATE TABLE `bus_column` (
   `default_value_` varchar(128) DEFAULT NULL,
   `comment_` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务字段表';
+) ENGINE=InnoDB COMMENT='业务字段表';
 
 -- ----------------------------
 -- Table structure for bus_column_ctrl
@@ -728,7 +728,7 @@ CREATE TABLE `bus_column_ctrl` (
   `valid_rule_` varchar(256) DEFAULT NULL COMMENT '验证规则',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `column_id_unique` (`column_id_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字段控件表';
+) ENGINE=InnoDB COMMENT='字段控件表';
 
 -- ----------------------------
 -- Table structure for bus_object
@@ -745,7 +745,7 @@ CREATE TABLE `bus_object` (
   `persistence_type_` varchar(64) DEFAULT NULL COMMENT '持久化类型',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `key_unique_idx` (`key_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务对象';
+) ENGINE=InnoDB COMMENT='业务对象';
 
 -- ----------------------------
 -- Table structure for bus_permission
@@ -760,7 +760,7 @@ CREATE TABLE `bus_permission` (
   `rights_json_` longtext COMMENT 'rights的json数据',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `obj_type_obj_val_unique_idx_` (`obj_type_`,`obj_val_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='bo权限';
+) ENGINE=InnoDB COMMENT='bo权限';
 
 -- ----------------------------
 -- Table structure for bus_table
@@ -778,7 +778,7 @@ CREATE TABLE `bus_table` (
   `external_` smallint(6) DEFAULT NULL COMMENT '是否外部表',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `key_unique_idx` (`key_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务表';
+) ENGINE=InnoDB COMMENT='业务表';
   
 
 -- ----------------------------
@@ -809,7 +809,7 @@ CREATE TABLE `form_cust_dialog` (
   `data_source_` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id_`),
   UNIQUE KEY `idx_unqiue` (`key_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='自定义对话框';
+) ENGINE=InnoDB COMMENT='自定义对话框';
  
 -- ----------------------------
 -- Table structure for form_def
@@ -835,7 +835,7 @@ CREATE TABLE `form_def` (
   `delete_` tinyint(4) DEFAULT NULL COMMENT '逻辑删除标记',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `key_unique_idx` (`key_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表单';
+) ENGINE=InnoDB COMMENT='表单';
  
 -- ----------------------------
 -- Table structure for form_template
@@ -850,7 +850,7 @@ CREATE TABLE `form_template` (
   `editable_` tinyint(4) DEFAULT NULL COMMENT '是否可以编辑',
   `key_` varchar(64) DEFAULT NULL COMMENT '别名',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表单模版';
+) ENGINE=InnoDB COMMENT='表单模版';
 
 -- ----------------------------
 -- Table structure for org_group
@@ -865,7 +865,7 @@ CREATE TABLE `org_group` (
   `grade_` varchar(64) DEFAULT NULL COMMENT '级别',
   `desc_` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织架构';
+) ENGINE=InnoDB COMMENT='组织架构';
 
 -- ----------------------------
 -- Table structure for org_group_rel
@@ -883,7 +883,7 @@ CREATE TABLE `org_group_rel` (
   KEY `FK_reference_20` (`group_id_`) USING BTREE,
   CONSTRAINT `org_group_rel_ibfk_1` FOREIGN KEY (`group_id_`) REFERENCES `org_group` (`id_`) ON DELETE CASCADE,
   CONSTRAINT `org_group_rel_ibfk_2` FOREIGN KEY (`rel_def_id_`) REFERENCES `org_group_reldef` (`id_`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织关联关系';
+) ENGINE=InnoDB COMMENT='组织关联关系';
 
 -- ----------------------------
 -- Table structure for org_group_reldef
@@ -896,7 +896,7 @@ CREATE TABLE `org_group_reldef` (
   `post_level_` varchar(64) DEFAULT NULL COMMENT '职务级别',
   `description_` varchar(500) DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织关系定义';
+) ENGINE=InnoDB COMMENT='组织关系定义';
 
 -- ----------------------------
 -- Table structure for org_group_user
@@ -915,7 +915,7 @@ CREATE TABLE `org_group_user` (
   CONSTRAINT `org_group_user_ibfk_1` FOREIGN KEY (`rel_id_`) REFERENCES `org_group_rel` (`id_`) ON DELETE CASCADE,
   CONSTRAINT `org_group_user_ibfk_2` FOREIGN KEY (`user_id_`) REFERENCES `org_user` (`id_`) ON DELETE CASCADE,
   CONSTRAINT `org_group_user_ibfk_3` FOREIGN KEY (`group_id_`) REFERENCES `org_group` (`id_`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户组织关系';
+) ENGINE=InnoDB COMMENT='用户组织关系';
 
 -- ----------------------------
 -- Table structure for org_role
@@ -928,7 +928,7 @@ CREATE TABLE `org_role` (
   `enabled_` int(11) NOT NULL DEFAULT '1' COMMENT '0：禁用，1：启用',
   `description` varchar(200) NOT NULL COMMENT '描述',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色管理';
+) ENGINE=InnoDB COMMENT='角色管理';
 
 -- ----------------------------
 -- Table structure for org_user
@@ -949,7 +949,7 @@ CREATE TABLE `org_user` (
   `from_` varchar(64) DEFAULT NULL COMMENT '来源',
   `status_` int(11) NOT NULL DEFAULT '1' COMMENT '0:禁用，1正常',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB COMMENT='用户表';
 
 -- ----------------------------
 -- Table structure for org_user_role
@@ -964,7 +964,7 @@ CREATE TABLE `org_user_role` (
   KEY `FK_reference_userrole_user` (`user_id_`) USING BTREE,
   CONSTRAINT `org_user_role_ibfk_1` FOREIGN KEY (`user_id_`) REFERENCES `org_user` (`id_`) ON DELETE CASCADE,
   CONSTRAINT `org_user_role_ibfk_2` FOREIGN KEY (`role_id_`) REFERENCES `org_role` (`id_`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色管理';
+) ENGINE=InnoDB COMMENT='用户角色管理';
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -978,7 +978,7 @@ CREATE TABLE `qrtz_blob_triggers` (
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   KEY `SCHED_NAME` (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   CONSTRAINT `qrtz_blob_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for qrtz_calendars
@@ -989,7 +989,7 @@ CREATE TABLE `qrtz_calendars` (
   `CALENDAR_NAME` varchar(200) NOT NULL,
   `CALENDAR` blob NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`CALENDAR_NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for qrtz_cron_triggers
@@ -1003,7 +1003,7 @@ CREATE TABLE `qrtz_cron_triggers` (
   `TIME_ZONE_ID` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for qrtz_fired_triggers
@@ -1030,7 +1030,7 @@ CREATE TABLE `qrtz_fired_triggers` (
   KEY `IDX_QRTZ_FT_JG` (`SCHED_NAME`,`JOB_GROUP`),
   KEY `IDX_QRTZ_FT_T_G` (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   KEY `IDX_QRTZ_FT_TG` (`SCHED_NAME`,`TRIGGER_GROUP`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for qrtz_job_details
@@ -1050,7 +1050,7 @@ CREATE TABLE `qrtz_job_details` (
   PRIMARY KEY (`SCHED_NAME`,`JOB_NAME`,`JOB_GROUP`),
   KEY `IDX_QRTZ_J_REQ_RECOVERY` (`SCHED_NAME`,`REQUESTS_RECOVERY`),
   KEY `IDX_QRTZ_J_GRP` (`SCHED_NAME`,`JOB_GROUP`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for qrtz_locks
@@ -1060,7 +1060,7 @@ CREATE TABLE `qrtz_locks` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `LOCK_NAME` varchar(40) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`LOCK_NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for qrtz_paused_trigger_grps
@@ -1070,7 +1070,7 @@ CREATE TABLE `qrtz_paused_trigger_grps` (
   `SCHED_NAME` varchar(120) NOT NULL,
   `TRIGGER_GROUP` varchar(200) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_GROUP`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for qrtz_scheduler_state
@@ -1082,7 +1082,7 @@ CREATE TABLE `qrtz_scheduler_state` (
   `LAST_CHECKIN_TIME` bigint(13) NOT NULL,
   `CHECKIN_INTERVAL` bigint(13) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`INSTANCE_NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -1097,7 +1097,7 @@ CREATE TABLE `qrtz_simple_triggers` (
   `TIMES_TRIGGERED` bigint(10) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   CONSTRAINT `qrtz_simple_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for qrtz_simprop_triggers
@@ -1120,7 +1120,7 @@ CREATE TABLE `qrtz_simprop_triggers` (
   `BOOL_PROP_2` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   CONSTRAINT `qrtz_simprop_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for qrtz_triggers
@@ -1157,7 +1157,7 @@ CREATE TABLE `qrtz_triggers` (
   KEY `IDX_QRTZ_T_NFT_ST_MISFIRE` (`SCHED_NAME`,`MISFIRE_INSTR`,`NEXT_FIRE_TIME`,`TRIGGER_STATE`),
   KEY `IDX_QRTZ_T_NFT_ST_MISFIRE_GRP` (`SCHED_NAME`,`MISFIRE_INSTR`,`NEXT_FIRE_TIME`,`TRIGGER_GROUP`,`TRIGGER_STATE`),
   CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) REFERENCES `qrtz_job_details` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for sys_authorization
@@ -1171,11 +1171,11 @@ CREATE TABLE `sys_authorization` (
   `rights_identity_` varchar(64) NOT NULL COMMENT '授权标识',
   `rights_identity_name_` varchar(255) NOT NULL COMMENT '标识名字',
   `rights_permission_code_` varchar(125) NOT NULL COMMENT '授权code=identity+type',
-  `rights_create_time_` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `rights_create_time_` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `rights_create_by_` varchar(64) NOT NULL COMMENT '创建人',
   PRIMARY KEY (`rights_id_`),
   KEY `idx_permission_code_` (`rights_permission_code_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='通用资源授权配置';
+) ENGINE=InnoDB COMMENT='通用资源授权配置';
 
 -- ----------------------------
 -- Table structure for sys_data_dict
@@ -1191,9 +1191,9 @@ CREATE TABLE `sys_data_dict` (
   `sn_` int(10) DEFAULT NULL COMMENT '排序',
   `dict_type_` varchar(10) NOT NULL COMMENT 'dict/node字典项',
   `delete_flag_` varchar(1) DEFAULT NULL COMMENT '是否删除',
-  `create_time_` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time_` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据字典';
+) ENGINE=InnoDB COMMENT='数据字典';
 
 -- ----------------------------
 -- Table structure for sys_data_source
@@ -1209,7 +1209,7 @@ CREATE TABLE `sys_data_source` (
   `attributes_json_` text COMMENT '属性配置',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `key_unique` (`key_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据源';
+) ENGINE=InnoDB COMMENT='数据源';
 
 -- ----------------------------
 -- Table structure for sys_data_source_def
@@ -1222,7 +1222,7 @@ CREATE TABLE `sys_data_source_def` (
   `attributes_json_` text COMMENT '属性配置',
   PRIMARY KEY (`id_`),
   KEY `class_path_unique` (`class_path_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据源模板';
+) ENGINE=InnoDB COMMENT='数据源模板';
  
 -- ----------------------------
 -- Table structure for sys_log_err
@@ -1237,7 +1237,7 @@ CREATE TABLE `sys_log_err` (
   `CREATE_TIME_` datetime DEFAULT NULL COMMENT '出错时间',
   `stack_trace_` longtext COMMENT '出错异常堆栈',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for sys_properties
@@ -1257,7 +1257,7 @@ CREATE TABLE `sys_properties` (
   `description_` varchar(500) DEFAULT NULL,
   `environment_` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 -- ----------------------------
 -- Table structure for sys_rel_resources
@@ -1269,7 +1269,7 @@ CREATE TABLE `sys_rel_resources` (
   `NAME_` varchar(50) DEFAULT NULL COMMENT '名称',
   `RES_URL_` varchar(100) DEFAULT NULL COMMENT '资源地址',
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='关联资源';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='关联资源';
 
 -- ----------------------------
 -- Table structure for sys_resource
@@ -1290,7 +1290,7 @@ CREATE TABLE `sys_resource` (
   `PARENT_ID_` varchar(50) DEFAULT NULL COMMENT '父节点ID',
   `CREATE_TIME_` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='子系统资源';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='子系统资源';
 
 -- ----------------------------
 -- Table structure for sys_res_role
@@ -1302,7 +1302,7 @@ CREATE TABLE `sys_res_role` (
   `RES_ID_` varchar(50) DEFAULT NULL COMMENT '资源ID',
   `ROLE_ID_` varchar(50) DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色资源分配';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='角色资源分配';
 
 -- ----------------------------
 -- Table structure for sys_schedule_job
@@ -1323,7 +1323,7 @@ CREATE TABLE `sys_schedule_job` (
   `update_time_` datetime DEFAULT NULL COMMENT '修改时间',
   `delete_flag_` tinyint(1) DEFAULT '0' COMMENT '有效记录 0 正常 1 已删除',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统任务计划';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='系统任务计划';
 
 -- ----------------------------
 -- Table structure for sys_schedule_job_log
@@ -1344,7 +1344,7 @@ CREATE TABLE `sys_schedule_job_log` (
   `delete_flag_` tinyint(1) DEFAULT '0' COMMENT '有效记录 0 正常 1 已删除',
   PRIMARY KEY (`id`),
   KEY `job_id` (`job_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务计划日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='任务计划日志';
 
 -- ----------------------------
 -- Table structure for sys_script
@@ -1357,7 +1357,7 @@ CREATE TABLE `sys_script` (
   `category_` varchar(128) DEFAULT NULL COMMENT '脚本分类',
   `memo_` varchar(512) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='常用脚本';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='常用脚本';
 
 -- ----------------------------
 -- Table structure for sys_serialno
@@ -1376,7 +1376,7 @@ CREATE TABLE `sys_serialno` (
   `step_` smallint(6) DEFAULT NULL COMMENT '步长',
   PRIMARY KEY (`id_`),
   KEY `idx_uni_alias_val` (`alias_`,`cur_value_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='流水号生成';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='流水号生成';
 
 -- ----------------------------
 -- Table structure for sys_subsystem
@@ -1384,7 +1384,7 @@ CREATE TABLE `sys_serialno` (
 DROP TABLE IF EXISTS `sys_subsystem`;
 CREATE TABLE `sys_subsystem` (
   `ID_` varchar(50) NOT NULL COMMENT '主键',
-  `name_` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '系统名称',
+  `name_` varchar(50)   DEFAULT NULL COMMENT '系统名称',
   `alias_` varchar(50) DEFAULT NULL COMMENT '系统别名',
   `logo_` varchar(50) DEFAULT NULL COMMENT 'logo地址',
   `enabled_` int(11) DEFAULT NULL COMMENT '是否可用 1 可用，0 ，不可用',
@@ -1397,38 +1397,38 @@ CREATE TABLE `sys_subsystem` (
   `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
   `is_default_` int(11) DEFAULT NULL COMMENT '是否默认 1 可用，0 ，不可用',
   PRIMARY KEY (`ID_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='子系统定义';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='子系统定义';
 
 -- ----------------------------
 -- Table structure for sys_tree
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_tree`;
 CREATE TABLE `sys_tree` (
-  `id_` varchar(64) CHARACTER SET utf8 NOT NULL COMMENT '主键',
-  `key_` varchar(64) CHARACTER SET utf8 DEFAULT NULL COMMENT '别名',
-  `name_` varchar(256) CHARACTER SET utf8 DEFAULT NULL COMMENT '名字',
-  `desc_` varchar(256) CHARACTER SET utf8 DEFAULT NULL COMMENT '描述',
+  `id_` varchar(64)  NOT NULL COMMENT '主键',
+  `key_` varchar(64)  DEFAULT NULL COMMENT '别名',
+  `name_` varchar(256)  DEFAULT NULL COMMENT '名字',
+  `desc_` varchar(256)  DEFAULT NULL COMMENT '描述',
   `system_` tinyint(4) DEFAULT NULL COMMENT '是否系统内置树',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `key_unique_` (`key_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='系统树';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin    COMMENT='系统树';
 
 -- ----------------------------
 -- Table structure for sys_tree_node
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_tree_node`;
 CREATE TABLE `sys_tree_node` (
-  `id_` varchar(64) CHARACTER SET utf8 NOT NULL COMMENT '主键',
-  `key_` varchar(64) CHARACTER SET utf8 DEFAULT NULL COMMENT '别名',
-  `name_` varchar(128) CHARACTER SET utf8 DEFAULT NULL COMMENT '名字',
-  `desc_` varchar(256) CHARACTER SET utf8 DEFAULT NULL COMMENT '描述',
-  `tree_id_` varchar(64) CHARACTER SET utf8 DEFAULT NULL COMMENT '所属树id',
-  `parent_id_` varchar(64) CHARACTER SET utf8 DEFAULT NULL COMMENT '父ID',
-  `path_` varchar(512) CHARACTER SET utf8 DEFAULT NULL COMMENT '路径 eg:pppid.ppid.pid',
+  `id_` varchar(64)  NOT NULL COMMENT '主键',
+  `key_` varchar(64)  DEFAULT NULL COMMENT '别名',
+  `name_` varchar(128)  DEFAULT NULL COMMENT '名字',
+  `desc_` varchar(256)  DEFAULT NULL COMMENT '描述',
+  `tree_id_` varchar(64)  DEFAULT NULL COMMENT '所属树id',
+  `parent_id_` varchar(64)  DEFAULT NULL COMMENT '父ID',
+  `path_` varchar(512)  DEFAULT NULL COMMENT '路径 eg:pppid.ppid.pid',
   `sn_` tinyint(4) DEFAULT NULL COMMENT '排序号',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `tree_id_key_unique_` (`key_`,`tree_id_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='系统树节点';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin    COMMENT='系统树节点';
 
 -- ----------------------------
 -- Table structure for sys_workbench_layout
@@ -1441,10 +1441,10 @@ CREATE TABLE `sys_workbench_layout` (
   `cust_height_` int(10) DEFAULT NULL COMMENT '自定义高',
   `sn_` int(10) DEFAULT NULL COMMENT '排序',
   `user_id_` varchar(64) NOT NULL COMMENT '用户id',
-  `create_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time_` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id_`),
   KEY `idx_panel_id_` (`panel_id_`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='工作台布局';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='工作台布局';
 
 -- ----------------------------
 -- Table structure for sys_workbench_panel
@@ -1463,14 +1463,14 @@ CREATE TABLE `sys_workbench_panel` (
   `height_` int(10) DEFAULT NULL COMMENT '高',
   `display_content_` text COMMENT '展示内容',
   `more_url_` varchar(255) DEFAULT NULL COMMENT '更多链接',
-  `create_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `create_time_` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by_` varchar(64) DEFAULT NULL,
-  `update_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `update_time_`  datetime  DEFAULT NULL ,
   `update_by_` varchar(64) DEFAULT NULL,
   `delete_flag_` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id_`),
   KEY `idx_alias_` (`alias_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='工作台面板';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='工作台面板';
 
 -- ----------------------------
 -- Table structure for sys_workbench_panel_templ
@@ -1483,7 +1483,7 @@ CREATE TABLE `sys_workbench_panel_templ` (
   `desc_` varchar(500) DEFAULT NULL COMMENT '模板描述',
   `html_` text COMMENT '模板内容',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='工作台面板模板';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='工作台面板模板';
  
 -- ----------------------------
 -- Table structure for xb_db_id
@@ -1495,4 +1495,4 @@ CREATE TABLE `xb_db_id` (
   `max_` int(11) NOT NULL COMMENT '当前允许最大的ID值',
   `mac_name_` varchar(255) NOT NULL COMMENT '机器名称',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据库ID增长表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='数据库ID增长表';
