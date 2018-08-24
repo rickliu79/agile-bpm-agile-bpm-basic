@@ -41,7 +41,7 @@ public class StringUtil {
     public static String convertArrayToString(String[] arr, String split) {
         if (arr == null || arr.length == 0)
             return "";
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < arr.length; i++) {
             sb.append(arr[i]);
             sb.append(split);
@@ -473,7 +473,7 @@ public class StringUtil {
      * @return
      */
     public static String bytesToString(byte b[]) {
-        StringBuffer hexString = new StringBuffer();
+        StringBuilder hexString = new StringBuilder();
         for (int i = 0; i < b.length; i++) {
             String plainText = Integer.toHexString(0xff & b[i]);
             if (plainText.length() < 2) {

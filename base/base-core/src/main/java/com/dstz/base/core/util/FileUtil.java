@@ -94,7 +94,7 @@ public class FileUtil {
         try {
             File file = new File(fileName);
             String charset = getCharset(file);
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), charset));
             String str;
             while ((str = in.readLine()) != null) {
@@ -387,7 +387,7 @@ public class FileUtil {
      */
     public static String inputStream2String(InputStream input, String charset) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(input, charset));
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         String line = "";
         while ((line = in.readLine()) != null) {
             buffer.append(line + "\n");
@@ -717,7 +717,7 @@ public class FileUtil {
      * @return 保存是否成功。
      */
     public static boolean saveProperties(String fileName, String key, String value) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         boolean isFound = false;
         BufferedReader in = null;
         try {
@@ -759,7 +759,7 @@ public class FileUtil {
      * @return
      */
     public static boolean delProperties(String fileName, String key) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         BufferedReader in = null;
         try {

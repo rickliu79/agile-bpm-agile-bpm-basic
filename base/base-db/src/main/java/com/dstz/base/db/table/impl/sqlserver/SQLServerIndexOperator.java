@@ -48,7 +48,7 @@ public class SQLServerIndexOperator extends BaseIndexOperator {
      * @return
      */
     private String genIndexDDL(Index index) {
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append("CREATE ");
         // 是否唯一
         if (index.isUnique()) {

@@ -82,18 +82,19 @@ var app = angular.module("btnApp", [ 'base', 'baseDirective' ]);
 			$scope.changeButtonType=function(obj){
 				if(obj.alias){
 					obj.status=3;
-					obj.name=$scope.getName(obj.alias);
+					var btn = $scope.getButton(obj.alias);
+					$.extend(obj,btn);
 				}
 				else{
 					obj.status=2;
 				}
 			}
 			
-			$scope.getName=function(alias){
+			$scope.getButton=function(alias){
 				for(var i=0;i<$scope.defaultNodeBtns.length;i++){
 					var obj=$scope.defaultNodeBtns[i];
 					if(alias==obj.alias){
-						return obj.name;
+						return obj;
 					}
 				}
 				return "";

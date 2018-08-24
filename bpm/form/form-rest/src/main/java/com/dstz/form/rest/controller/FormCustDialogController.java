@@ -121,7 +121,9 @@ public class FormCustDialogController extends BaseController<FormCustDialog> {
         FormCustDialog formCustDialog = formCustDialogManager.getByKey(key);
         ISysDataSource sysDataSource = sysDataSourceService.getByKey(formCustDialog.getDsKey());
         // 切换数据源
-        DbContextHolder.setDataSource(sysDataSource.getKey(), sysDataSource.getDbType());
+        if(sysDataSource != null) {
+        	DbContextHolder.setDataSource(sysDataSource.getKey(), sysDataSource.getDbType());
+        }
         List<?> list = formCustDialogManager.data(formCustDialog, queryFilter);
         return new PageJson(list);
     }

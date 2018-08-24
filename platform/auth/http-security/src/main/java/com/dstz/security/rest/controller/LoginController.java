@@ -30,7 +30,6 @@ import com.dstz.security.login.SecurityUtil;
 public class LoginController extends GenericController {
     @Resource
     UserService userService;
-    @Resource
     SessionAuthenticationStrategy sessionStrategy = new NullAuthenticatedSessionStrategy();
 
     @RequestMapping(value = "login/valid")
@@ -44,7 +43,7 @@ public class LoginController extends GenericController {
         if (StringUtil.isEmpty(password)) {
             throw new BusinessException("密码不能为空", PlatFormStatusCode.LOGIN_ERROR);
         }
-
+        
         try {
             Authentication auth = SecurityUtil.login(request, account, password, false);
             sessionStrategy.onAuthentication(auth, request, response);

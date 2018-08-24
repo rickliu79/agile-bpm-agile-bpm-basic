@@ -68,7 +68,7 @@ public class SysAuthorizationManagerImpl extends BaseManager<String, SysAuthoriz
             targetKey = "id_";
         }
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         Set<String> rights = getUserRights(userId);
 

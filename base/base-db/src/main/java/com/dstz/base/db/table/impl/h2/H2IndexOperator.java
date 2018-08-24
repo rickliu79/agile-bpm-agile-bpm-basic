@@ -58,7 +58,7 @@ public class H2IndexOperator extends BaseIndexOperator {
      * @return
      */
     private String genIndexDDL(Index index) {
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append("CREATE ");
         sql.append("INDEX ");
         sql.append(index.getIndexName());

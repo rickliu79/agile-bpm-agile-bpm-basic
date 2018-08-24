@@ -48,7 +48,7 @@ public class MySQLIndexOperator extends BaseIndexOperator {
      * @return
      */
     private String genIndexDDL(Index index) {
-        StringBuffer ddl = new StringBuffer();
+        StringBuilder ddl = new StringBuilder();
         ddl.append("CREATE");
         if (StringUtil.isNotEmpty(index.getIndexType())) {
             ddl.append(" " + index.getIndexType() + " ");

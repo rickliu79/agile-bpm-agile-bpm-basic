@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.aop.annotion.CatchErr;
+import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
+import com.dstz.base.api.response.impl.ResultMsg;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.dao.CommonDao;
 import com.dstz.base.db.datasource.DbContextHolder;
 import com.dstz.base.db.model.page.PageJson;
@@ -26,6 +29,7 @@ import com.dstz.bus.api.model.IBusinessTable;
 import com.dstz.bus.api.service.IBusinessDataService;
 import com.dstz.bus.api.service.IBusinessObjectService;
 import com.dstz.bus.api.service.IBusinessPermissionService;
+import com.dstz.form.api.constant.FormStatusCode;
 import com.dstz.form.manager.FormDefManager;
 import com.dstz.form.model.FormDef;
 import com.dstz.form.model.FormDefData;
@@ -125,18 +129,26 @@ public class FormDefDataController extends GenericController {
 		return new PageJson(list);
 	}
 
-	@RequestMapping("removeData")
+	@RequestMapping("removeData/{formKey}/{id}")
 	@CatchErr(write2response = true, value = "删除formDef中的data数据异常")
-	public void removeData(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String boKey = RequestUtil.getString(request, "boKey");
-		String key = RequestUtil.getString(request, "key");
-		String id = RequestUtil.getString(request, "id");
-		FormDef formDef = formDefManager.getByKey(key);
-		IBusinessPermission permission = businessPermissionService.getByObjTypeAndObjVal(BusinessPermissionObjType.FORM.getKey(), key,formDef.getBoKey(), true);
+	public ResultMsg removeData(@PathVariable(value = "formKey",required=false) String formKey,@PathVariable(value = "id",required=false) String id) throws Exception {
+		if(StringUtil.isEmpty(formKey)) {
+			throw new BusinessException("formKey 不能为空",FormStatusCode.PARAM_ILLEGAL);
+		}
+		if(StringUtil.isEmpty(id)) {
+			throw new BusinessException("ID 不能为空",FormStatusCode.PARAM_ILLEGAL);
+		}
+		
+		FormDef formDef = formDefManager.getByKey(formKey);
+		String boKey = formDef.getBoKey();
+		
+		IBusinessPermission permission = businessPermissionService.getByObjTypeAndObjVal(BusinessPermissionObjType.FORM.getKey(), formKey,formDef.getBoKey(), true);
 		IBusinessObject businessObject = businessObjectService.getFilledByKey(boKey);
 		businessObject.setPermission(permission.getBusObj(boKey));
+		
 		businessDataService.removeData(businessObject, id);
-		writeSuccessResult(response, "删除数据成功");
+
+		return getSuccessResult("删除成功！");
 	}
 
 }

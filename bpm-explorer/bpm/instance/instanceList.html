@@ -45,8 +45,8 @@
               
               <th data-formatter="innerHtmlFormatter" data-title="管理">
 					<a class="fa-detail btn btn-outline btn-primary btn-sm" openDialog='详情' qtip='详情' url='instanceDetail.html?id={id}' ></a>
-					<span if="{isForbidden}===0" class="fa-check-square-o btn btn-outline btn-primary btn-sm" qtip='挂起' sendAction="挂起" url="/bpm/instance/toForbidden?id={id}"></span>
-					<span if="{isForbidden}===1" class="fa-check-square-o btn btn-outline btn-primary btn-sm" qtip='取消挂起' sendAction="取消挂起" url="/bpm/instance/toForbidden?id={id}&forbidden=false"></span>
+					<span if="{isForbidden}===0" class="fa-ban btn btn-outline btn-primary btn-sm" qtip='挂起' sendAction="挂起" url="/bpm/instance/toForbidden?id={id}&forbidden=true"></span>
+					<span if="{isForbidden}===1" class="fa-undo btn btn-outline btn-primary btn-sm" qtip='取消挂起' sendAction="取消挂起" url="/bpm/instance/toForbidden?id={id}&forbidden=false"></span>
 			  </th>
           </tr>
           </thead>

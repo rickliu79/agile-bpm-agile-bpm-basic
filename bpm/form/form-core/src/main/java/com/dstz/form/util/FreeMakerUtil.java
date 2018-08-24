@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 public class FreeMakerUtil {
     // 指令，如果为空则不添加
     public String getAttrs(String attrNames, Object f) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         JSONObject field = (JSONObject) JSON.toJSON(f);
         JSONObject option = field.getJSONObject("option");
 

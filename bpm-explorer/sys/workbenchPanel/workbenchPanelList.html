@@ -49,7 +49,7 @@
 					<th data-field="id" data-formatter="innerHtmlFormatter" data-title="管理">
 						<span class="fa-edit btn btn-outline btn-primary btn-sm" qtip='编辑' openDialog="编辑"  url="./workbenchPanelEdit.html?id={id}"></span>
 						<span class="fa-trash btn btn-outline  btn-primary btn-sm" qtip='删除' sendAction="删除" url="/sys/workbenchPanel/remove?id={id}"></span>
-						<span class="fa-user-times btn btn-outline  btn-primary btn-sm" dialogConf='"height":500,"width":600' qtip='授权' openDialog="{name}流程授权" url="sys/authorization/authorizationDialog.html?rightsObject=FLOW&rightsTarget={id}"></span>
+						<span class="fa-user-times btn btn-outline  btn-primary btn-sm" dialogConf='"height":500,"width":600' qtip='授权' openDialog="{name}流程授权" url="/sys/authorization/authorizationDialog.html?rightsObject=WORKBENCH&rightsTarget={id}"></span>
 					</th>
 				</tr>
 			</thead>

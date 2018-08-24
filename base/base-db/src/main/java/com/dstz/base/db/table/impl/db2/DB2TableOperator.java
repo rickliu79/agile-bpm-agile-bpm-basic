@@ -33,7 +33,7 @@ public class DB2TableOperator extends BaseTableOperator {
     public void createTable(Table model) throws SQLException {
         List<Column> columnList = model.getColumnList();
         // 建表语句
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         // 主键字段
         String pkColumn = null;
         // 例注释
@@ -80,7 +80,7 @@ public class DB2TableOperator extends BaseTableOperator {
             sb.append("    CONSTRAINT PK_").append(model.getTableName())
                     .append(" PRIMARY KEY (").append(pkColumn).append(")");
         } else {
-            sb = new StringBuffer(sb.substring(0, sb.length() - ",\n".length()));
+            sb = new StringBuilder(sb.substring(0, sb.length() - ",\n".length()));
         }
 
         // 建表结束
@@ -199,7 +199,7 @@ public class DB2TableOperator extends BaseTableOperator {
     @Override
     public void updateTableComment(String tableName, String comment)
             throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("COMMENT ON TABLE ").append(tableName).append(" IS '")
                 .append(comment).append("'\n");
         jdbcTemplate.execute(sb.toString());
@@ -214,7 +214,7 @@ public class DB2TableOperator extends BaseTableOperator {
      */
     @Override
     public void addColumn(String tableName, Column model) throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("ALTER TABLE ").append(tableName);
         sb.append(" ADD ");
         sb.append(model.getFieldName()).append(" ");
@@ -252,14 +252,14 @@ public class DB2TableOperator extends BaseTableOperator {
             throws SQLException {
         // 修改列名
         // if(!columnName.equalsIgnoreCase(model.getName())){
-        // StringBuffer modifyName = new
-        // StringBuffer("ALTER TABLE ").append(tableName);
+        // StringBuilder modifyName = new
+        // StringBuilder("ALTER TABLE ").append(tableName);
         // modifyName.append(" RENAME COLUMN ").append(columnName).append(" TO ").append(model.getName());
         // jdbcTemplate.execute(modifyName.toString());
         // }
         if (!columnName.equalsIgnoreCase(model.getFieldName())) {
             // add new column
-            StringBuffer addColumn = new StringBuffer();
+            StringBuilder addColumn = new StringBuilder();
             addColumn.append("alter table ");
             addColumn.append(tableName);
             addColumn.append(" add column ");
@@ -285,7 +285,7 @@ public class DB2TableOperator extends BaseTableOperator {
         }
 
         // 修改列的大小
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         // alter table NODES ALTER NODE_NAME SET DATA TYPE varchar(32);
         sb.append("ALTER TABLE ").append(tableName);
         sb.append("  ALTER " + model.getFieldName()).append(" ");
@@ -373,7 +373,7 @@ public class DB2TableOperator extends BaseTableOperator {
     @Override
     public Map<String, List<String>> getPKColumns(List<String> tableNames)
             throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (String name : tableNames) {
             sb.append("'");
             sb.append(name);

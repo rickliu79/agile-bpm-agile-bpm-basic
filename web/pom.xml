@@ -1,215 +1,225 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <artifactId>agile-bpm</artifactId>
-        <groupId>com.dstz.agilebpm</groupId>
-        <version>1.1.5</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
+	<parent>
+		<artifactId>agile-bpm</artifactId>
+		<groupId>com.dstz.agilebpm</groupId>
+		<version>1.1.6</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 
-    <artifactId>web</artifactId>
-    <name>【web整合模块】</name>
-    <packaging>war</packaging>
-    <description>提供主服务</description>
+	<artifactId>web</artifactId>
+	<name>【web整合模块】</name>
+	<packaging>war</packaging>
+	<description>提供主服务</description>
 
-    <repositories>
-        <repository>
-            <id>nexus-agile-bpm</id>
-            <url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
+	<repositories>
+		<repository>
+			<id>nexus-agile-bpm</id>
+			<url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>nexus-agile-bpm</id>
-            <url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
-
-
-    <build>
-
-        <finalName>${project.artifactId}</finalName>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-dependency-plugin</artifactId>
-                                        <versionRange>[2.0,)</versionRange>
-                                        <goals>
-                                            <goal>copy-dependencies</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore/>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.3.2</version>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>nexus-agile-bpm</id>
+			<url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 
-        <plugins>
+	<build>
 
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.4.2.v20170220</version>
-                <configuration>
-                    <httpConnector>
-                        <port>8080</port>
-                    </httpConnector>
+		<finalName>${project.artifactId}</finalName>
 
-                    <webApp>
-                        <contextPath>/agile-bpm-platform</contextPath>
-                        <tempDirectory>${project.build.directory}/tmp</tempDirectory>
-                    </webApp>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.0,)</versionRange>
+										<goals>
+											<goal>copy-dependencies</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 
-                    <classesDirectory>${project.build.outputDirectory}</classesDirectory>
-                    <webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory>
-                    <reload>manual</reload>
 
-                    <contextHandlers>
-                        <contextHandler implementation="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
-                            <contextPath>/bpm-explorer</contextPath>
-                            <resourceBase>${project.basedir}/../bpm-explorer</resourceBase>
-                        </contextHandler>
-                    </contextHandlers>
+		<plugins>
 
-                    <requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
-                        <filename>target/access.log</filename>
-                        <retainDays>30</retainDays>
-                        <append>true</append>
-                        <extended>false</extended>
-                        <logDateFormat>yyyy-MM-dd HH:mm:ss:SSS</logDateFormat>
-                        <logTimeZone>GMT+8:00</logTimeZone>
-                    </requestLog>
-                </configuration>
-            </plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.2.v20170220</version>
+				<configuration>
+					<httpConnector>
+						<port>8080</port>
+					</httpConnector>
 
-        </plugins>
-    </build>
+					<webApp>
+						<contextPath>/agile-bpm-platform</contextPath>
+						<tempDirectory>${project.build.directory}/tmp</tempDirectory>
+					</webApp>
 
-    <properties>
-        <base.version>1.1.5</base.version>
-        <bpm.version>1.1.5</bpm.version>
-        <platform.version>1.1.5</platform.version>
-    </properties>
+					<classesDirectory>${project.build.outputDirectory}</classesDirectory>
+					<webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory>
+					<reload>manual</reload>
 
-    <dependencies>
+					<contextHandlers>
+						<contextHandler
+							implementation="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
+							<contextPath>/bpm-explorer</contextPath>
+							<resourceBase>${project.basedir}/../bpm-explorer</resourceBase>
+						</contextHandler>
+					</contextHandlers>
 
-        <dependency>
-            <groupId>com.dstz.agilebpm</groupId>
-            <artifactId>base-rest</artifactId>
-            <version>${base.version}</version>
-        </dependency>
+					<requestLog
+						implementation="org.eclipse.jetty.server.NCSARequestLog">
+						<filename>target/access.log</filename>
+						<retainDays>30</retainDays>
+						<append>true</append>
+						<extended>false</extended>
+						<logDateFormat>yyyy-MM-dd HH:mm:ss:SSS</logDateFormat>
+						<logTimeZone>GMT+8:00</logTimeZone>
+					</requestLog>
+				</configuration>
+			</plugin>
 
-        <dependency>
-            <groupId>com.dstz.agilebpm</groupId>
-            <artifactId>wf-rest</artifactId>
-            <version>${bpm.version}</version>
-        </dependency>
+		</plugins>
+	</build>
 
-        <dependency>
-            <groupId>com.dstz.agilebpm</groupId>
-            <artifactId>bus-rest</artifactId>
-            <version>${bpm.version}</version>
-        </dependency>
+	<properties>
+		<base.version>1.1.6</base.version>
+		<bpm.version>1.1.6</bpm.version>
+		<platform.version>1.1.6</platform.version>
+	</properties>
 
-        <dependency>
-            <groupId>com.dstz.agilebpm</groupId>
-            <artifactId>form-rest</artifactId>
-            <version>${bpm.version}</version>
-        </dependency>
+	<dependencies>
 
-        <dependency>
-            <groupId>com.dstz.agilebpm</groupId>
-            <artifactId>org-rest</artifactId>
-            <version>${platform.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>com.dstz.agilebpm</groupId>
+			<artifactId>base-rest</artifactId>
+			<version>${base.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>com.dstz.agilebpm</groupId>
-            <artifactId>sys-rest</artifactId>
-            <version>${platform.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>com.dstz.agilebpm</groupId>
+			<artifactId>wf-rest</artifactId>
+			<version>${bpm.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>com.dstz.agilebpm</groupId>
-            <artifactId>http-security</artifactId>
-            <version>${platform.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>com.dstz.agilebpm</groupId>
+			<artifactId>bus-rest</artifactId>
+			<version>${bpm.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.dstz.agilebpm</groupId>
+			<artifactId>form-rest</artifactId>
+			<version>${bpm.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.dstz.agilebpm</groupId>
+			<artifactId>org-rest</artifactId>
+			<version>${platform.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.dstz.agilebpm</groupId>
+			<artifactId>sys-rest</artifactId>
+			<version>${platform.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.dstz.agilebpm</groupId>
+			<artifactId>http-security</artifactId>
+			<version>${platform.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.3.1</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
 
-    </dependencies>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+
+		<!-- demo 模块   -->
+		<dependency>
+			<groupId>com.dstz.demo</groupId>
+			<artifactId>demo-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+	</dependencies>
 
 </project>

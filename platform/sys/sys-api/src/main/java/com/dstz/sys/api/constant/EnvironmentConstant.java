@@ -28,7 +28,7 @@ public enum EnvironmentConstant {
     }
 
     public static String getKes() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (EnvironmentConstant e : EnvironmentConstant.values()) {
             sb.append("[").append(e.key).append("]");
         }

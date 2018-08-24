@@ -108,7 +108,7 @@ public class H2TableMeta extends BaseTableMeta {
         if (tableNames != null && tableNames.size() == 0) {
             return map;
         } else {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             for (String str : tableNames) {
                 buf.append("'" + str + "',");
             }
@@ -174,7 +174,7 @@ public class H2TableMeta extends BaseTableMeta {
     @SuppressWarnings("unchecked")
     @Override
     public Map<String, String> getTablesByName(List<String> names) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (String name : names) {
             sb.append("'");
             sb.append(name);

@@ -262,7 +262,7 @@ public class DateUtil {
      * @return
      */
     public static String getTime(Long millseconds) {
-        StringBuffer time = new StringBuffer();
+        StringBuilder time = new StringBuilder();
         if (millseconds == null)
             return "";
         int days = (int) (long) millseconds / 1000 / 60 / 60 / 24;

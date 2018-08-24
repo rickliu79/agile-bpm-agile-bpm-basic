@@ -127,7 +127,7 @@ public class DefaultQueryFilter implements QueryFilter {
 	@Override
 	public String getOrderBySql() {
 		if (this.getFieldSortList().size() > 0) {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (FieldSort fieldSort : this.getFieldSortList()) {
                 sb.append(fieldSort.getField()).append(" ").append(fieldSort.getDirection()).append(",");
             }

@@ -159,7 +159,7 @@ public abstract class AbsFormElementGenerator {
 			return "data."+relation.getBusObj().getKey();
 		}
 		
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		// 一对一是对象名字 
 		sb.append(relation.getTableKey());
 		// 如果是一对多则添加List
@@ -178,7 +178,7 @@ public abstract class AbsFormElementGenerator {
 		return sb.toString();
 	}
 	
-	protected void getParentPath(IBusTableRel parent,StringBuffer sb) {
+	protected void getParentPath(IBusTableRel parent,StringBuilder sb) {
 		if(parent == null) return;
 		//上级是一对多则将scope的name 返回
 		if(parent.getType().equals(BusTableRelType.ONE_TO_MANY.getKey())) {

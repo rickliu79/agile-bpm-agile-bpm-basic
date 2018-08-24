@@ -32,7 +32,7 @@ public class H2TableOperator extends BaseTableOperator {
     public void createTable(Table model) throws SQLException {
         List<Column> columnList = model.getColumnList();
         // 建表语句
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         // 主键字段
         String pkColumn = null;
         // 例注释
@@ -79,7 +79,7 @@ public class H2TableOperator extends BaseTableOperator {
             sb.append("    CONSTRAINT PK_").append(model.getTableName())
                     .append(" PRIMARY KEY (").append(pkColumn).append(")");
         } else {
-            sb = new StringBuffer(sb.substring(0, sb.length() - ",\n".length()));
+            sb = new StringBuilder(sb.substring(0, sb.length() - ",\n".length()));
         }
 
         // 建表结束
@@ -170,7 +170,7 @@ public class H2TableOperator extends BaseTableOperator {
     @Override
     public void updateTableComment(String tableName, String comment)
             throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("COMMENT ON TABLE ");
         sb.append(tableName);
         sb.append(" IS '");
@@ -188,7 +188,7 @@ public class H2TableOperator extends BaseTableOperator {
      */
     @Override
     public void addColumn(String tableName, Column model) throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("ALTER TABLE ").append(tableName);
         sb.append(" ADD ");
         sb.append(model.getFieldName()).append(" ");
@@ -222,13 +222,13 @@ public class H2TableOperator extends BaseTableOperator {
             throws SQLException {
         // 修改列名
         if (!columnName.equals(model.getFieldName())) {
-            StringBuffer modifyName = new StringBuffer("ALTER TABLE ")
+            StringBuilder modifyName = new StringBuilder("ALTER TABLE ")
                     .append(tableName);
             modifyName.append(" ALTER COLUMN ").append(columnName)
                     .append(" RENAME TO ").append(model.getFieldName());
             jdbcTemplate.execute(modifyName.toString());
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("ALTER TABLE ").append(tableName);
         sb.append(" ALTER COLUMN ").append(model.getFieldName());
         sb.append(getColumnType(model.getColumnType(), model.getCharLen(),
@@ -306,7 +306,7 @@ public class H2TableOperator extends BaseTableOperator {
     @Override
     public Map<String, List<String>> getPKColumns(List<String> tableNames)
             throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (String name : tableNames) {
             sb.append("'");
             sb.append(name);

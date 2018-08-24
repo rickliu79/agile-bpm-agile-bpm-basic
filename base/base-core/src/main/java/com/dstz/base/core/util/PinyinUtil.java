@@ -202,7 +202,7 @@ public class PinyinUtil {
      * @return
      */
     public static String getPinYinHeadChar(String chinese) {
-        StringBuffer pinyin = new StringBuffer();
+        StringBuilder pinyin = new StringBuilder();
         if (chinese != null && !chinese.trim().equalsIgnoreCase("")) {
             for (int j = 0; j < chinese.length(); j++) {
                 char word = chinese.charAt(j);

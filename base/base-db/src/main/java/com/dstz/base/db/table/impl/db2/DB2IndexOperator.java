@@ -69,7 +69,7 @@ public class DB2IndexOperator extends BaseIndexOperator {
      * @return
      */
     private String genIndexDDL(Index index) {
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append("CREATE ").append("INDEX ").append(index.getIndexName())
                 .append(" ON ").append(index.getTableName()).append("(");
         for (String field : index.getColumnList()) {

@@ -151,7 +151,7 @@ public class OracleViewOperator extends BaseViewOperator implements
         if (tableNames != null && tableNames.size() == 0) {
             return map;
         } else {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             for (String str : tableNames) {
                 buf.append("'" + str + "',");
             }

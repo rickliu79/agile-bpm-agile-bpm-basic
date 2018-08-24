@@ -20,7 +20,7 @@ import com.dstz.bus.api.model.IBusinessColumn;
  * @author jeff
  */
 @Component
-public class mobileFormElementGenerator extends AbsFormElementGenerator{
+public class MobileFormElementGenerator extends AbsFormElementGenerator{
 	public String getColumn(IBusinessColumn column,IBusTableRel relation) {
 		if("1".equals("1")) {
 			return super.getColumn(column, relation);
@@ -228,7 +228,7 @@ public class mobileFormElementGenerator extends AbsFormElementGenerator{
 	
 	// id="boCode-tableKey" ab-basic-permission="boCode.table.tableKey" ...
 	public String getSubAttrs(IBusTableRel rel) {
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			sb.append( " id="+"\""+ rel.getBusObj().getKey()+"-"+rel.getTableKey()+"\" ");
 			
 			//一对多的三层情况下弹框展示

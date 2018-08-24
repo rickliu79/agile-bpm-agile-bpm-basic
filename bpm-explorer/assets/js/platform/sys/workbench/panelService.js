@@ -50,7 +50,8 @@ var panelApp = angular.module('workbenchApp', ['baseDirective']);
 			replace:true,
 			link : function(scope,element, attr){
 				var panel = scope.panel;
-				scope.url = __ctx + panel.dataSource;
+				
+				scope.url = getProjectUrl(panel.dataSource);
 			},
 			templateUrl:"../../assets/js/platform/sys/workbench/iframe-templ.html",
 		};

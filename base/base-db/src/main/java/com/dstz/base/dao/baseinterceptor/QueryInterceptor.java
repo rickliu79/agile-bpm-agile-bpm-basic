@@ -81,7 +81,7 @@ public class QueryInterceptor  implements Interceptor{
         }
         //构建排序SQL
         if (filter.getFieldSortList().size() > 0) {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (FieldSort fieldSort : filter.getFieldSortList()) {
                 sb.append(fieldSort.getField()).append(" ").append(fieldSort.getDirection()).append(",");
             }

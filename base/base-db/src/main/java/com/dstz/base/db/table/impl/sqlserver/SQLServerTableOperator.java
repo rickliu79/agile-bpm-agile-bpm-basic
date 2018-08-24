@@ -33,7 +33,7 @@ public class SQLServerTableOperator extends BaseTableOperator {
         List<Column> columnList = model.getColumnList();
 
         // 建表语句
-        StringBuffer createTableSql = new StringBuffer();
+        StringBuilder createTableSql = new StringBuilder();
         // 主键字段
         String pkColumn = null;
 
@@ -79,7 +79,7 @@ public class SQLServerTableOperator extends BaseTableOperator {
             // }
             // 字段注释
             if (cm.getComment() != null && cm.getComment().length() > 0) {
-                StringBuffer comment = new StringBuffer(
+                StringBuilder comment = new StringBuilder(
                         "EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'");
                 comment.append(cm.getComment())
                         .append("' ,@level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'TABLE', @level1name=N'")
@@ -106,7 +106,7 @@ public class SQLServerTableOperator extends BaseTableOperator {
 
         // 表注释
         if (model.getComment() != null && model.getComment().length() > 0) {
-            StringBuffer tableComment = new StringBuffer(
+            StringBuilder tableComment = new StringBuilder(
                     "EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'");
             tableComment
                     .append(model.getComment())
@@ -183,7 +183,7 @@ public class SQLServerTableOperator extends BaseTableOperator {
     public void updateTableComment(String tableName, String comment)
             throws SQLException {
         // 假如不存在表的注释 ,会抛出异常
-        StringBuffer commentSql = new StringBuffer(
+        StringBuilder commentSql = new StringBuilder(
                 "EXEC sys.sp_updateextendedproperty @name=N'MS_Description', @value=N'");
         commentSql
                 .append(comment)
@@ -203,7 +203,7 @@ public class SQLServerTableOperator extends BaseTableOperator {
      */
     @Override
     public void addColumn(String tableName, Column model) throws SQLException {
-        StringBuffer alterSql = new StringBuffer();
+        StringBuilder alterSql = new StringBuilder();
         alterSql.append("ALTER TABLE ").append(tableName);
         alterSql.append(" ADD ");
         alterSql.append(model.getFieldName()).append(" ");
@@ -220,7 +220,7 @@ public class SQLServerTableOperator extends BaseTableOperator {
         alterSql.append("\n");
         jdbcTemplate.execute(alterSql.toString());
         if (model.getComment() != null && model.getComment().length() > 0) {
-            StringBuffer comment = new StringBuffer(
+            StringBuilder comment = new StringBuilder(
                     "EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'");
             comment.append(model.getComment())
                     .append("' ,@level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'TABLE', @level1name=N'")
@@ -243,7 +243,7 @@ public class SQLServerTableOperator extends BaseTableOperator {
             throws SQLException {
         // 修改列名
         if (!columnName.equals(model.getFieldName())) {
-            StringBuffer modifyName = new StringBuffer("EXEC sp_rename '");
+            StringBuilder modifyName = new StringBuilder("EXEC sp_rename '");
             modifyName.append(tableName).append(".[").append(columnName)
                     .append("]','").append(model.getFieldName())
                     .append("', 'COLUMN'");
@@ -251,7 +251,7 @@ public class SQLServerTableOperator extends BaseTableOperator {
         }
 
         // 修改列的大小,此处不修改列的类型,若修改列的类型则在前面部分已抛出异常
-        StringBuffer alterSql = new StringBuffer();
+        StringBuilder alterSql = new StringBuilder();
         alterSql.append("ALTER TABLE ").append(tableName);
         alterSql.append(" ALTER COLUMN " + model.getFieldName()).append(" ");
         alterSql.append(getColumnType(model.getColumnType(),
@@ -265,7 +265,7 @@ public class SQLServerTableOperator extends BaseTableOperator {
         // 修改注释
         if (model.getComment() != null && model.getComment().length() > 0) {
             // 更新字段注释假如不存在该列的注释 ,会抛出异常
-            StringBuffer comment = new StringBuffer(
+            StringBuilder comment = new StringBuilder(
                     "EXEC sys.sp_updateextendedproperty @name=N'MS_Description', @value=N'");
             comment.append(model.getComment())
                     .append("' ,@level0type=N'SCHEMA', @level0name=N'dbo', @level1type=N'TABLE', @level1name=N'")
@@ -344,7 +344,7 @@ public class SQLServerTableOperator extends BaseTableOperator {
     @Override
     public Map<String, List<String>> getPKColumns(List<String> tableNames)
             throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (String name : tableNames) {
             sb.append("'");
             sb.append(name);

@@ -218,7 +218,7 @@ public class HttpUtil {
         InputStreamReader inputStreamReader = new InputStreamReader(
                 inputStream, "utf-8");
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         String str = null;
         while ((str = bufferedReader.readLine()) != null) {
             buffer.append(str);
@@ -308,7 +308,7 @@ public class HttpUtil {
             // Get the response
             bufferedReader = new BufferedReader(new InputStreamReader(
                     conn.getInputStream()));
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 response.append(line);

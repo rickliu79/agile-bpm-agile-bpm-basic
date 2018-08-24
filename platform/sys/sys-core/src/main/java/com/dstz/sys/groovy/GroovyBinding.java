@@ -6,12 +6,16 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Groovy 绑定
- *
  * @author ray
  */
 public class GroovyBinding extends Binding {
+    private Log logger = LogFactory.getLog(GroovyScriptEngine.class);
+
     @SuppressWarnings("unused")
     private Map<?, ?> variables;
     private static ThreadLocal<Map<String, Object>> localVars = new ThreadLocal<Map<String, Object>>();
@@ -21,9 +25,9 @@ public class GroovyBinding extends Binding {
     public GroovyBinding() {
     }
 
-    public GroovyBinding(Map<String, Object> variables) {
+    public void setThreadVariables(Map<String, Object> variables) {
+    	localVars.remove();
         localVars.set(variables);
-        // this.localVars = variables;
     }
 
     public GroovyBinding(String[] args) {
@@ -38,6 +42,10 @@ public class GroovyBinding extends Binding {
             result = map.get(name);
         } else {
             result = propertyMap.get(name);
+        }
+        
+        if(result == null) {
+        	logger.warn("执行Groovy 语句时,Context 缺少 Variable ："+name);
         }
 
         return result;

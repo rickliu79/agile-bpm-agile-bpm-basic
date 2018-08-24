@@ -133,11 +133,11 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 			 */
 			scope.buttonClick = function(validateForm,dialogHeigth,dialogWidth){
 				button = this.button;
-				ii = layer.load();
 				//执行前置js
-				if(!scope.execuFn(button.beforeFn)){
+				if(!scope.execuFn(button.beforeScript)){
 					 return;
 				 }
+				ii = layer.load();
 				//获取流程数据
 				var dataStr = bpmService.getFormData(scope,button,validateForm);
 				if(dataStr === false){
@@ -212,6 +212,7 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 					<div ng-if="button.alias==\'flowImage\'" 	buttonAlias="{{button.alias}}"   	ng-click="buttonClick(false,600,800)" 	class="btn btn-primary fa fa-image">流程图</div>\
 			        <div ng-if="button.alias==\'manualEnd\'" 	buttonAlias="{{button.alias}}"   	ng-click="buttonClick(false,300,500)" 	class="btn btn-danger fa fa-ioxhost">人工终止</div>\
 					<div ng-if="button.alias==\'print\'" 		buttonAlias="{{button.alias}}"   	ng-click="buttonClick(false)" 			class="btn btn-primary fa fa-print">打印</div>\
+					<div ng-if="\'start,draft,save,agree,oppose,reject,reject2Start,lock,unlock,taskOpinion,flowImage,manualEnd,print,\'.indexOf(button.alias)==-1" 		buttonAlias="{{button.alias}}"   	ng-click="buttonClick(false)" 			class="btn btn-primary">{{button.name}}</div>\
 				 </span>',
 		replace:true
 	};

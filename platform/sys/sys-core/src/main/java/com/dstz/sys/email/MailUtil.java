@@ -354,7 +354,7 @@ public class MailUtil {
             mail.setSubject("无主题");
         }
         // 取得邮件内容
-        StringBuffer bodytext = new StringBuffer();
+        StringBuilder bodytext = new StringBuilder();
         getMailContent(message, bodytext, mail);
         mail.setContent(bodytext.toString());
         // 发件人
@@ -410,8 +410,8 @@ public class MailUtil {
         MailAddress mailAddress = new MailAddress();
         InternetAddress[] address = (InternetAddress[]) mimeMessage.getRecipients(recipientType);
         if (address == null) return mailAddress;
-        StringBuffer addresses = new StringBuffer("");
-        StringBuffer name = new StringBuffer("");
+        StringBuilder addresses = new StringBuilder("");
+        StringBuilder name = new StringBuilder("");
         for (int i = 0; i < address.length; i++) {
             String email = address[i].getAddress();
             if (email == null) continue;
@@ -433,7 +433,7 @@ public class MailUtil {
     }
 
     /**
-     * 解析邮件，把得到的邮件内容保存到一个StringBuffer对象中， 解析邮件 主要是根据MimeType类型的不同执行不同的操作，一步一步的解析
+     * 解析邮件，把得到的邮件内容保存到一个StringBuilder对象中， 解析邮件 主要是根据MimeType类型的不同执行不同的操作，一步一步的解析
      *
      * @param    message
      * @param    bodyText
@@ -441,7 +441,7 @@ public class MailUtil {
      * @see    Part
      * @see    Mail
      */
-    private void getMailContent(Part message, StringBuffer bodyText, Mail mail) throws Exception {
+    private void getMailContent(Part message, StringBuilder bodyText, Mail mail) throws Exception {
         String contentType = message.getContentType();
         int nameindex = contentType.indexOf("name");
         boolean conname = false;

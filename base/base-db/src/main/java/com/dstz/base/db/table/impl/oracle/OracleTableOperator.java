@@ -33,7 +33,7 @@ public class OracleTableOperator extends BaseTableOperator {
     public void createTable(Table table) throws SQLException {
         List<Column> columnList = table.getColumnList();
         // 建表语句
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         // 主键字段
         String pkColumn = null;
 
@@ -168,7 +168,7 @@ public class OracleTableOperator extends BaseTableOperator {
     @Override
     public void updateTableComment(String tableName, String comment)
             throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("COMMENT ON TABLE ").append(tableName).append(" IS '")
                 .append(comment).append("'\n");
         jdbcTemplate.execute(sb.toString());
@@ -183,7 +183,7 @@ public class OracleTableOperator extends BaseTableOperator {
      */
     @Override
     public void addColumn(String tableName, Column model) throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("ALTER TABLE ").append(tableName);
         sb.append(" ADD ");
         sb.append(model.getFieldName()).append(" ");
@@ -219,7 +219,7 @@ public class OracleTableOperator extends BaseTableOperator {
             throws SQLException {
         // 修改列名
         if (!columnName.equals(column.getFieldName())) {
-            StringBuffer modifyName = new StringBuffer("ALTER TABLE ")
+            StringBuilder modifyName = new StringBuilder("ALTER TABLE ")
                     .append(tableName);
             modifyName.append(" RENAME COLUMN ").append(columnName)
                     .append(" TO ").append(column.getFieldName());
@@ -227,7 +227,7 @@ public class OracleTableOperator extends BaseTableOperator {
         }
 
         // 修改列的大小,此处不修改列的类型,若修改列的类型则在前面部分已抛出异常
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         // alter table test01 modify(test_01 NUMBER(1));
         sb.append("ALTER TABLE ").append(tableName);
         sb.append(" MODIFY(" + column.getFieldName()).append(" ");
@@ -311,7 +311,7 @@ public class OracleTableOperator extends BaseTableOperator {
     @Override
     public Map<String, List<String>> getPKColumns(List<String> tableNames)
             throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (String name : tableNames) {
             sb.append("'");
             sb.append(name);
@@ -364,7 +364,7 @@ public class OracleTableOperator extends BaseTableOperator {
      */
     @Override
     public boolean isTableExist(String tableName) {
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append("select COUNT(1) from user_tables t where t.TABLE_NAME='")
                 .append(tableName.toUpperCase()).append("'");
         return jdbcTemplate.queryForObject(sql.toString(), Integer.class) > 0 ? true

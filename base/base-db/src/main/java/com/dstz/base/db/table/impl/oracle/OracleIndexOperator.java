@@ -49,7 +49,7 @@ public class OracleIndexOperator extends BaseIndexOperator {
      * @return
      */
     private String genIndexDDL(Index index) {
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append("CREATE ");
         // if(!StringUtil.isEmpty(index.getIndexType())){
         // if(index.getIndexType().equalsIgnoreCase("BITMAP")){

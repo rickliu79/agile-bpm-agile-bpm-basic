@@ -470,7 +470,7 @@ public class RequestUtil {
      * @return
      */
     public static String getUrl(HttpServletRequest request) {
-        StringBuffer urlThisPage = new StringBuffer();
+        StringBuilder urlThisPage = new StringBuilder();
         urlThisPage.append(request.getRequestURI());
         Enumeration<?> e = request.getParameterNames();
         String para = "";

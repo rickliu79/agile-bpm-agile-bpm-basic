@@ -12,9 +12,13 @@
         <security:logout success-handler-ref="logoutSuccessHandler"/>
 
         <security:custom-filter ref="csrfFilter" after="CAS_FILTER"/>
-
+		
         <security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="securityInterceptor"/>
         <security:access-denied-handler ref="accessDeniedHandler"/>
+        
+		<security:headers>
+			<security:frame-options policy="SAMEORIGIN"/>
+		</security:headers>
         <security:csrf disabled="true"/>
     </security:http>
 

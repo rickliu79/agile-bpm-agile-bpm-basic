@@ -33,8 +33,6 @@ import com.dstz.bus.api.service.IBusinessObjectService;
 import com.dstz.bus.api.service.IBusinessTableService;
 import com.dstz.form.api.constant.FormStatusCode;
 import com.dstz.form.generator.AbsFormElementGenerator;
-import com.dstz.form.generator.PcFormElementGenerator;
-import com.dstz.form.generator.mobileFormElementGenerator;
 import com.dstz.form.manager.FormDefManager;
 import com.dstz.form.manager.FormTemplateManager;
 import com.dstz.form.model.FormDef;

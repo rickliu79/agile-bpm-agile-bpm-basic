@@ -48,7 +48,7 @@ public class DefaultFieldLogic implements FieldLogic {
         if (whereClauses.size() == 0) return "";
         if (whereClauses.size() == 1 && !FieldRelation.NOT.equals(fieldRelation)) return whereClauses.get(0).getSql();
 
-        StringBuffer sqlBuf = new StringBuffer("(");
+        StringBuilder sqlBuf = new StringBuilder("(");
         int i = 0;
         if (whereClauses.size() > 0 && FieldRelation.NOT.equals(fieldRelation)) {
             sqlBuf.append(" NOT (");

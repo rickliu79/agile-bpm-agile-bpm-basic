@@ -194,7 +194,7 @@ public class PcFormElementGenerator extends AbsFormElementGenerator{
 	
 	// id="boCode-tableKey" ab-basic-permission="boCode.table.tableKey" ...
 	public String getSubAttrs(IBusTableRel rel) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append( " id="+"\""+ rel.getBusObj().getKey()+"-"+rel.getTableKey()+"\" ");
 		
 		//一对多的三层情况下弹框展示

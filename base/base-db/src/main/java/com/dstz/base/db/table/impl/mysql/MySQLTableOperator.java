@@ -33,7 +33,7 @@ public class MySQLTableOperator extends BaseTableOperator {
         List<Column> columnList = table.getColumnList();
 
         // 建表语句
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         // 主键字段
         String pkColumn = null;
         // 建表开始
@@ -147,7 +147,7 @@ public class MySQLTableOperator extends BaseTableOperator {
      */
     @Override
     public void updateTableComment(String tableName, String comment) throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("ALTER TABLE ").append(tableName).append(" COMMENT '").append(comment).append("';\n");
 
         jdbcTemplate.execute(sb.toString());
@@ -162,7 +162,7 @@ public class MySQLTableOperator extends BaseTableOperator {
      */
     @Override
     public void addColumn(String tableName, Column model) throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("ALTER TABLE ").append(tableName);
         sb.append(" ADD (");
         sb.append(model.getFieldName()).append(" ");
@@ -189,7 +189,7 @@ public class MySQLTableOperator extends BaseTableOperator {
      */
     @Override
     public void updateColumn(String tableName, String columnName, Column column) throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("ALTER TABLE ").append(tableName).append(" CHANGE " + columnName + " " + column.getFieldName()).append(" ").append(getColumnType(column.getColumnType(), column.getCharLen(), column.getIntLen(), column.getDecimalLen()));
         if (!column.getIsNull())
             sb.append(" NOT NULL ");
@@ -260,7 +260,7 @@ public class MySQLTableOperator extends BaseTableOperator {
      */
     @Override
     public Map<String, List<String>> getPKColumns(List<String> tableNames) throws SQLException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (String name : tableNames) {
             sb.append("'");
             sb.append(name);

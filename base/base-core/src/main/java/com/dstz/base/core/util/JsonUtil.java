@@ -121,7 +121,7 @@ public class JsonUtil {
      * @return
      */
     public static String escapeSpecialChar(String str) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < str.length(); i++) {
 
             char c = str.charAt(i);
