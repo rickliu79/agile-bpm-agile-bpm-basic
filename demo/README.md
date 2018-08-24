@@ -5,8 +5,8 @@
 1. 执行demo案例 相关表单的 SQL
 2. 访问前端地址  http://localhost:8080/bpm-explorer/demo/demo/demoList.html  
 
-> demo java 对象 和 业务对象demo json 可以无缝转换
-demoList 页面可以挂demo的自定义表单，无需开发编辑页面。支持字段级权限控制。
+> demo java 对象 和 业务对象demo json 可以无缝转换。
+ demoList 页面可以挂demo的自定义表单，无需开发编辑页面。支持字段级权限控制。
 表单可以直接用作流程审批。
 
  
