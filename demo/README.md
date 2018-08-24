@@ -9,6 +9,7 @@
  demoList 页面可以挂demo的自定义表单，无需开发编辑页面。支持字段级权限控制。
 表单可以直接用作流程审批。
 
+*您也可以选择使用复制public库，有完整demo流程案例，如果public库被人破坏请联系我重置*
  
  ### 若修改company 包名，您需要以下操作
  - 需要添加bean扫描 在 applicationContext.xml中配置
