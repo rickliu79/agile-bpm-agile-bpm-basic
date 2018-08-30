@@ -3,9 +3,9 @@ package com.dstz.org.rest.controller;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.id.UniqueIdUtil;
 import com.dstz.base.db.model.page.PageJson;
 import com.github.pagehelper.Page;
 import com.dstz.base.rest.GenericController;
@@ -153,7 +153,7 @@ public class GroupUserController extends GenericController {
                 GroupUser = groupUserManager.getGroupUser(orgId, userId, "");
                 if (GroupUser == null) {
                     GroupUser = new GroupUser();
-                    GroupUser.setId(UniqueIdUtil.getSuid());
+                    GroupUser.setId(IdUtil.getSuid());
                     GroupUser.setGroupId(orgId);
                     GroupUser.setUserId(userId);
                     GroupUser.setRelId(relId);

@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.dstz.base.api.exception.BusinessException;
-import com.dstz.base.db.id.UniqueIdUtil;
+import com.dstz.base.core.id.IdUtil;
 
 /**
  * <pre>
@@ -37,7 +37,7 @@ public class DbUploader extends AbstractUploader {
 	@Override
 	public String upload(InputStream is, String name) {
 		try {
-			String id = UniqueIdUtil.getSuid();
+			String id = IdUtil.getSuid();
 			jdbcTemplate.update("INSERT INTO db_uploader VALUES (?,?)", id, IOUtils.toByteArray(is));
 			return id;
 		} catch (IOException e) {

@@ -1,8 +1,8 @@
 package com.dstz.sys.rest.listener;
 
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.db.api.table.DbType;
 import com.dstz.base.db.datasource.DataSourceUtil;
-import com.dstz.base.db.id.UniqueIdUtil;
 import com.dstz.sys2.manager.SysDataSourceManager;
 import com.dstz.sys2.model.SysDataSource;
 import org.slf4j.Logger;
@@ -83,7 +83,7 @@ public class DataSourceInitListener implements ApplicationListener<ContextRefres
                 SysDataSource sysDataSource = new SysDataSource();
                 sysDataSource.setKey(entry.getKey());
                 sysDataSource.setName(entry.getKey() + "数据源");
-                sysDataSource.setId(UniqueIdUtil.getSuid());
+                sysDataSource.setId(IdUtil.getSuid());
                 sysDataSource.setDbType(dbType);
                 sysDataSourceManager.create(sysDataSource);
             }

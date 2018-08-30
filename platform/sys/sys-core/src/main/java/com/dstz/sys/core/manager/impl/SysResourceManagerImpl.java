@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.BeanUtils;
-import com.dstz.base.db.id.UniqueIdUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys.core.dao.RelResourceDao;
 import com.dstz.sys.core.dao.SysResourceDao;
@@ -46,14 +46,14 @@ public class SysResourceManagerImpl extends BaseManager<String, SysResource> imp
 
     @Override
     public void create(SysResource sysResource) {
-        String resId = UniqueIdUtil.getSuid();
+        String resId = IdUtil.getSuid();
         sysResource.setId(resId);
         //先删除
         relResourceDao.removeByResId(resId);
         //在添加
         List<RelResource> relResources = sysResource.getRelResources();
         for (RelResource relResource : relResources) {
-            relResource.setId(UniqueIdUtil.getSuid());
+            relResource.setId(IdUtil.getSuid());
             relResource.setResId(resId);
             relResourceDao.create(relResource);
         }
@@ -68,7 +68,7 @@ public class SysResourceManagerImpl extends BaseManager<String, SysResource> imp
         //在添加
         List<RelResource> relResources = sysResource.getRelResources();
         for (RelResource relResource : relResources) {
-            relResource.setId(UniqueIdUtil.getSuid());
+            relResource.setId(IdUtil.getSuid());
             relResource.setResId(resId);
             relResourceDao.create(relResource);
         }

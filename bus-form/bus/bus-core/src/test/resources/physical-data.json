@@ -1,0 +1,125 @@
+{
+  "tableName": "BPM_DEF_AUTHORIZE",
+  "aliasName": "AUTHORIZE",
+  "tableDesc": "分级授权定义表",
+  "dsName": "bpmx5",
+  "dsAlias": "X5-bo平台数据源",
+  "pk": "ID",
+  "columns": [
+    {
+      "columnName": "ID",
+      "aliasName": "id",
+      "columnDesc": "主键",
+      "index": "1"
+    },
+    {
+      "columnName": "AUTHORIZE_TYPE",
+      "aliasName": "type",
+      "columnDesc": "授权类型",
+      "index": "2"
+    },
+    {
+      "columnName": "AUTHORIZE_DESC",
+      "aliasName": "desc",
+      "columnDesc": "说明",
+      "index": "3"
+    }
+  ],
+  "subTables": [
+    {
+      "tableName": "BPM_DEF_USER",
+      "aliasName": "USER",
+      "tableDesc": "用户定义表",
+      "dsName": "bpmx5",
+      "dsAlias": "X5-bo平台数据源",
+      "pk": "ID",
+      "fk": "AUTHORIZE_ID",
+      "columns": [
+        {
+          "columnName": "ID",
+          "aliasName": "id",
+          "columnDesc": "主键",
+          "index": "1"
+        },
+        {
+          "columnName": "AUTHORIZE_ID",
+          "aliasName": "pId",
+          "columnDesc": "父ID",
+          "index": "2"
+        },
+        {
+          "columnName": "OWNER_ID",
+          "aliasName": "oId",
+          "columnDesc": "对象ID",
+          "index": "3"
+        },
+        {
+          "columnName": "RIGHT_TYPE",
+          "aliasName": "tyep",
+          "columnDesc": "类型",
+          "index": "4"
+        }
+      ],
+      "subTables": [
+        {
+          "tableName": "bpm_user_test",
+          "aliasName": "USER",
+          "tableDesc": "用户定义表",
+          "dsName": "bpmx5",
+          "dsAlias": "X5-bo平台数据源",
+          "pk": "ID_",
+          "fk": "preant_id_",
+          "columns": [
+            {
+              "columnName": "ID_",
+              "aliasName": "id",
+              "columnDesc": "主键",
+              "index": "1"
+            },
+            {
+              "columnName": "preant_id_",
+              "aliasName": "pId",
+              "columnDesc": "父ID",
+              "index": "2"
+            },
+            {
+              "columnName": "NAME_",
+              "aliasName": "name",
+              "columnDesc": "名称",
+              "index": "3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tableName": "BPM_DEF_ACT",
+      "aliasName": "ACT",
+      "tableDesc": "分权流程定义表",
+      "dsName": "bpmx5",
+      "dsAlias": "X5-bo平台数据源",
+      "pk": "ID",
+      "fk": "AUTHORIZE_ID",
+      "columns": [
+        {
+          "columnName": "ID",
+          "aliasName": "id",
+          "columnDesc": "主键",
+          "index": "1"
+        },
+        {
+          "columnName": "AUTHORIZE_ID",
+          "aliasName": "pId",
+          "columnDesc": "父ID",
+          "index": "2"
+        },
+        {
+          "columnName": "DEF_NAME",
+          "aliasName": "name",
+          "columnDesc": "名称",
+          "index": "3"
+        }
+      ]
+    }
+  ]
+}

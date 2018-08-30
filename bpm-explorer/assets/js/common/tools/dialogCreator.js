@@ -103,14 +103,14 @@ dialogHelper__.initDialogs = function(){
 			}
 			
 			if (!conf.type) {
-				$.Dialog.msg( '请设置访问地址!或者指定对话框类型');
+				jQuery.Dialog.msg( '请设置访问地址!或者指定对话框类型');
 				return false;
 			}
 			
 			//弹出一个当前窗口大小的宽高
 			if(!height){
-				height = $(openWindow).height();
-				width = $(openWindow).width();
+				height = jQuery(openWindow).height();
+				width = jQuery(openWindow).width();
 			}
 			
 			if(!height)height = 500;
@@ -219,7 +219,7 @@ dialogHelper__.initDialogs = function(){
 
 dialogHelper__ .init = function(){
 		jQuery("body").delegate("[openDialog]",'click', function() {
-			var me = $(this);
+			var me = jQuery(this);
 			var url= dialogHelper__.getUrl(me);
 			var conf = {};
 			
@@ -238,7 +238,7 @@ dialogHelper__ .init = function(){
 			conf.url = url;
 			conf.title = text;
 			conf.topOpen = me.attr("top");
-			$.Dialog.open(conf);
+			jQuery.Dialog.open(conf);
 		});
 	}
 dialogHelper__ .getUrl = function(obj){
@@ -250,7 +250,7 @@ dialogHelper__ .getUrl = function(obj){
 		}
 		
 		if(url.indexOf("?")!=-1){
-			url = url.format($.getParams());
+			url = url.format(jQuery.getParams());
 		}
 		
 		return url;
@@ -275,8 +275,8 @@ dialogHelper__.initCustDialogs = function(){
 			
 			if(!callBack){
 				callBack = function(data,innerwin) {
-					$.Dialog.alert(JSON.stringify(data),function(){
-						$.Dialog.close(innerwin);
+					jQuery.Dialog.alert(JSON.stringify(data),function(){
+						jQuery.Dialog.close(innerwin);
 					},6);
 				};
 			}
@@ -293,7 +293,7 @@ dialogHelper__.initCustDialogs = function(){
 			jQuery.post(__ctx+"/form/formCustDialog/getObject?key="+key,{},function(result){
 				var dialogConf = result.data;
 				if(!dialogConf){
-					$.Dialog.error("对话框查找不到"+key);
+					jQuery.Dialog.error("对话框查找不到"+key);
 					return;
 				}
 				
@@ -319,7 +319,7 @@ dialogHelper__.initCustDialogs = function(){
 			conf.ok = function(index,innerWindow){
 				callBack(innerWindow.getData(),innerWindow);
 				if(closeDialog){
-					$.Dialog.close(innerWindow);
+					jQuery.Dialog.close(innerWindow);
 				}
 			}
 		},
@@ -349,7 +349,7 @@ dialogHelper__.initCustDialogs = function(){
 			
 			jQuery.post(__ctx + "/form/formCustDialog/getObject?key=" + key, {}, function(result) {
 				var dialogConf = result.data;
-				dialogConf = $.extend(dialogConf, dialogSetting);
+				dialogConf = jQuery.extend(dialogConf, dialogSetting);
 				
 				//1 修改对话框的配置
 				if (dialogConf.page) {// 默认有分页配置
@@ -370,7 +370,7 @@ dialogHelper__.initCustDialogs = function(){
 					var datas = [];
 					jQuery.each(rlt.rows, function(index,row) {
 						var data = {};
-						$.each(dialogConf.returnFields, function(i,field) {
+						jQuery.each(dialogConf.returnFields, function(i,field) {
 							data[field.returnName] = row[field.columnName];
 						});
 						datas.push(data);

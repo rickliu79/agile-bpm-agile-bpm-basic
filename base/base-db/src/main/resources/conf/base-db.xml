@@ -10,14 +10,19 @@
 
     <context:annotation-config/>
 
-    <bean id="uniqueIdUtil" class="com.dstz.base.db.id.UniqueIdUtil">
+    <bean id="idUtil" class="com.dstz.base.core.id.IdUtil">
         <property name="idGenerator" ref="idGenerator"></property>
     </bean>
-
-    <bean id="idGenerator" class="com.dstz.base.db.id.DefaultIdGenerator">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
-        <property name="machineName" value="${machine.name}"/>
-        <property name="increaseBound" value="${increaseBound}"/>
+	
+    <bean id="idGenerator" class="com.dstz.base.core.id.snowflake.SnowflakeIdGenerator">
+       	<constructor-arg>
+       		<bean class="com.dstz.base.core.id.snowflake.SnowflakeIdMeta">
+       			<constructor-arg name="machine" type="long" value="${id.machineid}" />
+       			<constructor-arg name="machineBits" type="byte" value="3"/>
+       			<constructor-arg name="sequenceBits" type="byte" value="15"/>
+       			<constructor-arg name="timeSequence" type="byte" value="45"/>
+       		</bean>
+       	</constructor-arg>
     </bean>
 
      <!-- 系统默认数据源 -->

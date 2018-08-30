@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.dstz.base.db.id.UniqueIdUtil;
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys2.dao.SysFileDao;
 import com.dstz.sys2.manager.SysFileManager;
@@ -29,7 +29,7 @@ public class SysFileManagerImpl extends BaseManager<String, SysFile> implements 
 	@Override
 	public SysFile upload(InputStream is, String fileName) {
 		String ext = fileName.substring(fileName.lastIndexOf('.'));
-		String id = UniqueIdUtil.getSuid();
+		String id = IdUtil.getSuid();
 
 		// 1 先上传文件
 		IUploader uploader = UploaderFactory.getDefault();

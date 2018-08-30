@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dstz.base.db.api.IdGenerator;
+import com.dstz.base.core.id.IdGenerator;
 import com.dstz.base.manager.Manager;
 import com.dstz.base.rest.BaseController;
 import com.dstz.base.rest.util.RequestUtil;

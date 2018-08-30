@@ -3,8 +3,8 @@ package com.dstz.org.rest.controller;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.id.UniqueIdUtil;
 import com.dstz.base.db.model.page.PageJson;
 import com.github.pagehelper.Page;
 import com.dstz.base.manager.Manager;
@@ -67,7 +67,7 @@ public class UserRoleController extends BaseController<UserRole> {
         if (userRoleManager.getByRoleIdUserId(roleId, userId) != null) return;
 
         UserRole userRole = new UserRole();
-        userRole.setId(UniqueIdUtil.getSuid());
+        userRole.setId(IdUtil.getSuid());
         userRole.setUserId(userId);
         userRole.setRoleId(roleId);
         userRoleManager.create(userRole);

@@ -2,8 +2,8 @@ package com.dstz.sys.rest.controller;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.query.QueryFilter;
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.id.UniqueIdUtil;
 import com.dstz.base.db.model.page.PageJson;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
@@ -51,7 +51,7 @@ public class SysTreeController extends GenericController {
     @CatchErr(write2response = true, value = "保存系统树失败")
     public void save(HttpServletRequest request, HttpServletResponse response, @RequestBody SysTree sysTree) throws Exception {
         if (StringUtil.isEmpty(sysTree.getId())) {
-            sysTree.setId(UniqueIdUtil.getSuid());
+            sysTree.setId(IdUtil.getSuid());
             sysTreeManager.create(sysTree);
         } else {
             sysTreeManager.update(sysTree);

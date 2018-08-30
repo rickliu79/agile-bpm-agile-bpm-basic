@@ -6,8 +6,8 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.encrypt.EncryptUtil;
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.id.UniqueIdUtil;
 import com.dstz.base.db.model.page.PageJson;
 import com.github.pagehelper.Page;
 import com.dstz.base.manager.Manager;
@@ -94,13 +94,13 @@ public class UserController extends BaseController<User> {
 
         String id = user.getId();
         if (StringUtil.isEmpty(id)) {
-            user.setId(UniqueIdUtil.getSuid());
+            user.setId(IdUtil.getSuid());
             String password = EncryptUtil.encryptSha256(user.getPassword());
             user.setPassword(password);
             //添加用户和组织的关系，默认为主关系。
             if (StringUtil.isNotEmpty(user.getGroupId())) {
                 GroupUser orgUser = new GroupUser();
-                orgUser.setId(UniqueIdUtil.getSuid());
+                orgUser.setId(IdUtil.getSuid());
                 orgUser.setIsMaster(GroupUser.MASTER_YES);
                 orgUser.setGroupId(user.getGroupId());
                 orgUser.setUserId(user.getUserId());

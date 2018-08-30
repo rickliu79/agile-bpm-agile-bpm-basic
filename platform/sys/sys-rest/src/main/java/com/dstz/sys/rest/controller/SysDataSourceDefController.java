@@ -2,8 +2,8 @@ package com.dstz.sys.rest.controller;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.query.QueryFilter;
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.id.UniqueIdUtil;
 import com.dstz.base.db.model.page.PageJson;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
@@ -64,7 +64,7 @@ public class SysDataSourceDefController extends GenericController {
     @CatchErr(write2response = true, value = "保存数据源模板失败")
     public void save(HttpServletRequest request, HttpServletResponse response, @RequestBody SysDataSourceDef sysDataSourceDef) throws Exception {
         if (StringUtil.isEmpty(sysDataSourceDef.getId())) {
-            sysDataSourceDef.setId(UniqueIdUtil.getSuid());
+            sysDataSourceDef.setId(IdUtil.getSuid());
             sysDataSourceDefManager.create(sysDataSourceDef);
         } else {
             sysDataSourceDefManager.update(sysDataSourceDef);

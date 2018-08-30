@@ -1,0 +1,42 @@
+{
+  "body": {
+    "costrefundAndListSave": {
+      "costrefundSave": {
+        "applycost": "1",
+        "applydate": "2014-04-10 00:00:00",
+        "applyman": "1",
+        "attachment": "1",
+        "billno": "1",
+        "createby": "1",
+        "deptsn": "1",
+        "finallycost": "1",
+        "institutionId": "1",
+        "institutionsnno": "1",
+        "isgrant": "1",
+        "lendcost": "1",
+        "projectsn": "1",
+        "relendcost": "1",
+        "remark": "1"
+      },
+      "costrefundDSave": [
+        {
+          "cost": "1",
+          "costman": "1",
+          "costproject": "1",
+          "remarkD": "1",
+          "sn": "12"
+        },
+        {
+          "cost": "1",
+          "costman": "1",
+          "costproject": "1",
+          "remarkD": "1",
+          "sn": "13"
+        }
+      ]
+    }
+  },
+  "header": {
+    "identity": "1"
+  }
+}

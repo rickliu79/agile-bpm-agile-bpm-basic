@@ -55,7 +55,7 @@
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header" style="width:80%">
                     	<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="javascript:void(0);"><i class="fa fa-bars"></i> </a>
-                   		<a ng-repeat="topMenu in userRes" ng-click="topClick(topMenu)" ab-tip title="{{topMenu.name}}" 
+                   		<a ng-repeat="topMenu in userRes" ng-click="topClick(topMenu)" ab-tip title="{{topMenu.name}}"  ng-if="topMenu.enableMenu"
                    		 	class="navbar-minimalize minimalize-styl-2 btn btn-primary {{topMenu.active}}" href="javascript:void(0);">
                    		  	<i class="fa fa-{{topMenu.icon ||'server'}} fa-2x" style="display: block;" ></i> {{topMenu.name}}
                    		</a>

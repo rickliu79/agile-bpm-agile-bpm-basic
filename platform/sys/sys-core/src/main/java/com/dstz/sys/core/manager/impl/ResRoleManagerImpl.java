@@ -1,7 +1,7 @@
 package com.dstz.sys.core.manager.impl;
 
 import com.dstz.base.core.cache.ICache;
-import com.dstz.base.db.id.UniqueIdUtil;
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys.core.dao.ResRoleDao;
 import com.dstz.sys.core.manager.ResRoleManager;
@@ -42,7 +42,7 @@ public class ResRoleManagerImpl extends BaseManager<String, ResRole> implements 
         for (String resId : aryRes) {
             if ("0".equals(resId)) continue;
             ResRole resRole = new ResRole();
-            resRole.setId(UniqueIdUtil.getSuid());
+            resRole.setId(IdUtil.getSuid());
             resRole.setRoleId(roleId);
             resRole.setSystemId(systemId);
             resRole.setResId(resId);

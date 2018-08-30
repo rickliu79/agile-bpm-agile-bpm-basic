@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.id.UniqueIdUtil;
 import com.dstz.base.db.model.page.PageJson;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
@@ -89,7 +89,7 @@ public class SysPropertiesController extends GenericController {
         sysProperties.setValByEncrypt();
 
         if (StringUtil.isEmpty(id)) {
-            sysProperties.setId(UniqueIdUtil.getSuid());
+            sysProperties.setId(IdUtil.getSuid());
             sysProperties.setCreateTime(new Date());
             sysPropertiesManager.create(sysProperties);
             resultMsg = "添加系统属性成功";

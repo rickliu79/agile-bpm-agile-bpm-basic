@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.id.UniqueIdUtil;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys2.manager.SysTreeManager;
@@ -52,7 +52,7 @@ public class SysTreeNodeController extends GenericController {
     @CatchErr(write2response = true, value = "保存系统树节点失败")
     public void save(HttpServletRequest request, HttpServletResponse response, @RequestBody SysTreeNode sysTreeNode) throws Exception {
         if (StringUtil.isEmpty(sysTreeNode.getId())) {
-            sysTreeNode.setId(UniqueIdUtil.getSuid());
+            sysTreeNode.setId(IdUtil.getSuid());
             handleNewSysTreeNode(sysTreeNode);
             sysTreeNodeManager.create(sysTreeNode);
         } else {

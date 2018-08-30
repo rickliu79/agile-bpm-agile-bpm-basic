@@ -3,9 +3,10 @@ package com.dstz.base.dao.baseinterceptor;
 import com.dstz.base.api.model.CreateInfoModel;
 import com.dstz.base.api.model.IBaseModel;
 import com.dstz.base.api.model.IDModel;
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.model.BaseModel;
 import com.dstz.base.core.util.BeanUtils;
-import com.dstz.base.db.id.UniqueIdUtil;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -55,7 +56,7 @@ public class SaveInterceptor  implements Interceptor{
 			if (param instanceof IDModel) {
 				IDModel model = (IDModel) param;
 	            if (model.getId() == null) {
-	                model.setId(UniqueIdUtil.getSuid());
+	                model.setId(IdUtil.getSuid());
 	            }
 	        }
 			//创建信息赋值

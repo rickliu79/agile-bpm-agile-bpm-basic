@@ -20,9 +20,9 @@ import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.response.impl.ResultMsg;
+import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.ExceptionUtil;
-import com.dstz.base.db.id.UniqueIdUtil;
 import com.dstz.org.api.model.IUser;
 import com.dstz.sys.core.manager.LogErrManager;
 import com.dstz.sys.core.model.LogErr;
@@ -134,7 +134,7 @@ public class ErrAspect {
         if (BeanUtils.isNotEmpty(sysUser)) {
             account = sysUser.getAccount();
         }
-        String id = UniqueIdUtil.getSuid();
+        String id = IdUtil.getSuid();
         LogErr logErr = new LogErr();
         logErr.setId(id);
         logErr.setAccount(account);

@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>agile-bpm</artifactId>
 		<groupId>com.dstz.agilebpm</groupId>
-		<version>1.1.6</version>
+		<version>1.2.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -117,9 +117,10 @@
 	</build>
 
 	<properties>
-		<base.version>1.1.6</base.version>
-		<bpm.version>1.1.6</bpm.version>
-		<platform.version>1.1.6</platform.version>
+		<base.version>1.2.0</base.version>
+		<bpm.version>1.2.0</bpm.version>
+		<bus-form.version>1.2.0</bus-form.version>
+		<platform.version>1.2.0</platform.version>
 	</properties>
 
 	<dependencies>
@@ -139,13 +140,13 @@
 		<dependency>
 			<groupId>com.dstz.agilebpm</groupId>
 			<artifactId>bus-rest</artifactId>
-			<version>${bpm.version}</version>
+			<version>${bus-form.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.dstz.agilebpm</groupId>
 			<artifactId>form-rest</artifactId>
-			<version>${bpm.version}</version>
+			<version>${bus-form.version}</version>
 		</dependency>
 
 		<dependency>
@@ -173,16 +174,6 @@
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aspects</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 
@@ -206,11 +197,6 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
 		</dependency>
 
 		<!-- demo 模块   -->

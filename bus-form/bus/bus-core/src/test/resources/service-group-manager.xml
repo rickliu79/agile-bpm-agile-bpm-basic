@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:servicegroupcfg xmlns:tns="http://www.ksoft.com/service/group/manager"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://www.ksoft.com/service/group/manager service-group-manager.xsd ">
+
+    <tns:servicegroups>
+        <tns:servicegroup groupno="yun9-weixin" sn="1" port="10090" groupname="weixin"
+                          disabled="0" createdate="2014-01-16 10:30:00" hostname="http://www.yun9.com"
+                          description="云九微信服务配置" createby="1"/>
+
+        <tns:servicegroup groupno="188-weixin" sn="2" port="10090" groupname="weixin"
+                          disabled="0" createdate="2014-01-16 10:30:00" hostname="http://192.168.1.188"
+                          description="188微信服务配置" createby="1"/>
+
+        <tns:servicegroup groupno="188-bpm" port="8080" sn="3" groupname="bpm"
+                          disabled="0" createdate="2014-01-16 10:30:00" hostname="http://192.168.1.188"
+                          description="188 bpm服务配置" createby="1"/>
+
+        <tns:servicegroup groupno="yun9-user" sn="4" port="10088" groupname="user"
+                          disabled="0" createdate="2014-01-16 10:30:00" hostname="http://www.yun9.com"
+                          description="188用户服务配置" createby="1"/>
+
+        <tns:servicegroup groupno="weixinopen" sn="4" port="0" groupname="weixinopen"
+                          disabled="0" createdate="2014-01-16 10:30:00" hostname="https://api.weixin.qq.com"
+                          description="188用户服务配置" createby="1"/>
+
+        <tns:servicegroup groupno="188-fm" sn="4" port="10016" groupname="fm"
+                          disabled="0" createdate="2014-01-16 10:30:00" hostname="http://192.168.1.188"
+                          description="188服务配置" createby="1"/>
+    </tns:servicegroups>
+
+</tns:servicegroupcfg>

@@ -1,10 +1,10 @@
-package com.dstz.sys2.model.def;
+/*package com.dstz.sys2.model.def;
 
 import java.util.Properties;
 
 import com.atomikos.jdbc.AtomikosDataSourceBean;
 
-/**
+*//**
  * <pre>
  * 描述：为了配合系统数据源的构造而做的AtomikosDataSourceBean
  * 有些必要参数在properties中，在页面很难设置，所以在这里提到了最外层配置
@@ -13,7 +13,7 @@ import com.atomikos.jdbc.AtomikosDataSourceBean;
  * 日期:2018年5月29日
  * 版权:summer
  * </pre>
- */
+ *//*
 public class AbAtomikosDataSourceBean extends AtomikosDataSourceBean {
 	private String url;
 	private String username;
@@ -55,3 +55,4 @@ public class AbAtomikosDataSourceBean extends AtomikosDataSourceBean {
 		properties.setProperty(key, val);
 	}
 }
+*/
