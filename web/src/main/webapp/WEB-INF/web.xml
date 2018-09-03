@@ -19,24 +19,6 @@
         <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
     </listener>
 
-    <filter>
-        <description>设置编码</description>
-        <filter-name>encodingFilter</filter-name>
-        <filter-class>com.dstz.platform.filter.EncodingFilter</filter-class>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
-        <init-param>
-            <param-name>forceEncoding</param-name>
-            <param-value>true</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>encodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:applicationContext.xml</param-value>
@@ -59,16 +41,6 @@
         <servlet-name>springMvc</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
-    <filter>
-        <description>为了将request放入线程，方便使用</description>
-        <filter-name>requestThreadFilter</filter-name>
-        <filter-class>com.dstz.platform.filter.RequestThreadFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>requestThreadFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
 
     <!-- http-security 默认使用spring security实现，此处为整合配置文件  -->
     <filter>

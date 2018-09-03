@@ -11,7 +11,10 @@
         <security:remember-me key="rememberPrivateKey"/>
         <security:logout success-handler-ref="logoutSuccessHandler"/>
 
-        <security:custom-filter ref="csrfFilter" after="CAS_FILTER"/>
+        <security:custom-filter ref="csrfFilter" before="CSRF_FILTER"/>
+        
+        <security:custom-filter ref="encodingFilter" before="PRE_AUTH_FILTER"/>
+        <security:custom-filter ref="requestThreadFilter" after="CSRF_FILTER"/>
 		
         <security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="securityInterceptor"/>
         <security:access-denied-handler ref="accessDeniedHandler"/>
@@ -50,6 +53,10 @@
             </list>
         </property>
     </bean>
+    <!-- request 请求filter 主要清除线程 变量，为线程添加request 线程变量 -->
+    <bean id="requestThreadFilter" class="com.dstz.security.filter.RequestThreadFilter"/>
+    <!-- 编码过滤器， 设置当前系统的编码,并支持所有跨域请求,让跨域通过 csrfFilter 来控制  -->
+    <bean id="encodingFilter" class="com.dstz.security.filter.EncodingFilter" />
 
     <!-- 获取用户对象信息 -->
     <bean id="userDetailsService" class="com.dstz.security.login.UserDetailsServiceImpl"/>
@@ -85,5 +92,4 @@
     <bean id="contextUtil" class="com.dstz.sys.util.ContextUtil">
         <property name="currentContext" ref="loginContext"></property>
     </bean>
-
 </beans>

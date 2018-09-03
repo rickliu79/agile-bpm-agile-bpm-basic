@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.org.api.model.IUser;
@@ -23,6 +24,7 @@ import com.dstz.sys.util.ContextUtil;
 /**
  * 实现UserDetailsService 接口获取UserDetails 接口实例对象。
  */
+@Component("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Resource
