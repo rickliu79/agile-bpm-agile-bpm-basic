@@ -118,7 +118,7 @@
 
 	<properties>
 		<base.version>1.2.1-SNAPSHOT</base.version>
-		<bpm.version>1.2.0</bpm.version>
+		<bpm.version>1.2.1-SNAPSHOT</bpm.version>
 		<bus-form.version>1.2.1-SNAPSHOT</bus-form.version>
 		<platform.version>1.2.1-SNAPSHOT</platform.version>
 	</properties>
