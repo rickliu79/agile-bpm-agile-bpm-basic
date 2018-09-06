@@ -14,20 +14,6 @@
     <name>【平台相关模块】</name>
     <description>构建platform</description>
 
-    <repositories>
-        <repository>
-            <id>nexus-agile-bpm</id>
-            <url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>nexus-agile-bpm</id>
-            <url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <modules>
         <module>auth</module>
         <module>org</module>
