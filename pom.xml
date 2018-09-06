@@ -19,27 +19,27 @@
     <!-- deploy 服务器 -->
     <distributionManagement>
         <repository>
-            <id>sonatype-agile-bpm</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+            <id>nexus-agile-bpm</id>
+            <url>http://47.94.249.185:8081/nexus/content/repositories/releases/</url>
         </repository>
 
         <snapshotRepository>
-            <id>sonatype-agile-bpm</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>nexus-agile-bpm</id>
+            <url>http://47.94.249.185:8081/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
     <repositories>
         <repository>
-            <id>sonatype-agile-bpm</id>
-            <url>https://oss.sonatype.org/content/groups/public</url>
+            <id>nexus-agile-bpm</id>
+            <url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
         </repository>
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
-            <id>sonatype-agile-bpm</id>
-            <url>https://oss.sonatype.org/content/groups/public</url>
+            <id>nexus-agile-bpm</id>
+            <url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
         </pluginRepository>
     </pluginRepositories>
 
