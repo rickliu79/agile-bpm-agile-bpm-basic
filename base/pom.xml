@@ -21,20 +21,6 @@
         <module>base-rest</module>
     </modules>
 
-    <repositories>
-        <repository>
-            <id>nexus-agile-bpm</id>
-            <url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>nexus-agile-bpm</id>
-            <url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <!-- 定义参数 -->
     <properties>
         <dom4j.version>1.6.1</dom4j.version>

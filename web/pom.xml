@@ -15,21 +15,6 @@
 	<packaging>war</packaging>
 	<description>提供主服务</description>
 
-	<repositories>
-		<repository>
-			<id>nexus-agile-bpm</id>
-			<url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
-		</repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>nexus-agile-bpm</id>
-			<url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
-		</pluginRepository>
-	</pluginRepositories>
-
-
 	<build>
 
 		<finalName>agile-bpm-platform</finalName>
@@ -132,7 +117,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.dstz.agilebpm</groupId>
+			<groupId>com.gitee.agile-bpm</groupId>
 			<artifactId>wf-rest</artifactId>
 			<version>${bpm.version}</version>
 		</dependency>

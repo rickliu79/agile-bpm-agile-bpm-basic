@@ -19,21 +19,6 @@
         <module>form</module>
     </modules>
 
-    <repositories>
-        <repository>
-            <id>nexus-agile-bpm</id>
-            <url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>nexus-agile-bpm</id>
-            <url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
-
-
     <properties>
         <base.version>1.2.1-SNAPSHOT</base.version>
         <platform.version>1.2.1-SNAPSHOT</platform.version>
