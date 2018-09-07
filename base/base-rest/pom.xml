@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>base-rest</artifactId>
-    <description>数据库访问</description>
+    <description>Rest 服务公共依赖</description>
     <dependencies>
         <dependency>
             <groupId>com.dstz.agilebpm</groupId>
@@ -27,6 +27,14 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>		
 
     </dependencies>
 </project>

@@ -10,6 +10,10 @@ import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageJson;
 import com.github.pagehelper.Page;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import com.dstz.base.manager.Manager;
 import com.dstz.base.rest.BaseController;
 import com.dstz.base.rest.util.RequestUtil;
@@ -33,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/org/user")
+@Api(value = "用户信息")
 public class UserController extends BaseController<User> {
     @Resource
     UserManager userManager;
@@ -48,6 +53,7 @@ public class UserController extends BaseController<User> {
      * @throws Exception
      */
     @RequestMapping("listUserOrgJson")
+    @ApiOperation(value = "获取用户下的组织列表")
     public PageJson listUserOrgJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         String userId = RequestUtil.getString(request, "userId");

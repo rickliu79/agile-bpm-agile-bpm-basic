@@ -1,36 +1,24 @@
 package com.dstz.base.rest;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.session.RowBounds;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.alibaba.fastjson.JSON;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.model.IBaseModel;
-import com.dstz.base.api.query.Direction;
-import com.dstz.base.api.query.FieldSort;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageJson;
-import com.dstz.base.db.model.query.DefaultFieldSort;
-import com.dstz.base.db.model.query.DefaultPage;
-import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.Manager;
-import com.dstz.base.rest.util.RequestUtil;
 import com.github.pagehelper.Page;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * <pre>
@@ -53,6 +41,7 @@ public abstract class BaseController<T extends IBaseModel> extends GenericContro
      * 分页列表
      */
     @RequestMapping("listJson")
+	@ApiOperation(value = "分页列表")
     public PageJson listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         Page<T> pageList = (Page<T>) manager.query(queryFilter);
@@ -64,7 +53,8 @@ public abstract class BaseController<T extends IBaseModel> extends GenericContro
      */
     @RequestMapping("get")
     @CatchErr
-    public ResultMsg<T> get(@RequestParam String id) throws Exception {
+	@ApiOperation(value = "获取对象")
+    public ResultMsg<T> get(@RequestParam @ApiParam(value = "ID") String id) throws Exception {
        T t = manager.get(id);
        return getSuccessResult(t);
     }
@@ -74,6 +64,7 @@ public abstract class BaseController<T extends IBaseModel> extends GenericContro
      */
     @RequestMapping("save")
     @CatchErr
+	@ApiOperation(value = "保存")
     public ResultMsg<String> save(@RequestBody T t) throws Exception {
         String desc;
         if (StringUtil.isEmpty(t.getId())) {
@@ -91,7 +82,7 @@ public abstract class BaseController<T extends IBaseModel> extends GenericContro
      */
     @RequestMapping("remove")
     @CatchErr
-    public ResultMsg<String> remove(@RequestParam String id) throws Exception {
+    public ResultMsg<String> remove(@RequestParam @ApiParam(value = "ID") String id) throws Exception {
          String[] aryIds = StringUtil.getStringAryByStr(id);
          manager.removeByIds(aryIds);
          return getSuccessResult(String.format("删除%s成功", getModelDesc()));

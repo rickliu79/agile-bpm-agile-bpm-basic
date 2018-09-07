@@ -67,6 +67,7 @@
         <pagehelper.version>5.0.0</pagehelper.version>
         <mybatis.spring.version>1.2.4</mybatis.spring.version>
         <alibaba.druid.version>1.0.25</alibaba.druid.version>
+		<swagger.version>1.5.10</swagger.version>
     </properties>
 
     <dependencyManagement>
@@ -228,7 +229,12 @@
 	            <artifactId>pagehelper</artifactId>
 	            <version>${pagehelper.version}</version>
 	        </dependency>
-
+			
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 
