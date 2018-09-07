@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
@@ -20,7 +21,7 @@ import com.dstz.base.db.model.query.DefaultQueryFilter;
  */
 @Repository
 public class CommonDao<T> {
-    @Resource
+    @Resource(name="abSqlSessionTemplate")
     protected SqlSessionTemplate sqlSessionTemplate;
 
     private static final String NAME_SPACE = "com.dstz.sql.common"; // mybatis命名空间
