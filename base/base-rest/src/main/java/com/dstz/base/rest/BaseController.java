@@ -17,9 +17,6 @@ import com.dstz.base.db.model.page.PageJson;
 import com.dstz.base.manager.Manager;
 import com.github.pagehelper.Page;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 /**
  * <pre>
  * 描述：controller的基础类
@@ -41,7 +38,6 @@ public abstract class BaseController<T extends IBaseModel> extends GenericContro
      * 分页列表
      */
     @RequestMapping("listJson")
-	@ApiOperation(value = "分页列表")
     public PageJson listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         Page<T> pageList = (Page<T>) manager.query(queryFilter);
@@ -53,8 +49,7 @@ public abstract class BaseController<T extends IBaseModel> extends GenericContro
      */
     @RequestMapping("get")
     @CatchErr
-	@ApiOperation(value = "获取对象")
-    public ResultMsg<T> get(@RequestParam @ApiParam(value = "ID") String id) throws Exception {
+    public ResultMsg<T> get(@RequestParam String id) throws Exception {
        T t = manager.get(id);
        return getSuccessResult(t);
     }
@@ -64,7 +59,6 @@ public abstract class BaseController<T extends IBaseModel> extends GenericContro
      */
     @RequestMapping("save")
     @CatchErr
-	@ApiOperation(value = "保存")
     public ResultMsg<String> save(@RequestBody T t) throws Exception {
         String desc;
         if (StringUtil.isEmpty(t.getId())) {
@@ -82,7 +76,7 @@ public abstract class BaseController<T extends IBaseModel> extends GenericContro
      */
     @RequestMapping("remove")
     @CatchErr
-    public ResultMsg<String> remove(@RequestParam @ApiParam(value = "ID") String id) throws Exception {
+    public ResultMsg<String> remove(@RequestParam String id) throws Exception {
          String[] aryIds = StringUtil.getStringAryByStr(id);
          manager.removeByIds(aryIds);
          return getSuccessResult(String.format("删除%s成功", getModelDesc()));
