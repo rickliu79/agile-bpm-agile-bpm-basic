@@ -17,7 +17,7 @@ import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys2.manager.SysDataSourceManager;
@@ -120,10 +120,10 @@ public class SysDataSourceController extends GenericController {
      */
     @RequestMapping("listJson")
     @ResponseBody
-    public PageJson listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         List<SysDataSource> list = sysDataSourceManager.query(queryFilter);
-        return new PageJson(list);
+        return new PageResult(list);
     }
 
     /**

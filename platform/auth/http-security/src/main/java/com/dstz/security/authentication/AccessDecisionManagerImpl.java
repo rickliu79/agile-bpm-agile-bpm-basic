@@ -32,6 +32,10 @@ public class AccessDecisionManagerImpl implements AccessDecisionManager {
         if (principal == null) {
             throw new AccessDeniedException("登录对象为空");
         }
+        
+        if("anonymousUser".equals(principal)) {
+        	throw new AccessDeniedException("请登录");
+        }
 
         if (!(principal instanceof LoginUser)) {
             throw new AccessDeniedException("登录对象必须为LoginUser实现类");

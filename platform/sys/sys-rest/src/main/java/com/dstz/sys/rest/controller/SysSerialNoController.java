@@ -16,7 +16,7 @@ import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys.api.constant.SysStatusCode;
@@ -46,10 +46,10 @@ public class SysSerialNoController extends GenericController {
      */
     @RequestMapping("listJson")
     public 
-    PageJson listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         Page<SerialNo> SerialNoList = (Page<SerialNo>) serialNoManager.query(queryFilter);
-        return new PageJson(SerialNoList);
+        return new PageResult(SerialNoList);
     }
 
     public static void main(String[] args) {
@@ -129,10 +129,10 @@ public class SysSerialNoController extends GenericController {
      */
     @RequestMapping("showlist")
     public 
-    PageJson showlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    PageResult showlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         Page<SerialNo> SerialNoList = (Page<SerialNo>) serialNoManager.query(queryFilter);
-        return new PageJson(SerialNoList);
+        return new PageResult(SerialNoList);
     }
 
     /**

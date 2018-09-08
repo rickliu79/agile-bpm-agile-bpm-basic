@@ -20,7 +20,7 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys.core.manager.RelResourceManager;
@@ -56,10 +56,10 @@ public class SysResourceController extends GenericController {
      * @throws
      */
     @RequestMapping("listJson")
-    public  PageJson listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public  PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         Page<SysResource> sysResourceList = (Page<SysResource>) sysResourceManager.query(queryFilter);
-        return new PageJson(sysResourceList);
+        return new PageResult(sysResourceList);
     }
 
 

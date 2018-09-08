@@ -5,12 +5,17 @@ import com.dstz.base.api.constant.IStatusCode;
 import com.dstz.base.api.constant.StatusCode;
 import com.dstz.base.api.response.IResult;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 public class BaseResult implements IResult {
     private static final long serialVersionUID = 1L;
+    @ApiModelProperty("本次调用是否成功")
     private Boolean isOk;// 本次调用是否成功
+    @ApiModelProperty("提示信息")
     private String msg = "";//
+    @ApiModelProperty("异常堆栈信息")
     private String cause = ""; //StackTrace
-
+    @ApiModelProperty("状态码")
     private StatusCode statusCode;
 
     public BaseResult() {

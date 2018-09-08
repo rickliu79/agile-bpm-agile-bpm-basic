@@ -8,7 +8,7 @@ import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.encrypt.EncryptUtil;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.github.pagehelper.Page;
 
 import io.swagger.annotations.Api;
@@ -37,7 +37,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/org/user")
-@Api(value = "用户信息")
 public class UserController extends BaseController<User> {
     @Resource
     UserManager userManager;
@@ -53,13 +52,12 @@ public class UserController extends BaseController<User> {
      * @throws Exception
      */
     @RequestMapping("listUserOrgJson")
-    @ApiOperation(value = "获取用户下的组织列表")
-    public PageJson listUserOrgJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public PageResult listUserOrgJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         String userId = RequestUtil.getString(request, "userId");
         queryFilter.addFilter("u.id_", userId, QueryOP.EQUAL);
         Page<User> userList = (Page<User>) userManager.queryOrgUser(queryFilter);
-        return new PageJson(userList);
+        return new PageResult(userList);
     }
 
     /**
@@ -71,12 +69,12 @@ public class UserController extends BaseController<User> {
      * @throws Exception
      */
     @RequestMapping("listUserPostJson")
-    public PageJson listUserPostJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public PageResult listUserPostJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         String userId = RequestUtil.getString(request, "userId");
         queryFilter.addFilter("orguser.user_id_", userId, QueryOP.EQUAL);
         Page orgUserList = (Page) userManager.queryUserGroupRel(queryFilter);
-        return new PageJson(orgUserList);
+        return new PageResult(orgUserList);
     }
 
     /**
@@ -149,7 +147,7 @@ public class UserController extends BaseController<User> {
 
 
     @RequestMapping("getUserByGroupJson")
-    public PageJson getUserByGroupJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public PageResult getUserByGroupJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         String orgId = RequestUtil.getString(request, "orgId");
         String relId = RequestUtil.getString(request, "relId");
@@ -158,7 +156,7 @@ public class UserController extends BaseController<User> {
             queryFilter.addFilter("orguser.rel_id_", relId, QueryOP.EQUAL);
         }
         Page orgUserList = (Page) orgUserManager.getUserByGroup(queryFilter);
-        return new PageJson(orgUserList);
+        return new PageResult(orgUserList);
     }
 
     @Override

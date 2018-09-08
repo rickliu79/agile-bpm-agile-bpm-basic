@@ -19,7 +19,7 @@ import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.dao.CommonDao;
 import com.dstz.base.db.datasource.DbContextHolder;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.bus.api.constant.BusinessPermissionObjType;
@@ -116,7 +116,7 @@ public class FormDefDataController extends GenericController {
 	 */
 	@RequestMapping("getList_{boKey}")
 	@CatchErr(write2response = true, value = "获取对话框的列表数据失败")
-	public PageJson getList(HttpServletRequest request, HttpServletResponse response, @PathVariable(value = "boKey") String boKey) throws Exception {
+	public PageResult getList(HttpServletRequest request, HttpServletResponse response, @PathVariable(value = "boKey") String boKey) throws Exception {
 		QueryFilter queryFilter = getQueryFilter(request);
 		// 页面来的参数
 		IBusinessObject businessObject = businessObjectService.getFilledByKey(boKey);
@@ -126,7 +126,7 @@ public class FormDefDataController extends GenericController {
 		DbContextHolder.setDataSource(sysDataSource.getKey(), sysDataSource.getDbType());
 		String sql = "select * from " + businessTable.getName();
 		List<?> list = commonDao.queryForListPage(sql, queryFilter);
-		return new PageJson(list);
+		return new PageResult(list);
 	}
 
 	@RequestMapping("removeData/{formKey}/{id}")

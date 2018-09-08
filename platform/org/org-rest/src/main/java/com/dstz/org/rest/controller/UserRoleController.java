@@ -5,7 +5,7 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.github.pagehelper.Page;
 import com.dstz.base.manager.Manager;
 import com.dstz.base.rest.BaseController;
@@ -29,7 +29,7 @@ public class UserRoleController extends BaseController<UserRole> {
      * 用户角色管理列表(分页条件查询)数据
      */
     @RequestMapping("listJson")
-    public PageJson listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String roleId = RequestUtil.getString(request, "roleId");
         String userId = RequestUtil.getString(request, "userId");
         QueryFilter queryFilter = getQueryFilter(request);
@@ -40,7 +40,7 @@ public class UserRoleController extends BaseController<UserRole> {
             queryFilter.addParamsFilter("userId", userId);
         }
         Page<UserRole> userRoleList = (Page<UserRole>) userRoleManager.query(queryFilter);
-        return new PageJson(userRoleList);
+        return new PageResult(userRoleList);
     }
 
     /**

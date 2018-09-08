@@ -18,7 +18,7 @@ import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys.core.manager.SysPropertiesManager;
@@ -40,10 +40,10 @@ public class SysPropertiesController extends GenericController {
      */
     @RequestMapping("listJson")
     public @ResponseBody
-    PageJson listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         Page<SysProperties> sysPropertiesList = (Page<SysProperties>) sysPropertiesManager.query(queryFilter);
-        return new PageJson(sysPropertiesList);
+        return new PageResult(sysPropertiesList);
     }
 
 

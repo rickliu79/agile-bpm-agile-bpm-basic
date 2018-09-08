@@ -6,7 +6,7 @@ import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.github.pagehelper.Page;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
@@ -39,7 +39,7 @@ public class GroupUserController extends GenericController {
      * 用户组织关系列表(分页条件查询)数据
      */
     @RequestMapping("groupUserList")
-    public PageJson listGroupUserJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public PageResult listGroupUserJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String groupId = RequestUtil.getString(request, "groupId");
         String relId = RequestUtil.getString(request, "relId");
 
@@ -50,7 +50,7 @@ public class GroupUserController extends GenericController {
         }
 
         Page<Map> userList = (Page<Map>) groupUserManager.getUserByGroup(queryFilter);
-        return new PageJson(userList);
+        return new PageResult(userList);
     }
 
 

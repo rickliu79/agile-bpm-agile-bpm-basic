@@ -24,7 +24,7 @@ import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.PropertyUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.BaseController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.bus.api.model.IBusTableRel;
@@ -61,22 +61,22 @@ public class FormDefController extends BaseController<FormDef> {
 	
 	@Override
 	@RequestMapping("listJson")
-	public PageJson listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		QueryFilter queryFilter = getQueryFilter(request);
 		queryFilter.addFilter("type_", "mobile", QueryOP.NOT_EQUAL);
 	    Page<FormDef> pageList = (Page<FormDef>) formDefManager.query(queryFilter);
 	      
-        return new PageJson(pageList);
+        return new PageResult(pageList);
 	}
 	
 	
 	@RequestMapping("mobileListJson")
-	public PageJson mobileListJson(HttpServletRequest request) throws Exception {
+	public PageResult mobileListJson(HttpServletRequest request) throws Exception {
 		QueryFilter queryFilter = getQueryFilter(request);
 		queryFilter.addFilter("type_", "mobile", QueryOP.EQUAL);
 	    Page<FormDef> pageList = (Page<FormDef>) formDefManager.query(queryFilter);
 	      
-        return new PageJson(pageList);
+        return new PageResult(pageList);
 	}
 	
 	/**

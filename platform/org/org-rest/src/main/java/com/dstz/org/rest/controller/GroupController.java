@@ -6,7 +6,7 @@ import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.github.pagehelper.Page;
 import com.dstz.base.manager.Manager;
 import com.dstz.base.rest.BaseController;
@@ -46,14 +46,14 @@ public class GroupController extends BaseController<Group> {
      * @throws
      */
     @RequestMapping("listJson")
-    public PageJson listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         String parentId = request.getParameter("parentId");
         if (StringUtil.isNotEmpty(parentId)) {
             queryFilter.addFilter("parent_id_", parentId, QueryOP.EQUAL);
         }
         Page<Group> orgList = (Page<Group>) groupManager.query(queryFilter);
-        return new PageJson(orgList);
+        return new PageResult(orgList);
     }
 
 

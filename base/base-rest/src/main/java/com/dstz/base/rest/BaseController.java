@@ -13,7 +13,7 @@ import com.dstz.base.api.model.IBaseModel;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.manager.Manager;
 import com.github.pagehelper.Page;
 
@@ -38,10 +38,10 @@ public abstract class BaseController<T extends IBaseModel> extends GenericContro
      * 分页列表
      */
     @RequestMapping("listJson")
-    public PageJson listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         Page<T> pageList = (Page<T>) manager.query(queryFilter);
-        return new PageJson(pageList);
+        return new PageResult(pageList);
     }
 
     /**

@@ -6,7 +6,7 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.github.pagehelper.Page;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
@@ -54,10 +54,10 @@ public class SysResRoleController extends GenericController {
      */
     @RequestMapping("listJson")
     public @ResponseBody
-    PageJson listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         Page<ResRole> resRoleList = (Page<ResRole>) resRoleManager.query(queryFilter);
-        return new PageJson(resRoleList);
+        return new PageResult(resRoleList);
     }
 
 

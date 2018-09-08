@@ -3,6 +3,9 @@ package com.dstz.base.api.response.impl;
 import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.constant.IStatusCode;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +14,7 @@ import java.util.Map;
  * @author Administrator
  * @描述 返回结果
  */
+@ApiModel
 public class ResultMsg<E> extends BaseResult {
 
     @Deprecated
@@ -21,7 +25,7 @@ public class ResultMsg<E> extends BaseResult {
     public static final int ERROR = -1;
     @Deprecated
     public static final int TIMEOUT = 2;
-
+    @ApiModelProperty("结果数据")
     private E data = null; // 返回数据
 
     public ResultMsg() {

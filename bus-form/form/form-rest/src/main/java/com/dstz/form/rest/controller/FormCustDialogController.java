@@ -16,7 +16,7 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.dao.CommonDao;
 import com.dstz.base.db.datasource.DbContextHolder;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.BaseController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.form.manager.FormCustDialogManager;
@@ -115,7 +115,7 @@ public class FormCustDialogController extends BaseController<FormCustDialog> {
      */
     @RequestMapping("listData_{key}")
     @CatchErr(write2response = true, value = "获取对话框的列表数据失败")
-    public PageJson listData(HttpServletRequest request, HttpServletResponse response, @PathVariable(value = "key") String key) throws Exception {
+    public PageResult listData(HttpServletRequest request, HttpServletResponse response, @PathVariable(value = "key") String key) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         // 页面来的参数
         FormCustDialog formCustDialog = formCustDialogManager.getByKey(key);
@@ -125,7 +125,7 @@ public class FormCustDialogController extends BaseController<FormCustDialog> {
         	DbContextHolder.setDataSource(sysDataSource.getKey(), sysDataSource.getDbType());
         }
         List<?> list = formCustDialogManager.data(formCustDialog, queryFilter);
-        return new PageJson(list);
+        return new PageResult(list);
     }
 
     /**

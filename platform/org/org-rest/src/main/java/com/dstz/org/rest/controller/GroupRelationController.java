@@ -5,7 +5,7 @@ import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.github.pagehelper.Page;
 import com.dstz.base.manager.Manager;
 import com.dstz.base.rest.BaseController;
@@ -40,14 +40,14 @@ public class GroupRelationController extends BaseController<GroupRelation> {
      * @throws
      */
     @RequestMapping("listJson")
-    public PageJson listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
         String groupId = RequestUtil.getString(request, "groupId");
         if (StringUtil.isNotEmpty(groupId)) {
             queryFilter.addParamsFilter("groupId", groupId);
         }
         Page<GroupRelation> orgRelList = (Page<GroupRelation>) groupRelManager.queryInfoList(queryFilter);
-        return new PageJson(orgRelList);
+        return new PageResult(orgRelList);
     }
 
 

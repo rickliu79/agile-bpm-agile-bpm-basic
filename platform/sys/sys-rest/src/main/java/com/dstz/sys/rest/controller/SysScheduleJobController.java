@@ -6,7 +6,7 @@ import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.api.response.impl.ResultMsg;
-import com.dstz.base.db.model.page.PageJson;
+import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.GenericController;
 import com.dstz.sys.core.manager.SysScheduleJobLogManager;
 import com.dstz.sys.core.model.SysScheduleJob;
@@ -41,9 +41,9 @@ public class SysScheduleJobController extends GenericController {
      * 查询列表
      */
     @RequestMapping("list")
-    public PageJson list(HttpServletRequest request) {
+    public PageResult list(HttpServletRequest request) {
         QueryFilter queryFilter = getQueryFilter(request);
-        return new PageJson(quartzManagerService.selectList(queryFilter));
+        return new PageResult(quartzManagerService.selectList(queryFilter));
     }
 
     /**
@@ -156,10 +156,10 @@ public class SysScheduleJobController extends GenericController {
      */
     @RequestMapping("log/list")
     @CatchErr(write2response = true)
-    public PageJson listSysScheduleJobLog(@RequestParam("jobId") String jobId, HttpServletRequest request) {
+    public PageResult listSysScheduleJobLog(@RequestParam("jobId") String jobId, HttpServletRequest request) {
         QueryFilter queryFilter = getQueryFilter(request);
         queryFilter.addFilter("job_id", jobId, QueryOP.EQUAL);
-        return new PageJson(sysScheduleJobLogManager.query(queryFilter));
+        return new PageResult(sysScheduleJobLogManager.query(queryFilter));
     }
 
     /**
