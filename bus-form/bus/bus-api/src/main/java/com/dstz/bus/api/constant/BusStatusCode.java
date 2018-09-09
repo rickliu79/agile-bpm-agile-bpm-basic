@@ -12,7 +12,10 @@ import com.dstz.base.api.constant.IStatusCode;
  */
 public enum BusStatusCode implements IStatusCode {
 
-	PARAM_ILLEGAL("100", "参数校验不通过");
+	PARAM_ILLEGAL("100", "参数校验不通过"),
+	
+	
+	BUS_DATA_LOSE("60001", "业务数据丢失");
 
 	private String code;
 	private String desc;

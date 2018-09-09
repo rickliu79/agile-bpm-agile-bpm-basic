@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.db.tableoper.TableOperator;
+import com.dstz.bus.api.constant.BusStatusCode;
 import com.dstz.bus.api.constant.BusTableRelFkType;
 import com.dstz.bus.api.constant.BusTableRelType;
 import com.dstz.bus.api.constant.BusinessObjectPersistenceType;
@@ -175,6 +177,9 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 		}
 
 		Map<String, Object> data = businessTableManager.newTableOperator(businessTable).selectData(getReadableColumnName(busTableRel), id);
+		if(data == null) {
+			throw new BusinessException(String.valueOf(id),BusStatusCode.BUS_DATA_LOSE);
+		}
 		businessData.setDbData(data);
 
 		// 处理子表
