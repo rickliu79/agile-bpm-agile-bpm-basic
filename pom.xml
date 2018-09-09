@@ -20,26 +20,26 @@
     <distributionManagement>
         <repository>
             <id>nexus-agile-bpm</id>
-            <url>http://47.94.249.185:8081/nexus/content/repositories/releases/</url>
+            <url>http://47.106.140.247:8081/nexus/content/repositories/releases/</url>
         </repository>
 
         <snapshotRepository>
             <id>nexus-agile-bpm</id>
-            <url>http://47.94.249.185:8081/nexus/content/repositories/snapshots/</url>
+            <url>http://47.106.140.247:8081/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
     <repositories>
         <repository>
             <id>nexus-agile-bpm</id>
-            <url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
+            <url>http://47.106.140.247:8081/nexus/content/groups/public/</url>
         </repository>
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
             <id>nexus-agile-bpm</id>
-            <url>http://47.94.249.185:8081/nexus/content/groups/public/</url>
+            <url>http://47.106.140.247:8081/nexus/content/groups/public/</url>
         </pluginRepository>
     </pluginRepositories>
 
