@@ -34,6 +34,8 @@ public class PageResult extends BaseResult {
 
     public PageResult(List arrayList) {
         this.rows = arrayList;
+        
+        //适配 pagehelper 的 page
         if (arrayList instanceof Page) {
         	Page pageList = (Page) arrayList;
         	Integer total = new Long(pageList.getTotal()).intValue();

@@ -11,7 +11,7 @@ public class BaseResult implements IResult {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty("本次调用是否成功")
     private Boolean isOk;// 本次调用是否成功
-    @ApiModelProperty("提示信息")
+    @ApiModelProperty("操作提示信息")
     private String msg = "";//
     @ApiModelProperty("异常堆栈信息")
     private String cause = ""; //StackTrace

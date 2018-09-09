@@ -48,7 +48,7 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 				$.Dialog.alert("表单校验不通过！"+str,7);
 				return false; 
 			}
-			return angular.toJson(scope.data);
+			return scope.data;
 		}
 		else if(frmType=='FRAME'){
 			var iframeObj=document.getElementById("frmFrame").contentWindow;
@@ -139,8 +139,8 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 				 }
 				ii = layer.load();
 				//获取流程数据
-				var dataStr = bpmService.getFormData(scope,button,validateForm);
-				if(dataStr === false){
+				var busData = bpmService.getFormData(scope,button,validateForm);
+				if(busData === false){
 					layer.close(ii);
 					return;
 				}
@@ -150,7 +150,7 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 						taskId: bpmService.getTaskId(),
 						instanceId: bpmService.getInstanceId(),
 						formType: scope.form.type,
-						data: dataStr,
+						data: busData,
 						action: button.alias
 					};
 				//获取更多完成动作配置
@@ -174,7 +174,7 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 				ii = layer.load();
 				// 执行动作
 				var url =  __ctx + (flowData.taskId? "/bpm/task/doAction":"/bpm/instance/doAction");
-				var defer = baseService.postForm(url,{flowData:JSON.stringify(flowData)});
+				var defer = baseService.post(url,flowData);
 				$.getResultMsg(defer,function(){
 					layer.close(ii);
 					scope.execuFn(button.afterScript);
