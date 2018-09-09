@@ -91,7 +91,10 @@
 				<th style="width: 5%">必填</th>
 				<th style="width: 8%">数据类型</th>
 				<th style="width: 5%">属性长度</th>
-				<th style="width: 5%">默认值</th>
+				<th style="width: 5%">
+					默认值
+					<a href="javaScript:void(0)" style="text-decoration: none; color: red;" title="以{}包含的以脚本运行，eg:{return '123'}" class="fa fa-exclamation-circle ab-help" ab-tip> </a>
+				</th>
 				<th style="width: 10%">字段控件</th>
 				<th style="width: 15%">控件配置</th>
 				<th style="width: 10%">字段校验</th>
@@ -127,7 +130,7 @@
 				</td>
 				<!-- 默认值 -->
 				<td>
-					<input ng-disabled="data.createdTable&&column.id" ng-if="!column.primary" type="text" class="form-control" ng-if="column.type!='clob'" ng-model="column.defaultValue" />
+					<input ng-if="!column.primary" type="text" class="form-control" ng-if="column.type!='clob'" ng-model="column.defaultValue" />
 				</td>
 				<!-- 字段控件 -->
 				<td>

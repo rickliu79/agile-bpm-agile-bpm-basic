@@ -3,6 +3,7 @@ package com.dstz.bus.model;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.validation.Valid;
 
@@ -12,10 +13,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.constant.ColumnType;
 import com.dstz.base.api.model.IBaseModel;
+import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.core.util.time.DateFormatUtil;
 import com.dstz.base.db.model.table.Column;
 import com.dstz.bus.api.model.IBusinessColumn;
+import com.dstz.sys.api.groovy.IGroovyScriptEngine;
 
 /**
  * <pre>
@@ -98,6 +101,12 @@ public class BusinessColumn extends Column implements IBaseModel, IBusinessColum
 		if (StringUtil.isEmpty(str)) {
 			return null;
 		}
+		if (str.startsWith("{") && str.endsWith("}")) {// 以{}包围的是脚本
+			IGroovyScriptEngine engine = AppUtil.getBean(IGroovyScriptEngine.class);
+			String script = str.substring(1, str.length() - 1);
+			return engine.executeObject(script, new HashMap<>());
+		}
+
 		Object value = null;
 		if (ColumnType.VARCHAR.equalsWithKey(type) || ColumnType.CLOB.equalsWithKey(type)) {
 			value = str;
