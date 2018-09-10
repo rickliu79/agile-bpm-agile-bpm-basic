@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.session.NullAuthenticated
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
@@ -26,14 +27,24 @@ import com.dstz.org.api.service.UserService;
 import com.dstz.security.constant.PlatFormStatusCode;
 import com.dstz.security.login.SecurityUtil;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api(description="登录")
 public class LoginController extends GenericController {
     @Resource
     UserService userService;
     SessionAuthenticationStrategy sessionStrategy = new NullAuthenticatedSessionStrategy();
 
-    @RequestMapping(value = "login/valid")
+    @RequestMapping(value = "login/valid",method= {RequestMethod.POST,RequestMethod.GET})
     @CatchErr
+    @ApiOperation(value = "用户登录",notes="登录鉴权")
+    @ApiImplicitParams({
+    	@ApiImplicitParam(paramType = "form", dataType = "String", name = "account", value = "账号"),
+		@ApiImplicitParam(paramType = "form", dataType = "String", name = "password", value = "密码")})
     public ResultMsg login(HttpServletRequest request, HttpServletResponse response) {
         String account = RequestUtil.getString(request, "account");
         String password = RequestUtil.getString(request, "password");
