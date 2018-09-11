@@ -1,4 +1,13 @@
 window.__ctx = "/agile-bpm-platform";
+
+////跨域时修改 此 ctx 
+//window.__ctx = "http://localhost:8080/agile-bpm-platform";
+
+//jQuery 跨域处理
+jQuery(function () {  //, headers: { 'x-requested-with': 'XMLHttpRequest' }
+    $.ajaxSetup({crossDomain: true, xhrFields: {withCredentials: true}});
+}); 
+
 /**
  * @url 如果不含ctx，添加ctx
  * @replacePageParam true /false
@@ -6,6 +15,7 @@ window.__ctx = "/agile-bpm-platform";
  * 这时候会将1 赋值给userId
  * 
  */
+
 window.getCtxUrl = function(url,replaceRequestParam){
 	if(url && !url.startWith(__ctx) && !url.startWith("http")){
 		url.startWith("/")?"":url = "/"+url;
@@ -18,7 +28,6 @@ window.getCtxUrl = function(url,replaceRequestParam){
 	}
 	return url;
 }
-
 
 window.getProjectUrl = function(url){
 	if(url && url.indexOf("http://")==-1 && url.substring(0,1)==="/"){
@@ -35,3 +44,4 @@ window.getProjectUrl = function(url){
 	}
 	return url;
 }
+

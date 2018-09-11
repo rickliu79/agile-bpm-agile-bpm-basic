@@ -1,5 +1,5 @@
-require('../../app-conf.js');
 require('jquery');
+require('../../app-conf.js');
 
 require('../../css/bootstrap.min.css');
 require('../../css/font-awesome.min.css');

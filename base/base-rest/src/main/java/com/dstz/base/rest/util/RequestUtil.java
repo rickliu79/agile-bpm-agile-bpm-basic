@@ -1,8 +1,25 @@
 package com.dstz.base.rest.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dstz.base.api.constant.ColumnType;
 import com.dstz.base.api.query.FieldLogic;
 import com.dstz.base.api.query.FieldRelation;
@@ -16,31 +33,7 @@ import com.dstz.base.db.model.query.DefaultFieldLogic;
 import com.dstz.base.db.model.query.DefaultQueryField;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URLEncoder;
-import java.text.ParseException;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class RequestUtil {
-
-    private static Logger logger = LoggerFactory.getLogger(QueryFilter.class);
-
-    public static final String RETURNURL = "returnUrl";
-
-    private RequestUtil() {
-    }
-
     /**
      * 取字符串类型的参数。 如果取得的值为null，则返回默认字符串。
      *
@@ -463,52 +456,6 @@ public class RequestUtil {
         return (Date) DateFormatUtil.parseDateTime(str);
     }
 
-    /**
-     * 取得当前页URL,如有参数则带参数
-     *
-     * @param HttpServletRequest request
-     * @return
-     */
-    public static String getUrl(HttpServletRequest request) {
-        StringBuilder urlThisPage = new StringBuilder();
-        urlThisPage.append(request.getRequestURI());
-        Enumeration<?> e = request.getParameterNames();
-        String para = "";
-        String values = "";
-        urlThisPage.append("?");
-        while (e.hasMoreElements()) {
-            para = (String) e.nextElement();
-            values = request.getParameter(para);
-            urlThisPage.append(para);
-            urlThisPage.append("=");
-            urlThisPage.append(values);
-            urlThisPage.append("&");
-        }
-        return urlThisPage.substring(0, urlThisPage.length() - 1);
-    }
-
-    /**
-     * 取得上一页的路径。
-     *
-     * @param request
-     * @return
-     */
-    public static String getPrePage(HttpServletRequest request) {
-        if (StringUtil.isEmpty(request.getParameter(RETURNURL))) {
-            return request.getHeader("Referer");
-        }
-        return request.getParameter(RETURNURL);
-    }
-
-    private static void addQueryParameter(String key, String[] values, Map<String, Object> map) {
-        if (values.length == 1) {
-            String val = values[0].trim();
-            if (StringUtil.isNotEmpty(val))
-                map.put(key, values[0].trim());
-        } else
-            map.put(key, values);
-
-    }
 
     /**
      * 处理页面进来的请求参数。
@@ -572,57 +519,6 @@ public class RequestUtil {
             }
         }
         queryFilter.setFieldLogic(andFieldLogic);
-    }
-
-    /**
-     * 根据查询字段的类型 取得合适的比较符
-     *
-     * @param type
-     * @return QueryOP
-     */
-    public static QueryOP getCompare(String type) {
-        // 字符串 精准匹配
-        if ("S".equals(type)) {
-            return QueryOP.EQUAL;
-        }
-        // 字符串 模糊查询
-        else if ("SL".equals(type)) {
-            return QueryOP.LIKE;
-        }
-        // 字符串 右模糊查询
-        else if ("SLR".equals(type)) {
-            return QueryOP.LIKE;
-        }
-        // 字符串 左模糊查询
-        else if ("SLL".equals(type)) {
-            return QueryOP.LIKE;
-        }
-        // date begin
-        else if ("DL".equals(type)) {
-            return QueryOP.GREAT_EQUAL;
-        }
-        // date end
-        else if ("DG".equals(type)) {
-            return QueryOP.LESS_EQUAL;
-        }
-        // in
-        else if ("IN".equals(type)) {
-            return QueryOP.IN;
-        } else {
-            return QueryOP.EQUAL;
-        }
-
-    }
-
-    private static Object[] getObjValue(String type, String[] value) {
-        Object[] aryObj = new Object[value.length];
-        for (int i = 0; i < aryObj.length; i++) {
-            String v = "";
-            if (value[i] != null)
-                v = value[i].toString();
-            // aryObj[i] = getObjValue(type, v);
-        }
-        return aryObj;
     }
 
     /**
@@ -718,39 +614,7 @@ public class RequestUtil {
         return tmp;
     }
 
-    /**
-     * 取得local。
-     *
-     * @param request
-     * @return
-     */
-    public static Locale getLocal(HttpServletRequest request) {
-        Locale local = request.getLocale();
-        if (local == null)
-            local = Locale.CHINA;
-        return local;
-    }
-
-    /**
-     * 获取出错的url
-     *
-     * @param request
-     * @return
-     */
-    public final static String getErrorUrl(HttpServletRequest request) {
-        String errorUrl = (String) request.getAttribute("javax.servlet.error.request_uri");
-        if (errorUrl == null) {
-            errorUrl = (String) request.getAttribute("javax.servlet.forward.request_uri");
-        }
-        if (errorUrl == null) {
-            errorUrl = (String) request.getAttribute("javax.servlet.include.request_uri");
-        }
-        if (errorUrl == null) {
-            errorUrl = request.getRequestURL().toString();
-        }
-        return errorUrl;
-    }
-
+   
     /**
      * 获取IP地址
      *
@@ -853,36 +717,6 @@ public class RequestUtil {
         } else {
             outp.write("File does not exist!".getBytes("utf-8"));
         }
-    }
-
-    /**
-     * <pre>
-     * 获取JSONObject对象
-     * 如果为空时，返回一个空的json={}（不是null）
-     * </pre>
-     *
-     * @param request
-     * @param key
-     * @return
-     */
-    public static JSONObject getJSONObject(HttpServletRequest request, String key) {
-        String json = getString(request, key, "{}", false);
-        return JSON.parseObject(json);
-    }
-
-    /**
-     * <pre>
-     * 获取JSONArray对象
-     * 如果为空时，返回一个空的json=[]（不是null）
-     * </pre>
-     *
-     * @param request
-     * @param key
-     * @return
-     */
-    public static JSONArray getJSONArray(HttpServletRequest request, String key) {
-        String json = getString(request, key, "[]", false);
-        return JSON.parseArray(json);
     }
 
 }

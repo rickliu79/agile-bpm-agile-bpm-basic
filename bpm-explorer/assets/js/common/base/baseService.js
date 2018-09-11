@@ -23,7 +23,6 @@ var base = angular.module("base", [])
 	$httpProvider.interceptors.push(function() {
 	    return {
 	      'request':function(config){
-	    	  config.headers['Api-Requested']='APIHttpRequest';
 	    	  return config;
 	      },
 	      'response': function(response) {
@@ -39,6 +38,7 @@ var base = angular.module("base", [])
 	      }
 	    };
 	});
+	$httpProvider.defaults.withCredentials = true;
 });
 
 /**

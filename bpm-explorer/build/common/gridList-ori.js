@@ -2,8 +2,9 @@ var __path = "../.."
 
 var aryCss__=[]; //先用打包的
 
-var aryJs__=[ "/assets/app-conf.js",
-              "/assets/js/jquery.min.js",
+var aryJs__=[
+            "/assets/js/jquery.min.js",
+            "/assets/app-conf.js",
             "/assets/js/bootstrap.min.js",
             "/assets/js/plugins/bootstrap-table/bootstrap-table.js",
             "/assets/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js",
