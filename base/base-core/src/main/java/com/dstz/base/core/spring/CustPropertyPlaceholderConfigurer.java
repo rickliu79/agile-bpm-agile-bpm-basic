@@ -11,7 +11,7 @@ import java.util.Set;
  * 系统配置属性
  * TODO 支持加密、支持不同环境配置
  */
-public class CustPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
+public class CustPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer implements IProperty{
 
     /**
      * 属性key,value

@@ -1,6 +1,10 @@
 package com.dstz.base.core.util;
 
+import org.springframework.core.env.Environment;
+
+import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.core.spring.CustPropertyPlaceholderConfigurer;
+import com.dstz.base.core.spring.IProperty;
 
 /**
  * 属性工具类。
@@ -8,8 +12,10 @@ import com.dstz.base.core.spring.CustPropertyPlaceholderConfigurer;
 public class PropertyUtil {
 
     //private static Environment env = null;
-    private static CustPropertyPlaceholderConfigurer custPlaceHolder = null;
-
+	private static IProperty  propertyHolder = null;
+    // spring boot 略 不同处理
+	private static Environment environment = null;
+    
     /**
      * 根据键值获取属性文件中配置的值。
      *
@@ -18,9 +24,11 @@ public class PropertyUtil {
      * @return String
      */
     public static String getProperty(String property, String defaultValue) {
-        getEnvironment();
+    	if(propertyHolder == null){
+    		getEnvironment();
+    	}
 
-        String v = custPlaceHolder.getValue(property);
+        String v = propertyHolder.getValue(property);
         if (StringUtil.isEmpty(v)) {
             return defaultValue;
         }
@@ -30,8 +38,20 @@ public class PropertyUtil {
 
 
     private static synchronized void getEnvironment() {
-        if (custPlaceHolder == null) {
-            custPlaceHolder = (CustPropertyPlaceholderConfigurer) AppUtil.getBean("custPlaceHolder");
+    	propertyHolder = (CustPropertyPlaceholderConfigurer) AppUtil.getBean("custPlaceHolder");
+        
+        if(propertyHolder == null) {
+        	environment = AppUtil.getBean(Environment.class); 
+        	if(environment == null) {
+        		throw new BusinessException("Environment cannot be found");
+        	}
+        	
+        	propertyHolder = new IProperty() {
+				@Override
+				public String getValue(String key) {
+					return environment.getProperty(key);
+				}
+			};
         }
     }
 

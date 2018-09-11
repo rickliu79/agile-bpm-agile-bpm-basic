@@ -18,9 +18,7 @@ import java.util.regex.PatternSyntaxException;
 /**
  * 拼音使用工具类 </br> 功能： 输入汉字取得拼音。 <br>
  * 使用Pinyin4j.jar
- *
  * @author zxh
- * @version 2012-08-09
  */
 public class PinyinUtil {
 
