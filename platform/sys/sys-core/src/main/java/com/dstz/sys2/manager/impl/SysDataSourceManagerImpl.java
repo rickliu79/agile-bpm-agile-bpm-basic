@@ -23,6 +23,8 @@ import com.dstz.sys2.manager.SysDataSourceManager;
 import com.dstz.sys2.model.SysDataSource;
 import com.dstz.sys2.model.def.SysDataSourceDefAttribute;
 
+import cn.hutool.core.util.ReflectUtil;
+
 /**
  * <pre>
  * 描述：数据源 Manager处理实现类
@@ -50,7 +52,7 @@ public class SysDataSourceManagerImpl extends BaseManager<String, SysDataSource>
                     continue;
                 }
                 Object value = BeanUtils.getValue(attribute.getType(), attribute.getValue());
-                BeanUtils.setProperty(dataSource, attribute.getName(), value);
+                ReflectUtil.setFieldValue(dataSource, attribute.getName(), value);
             }
             return dataSource;
         } catch (Exception e) {

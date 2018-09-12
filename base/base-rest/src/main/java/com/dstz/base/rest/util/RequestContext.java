@@ -5,6 +5,9 @@ import com.dstz.base.core.util.BeanUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 线程 存放Request，方便使用
+ */
 public class RequestContext {
 
     private static ThreadLocal<HttpServletRequest> requestLocal = new ThreadLocal<HttpServletRequest>();
@@ -17,20 +20,15 @@ public class RequestContext {
 
     /**
      * 清除request和response线程变量
-     * void
-     *
-     * @throws
-     * @since 1.0.0
      */
     public static void clearHttpReqResponse() {
         requestLocal.remove();
         responseLocal.remove();
     }
-
+    
     /**
-     * @param response void
-     * @throws
-     * @since 1.0.0
+     * 设置 response
+     * @param response
      */
     public static void setHttpServletResponse(HttpServletResponse response) {
         responseLocal.set(response);

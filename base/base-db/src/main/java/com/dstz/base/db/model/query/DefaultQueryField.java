@@ -7,7 +7,8 @@ import java.util.StringTokenizer;
 import com.dstz.base.api.constant.StringConstants;
 import com.dstz.base.api.query.QueryField;
 import com.dstz.base.api.query.QueryOP;
-import com.dstz.base.core.util.time.DateFormatUtil;
+
+import cn.hutool.core.date.DateUtil;
 
 /**
  * 默认条件接口实现类。
@@ -188,7 +189,7 @@ public class DefaultQueryField implements QueryField {
                     sb.append(" and ");
                 }
                 if (obj instanceof Date) {
-                    String dateString = DateFormatUtil.format((Date) obj, StringConstants.DATE_FORMAT_DATETIME);
+                    String dateString = DateUtil.format((Date) obj, StringConstants.DATE_FORMAT_DATETIME);
                     sb.append("\"" + dateString + "\"");
                 } else {
                     sb.append("\"" + obj.toString() + "\"");

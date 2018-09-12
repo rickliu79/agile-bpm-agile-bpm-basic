@@ -30,7 +30,6 @@ import java.util.Map;
 /**
  * xml操作类。<br>
  * 包括xml的读取，xml的转换等。
- *
  * @author dstz
  */
 public class Dom4jUtil {

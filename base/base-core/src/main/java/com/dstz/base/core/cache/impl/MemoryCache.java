@@ -4,15 +4,14 @@ import com.dstz.base.core.cache.ICache;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 内存的cache实现。
- * <pre>
- * </pre>
  */
 public class MemoryCache<T> implements ICache<T> {
 
-    private Map<String, T> map = new HashMap<String, T>();
+    private Map<String, T> map = new ConcurrentHashMap<String, T>();
 
     public void add(String key, T obj) {
         map.put(key, obj);
@@ -37,8 +36,7 @@ public class MemoryCache<T> implements ICache<T> {
     }
 
     public void add(String key, T obj, int timeout) {
-        // TODO Auto-generated method stub
-
+    	
     }
 
 }

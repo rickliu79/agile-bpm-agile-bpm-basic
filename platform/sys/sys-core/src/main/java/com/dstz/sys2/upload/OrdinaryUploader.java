@@ -3,13 +3,16 @@ package com.dstz.sys2.upload;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.core.util.FileUtil;
 import com.dstz.base.core.util.PropertyUtil;
-import com.dstz.base.core.util.time.DateUtil;
+
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 
 /**
  * <pre>
@@ -52,7 +55,7 @@ public class OrdinaryUploader extends AbstractUploader {
 	}
 
 	private String getPath(String name) {
-		return PropertyUtil.getProperty("uploader.ordinary.path") + DateUtil.getCurrentTime("yyyyMMdd") + File.separator + name;
+		return PropertyUtil.getProperty("uploader.ordinary.path") +  DateUtil.format(new Date(), "yyyyMMdd") + File.separator + name;
 	}
 
 }

@@ -9,6 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cglib.beans.BeanCopier;
 
+/**
+ *  bean 属性copy
+ *  
+ */
 public class BeanCopierUtils {
     protected static final Logger LOG = LoggerFactory.getLogger(AppUtil.class);
 

@@ -24,13 +24,14 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.FileUtil;
 import com.dstz.base.core.util.ZipUtil;
-import com.dstz.base.core.util.time.DateUtil;
 import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.GenericController;
 import com.dstz.sys2.manager.SysFileManager;
 import com.dstz.sys2.model.SysFile;
 import com.github.pagehelper.Page;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import net.lingala.zip4j.core.ZipFile;
 
 /**
@@ -93,7 +94,7 @@ public class SysFileController extends GenericController {
 			sourceFileList.add(FileUtil.inputstream2file(sysFileManager.download(id),new File(sysFile.getName())));
 		}
 
-		String zipName = DateUtil.getCurrentTime("yyyyMMddHHmmss") + ".zip";
+		String zipName = DateUtil.format(new DateTime(),"yyyyMMddHHmmss")  + ".zip";
 		File file = ZipUtil.zip(sourceFileList, new ZipFile(new File(zipName)));
 		HttpHeaders headers = new HttpHeaders();
 		String downloadFileName = new String(zipName.getBytes("UTF-8"), "iso-8859-1");

@@ -9,10 +9,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.constant.ColumnType;
 import com.dstz.base.api.exception.BusinessException;
-import com.dstz.base.core.util.time.DateFormatUtil;
 import com.dstz.bus.model.BusinessColumn;
 import com.dstz.bus.model.BusinessData;
-import com.dstz.form.api.service.BpmFormRightsService;
+
+import cn.hutool.core.date.DateUtil;
 
 /**
  * <pre>
@@ -44,7 +44,7 @@ public class AssemblyValTypeExecutor extends AssemblyValExecuteChain {
 			// 目前就日期需要格式化成字符串到前端formDefData
 			if (ColumnType.DATE.equalsWithKey(column.getType()) && entry.getValue() != null) {
 				JSONObject config = JSON.parseObject(column.getCtrl().getConfig());
-				data.put(column.getKey(), DateFormatUtil.format((Date) entry.getValue(), config.getString("format")));
+				data.put(column.getKey(), DateUtil.format((Date) entry.getValue(), config.getString("format")));
 			} else {
 				data.put(entry.getKey(), entry.getValue());
 			}

@@ -108,32 +108,6 @@ public class FileUtil {
         }
     }
 
-    /**
-     * 读取MultipartFile流中的压缩文件，常用于系统用的导入功能
-     *
-     * @param fileLoad ：文件流
-     * @param fileName ：压缩包里面的xml名称
-     * @return String
-     * @throws
-     * @since 1.0.0
-     */
-    public static String readZip(MultipartFile fileLoad, String fileName) {
-        String xmlStr = "";
-        try {
-            String realFilePath = FileUtil.getWebRootPath() + "/attachFiles/tempZip/";
-            String name = fileLoad.getOriginalFilename();
-            String fileDir = name.substring(0, name.lastIndexOf("."));
-            // 解压文件
-            ZipUtil.unZipFile(fileLoad, realFilePath);
-            realFilePath = realFilePath + fileDir;
-            xmlStr = FileUtil.readFile(realFilePath + "/" + fileName);
-            FileUtil.deleteDir(new File(realFilePath));// 删除文件
-        } catch (Exception ex) {
-
-        }
-        return xmlStr;
-
-    }
 
     /**
      * 通过类路径读取文件

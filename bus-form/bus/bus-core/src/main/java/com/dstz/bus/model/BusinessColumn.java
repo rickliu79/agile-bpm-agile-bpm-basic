@@ -15,10 +15,11 @@ import com.dstz.base.api.constant.ColumnType;
 import com.dstz.base.api.model.IBaseModel;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.core.util.time.DateFormatUtil;
 import com.dstz.base.db.model.table.Column;
 import com.dstz.bus.api.model.IBusinessColumn;
 import com.dstz.sys.api.groovy.IGroovyScriptEngine;
+
+import cn.hutool.core.date.DateUtil;
 
 /**
  * <pre>
@@ -116,7 +117,7 @@ public class BusinessColumn extends Column implements IBaseModel, IBusinessColum
 			value = bigDecimal.setScale(this.getDecimal(), RoundingMode.HALF_UP);
 		} else if (ColumnType.DATE.equalsWithKey(type)) {
 			JSONObject config = JSON.parseObject(this.getCtrl().getConfig());
-			value = DateFormatUtil.parse(str, config.getString("format"));
+			value = DateUtil.parse(str, config.getString("format"));
 		}
 
 		return value;

@@ -9,11 +9,12 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.dstz.base.core.util.time.DateFormatUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys.core.dao.SerialNoDao;
 import com.dstz.sys.core.manager.SerialNoManager;
 import com.dstz.sys.core.model.SerialNo;
+
+import cn.hutool.core.date.DateUtil;
 
 @Service("serialNoManager")
 public class SerialNoManagerImpl extends BaseManager<String, SerialNo> implements SerialNoManager {
@@ -225,7 +226,7 @@ public class SerialNoManagerImpl extends BaseManager<String, SerialNo> implement
      */
     public String getCurDate() {
         Date date = new Date();
-        return DateFormatUtil.format(date, "yyyyMMdd");
+        return DateUtil.format(date, "yyyyMMdd");
 
     }
 

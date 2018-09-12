@@ -67,18 +67,6 @@
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <description>当有跨域访问时，可以作为代理访问其他系统的页面</description>
-        <display-name>crossOriginRequestProxyServlet</display-name>
-        <servlet-name>crossOriginRequestProxyServlet</servlet-name>
-        <servlet-class>com.dstz.platform.servlet.CrossOriginRequestProxyServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>crossOriginRequestProxyServlet</servlet-name>
-        <url-pattern>/crossOriginRequestProxyServlet</url-pattern>
-    </servlet-mapping>
-
-
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

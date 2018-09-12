@@ -17,21 +17,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.dstz.base.api.constant.ColumnType;
 import com.dstz.base.api.query.FieldLogic;
 import com.dstz.base.api.query.FieldRelation;
-import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.encrypt.Base64;
+import com.dstz.base.core.util.BeanCopierUtils;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.core.util.time.DateFormatUtil;
 import com.dstz.base.db.model.query.DefaultFieldLogic;
 import com.dstz.base.db.model.query.DefaultQueryField;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
+
+import cn.hutool.core.date.DateUtil;
 
 public class RequestUtil {
     /**
@@ -422,7 +421,7 @@ public class RequestUtil {
             return null;
         if (StringUtil.isEmpty(style))
             style = "yyyy-MM-dd HH:mm:ss";
-        return (Date) DateFormatUtil.parse(str, style);
+        return (Date) DateUtil.parse(str, style);
     }
 
     /**
@@ -437,7 +436,7 @@ public class RequestUtil {
         String str = request.getParameter(key);
         if (StringUtil.isEmpty(str))
             return null;
-        return (Date) DateFormatUtil.parseDate(str);
+        return (Date) DateUtil.parseDate(str);
 
     }
 
@@ -453,7 +452,7 @@ public class RequestUtil {
         String str = request.getParameter(key);
         if (StringUtil.isEmpty(str))
             return null;
-        return (Date) DateFormatUtil.parseDateTime(str);
+        return (Date) DateUtil.parseDateTime(str);
     }
 
 
@@ -519,6 +518,12 @@ public class RequestUtil {
             }
         }
         queryFilter.setFieldLogic(andFieldLogic);
+    }
+    
+    
+    public static <T> Class<T> copyProperties(Class<T> source, Object target) {
+    	BeanCopierUtils.copyProperties(source, target);
+    	return source;
     }
 
     /**
