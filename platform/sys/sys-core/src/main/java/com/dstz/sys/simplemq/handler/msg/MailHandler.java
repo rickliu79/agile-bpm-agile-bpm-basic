@@ -11,8 +11,7 @@ import com.dstz.base.core.util.StringUtil;
 import com.dstz.org.api.model.IUser;
 import com.dstz.sys.api.jms.model.msg.NotifyMessage;
 import com.dstz.sys.api.service.SysIdentityConvert;
-
-import cn.hutool.extra.mail.MailUtil;
+import com.dstz.sys2.util.EmailUtil;
 
 /**
  * 邮件消息处理器。
@@ -47,7 +46,7 @@ public class MailHandler extends AbsNotifyMessageHandler<NotifyMessage> {
             String email = reciver.getEmail();
             if (StringUtil.isEmpty(email)) continue;
             try {
-            	MailUtil.send(email, notifMessage.getSubject(), notifMessage.getHtmlContent(), true);
+            	EmailUtil.send(email, notifMessage.getSubject(), notifMessage.getHtmlContent());
             } catch (Exception e) {
             	LOG.error(JSON.toJSONString(notifMessage));
             	LOG.error("发送邮件失败！",e);
