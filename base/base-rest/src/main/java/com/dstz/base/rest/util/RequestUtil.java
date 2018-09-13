@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.constant.ColumnType;
+import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.FieldLogic;
 import com.dstz.base.api.query.FieldRelation;
 import com.dstz.base.api.query.QueryOP;
@@ -33,6 +35,23 @@ import com.dstz.base.db.model.query.DefaultQueryFilter;
 import cn.hutool.core.date.DateUtil;
 
 public class RequestUtil {
+	/**
+	 * 从Request中获取业务必填的字段
+	 * @param request
+	 * @param key 
+	 * @param errorMsg 业务异常提示 (这里抛出的异常最好有 @cathErr 注解捕获并包装错误json 返回前端)
+	 * @return
+	 */
+	public static String getRQString(HttpServletRequest request, String key, String errorMsg) {
+		String result = RequestUtil.getString(request, key,null);
+		if(result == null) {
+			throw new BusinessException(String.format("[%s] %s",key, errorMsg),BaseStatusCode.PARAM_ILLEGAL);
+		}
+		
+		return result;
+    }
+	
+	
     /**
      * 取字符串类型的参数。 如果取得的值为null，则返回默认字符串。
      *
