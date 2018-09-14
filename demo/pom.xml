@@ -4,7 +4,7 @@
     <artifactId>demo</artifactId>
     <groupId>com.dstz.demo</groupId>
     <packaging>pom</packaging>
-    <name>demo</name>
+    <name>【开发案例模块】..........可参考该模块来开发自己的业务模块</name>
     <version>0.0.1-SNAPSHOT</version>
     <description>案例模块</description>
 	
