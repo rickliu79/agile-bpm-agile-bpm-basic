@@ -7,7 +7,10 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 				if(!result.isOk && result.code==="401"){
 					window.location = "login.html";
 					return ;
+				}else if(!result.isOk){
+					$.Toast.error(result.msg);
 				}
+				
 				scope.userMsg = result.data;
 				scope.userRes = scope.userMsg.resourceList;
 				var menuId = $.getCookie("default_menu");

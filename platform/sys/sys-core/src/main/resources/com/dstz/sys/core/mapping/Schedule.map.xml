@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dstz.sys.core.dao.ScheduleDao">
+	<resultMap id="Schedule" type="com.dstz.sys.core.model.Schedule">
+		<id property="id" column="id" jdbcType="VARCHAR"/>
+		<result property="title" column="title" jdbcType="VARCHAR"/>
+		<result property="remark" column="remark" jdbcType="VARCHAR"/>
+		<result property="taskUrl" column="task_url" jdbcType="VARCHAR"/>
+		<result property="type" column="type" jdbcType="VARCHAR"/>
+		<result property="openType" column="open_type" jdbcType="VARCHAR"/>
+		<result property="owner" column="owner" jdbcType="VARCHAR"/>
+		<result property="ownerName" column="owner_name" jdbcType="VARCHAR"/>
+		<result property="participantNames" column="participant_names" jdbcType="VARCHAR"/>
+		<result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+		<result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+		<result property="actualStartTime" column="actual_start_time" jdbcType="TIMESTAMP"/>
+		<result property="completeTime" column="complete_time" jdbcType="TIMESTAMP"/>
+		<result property="rateProgress" column="rate_progress" jdbcType="NUMERIC"/>
+		<result property="submitter" column="submitter" jdbcType="VARCHAR"/>
+		<result property="submitNamer" column="submitNamer" jdbcType="VARCHAR"/>
+		<result property="isLock" column="isLock" jdbcType="VARCHAR"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+		<result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+		<result property="updateBy" column="update_by_" jdbcType="VARCHAR"/>
+		<result property="deleteFlag" column="delete_flag" jdbcType="VARCHAR"/>
+		<result property="rev" column="rev" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.dstz.sys.core.model.Schedule">
+		INSERT INTO c_schedule
+		(id,title,remark,task_url,type,open_type,owner,owner_name,participant_names,start_time,end_time,actual_start_time,complete_time,rate_progress,submitter,submitNamer,isLock,create_time,create_by,update_time,update_by_,delete_flag,rev)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{taskUrl,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{openType,jdbcType=VARCHAR}, #{owner,jdbcType=VARCHAR}, #{ownerName,jdbcType=VARCHAR}, #{participantNames,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{actualStartTime,jdbcType=TIMESTAMP}, #{completeTime,jdbcType=TIMESTAMP}, #{rateProgress,jdbcType=NUMERIC}, #{submitter,jdbcType=VARCHAR}, #{submitNamer,jdbcType=VARCHAR}, #{isLock,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=VARCHAR}, #{rev,jdbcType=NUMERIC})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="Schedule">
+		SELECT * FROM c_schedule 
+		WHERE 
+		id=#{id}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="Schedule">
+		SELECT * FROM c_schedule
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.dstz.sys.core.model.Schedule">
+		UPDATE c_schedule SET
+		title=#{title,jdbcType=VARCHAR},
+		remark=#{remark,jdbcType=VARCHAR},
+		task_url=#{taskUrl,jdbcType=VARCHAR},
+		type=#{type,jdbcType=VARCHAR},
+		open_type=#{openType,jdbcType=VARCHAR},
+		owner=#{owner,jdbcType=VARCHAR},
+		owner_name=#{ownerName,jdbcType=VARCHAR},
+		participant_names=#{participantNames,jdbcType=VARCHAR},
+		start_time=#{startTime,jdbcType=TIMESTAMP},
+		end_time=#{endTime,jdbcType=TIMESTAMP},
+		actual_start_time=#{actualStartTime,jdbcType=TIMESTAMP},
+		complete_time=#{completeTime,jdbcType=TIMESTAMP},
+		rate_progress=#{rateProgress,jdbcType=NUMERIC},
+		submitter=#{submitter,jdbcType=VARCHAR},
+		submitNamer=#{submitNamer,jdbcType=VARCHAR},
+		isLock=#{isLock,jdbcType=VARCHAR},
+		create_time=#{createTime,jdbcType=TIMESTAMP},
+		create_by=#{createBy,jdbcType=VARCHAR},
+		update_time=#{updateTime,jdbcType=TIMESTAMP},
+		update_by_=#{updateBy,jdbcType=VARCHAR},
+		delete_flag=#{deleteFlag,jdbcType=VARCHAR},
+		rev=#{rev,jdbcType=NUMERIC}
+		WHERE
+		id=#{id}
+	</update>
+	
+	<update id="updateOnlySchedule" parameterType="com.dstz.sys.core.model.Schedule">
+		UPDATE c_schedule SET
+		<if test="title!=null">
+			title=#{title,jdbcType=VARCHAR},
+		</if>
+		<if test="remark!=null">
+			remark=#{remark,jdbcType=VARCHAR},
+		</if>
+		<if test="taskUrl!=null">
+			task_url=#{taskUrl,jdbcType=VARCHAR},
+		</if>
+		<if test="type!=null">
+			type=#{type,jdbcType=VARCHAR},
+		</if>
+		<if test="openType!=null">
+			open_type=#{openType,jdbcType=VARCHAR},
+		</if>
+		<if test="owner!=null">
+			owner=#{owner,jdbcType=VARCHAR},
+		</if>
+		<if test="ownerName!=null">
+			owner_name=#{ownerName,jdbcType=VARCHAR},
+		</if>
+		<if test="participantNames!=null">
+			participant_names=#{participantNames,jdbcType=VARCHAR},
+		</if>
+		<if test="startTime!=null">
+			start_time=#{startTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="endTime!=null">
+			end_time=#{endTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="actualStartTime!=null">
+			actual_start_time=#{actualStartTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="completeTime!=null">
+			complete_time=#{completeTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="rateProgress!=null">
+			rate_progress=#{rateProgress,jdbcType=NUMERIC},
+		</if>
+		<if test="submitter!=null">
+			submitter=#{submitter,jdbcType=VARCHAR},
+		</if>
+		<if test="submitNamer!=null">
+			submitNamer=#{submitNamer,jdbcType=VARCHAR},
+		</if>
+		<if test="isLock!=null">
+			isLock=#{isLock,jdbcType=VARCHAR},
+		</if>
+		<if test="createTime!=null">
+			create_time=#{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="createBy!=null">
+			create_by=#{createBy,jdbcType=VARCHAR},
+		</if>
+		<if test="updateBy!=null">
+			update_by_=#{updateBy,jdbcType=VARCHAR},
+		</if>
+		<if test="deleteFlag!=null">
+			delete_flag=#{deleteFlag,jdbcType=VARCHAR},
+		</if>
+		<if test="rev!=null">
+			rev=#{rev,jdbcType=NUMERIC},
+		</if>
+		<if test="updateTime!=null">
+			update_time=#{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		id=#{id,jdbcType=VARCHAR}
+		WHERE
+		id=#{id}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM c_schedule 
+		WHERE
+		id=#{id}
+	</delete>
+	
+	<select id="getByPeriodAndOwner"   parameterType="java.util.Map" resultMap="Schedule">
+		SELECT * FROM c_schedule 
+		WHERE start_time &gt;= #{startTime,jdbcType=TIMESTAMP} 
+		AND end_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		AND (owner_name = #{ownerName,jdbcType=VARCHAR} or c_schedule.owner = #{owner,jdbcType=VARCHAR})
+	</select>
+	
+	<select id="getByPeriodAndSource"   parameterType="java.util.Map" resultMap="Schedule">
+		SELECT * FROM c_schedule 
+		WHERE start_time &gt;= #{startTime,jdbcType=TIMESTAMP} 
+		AND end_time &lt;= #{endTime,jdbcType=TIMESTAMP} 
+		AND id IN (SELECT schedule_id FROM c_schedule_biz WHERE source = #{source,jdbcType=VARCHAR})
+	</select>
+	
+	<delete id="deleteByBizId" parameterType="java.lang.String">
+		DELETE a,b FROM c_schedule a 
+		INNER JOIN c_schedule_biz b 
+		ON a.id = b.schedule_id 
+		WHERE b.biz_id = #{bizId,jdbcType=VARCHAR}
+	</delete>
+	
+	<update id="dragUpdate" parameterType="com.dstz.sys.core.model.Schedule">
+		UPDATE c_schedule SET
+		start_time=#{startTime,jdbcType=TIMESTAMP},
+		end_time=#{endTime,jdbcType=TIMESTAMP}
+		WHERE
+		id=#{id}
+	</update>
+	
+	<update id="updateSchedule" parameterType="com.dstz.sys.core.model.Schedule">
+		UPDATE c_schedule a 
+		LEFT JOIN c_schedule_biz b 
+		ON a.id = b.schedule_id 
+		SET a.start_time=#{startTime,jdbcType=TIMESTAMP}, a.end_time=#{endTime,jdbcType=TIMESTAMP}, a.owner=#{owner,jdbcType=VARCHAR} 
+		WHERE b.biz_id=#{bizId,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="getByBizId"   parameterType="java.lang.String" resultMap="Schedule">
+		SELECT * from c_schedule 
+		WHERE id IN (SELECT schedule_id from c_schedule_biz WHERE biz_id=#{bizId,jdbcType=VARCHAR})
+	</select>
+	
+	<select id="getParticipantEvents"   parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT a.title,a.remark,a.task_url,a.type,a.open_type,a.start_time,a.end_time,a.owner,a.owner_name,a.submitter,a.submitNamer,b.participantor,b.participantor_name,b.rate_progress,b.id_,b.schedule_id,b.submit_comment,b.actual_start_time,b.complete_time FROM c_schedule a 
+		INNER JOIN c_schedule_participant b 
+		ON a.id = b.schedule_id
+		WHERE a.start_time &gt;= #{startTime,jdbcType=TIMESTAMP} 
+		AND a.end_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		AND (b.participantor_name = #{participantName,jdbcType=VARCHAR} or b.participantor = #{participant,jdbcType=VARCHAR})
+	</select>
+	
+</mapper>

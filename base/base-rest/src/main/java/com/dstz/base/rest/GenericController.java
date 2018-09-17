@@ -24,7 +24,7 @@ import java.util.List;
 public class GenericController {
 	protected  Logger LOG = LoggerFactory.getLogger(getClass());
 	
-	   protected <T> ResultMsg<T> getSuccessResult(T data, String msg) throws IOException {
+	   protected <T> ResultMsg<T> getSuccessResult(T data, String msg){
 	        ResultMsg<T> resultMsg = new ResultMsg<T>();
 	        resultMsg.IsOk(true);
 	        resultMsg.setMsg(msg);
@@ -32,7 +32,7 @@ public class GenericController {
 	        return resultMsg;
 	    }
 	    
-	    protected <T> ResultMsg<T>  getSuccessResult(T data) throws IOException {
+	    protected <T> ResultMsg<T>  getSuccessResult(T data) {
 	        ResultMsg<T> resultMsg = new ResultMsg<T>();
 	        resultMsg.IsOk(true);
 	        resultMsg.setMsg("请求成功");
@@ -41,7 +41,7 @@ public class GenericController {
 	    }
 
 	    
-	    protected ResultMsg<String> getSuccessResult(String msg) throws IOException {
+	    protected ResultMsg<String> getSuccessResult(String msg) {
 	        ResultMsg<String> resultMsg = new ResultMsg<String>();
 	        resultMsg.IsOk(true);
 	        resultMsg.setMsg(msg);

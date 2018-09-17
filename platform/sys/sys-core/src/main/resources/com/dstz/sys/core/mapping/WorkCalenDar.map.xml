@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dstz.sys.core.dao.WorkCalenDarDao">
+	<resultMap id="WorkCalenDar" type="com.dstz.sys.core.model.WorkCalenDar">
+		<id property="id" column="id" jdbcType="VARCHAR"/>
+		<result property="day" column="day" jdbcType="DATE"/>
+		<result property="isWorkDay" column="isWorkDay" jdbcType="VARCHAR"/>
+		<result property="type" column="type" jdbcType="VARCHAR"/>
+		<result property="system" column="system" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.dstz.sys.core.model.WorkCalenDar">
+		INSERT INTO c_work_calendar
+		(id,day,isWorkDay,type,system)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{day,jdbcType=DATE}, #{isWorkDay,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{system,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="WorkCalenDar">
+		SELECT * FROM c_work_calendar 
+		WHERE 
+		id=#{id}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="WorkCalenDar">
+		SELECT * FROM c_work_calendar
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.dstz.sys.core.model.WorkCalenDar">
+		UPDATE c_work_calendar SET
+		day=#{day,jdbcType=DATE},
+		isWorkDay=#{isWorkDay,jdbcType=VARCHAR},
+		type=#{type,jdbcType=VARCHAR},
+		system=#{system,jdbcType=VARCHAR}
+		WHERE
+		id=#{id}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM c_work_calendar 
+		WHERE
+		id=#{id}
+	</delete>
+	
+	<select id="getByDay"   parameterType="java.util.Map" resultMap="WorkCalenDar">
+		SELECT * FROM c_work_calendar 
+		WHERE 
+		day=#{day,jdbcType=DATE}
+	</select>
+	
+	<select id="getByPeriod" parameterType="java.util.Map" resultMap="WorkCalenDar">
+		SELECT * FROM c_work_calendar 
+		WHERE 
+		day BETWEEN #{startDay,jdbcType=DATE} AND #{endDay,jdbcType=DATE}
+		AND system="public";
+	</select>
+	
+	<select id="getByPeriodAndSystem" parameterType="java.util.Map" resultMap="WorkCalenDar">
+		SELECT * FROM c_work_calendar 
+		WHERE 
+		day BETWEEN #{startDay,jdbcType=DATE} AND #{endDay,jdbcType=DATE}
+		AND system=#{system,jdbcType=VARCHAR};
+	</select>
+	
+	<select id="getByPeriodAndSystemContainPublic" parameterType="java.util.Map" resultMap="WorkCalenDar">
+		SELECT * from c_work_calendar 
+		where day BETWEEN #{startDay,jdbcType=DATE} AND #{endDay,jdbcType=DATE} 
+		AND system = #{system,jdbcType=VARCHAR} 
+		UNION SELECT * from c_work_calendar WHERE day BETWEEN #{startDay,jdbcType=DATE} AND #{endDay,jdbcType=DATE} 
+		AND day NOT IN (select day from c_work_calendar where day BETWEEN #{startDay,jdbcType=DATE} AND #{endDay,jdbcType=DATE} AND system = #{system,jdbcType=VARCHAR}) 
+		ORDER BY day ASC;
+	</select>
+	
+	<select id="getWorkDayByDays" parameterType="java.util.Map" resultMap="WorkCalenDar">
+		select * 
+        from c_work_calendar 
+		where day &gt;= #{startDay,jdbcType=DATE} 
+		AND system = "public"
+		and isWorkDay = "1" 
+		ORDER BY day limit #{days,jdbcType=INTEGER},1;
+	</select>
+	
+	<select id="getWorkDayByDaysAndSystem" parameterType="java.util.Map" resultMap="WorkCalenDar">
+		select * from c_work_calendar 
+		where day &gt;= #{startDay,jdbcType=DATE} 
+		AND system = #{system,jdbcType=VARCHAR} AND isWorkDay = "1" 
+        UNION SELECT * from c_work_calendar 
+        WHERE day &gt;= #{startDay,jdbcType=DATE} AND day NOT IN (select day from c_work_calendar where day &gt;= #{startDay,jdbcType=DATE} AND system = #{system,jdbcType=VARCHAR}) 
+        AND system = "public" 
+        AND isWorkDay = "1" 
+        ORDER BY day limit #{days,jdbcType=INTEGER},1;
+	</select>
+	
+	<select id="getByDayAndSystem" parameterType="java.util.Map" resultMap="WorkCalenDar">
+		SELECT * FROM c_work_calendar 
+		WHERE day = #{day,jdbcType=DATE} 
+		AND system = #{system,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateWorkType" parameterType="java.util.Map">
+		UPDATE c_work_calendar 
+		SET isWorkDay = #{isWorkDay,jdbcType=VARCHAR}, type=CONCAT(type, #{type,jdbcType=VARCHAR}) 
+		WHERE day BETWEEN #{startDay,jdbcType=DATE} and #{endDay,jdbcType=DATE}
+	</update>
+	
+</mapper>

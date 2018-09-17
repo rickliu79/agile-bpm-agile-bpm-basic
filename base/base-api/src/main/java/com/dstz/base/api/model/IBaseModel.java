@@ -1,8 +1,5 @@
 package com.dstz.base.api.model;
 
-import java.io.Serializable;
-import java.util.Date;
-
 /**
  * <pre>
  * 描述：BaseModel的接口类

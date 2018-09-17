@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dstz.sys.core.dao.HolidayConfDao">
+	<resultMap id="HolidayConf" type="com.dstz.sys.core.model.HolidayConf">
+		<id property="id" column="id" jdbcType="VARCHAR"/>
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="system" column="system" jdbcType="VARCHAR"/>
+		<result property="year" column="year" jdbcType="INTEGER"/>
+		<result property="startDay" column="startDay" jdbcType="DATE"/>
+		<result property="endDay" column="endDay" jdbcType="DATE"/>
+		<result property="type" column="type" jdbcType="VARCHAR"/>
+		<result property="remark" column="remark" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.dstz.sys.core.model.HolidayConf">
+		INSERT INTO c_holiday_conf
+		(id,name,system,year,startDay,endDay,type,remark)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{system,jdbcType=VARCHAR}, #{year,jdbcType=INTEGER}, #{startDay,jdbcType=DATE}, #{endDay,jdbcType=DATE}, #{type,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="HolidayConf">
+		SELECT * FROM c_holiday_conf 
+		WHERE 
+		id=#{id}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="HolidayConf">
+		SELECT * FROM c_holiday_conf
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.dstz.sys.core.model.HolidayConf">
+		UPDATE c_holiday_conf SET
+		name=#{name,jdbcType=VARCHAR},
+		system=#{system,jdbcType=VARCHAR},
+		year=#{year,jdbcType=INTEGER},
+		startDay=#{startDay,jdbcType=DATE},
+		endDay=#{endDay,jdbcType=DATE},
+		type=#{type,jdbcType=VARCHAR},
+		remark=#{remark,jdbcType=VARCHAR}
+		WHERE
+		id=#{id}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM c_holiday_conf 
+		WHERE
+		id=#{id}
+	</delete>
+	
+	<select id="queryOne" parameterType="java.util.Map" resultMap="HolidayConf">
+		select * from c_holiday_conf
+		<where>
+			<if test="startDay!=null">
+				startDay=#{startDay,jdbcType=DATE}
+			</if>
+			<if test="endDay!=null">
+				and endDay=#{endDay,jdbcType=DATE}
+			</if>
+			<if test="name!=null">
+				and name=#{name,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	
+	
+</mapper>

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
-import com.dstz.base.api.model.IBaseModel;
+import com.dstz.base.api.model.IDModel;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
@@ -27,7 +27,7 @@ import com.github.pagehelper.Page;
  * 版权:summer
  * </pre>
  */
-public abstract class BaseController<T extends IBaseModel> extends GenericController{
+public abstract class BaseController<T extends IDModel> extends GenericController{
 	
     protected abstract String getModelDesc();
 
