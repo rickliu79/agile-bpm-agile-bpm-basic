@@ -10,13 +10,18 @@
 
         <result property="orgName" column="org_name_" jdbcType="VARCHAR"/>
         <result property="jobName" column="rel_def_name_" jdbcType="VARCHAR"/>
+        
+        <result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by_" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="create" parameterType="com.dstz.org.core.model.GroupRelation">
 		INSERT INTO org_group_rel
-		(id_,group_id_,rel_def_id_,rel_name_,rel_code_,rel_def_name_)
+		(id_,group_id_,rel_def_id_,rel_name_,rel_code_,rel_def_name_,create_time_,create_by_,update_time_,update_by_)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{relDefId,jdbcType=VARCHAR}, #{relName,jdbcType=VARCHAR}, #{relCode,jdbcType=VARCHAR},#{jobName,jdbcType=VARCHAR})
+		(#{id,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{relDefId,jdbcType=VARCHAR}, #{relName,jdbcType=VARCHAR}, #{relCode,jdbcType=VARCHAR},#{jobName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
 
     <select id="get" parameterType="java.lang.String" resultMap="GroupRelation">
@@ -86,7 +91,9 @@
 		rel_def_id_=#{relDefId,jdbcType=VARCHAR},
 		rel_def_name_=#{jobName,jdbcType=VARCHAR},
 		rel_name_=#{relName,jdbcType=VARCHAR},
-		rel_code_=#{relCode,jdbcType=VARCHAR}
+		rel_code_=#{relCode,jdbcType=VARCHAR},
+		update_time_=#{updateTime,jdbcType=TIMESTAMP},
+		update_by_=#{updateBy,jdbcType=VARCHAR}
 		WHERE
 		id_=#{id}
 	</update>

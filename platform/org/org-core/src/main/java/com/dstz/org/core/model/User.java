@@ -15,12 +15,6 @@ import java.util.Map;
  * </pre>
  */
 public class User extends BaseModel implements IUser{
-
-    /**
-     * id_
-     */
-    protected String id;
-
     /**
      * 姓名
      */
@@ -87,18 +81,6 @@ public class User extends BaseModel implements IUser{
      */
     protected String groupId = "";
     
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * 返回 id_
-     *
-     * @return
-     */
-    public String getId() {
-        return this.id;
-    }
 
     public void setFullname(String fullname) {
         this.fullname = fullname;

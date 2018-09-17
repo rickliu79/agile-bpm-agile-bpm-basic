@@ -21,19 +21,13 @@ public class GroupUser extends BaseModel {
      */
     public static final Integer MASTER_NO = 0;
 
-
     /**
-     * id_
-     */
-    protected String id;
-
-    /**
-     * org_id_
+     * groupId
      */
     protected String groupId;
 
     /**
-     * user_id_
+     * userId
      */
     protected String userId;
 
@@ -43,7 +37,7 @@ public class GroupUser extends BaseModel {
     protected Integer isMaster;
 
     /**
-     * rel_id_
+     * 关系id
      */
     protected String relId;
 
@@ -56,19 +50,6 @@ public class GroupUser extends BaseModel {
     }
 
     public GroupUser() {
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * 返回 id_
-     *
-     * @return
-     */
-    public String getId() {
-        return this.id;
     }
 
 

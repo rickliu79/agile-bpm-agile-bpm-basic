@@ -15,8 +15,6 @@ import java.util.Map;
  */
 public class GroupRelation extends BaseModel implements IGroup {
 
-    protected String id;
-
     protected String groupId;
 
     protected String relDefId;
@@ -42,14 +40,6 @@ public class GroupRelation extends BaseModel implements IGroup {
 
     public String getJobName() {
         return this.jobName;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return this.id;
     }
 
 

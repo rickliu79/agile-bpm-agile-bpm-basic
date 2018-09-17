@@ -6,16 +6,18 @@
         <result property="name" column="name_" jdbcType="VARCHAR"/>
         <result property="alias" column="alias_" jdbcType="VARCHAR"/>
         <result property="enabled" column="enabled_" jdbcType="NUMERIC"/>
-
         <result property="description" column="description" jdbcType="VARCHAR"/>
-
+		<result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by_" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="create" parameterType="com.dstz.org.core.model.Role">
 		INSERT INTO org_role
-		(id_,name_,alias_,enabled_,description)
+		(id_,name_,alias_,enabled_,description,create_time_,create_by_,update_time_,update_by_)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, #{enabled,jdbcType=NUMERIC},#{description,jdbcType=VARCHAR})
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, #{enabled,jdbcType=NUMERIC},#{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
 
     <select id="get" parameterType="java.lang.String" resultMap="Role">
@@ -49,7 +51,9 @@
 		name_=#{name,jdbcType=VARCHAR},
 		alias_=#{alias,jdbcType=VARCHAR},
 		enabled_=#{enabled,jdbcType=NUMERIC},
-		description=#{description}
+		description=#{description},
+		update_time_=#{updateTime,jdbcType=TIMESTAMP},
+		update_by_=#{updateBy,jdbcType=VARCHAR}
 		WHERE
 		id_=#{id}
 	</update>

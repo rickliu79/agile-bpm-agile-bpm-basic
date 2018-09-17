@@ -7,13 +7,17 @@
         <result property="type" column="type_" jdbcType="VARCHAR"/>
         <result property="config" column="config_" jdbcType="VARCHAR"/>
         <result property="validRule" column="valid_rule_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by_" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="create" parameterType="com.dstz.bus.model.BusColumnCtrl">
 		INSERT INTO bus_column_ctrl
-		(id_,column_id_,type_,config_,valid_rule_)
+		(id_,column_id_,type_,config_,valid_rule_,create_time_,create_by_,update_time_,update_by_)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{columnId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{config,jdbcType=VARCHAR}, #{validRule,jdbcType=VARCHAR})
+		(#{id,jdbcType=VARCHAR}, #{columnId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{config,jdbcType=VARCHAR}, #{validRule,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
 
     <select id="get" parameterType="java.lang.String" resultMap="BusColumnCtrl">
@@ -42,7 +46,9 @@
 		column_id_=#{columnId,jdbcType=VARCHAR},
 		type_=#{type,jdbcType=VARCHAR},
 		config_=#{config,jdbcType=VARCHAR},
-		valid_rule_=#{validRule,jdbcType=VARCHAR}
+		valid_rule_=#{validRule,jdbcType=VARCHAR},
+		update_time_=#{updateTime,jdbcType=TIMESTAMP},
+		update_by_=#{updateBy,jdbcType=VARCHAR}
 		WHERE
 		id_=#{id}
 	</update>

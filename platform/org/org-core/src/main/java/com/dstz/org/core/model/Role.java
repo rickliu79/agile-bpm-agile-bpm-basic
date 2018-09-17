@@ -16,12 +16,6 @@ import java.util.Map;
  * </pre>
  */
 public class Role extends BaseModel implements IGroup {
-
-    /**
-     * id_
-     */
-    protected String id;
-
     /**
      * 角色名称
      */
@@ -42,19 +36,6 @@ public class Role extends BaseModel implements IGroup {
      */
     protected String description = "";
 
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * 返回 id_
-     *
-     * @return
-     */
-    public String getId() {
-        return this.id;
-    }
 
     public void setName(String name) {
         this.name = name;

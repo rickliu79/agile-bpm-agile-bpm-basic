@@ -11,13 +11,18 @@
 		<result property="desc" column="desc_" jdbcType="VARCHAR"/>
 		
 		<result property="isMaster" column="is_master_" jdbcType="NUMERIC"/>
+		
+		<result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by_" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.dstz.org.core.model.Group">
 		INSERT INTO org_group
-		(id_,name_,parent_id_,sn_,code_,grade_,desc_)
+		(id_,name_,parent_id_,sn_,code_,grade_,desc_,create_time_,create_by_,update_time_,update_by_)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{sn,jdbcType=NUMERIC}, #{code,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR},#{desc,jdbcType=VARCHAR})
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{sn,jdbcType=NUMERIC}, #{code,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR},#{desc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="get"   parameterType="java.lang.String" resultMap="Group">
@@ -60,7 +65,9 @@
 		sn_=#{sn,jdbcType=NUMERIC},
 		code_=#{code,jdbcType=VARCHAR},
 		desc_=#{desc,jdbcType=VARCHAR},
-		grade_=#{grade,jdbcType=VARCHAR}
+		grade_=#{grade,jdbcType=VARCHAR},
+		update_time_=#{updateTime,jdbcType=TIMESTAMP},
+		update_by_=#{updateBy,jdbcType=VARCHAR}
 		WHERE
 		id_=#{id}
 	</update>

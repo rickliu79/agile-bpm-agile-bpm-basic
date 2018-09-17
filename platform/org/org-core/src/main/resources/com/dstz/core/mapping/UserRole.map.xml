@@ -5,7 +5,11 @@
         <id property="id" column="id_" jdbcType="VARCHAR"/>
         <result property="roleId" column="role_id_" jdbcType="VARCHAR"/>
         <result property="userId" column="user_id_" jdbcType="VARCHAR"/>
-
+		<result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by_" jdbcType="VARCHAR"/>
+        
         <result property="fullname" column="fullname_" jdbcType="VARCHAR"/>
         <result property="roleName" column="role_name_" jdbcType="VARCHAR"/>
         <result property="alias" column="alias_" jdbcType="VARCHAR"/>
@@ -14,9 +18,9 @@
 
     <insert id="create" parameterType="com.dstz.org.core.model.UserRole">
 		INSERT INTO org_user_role
-		(id_,role_id_,user_id_)
+		(id_,role_id_,user_id_,create_time_,create_by_,update_time_,update_by_)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR})
+		(#{id,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
 
     <select id="get" parameterType="java.lang.String" resultMap="UserRole">
@@ -78,7 +82,9 @@
     <update id="update" parameterType="com.dstz.org.core.model.UserRole">
 		UPDATE org_user_role SET
 		role_id_=#{roleId,jdbcType=VARCHAR},
-		user_id_=#{userId,jdbcType=VARCHAR}
+		user_id_=#{userId,jdbcType=VARCHAR},
+		update_time_=#{updateTime,jdbcType=TIMESTAMP},
+		update_by_=#{updateBy,jdbcType=VARCHAR}
 		WHERE
 		id_=#{id}
 	</update>

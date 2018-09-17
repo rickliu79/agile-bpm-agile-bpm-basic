@@ -63,7 +63,16 @@ public class BusinessTable extends Table<BusinessColumn> implements IBaseModel, 
 	 * 是否在数据库创建了表
 	 */
 	private boolean createdTable;
-
+	
+    // 创建时间
+    protected Date createTime;
+    // 创建人ID
+    protected String createBy;
+    // 更新时间
+    protected Date updateTime;
+    // 更新人ID
+    protected String updateBy;
+    
 	public String getId() {
 		return id;
 	}
@@ -242,43 +251,42 @@ public class BusinessTable extends Table<BusinessColumn> implements IBaseModel, 
 		return null;
 	}
 
-	@Override
-	public Date getCreateTime() {
-		return null;
-	}
+	 @Override
+	    public Date getCreateTime() {
+	        return createTime;
+	    }
 
-	@Override
-	public void setCreateTime(Date createTime) {
+	    @Override
+	    public void setCreateTime(Date createTime) {
+	        this.createTime = createTime;
+	    }
 
-	}
+	    @Override
+	    public String getCreateBy() {
+	        return createBy;
+	    }
 
-	@Override
-	public String getCreateBy() {
-		return null;
-	}
+	    @Override
+	    public void setCreateBy(String createBy) {
+	        this.createBy = createBy;
+	    }
+	    @Override
+	    public Date getUpdateTime() {
+	        return updateTime;
+	    }
 
-	@Override
-	public void setCreateBy(String createBy) {
+	    @Override
+	    public void setUpdateTime(Date updateTime) {
+	        this.updateTime = updateTime;
+	    }
 
-	}
+	    @Override
+	    public String getUpdateBy() {
+	        return updateBy;
+	    }
 
-	@Override
-	public Date getUpdateTime() {
-		return null;
-	}
-
-	@Override
-	public void setUpdateTime(Date updateTime) {
-
-	}
-
-	@Override
-	public String getUpdateBy() {
-		return null;
-	}
-
-	@Override
-	public void setUpdateBy(String updateBy) {
-
-	}
+	    @Override
+	    public void setUpdateBy(String updateBy) {
+	        this.updateBy = updateBy;
+	    }
 }

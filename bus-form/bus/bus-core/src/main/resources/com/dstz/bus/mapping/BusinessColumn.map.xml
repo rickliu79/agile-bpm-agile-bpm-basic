@@ -13,13 +13,17 @@
         <result property="primary" column="primary_" jdbcType="NUMERIC"/>
         <result property="defaultValue" column="default_value_" jdbcType="VARCHAR"/>
         <result property="comment" column="comment_" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by_" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="create" parameterType="com.dstz.bus.model.BusinessColumn">
 		INSERT INTO bus_column
-		(id_,key_,table_id_,name_,type_,length_,decimal_,required_,primary_,default_value_,comment_)
+		(id_,key_,table_id_,name_,type_,length_,decimal_,required_,primary_,default_value_,comment_,create_time_,create_by_,update_time_,update_by_)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR},#{tableId,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{length,jdbcType=NUMERIC}, #{decimal,jdbcType=NUMERIC}, #{required,jdbcType=NUMERIC}, #{primary,jdbcType=NUMERIC}, #{defaultValue,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR})
+		(#{id,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR},#{tableId,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{length,jdbcType=NUMERIC}, #{decimal,jdbcType=NUMERIC}, #{required,jdbcType=NUMERIC}, #{primary,jdbcType=NUMERIC}, #{defaultValue,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
 
     <select id="get" parameterType="java.lang.String" resultMap="BusinessColumn">
@@ -54,7 +58,9 @@
 		required_=#{required,jdbcType=NUMERIC},
 		primary_=#{primary,jdbcType=NUMERIC},
 		default_value_=#{defaultValue,jdbcType=VARCHAR},
-		comment_=#{comment,jdbcType=VARCHAR}
+		comment_=#{comment,jdbcType=VARCHAR},
+		update_time_=#{updateTime,jdbcType=TIMESTAMP},
+		update_by_=#{updateBy,jdbcType=VARCHAR}
 		WHERE
 		id_=#{id}
 	</update>

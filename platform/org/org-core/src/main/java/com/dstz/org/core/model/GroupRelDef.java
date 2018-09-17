@@ -8,12 +8,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * 组织关系定义
  */
 public class GroupRelDef extends BaseModel {
-
-    /**
-     * id_
-     */
-    protected String id;
-
     /**
      * 名称
      */
@@ -34,19 +28,6 @@ public class GroupRelDef extends BaseModel {
      */
     protected String description;
 
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * 返回 id_
-     *
-     * @return
-     */
-    public String getId() {
-        return this.id;
-    }
 
     public void setName(String name) {
         this.name = name;

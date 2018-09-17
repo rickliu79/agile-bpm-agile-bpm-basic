@@ -7,13 +7,18 @@
         <result property="code" column="code_" jdbcType="VARCHAR"/>
         <result property="postLevel" column="post_level_" jdbcType="VARCHAR"/>
         <result property="description" column="description_" jdbcType="VARCHAR"/>
+        
+        <result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by_" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="create" parameterType="com.dstz.org.core.model.GroupRelDef">
 		INSERT INTO org_group_reldef
-		(id_,name_,code_,post_level_,description_)
+		(id_,name_,code_,post_level_,description_,create_time_,create_by_,update_time_,update_by_)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{postLevel,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{postLevel,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
 
     <select id="get" parameterType="java.lang.String" resultMap="GroupRelDef">
@@ -48,7 +53,9 @@
 		name_=#{name,jdbcType=VARCHAR},
 		code_=#{code,jdbcType=VARCHAR},
 		post_level_=#{postLevel,jdbcType=VARCHAR},
-		description_=#{description,jdbcType=VARCHAR}
+		description_=#{description,jdbcType=VARCHAR},
+		update_time_=#{updateTime,jdbcType=TIMESTAMP},
+		update_by_=#{updateBy,jdbcType=VARCHAR}
 		WHERE
 		id_=#{id}
 	</update>

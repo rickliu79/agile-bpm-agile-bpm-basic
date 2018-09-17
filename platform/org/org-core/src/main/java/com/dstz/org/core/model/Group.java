@@ -18,11 +18,6 @@ import java.util.Map;
 public class Group extends BaseModel implements IGroup {
 
     /**
-     * 主键
-     */
-    protected String id;
-
-    /**
      * name_
      */
     protected String name;

@@ -9,19 +9,23 @@
         <result property="email" column="email_" jdbcType="VARCHAR"/>
         <result property="mobile" column="mobile_" jdbcType="VARCHAR"/>
         <result property="weixin" column="weixin_" jdbcType="VARCHAR"/>
-        <result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
         <result property="address" column="address_" jdbcType="VARCHAR"/>
         <result property="photo" column="photo_" jdbcType="VARCHAR"/>
         <result property="sex" column="sex_" jdbcType="VARCHAR"/>
         <result property="from" column="from_" jdbcType="VARCHAR"/>
         <result property="status" column="status_" jdbcType="NUMERIC"/>
+        <result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by_" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time_" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by_" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="create" parameterType="com.dstz.org.core.model.User">
 		INSERT INTO org_user
-		(id_,fullname_,account_,password_,email_,mobile_,weixin_,create_time_,address_,photo_,sex_,from_,status_)
+		(id_,fullname_,account_,password_,email_,mobile_,weixin_,address_,photo_,sex_,from_,status_,create_time_,create_by_,update_time_,update_by_)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{from,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC})
+		(#{id,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR},
+		 #{sex,jdbcType=VARCHAR}, #{from,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
 
     <select id="get" parameterType="java.lang.String" resultMap="User">
@@ -114,12 +118,13 @@
 		email_=#{email,jdbcType=VARCHAR},
 		mobile_=#{mobile,jdbcType=VARCHAR},
 		weixin_=#{weixin,jdbcType=VARCHAR},
-		create_time_=#{createTime,jdbcType=TIMESTAMP},
 		address_=#{address,jdbcType=VARCHAR},
 		photo_=#{photo,jdbcType=VARCHAR},
 		sex_=#{sex,jdbcType=VARCHAR},
 		from_=#{from,jdbcType=VARCHAR},
-		status_=#{status,jdbcType=NUMERIC}
+		status_=#{status,jdbcType=NUMERIC},
+		update_time_=#{updateTime,jdbcType=TIMESTAMP},
+		update_by_=#{updateBy,jdbcType=VARCHAR}
 		WHERE
 		id_=#{id}
 	</update>

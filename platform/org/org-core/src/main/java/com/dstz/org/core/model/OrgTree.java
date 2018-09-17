@@ -46,7 +46,7 @@ public class OrgTree extends Group {
     }
 
     public OrgTree(Group group) {
-        this.id = group.id;
+        this.id = group.getId(); 
         this.name = group.name;
         this.code = group.code;
         this.sn = group.sn;
