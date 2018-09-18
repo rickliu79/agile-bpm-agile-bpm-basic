@@ -10,11 +10,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
@@ -42,7 +41,7 @@ import com.dstz.sys.util.ContextUtil;
  * 版权：大道金服
  * </pre>
  */
-@Controller
+@RestController
 @RequestMapping("/calendar/schedule")
 public class ScheduleController extends BaseController<Schedule>{
 	@Resource
@@ -109,7 +108,6 @@ public class ScheduleController extends BaseController<Schedule>{
 	 * @throws Exception
 	 */
 	@RequestMapping("getEvents")
-	@ResponseBody
 	@CatchErr("日程获取失败")
 	public List<Schedule> getEvents(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		List<Schedule> list = null;
@@ -135,10 +133,8 @@ public class ScheduleController extends BaseController<Schedule>{
 	 * @throws Exception
 	 */
 	@RequestMapping("getParticipantEvents")
-	@ResponseBody
 	@CatchErr("日程获取失败")
 	public List<Map<String, Object>> getParticipantEvents(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String resultMsg=null;
 		List<Map<String, Object>> list = null;
 		
 		String name = ContextUtil.getCurrentUser().getFullname();

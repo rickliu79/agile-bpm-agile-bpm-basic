@@ -11,7 +11,7 @@ public interface ScheduleParticipantDao extends BaseDao<String, ScheduleParticip
 	 * @param scheduleId
 	 * @return
 	 */
-	public List<ScheduleParticipant> getByMainId(String scheduleId);
+	public List<ScheduleParticipant> getScheduleParticipantList(String scheduleId);
 	
 	/**
 	 * 根据外键删除子表记录

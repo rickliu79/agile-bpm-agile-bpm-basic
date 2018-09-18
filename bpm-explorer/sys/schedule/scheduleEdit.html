@@ -174,8 +174,8 @@
 					<a class="btn btn-primary fa-remove" ng-click="remove()"><span>删除</span></a>
 				</div>
 			</div>
-			<form name="form" method="post" ab-load="getJson?id=${param.id}"  ng-model="data">
-				<table class="table-form"  cellspacing="0" >
+			<form name="form" method="post" ab-load="/calendar/schedule/get?id={id}"  ng-model="data">
+				<table class="form-table"  cellspacing="0" >
 							<tr>								
 								<th>标题:</th>
 								<td>

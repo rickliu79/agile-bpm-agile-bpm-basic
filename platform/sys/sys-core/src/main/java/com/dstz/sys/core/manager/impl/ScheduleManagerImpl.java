@@ -82,6 +82,7 @@ public class ScheduleManagerImpl extends BaseManager<String, Schedule> implement
 	/**
 	 * 批量删除包含子表记录
 	 */
+	@Override
 	public void removeByIds(String[] entityIds){
 		for(String id:entityIds){
 			this.remove(id);
@@ -93,7 +94,7 @@ public class ScheduleManagerImpl extends BaseManager<String, Schedule> implement
 	 */
     public Schedule get(String entityId){
     	Schedule schedule=super.get(entityId);
-    	List<ScheduleParticipant> scheduleParticipantList=scheduleParticipantDao.getByMainId(entityId);
+    	List<ScheduleParticipant> scheduleParticipantList=scheduleParticipantDao.getScheduleParticipantList(entityId);
     	schedule.setScheduleParticipantList(scheduleParticipantList);
     	return schedule;
     }

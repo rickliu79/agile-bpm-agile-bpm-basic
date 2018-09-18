@@ -50,7 +50,10 @@ public abstract class BaseController<T extends IDModel> extends GenericControlle
     @RequestMapping("get")
     @CatchErr
     public ResultMsg<T> get(@RequestParam String id) throws Exception {
-       T t = manager.get(id);
+    	T t = null;
+    	if(StringUtil.isNotEmpty(id)) {
+    		t = manager.get(id);
+    	}
        return getSuccessResult(t);
     }
 
