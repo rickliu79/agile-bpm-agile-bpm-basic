@@ -80,7 +80,7 @@
 				//--------改变日程类型时的校验：有参与者情况下不能变更为个人-------//
 				$scope.changeDjuge = function() {
 					if($scope.data.type == "single" && $scope.data.scheduleParticipantList.length > 0) {
-						$.topCall.error("请先删除参与者");
+						$.Dialog.error("请先删除参与者");
 						$scope.data.type = prevVal;
 					}
 				}
@@ -96,14 +96,14 @@
 						}
 						HT.window.openEdit(url, title, action, 'grid', 500, 500, null, null, id, true);
 					} else {
-						$.topCall.error("共享或共同任务才能添加参与者");
+						$.Dialog.error("共享或共同任务才能添加参与者");
 					}
 				}
 				//----------------------删除参与者----------------------//
 				$scope.itemDelete = function(itemId) {
 					//debugger
 					$.ajax({
-			               url: '${ctx}/calendar/schedule/itemDelete',
+			               url: __ctx+'/calendar/schedule/itemDelete',
 			               data: {
 			                   id: itemId,
 			               },
@@ -115,7 +115,7 @@
 				//-----------------------日程完成---------------------//
 				$scope.complete = function() {
 					$.ajax({
-			               url: '${ctx}/calendar/schedule/complete',
+			               url: __ctx+'/calendar/schedule/complete',
 			               data: {
 			                   id: "${param.id}",
 			               },
@@ -126,27 +126,24 @@
 				}
 				//-----------------------日程删除---------------------//
 				$scope.remove = function() {
-					$.topCall.confirm("删除日程","是否删除日程？",function(r){
-	        		   if(r == true) {
-	        			   $.ajax({
-				               url: '${ctx}/calendar/schedule/remove',
-				               data: {
-				                   id: "${param.id}",
-				               },
-				               success: function() {
-				            	   parent.location.reload();
-				               }
-				           });
-	        		   }
+					$.Dialog.confirm("删除日程","是否删除日程？",function(){
+        			   $.ajax({
+			               url: __ctx+'/calendar/schedule/remove',
+			               data: {
+			                   id: "${param.id}",
+			               },
+			               success: function() {
+			            	   parent.location.reload();
+			               }
+			           });
 					})
 				};
 				//-------------------保存前监听事件------------------//
  				$scope.$on("beforeSaveEvent",function(event,data){
- 					debugger
  					//var reg = /^[0-9]+.?[0-9]*$/;
 					if(!(/(^[0-9]*[0-9]*$)/.test($scope.data.rateProgress))) {
 						data.pass = false;
-						$.topCall.error("进度不是0-100之间的整数");
+						$.Dialog.error("进度不是0-100之间的整数");
 					}
 			    });
 				//-------------------保存后监听事件------------------//
@@ -171,7 +168,7 @@
 			<!-- 顶部按钮 -->
 			<div class="toolbar-panel">
 				<div class="buttons">
-					<a class="btn btn-primary fa-save" ng-model="data" ab-save="${ctx}/calendar/schedule/save"><span>保存</span></a>
+					<a class="btn btn-primary fa-save" ng-model="data" ab-save="/calendar/schedule/save"><span>保存</span></a>
 					<a href="javascript:void(0)" class="btn btn-sm btn-primary fa-reply" onclick="javascript:$.Dialog.close(window);"> 返回</a>	
 					<!-- <a class="btn btn-primary" ng-click="complete()"><span>完成</span></a> -->
 					<a class="btn btn-primary fa-remove" ng-click="remove()"><span>删除</span></a>

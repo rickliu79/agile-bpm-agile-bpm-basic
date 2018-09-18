@@ -23,7 +23,8 @@
 		if((action=="Create") && !$.isEmpty(startTime) && !$.isEmpty(endTime)){
 			url+='?startTime=' + startTime + "&endTime=" + endTime;
 		}
-		HT.window.openEdit(url, title, action, 'grid', 500, 500, null, null, id, true);
+		var conf = { height:500,width:500,  url:url,  title:title, passData:data };
+		$.Dialog.open(conf); 
 	}
     function complete(id,type,mainId) {
     	var title = "完成日程";
@@ -35,7 +36,8 @@
 		} else {
 			url+='?mainId=' + id;
 		}
-		HT.window.openEdit(url, title, "edit", 'grid', 500, 500, null, null, id, true);
+		var conf = { height:500,width:500,  url:url,  title:title, passData:data };
+		$.Dialog.open(conf); 
 
     }
     //打开任务链接
@@ -196,21 +198,15 @@
     		   if(clicks == 2) {
         		   clicks = 0;
         		   if(start._i == preStart) {
-        			   $.topCall.confirm("创建日程","是否创建一个新日程？",function(r){
-                		   if(r == true) {
-                			   //debugger
-                			   openDetail(undefined,'add',startTime,endTime);
-                		   }
+        			   $.Dialog.confirm("创建日程","是否创建一个新日程？",function(){
+               			   openDetail(undefined,'add',startTime,endTime);
                 	   });
         		   }
         	   }
     		   
     	   } else {
-    		   $.topCall.confirm("创建日程","是否创建一个新日程？",function(r){
-        		   if(r == true) {
-        			   //debugger
-        			   openDetail(undefined,'add',startTime,endTime);
-        		   }
+    		   $.Dialog.confirm("创建日程","是否创建一个新日程？",function(){
+       			   openDetail(undefined,'add',startTime,endTime);
         	   });
     	   }
        },
@@ -218,7 +214,7 @@
        events: function(start, end, timezone, callback) {
     	   
            $.ajax({
-               url: '${ctx}/calendar/schedule/getEvents',//--获取所属者日程--
+               url: __ctx+'/calendar/schedule/getEvents',//--获取所属者日程--
                dataType: 'json',
                data: {
                    start: Date.parse(start._d),
@@ -250,7 +246,7 @@
                 	   i++;
                    }
                    $.ajax({
-                       url: '${ctx}/calendar/schedule/getParticipantEvents',//--获取参与者日程--
+                       url: __ctx+'/calendar/schedule/getParticipantEvents',//--获取参与者日程--
                        dataType: 'json',
                        data: {
                            start: Date.parse(start._d),
@@ -375,7 +371,7 @@
        //------------------------日程拖拽事件-------------------------------------
        eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ) { 
    		   $.post(
-	           '${ctx}/calendar/schedule/dragUpdate',
+	           __ctx+'/calendar/schedule/dragUpdate',
                {
                    id: event.id,
                    start: Date.parse(event.start._d),
@@ -386,7 +382,7 @@
        //-----------------------日程调整事件-----------------------
        eventResize: function( event, delta, revertFunc, jsEvent, ui, view) {
    		   $.post(
-	           '${ctx}/calendar/schedule/dragUpdate',
+	           __ctx+'/calendar/schedule/dragUpdate',
                {
                    id: event.id,
                    start: Date.parse(event.start._d),
