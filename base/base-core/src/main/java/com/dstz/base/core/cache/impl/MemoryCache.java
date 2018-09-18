@@ -14,11 +14,12 @@ public class MemoryCache<T> implements ICache<T> {
     private Map<String, T> map = new ConcurrentHashMap<String, T>();
 
     public void add(String key, T obj) {
+    	if(key == null) return;
         map.put(key, obj);
-
     }
 
     public void delByKey(String key) {
+    	if(key == null) return;
         map.remove(key);
     }
 
@@ -27,11 +28,13 @@ public class MemoryCache<T> implements ICache<T> {
     }
 
     public T getByKey(String key) {
+    	if(key == null) return null;
         return map.get(key);
     }
-
+    
+    
     public boolean containKey(String key) {
-
+    	if(key == null) return false;
         return map.containsKey(key);
     }
 

@@ -21,9 +21,9 @@
 var ACTIVITI = ACTIVITI || {};
 
 ACTIVITI.CONFIG = {
-	'contextRoot' : 'http://localhost:8080/agile-bpm-platform',
+	'contextRoot' : '/agile-bpm-platform',
 };
 
-window.__ctx = "http://localhost:8080/agile-bpm-platform";
+window.__ctx = "/agile-bpm-platform";
 
 //var __ctx = '/agile-bpm-platform';
