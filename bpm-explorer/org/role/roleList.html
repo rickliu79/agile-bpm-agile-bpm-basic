@@ -50,7 +50,7 @@
              <th data-field="id" data-formatter="innerHtmlFormatter" data-title="管理">
              	<a class='btn btn-outline btn-primary fa fa-edit' openDialog='编辑' qtip='编辑' url='roleEdit.html?id={id}'></a>
 			<!-- 	<a class='btn btn-outline btn-primary fa fa-detail' openDialog='明细' qtip='明细' url='roleGet.html?id={id}'></a> -->
-				<a class='btn btn-outline btn-primary fa fa-wrench'   qtip='资源分配' onclick="assignRoleRes({id})"></a>
+				<a class='btn btn-outline btn-primary fa fa-wrench'   qtip='资源分配' onclick="assignRoleRes('{id}')"></a>
 				<a class='btn btn-outline btn-primary fa fa-users' openDialog='分配用户' qtip='分配用户' url='roleUserList.html?roleId={id}'></a>
 				<a class='btn btn-outline btn-primary fa fa-trash' sendAction='删除' qtip='删除' url='/org/role/remove?id={id}'></a>
              </th>
