@@ -33,7 +33,7 @@ PC在线测试地址（1核Linux机器，部署了一堆东西，略慢请见谅
 
 <img src="https://images.gitee.com/uploads/images/2018/0719/110744_34dddb3b_1861740.png" width="30%"  align=left /> 
 <img src="https://images.gitee.com/uploads/images/2018/0719/110900_7f2d6a78_1861740.png" width="30%"  align=left /> 
-<img src="https://images.gitee.com/uploads/images/2018/0719/111013_03f9b51c_1861740.png" width="30%"  align=left /> 
+<img src="https://images.gitee.com/uploads/images/2018/0719/111013_03f9b51c_1861740.png" width="33%"  align=left /> 
 
 
 
