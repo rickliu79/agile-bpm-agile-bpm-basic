@@ -31,9 +31,9 @@ PC在线测试地址（1核Linux机器，部署了一堆东西，略慢请见谅
 **具体实施步骤请参考 [文档](https://agile-bpm.gitee.io/docs/implement/businessObject.html) 中的敏捷流程实施三部曲** :smirk: 
 > 流程配置页面、任务处理页面、流程实例页面截图
 
-<img src="https://images.gitee.com/uploads/images/2018/0719/110744_34dddb3b_1861740.png" width="32%" hegiht="300" align=left /> 
-<img src="https://images.gitee.com/uploads/images/2018/0719/110900_7f2d6a78_1861740.png" width="32%" hegiht="300" align=left /> 
-<img src="https://images.gitee.com/uploads/images/2018/0719/111013_03f9b51c_1861740.png" width="32%" hegiht="300" align=left /> 
+<img src="https://images.gitee.com/uploads/images/2018/0719/110744_34dddb3b_1861740.png" width="33%" height="300" align=left /> 
+<img src="https://images.gitee.com/uploads/images/2018/0719/110900_7f2d6a78_1861740.png" width="33%" height="300" align=left /> 
+<img src="https://images.gitee.com/uploads/images/2018/0719/111013_03f9b51c_1861740.png" width="33%" height="300" align=left /> 
 > 流程表单界面截图
 
 ## 软件架构说明
