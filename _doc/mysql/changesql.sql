@@ -179,3 +179,9 @@ CREATE TABLE `c_schedule_biz` (
   KEY `idx_biz_id` (`biz_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日程业务关联表';
 
+-- sys2整合 2018/9/22
+UPDATE `sys_resource` SET `SYSTEM_ID_` = '1', `ALIAS_` = 'sysDataSourceDefList', `NAME_` = '系统数据源模板', `default_url_` = 'sys/sysDataSourceDef/sysDataSourceDefList.html', `ENABLE_MENU_` = 1, `HAS_CHILDREN_` = 1, `OPENED_` = 1, `ICON_` = '', `NEW_WINDOW_` = 0, `SN_` = 10, `PARENT_ID_` = '44', `CREATE_TIME_` = '2018-02-27 15:50:44' WHERE `ID_` = '20000001570004';
+UPDATE `sys_resource` SET `SYSTEM_ID_` = '1', `ALIAS_` = 'sysTreeList', `NAME_` = '系统树', `default_url_` = 'sys/sysTree/sysTreeList.html', `ENABLE_MENU_` = 1, `HAS_CHILDREN_` = 1, `OPENED_` = 1, `ICON_` = '', `NEW_WINDOW_` = 0, `SN_` = 1521442292317, `PARENT_ID_` = '56', `CREATE_TIME_` = '2018-03-19 14:51:32' WHERE `ID_` = '20000002880001';
+UPDATE `sys_resource` SET `SYSTEM_ID_` = '1', `ALIAS_` = 'sysDataSourceList', `NAME_` = '系统数据源', `default_url_` = 'sys/sysDataSource/sysDataSourceList.html', `ENABLE_MENU_` = 1, `HAS_CHILDREN_` = 1, `OPENED_` = 1, `ICON_` = '', `NEW_WINDOW_` = 0, `SN_` = 6, `PARENT_ID_` = '44', `CREATE_TIME_` = NULL WHERE `ID_` = '50';
+
+
