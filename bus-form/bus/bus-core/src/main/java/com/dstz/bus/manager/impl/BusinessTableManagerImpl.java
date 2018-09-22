@@ -27,7 +27,7 @@ import com.dstz.bus.model.BusColumnCtrl;
 import com.dstz.bus.model.BusinessColumn;
 import com.dstz.bus.model.BusinessTable;
 import com.dstz.bus.util.BusinessTableCacheUtil;
-import com.dstz.sys.api2.service.ISysDataSourceService;
+import com.dstz.sys.api.service.ISysDataSourceService;
 
 /**
  * businessTable 的manager层实现类

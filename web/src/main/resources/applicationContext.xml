@@ -16,7 +16,6 @@
     
      <context:annotation-config/>
     <context:component-scan base-package="com.dstz.sys"/>
-    <context:component-scan base-package="com.dstz.sys2"/>
     <context:component-scan base-package="com.dstz.base"/>
     <context:component-scan base-package="com.dstz.org"/>
     <context:component-scan base-package="com.dstz.bus"/>

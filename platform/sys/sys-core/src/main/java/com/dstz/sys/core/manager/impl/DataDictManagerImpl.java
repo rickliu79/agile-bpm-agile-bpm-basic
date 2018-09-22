@@ -19,12 +19,12 @@ import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys.api.constant.SysStatusCode;
 import com.dstz.sys.core.dao.DataDictDao;
 import com.dstz.sys.core.model.DataDict;
-import com.dstz.sys2.dao.SysTreeDao;
-import com.dstz.sys2.dao.SysTreeNodeDao;
-import com.dstz.sys2.manager.SysTreeManager;
-import com.dstz.sys2.manager.SysTreeNodeManager;
-import com.dstz.sys2.model.SysTree;
-import com.dstz.sys2.model.SysTreeNode;
+import com.dstz.sys.core.dao.SysTreeDao;
+import com.dstz.sys.core.dao.SysTreeNodeDao;
+import com.dstz.sys.core.manager.SysTreeManager;
+import com.dstz.sys.core.manager.SysTreeNodeManager;
+import com.dstz.sys.core.model.SysTree;
+import com.dstz.sys.core.model.SysTreeNode;
 import com.dstz.sys.core.manager.DataDictManager;
 /**
  * 数据字典 Manager处理实现类

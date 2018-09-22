@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dstz.sys2.dao.SysFileDao">
-	<resultMap id="SysFile" type="com.dstz.sys2.model.SysFile">
+<mapper namespace="com.dstz.sys.core.dao.SysFileDao">
+	<resultMap id="SysFile" type="com.dstz.sys.core.model.SysFile">
 		<id property="id" column="id_" jdbcType="VARCHAR"/>
 		<result property="name" column="name_" jdbcType="VARCHAR"/>
 		<result property="uploader" column="uploader_" jdbcType="VARCHAR"/>
@@ -14,7 +14,7 @@
 		<result property="delete" column="delete_" jdbcType="NUMERIC"/>
 	</resultMap>
 	
-	<insert id="create" parameterType="com.dstz.sys2.model.SysFile">
+	<insert id="create" parameterType="com.dstz.sys.core.model.SysFile">
 		INSERT INTO sys_file
 		(id_,name_,uploader_,path_,create_time_,create_by_,update_time_,update_by_,version_,delete_)
 		VALUES 
@@ -42,7 +42,7 @@
 		</if>
 	</select>
 	
-	<update id="update" parameterType="com.dstz.sys2.model.SysFile">
+	<update id="update" parameterType="com.dstz.sys.core.model.SysFile">
 		UPDATE sys_file SET
 		name_=#{name,jdbcType=VARCHAR},
 		uploader_=#{uploader,jdbcType=VARCHAR},

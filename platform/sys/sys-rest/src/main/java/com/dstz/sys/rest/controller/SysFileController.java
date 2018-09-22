@@ -26,8 +26,8 @@ import com.dstz.base.core.util.FileUtil;
 import com.dstz.base.core.util.ZipUtil;
 import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.GenericController;
-import com.dstz.sys2.manager.SysFileManager;
-import com.dstz.sys2.model.SysFile;
+import com.dstz.sys.core.manager.SysFileManager;
+import com.dstz.sys.core.model.SysFile;
 import com.github.pagehelper.Page;
 
 import cn.hutool.core.date.DateTime;

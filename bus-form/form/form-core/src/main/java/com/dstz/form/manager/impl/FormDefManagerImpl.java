@@ -17,8 +17,8 @@ import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.form.dao.FormDefDao;
 import com.dstz.form.manager.FormDefManager;
 import com.dstz.form.model.FormDef;
-import com.dstz.sys.api2.model.ISysTreeNode;
-import com.dstz.sys.api2.service.ISysTreeNodeService;
+import com.dstz.sys.api.model.ISysTreeNode;
+import com.dstz.sys.api.service.ISysTreeNodeService;
 
 /**
  * 表单 Manager处理实现类

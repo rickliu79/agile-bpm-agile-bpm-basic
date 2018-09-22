@@ -21,8 +21,8 @@ import com.dstz.base.rest.BaseController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.form.manager.FormCustDialogManager;
 import com.dstz.form.model.FormCustDialog;
-import com.dstz.sys.api2.model.ISysDataSource;
-import com.dstz.sys.api2.service.ISysDataSourceService;
+import com.dstz.sys.api.model.ISysDataSource;
+import com.dstz.sys.api.service.ISysDataSourceService;
 
 /**
  * <pre>

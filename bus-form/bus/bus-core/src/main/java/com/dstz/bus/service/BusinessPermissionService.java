@@ -17,7 +17,7 @@ import com.dstz.bus.model.permission.AbstractPermission;
 import com.dstz.bus.model.permission.BusColumnPermission;
 import com.dstz.bus.model.permission.BusObjPermission;
 import com.dstz.bus.model.permission.BusTablePermission;
-import com.dstz.sys.api2.permission.PermissionCalculatorFactory;
+import com.dstz.sys.api.permission.PermissionCalculatorFactory;
 
 @Service
 public class BusinessPermissionService implements IBusinessPermissionService {

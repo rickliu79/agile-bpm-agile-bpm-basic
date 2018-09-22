@@ -34,8 +34,8 @@ import com.dstz.form.manager.FormDefManager;
 import com.dstz.form.model.FormDef;
 import com.dstz.form.model.FormDefData;
 import com.dstz.form.service.FormDefDataService;
-import com.dstz.sys.api2.model.ISysDataSource;
-import com.dstz.sys.api2.service.ISysDataSourceService;
+import com.dstz.sys.api.model.ISysDataSource;
+import com.dstz.sys.api.service.ISysDataSourceService;
 
 /**
  * <pre>

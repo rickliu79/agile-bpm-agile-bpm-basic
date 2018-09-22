@@ -36,8 +36,8 @@ import com.dstz.form.model.custdialog.FormCustDialogDisplayField;
 import com.dstz.form.model.custdialog.FormCustDialogReturnField;
 import com.dstz.form.model.custdialog.FormCustDialogSortField;
 import com.dstz.sys.api.groovy.IGroovyScriptEngine;
-import com.dstz.sys.api2.model.ISysDataSource;
-import com.dstz.sys.api2.service.ISysDataSourceService;
+import com.dstz.sys.api.model.ISysDataSource;
+import com.dstz.sys.api.service.ISysDataSourceService;
 
 /**
  * form_cust_dialog Manager处理实现类

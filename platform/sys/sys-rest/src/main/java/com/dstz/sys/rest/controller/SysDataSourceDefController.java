@@ -1,23 +1,18 @@
 package com.dstz.sys.rest.controller;
 
-import com.dstz.base.api.aop.annotion.CatchErr;
-import com.dstz.base.api.query.QueryFilter;
-import com.dstz.base.core.id.IdUtil;
-import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.page.PageResult;
-import com.dstz.base.rest.GenericController;
-import com.dstz.base.rest.util.RequestUtil;
-import com.dstz.sys2.manager.SysDataSourceDefManager;
-import com.dstz.sys2.model.SysDataSourceDef;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.dstz.base.api.aop.annotion.CatchErr;
+import com.dstz.base.core.util.StringUtil;
+import com.dstz.base.rest.BaseController;
+import com.dstz.base.rest.util.RequestUtil;
+import com.dstz.sys.core.manager.SysDataSourceDefManager;
+import com.dstz.sys.core.model.SysDataSourceDef;
 
 /**
  * <pre>
@@ -28,9 +23,9 @@ import java.util.List;
  * 版权:summer
  * </pre>
  */
-@Controller
+@RestController
 @RequestMapping("/sys/sysDataSourceDef/")
-public class SysDataSourceDefController extends GenericController {
+public class SysDataSourceDefController extends BaseController<SysDataSourceDef> {
     @Autowired
     SysDataSourceDefManager sysDataSourceDefManager;
 
@@ -48,29 +43,6 @@ public class SysDataSourceDefController extends GenericController {
     public void initAttributes(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String classPath = RequestUtil.getString(request, "classPath");
         writeSuccessData(response, sysDataSourceDefManager.initAttributes(classPath));
-    }
-
-    /**
-     * <pre>
-     * sysDataSourceDefEdit.html的save后端
-     * </pre>
-     *
-     * @param request
-     * @param response
-     * @param sysDataSourceDef
-     * @throws Exception
-     */
-    @RequestMapping("save")
-    @CatchErr(write2response = true, value = "保存数据源模板失败")
-    public void save(HttpServletRequest request, HttpServletResponse response, @RequestBody SysDataSourceDef sysDataSourceDef) throws Exception {
-        if (StringUtil.isEmpty(sysDataSourceDef.getId())) {
-            sysDataSourceDef.setId(IdUtil.getSuid());
-            sysDataSourceDefManager.create(sysDataSourceDef);
-        } else {
-            sysDataSourceDefManager.update(sysDataSourceDef);
-        }
-
-        writeSuccessData(response, sysDataSourceDef, "保存数据源模板成功");
     }
 
     /**
@@ -95,21 +67,8 @@ public class SysDataSourceDefController extends GenericController {
         writeSuccessData(response, sysDataSourceDef);
     }
 
-    /**
-     * <pre>
-     * list页的后端
-     * </pre>
-     *
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("listJson")
-    @ResponseBody
-    public PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        QueryFilter queryFilter = getQueryFilter(request);
-        List<SysDataSourceDef> list = sysDataSourceDefManager.query(queryFilter);
-        return new PageResult(list);
-    }
+	@Override
+	protected String getModelDesc() {
+		return "数据源模板";
+	}
 }

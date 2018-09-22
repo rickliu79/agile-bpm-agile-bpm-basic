@@ -11,7 +11,7 @@ import com.dstz.base.core.util.StringUtil;
 import com.dstz.org.api.model.IUser;
 import com.dstz.sys.api.jms.model.msg.NotifyMessage;
 import com.dstz.sys.api.service.SysIdentityConvert;
-import com.dstz.sys2.util.EmailUtil;
+import com.dstz.sys.util.EmailUtil;
 
 /**
  * 邮件消息处理器。

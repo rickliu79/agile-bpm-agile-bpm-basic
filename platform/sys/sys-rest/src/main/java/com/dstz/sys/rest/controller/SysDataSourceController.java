@@ -20,8 +20,8 @@ import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
-import com.dstz.sys2.manager.SysDataSourceManager;
-import com.dstz.sys2.model.SysDataSource;
+import com.dstz.sys.core.manager.SysDataSourceManager;
+import com.dstz.sys.core.model.SysDataSource;
 
 /**
  * <pre>

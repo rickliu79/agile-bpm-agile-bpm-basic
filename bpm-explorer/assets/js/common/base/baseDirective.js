@@ -892,7 +892,7 @@ var directive = angular.module("baseDirective", [ "base" ])
 				var conf = {
 					height : 600,
 					width : 800,
-					url : "/sys2/sysFile/uploadDialog.html",
+					url : "/sys/sysFile/uploadDialog.html",
 					title : "附件上传",
 					topOpen : true,
 					btn : true,

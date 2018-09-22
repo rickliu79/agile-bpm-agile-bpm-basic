@@ -16,9 +16,9 @@ import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
-import com.dstz.sys2.manager.SysTreeManager;
-import com.dstz.sys2.manager.SysTreeNodeManager;
-import com.dstz.sys2.model.SysTreeNode;
+import com.dstz.sys.core.manager.SysTreeManager;
+import com.dstz.sys.core.manager.SysTreeNodeManager;
+import com.dstz.sys.core.model.SysTreeNode;
 
 /**
  * <pre>
