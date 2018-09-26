@@ -16,6 +16,8 @@ public class RequestHead {
     private Boolean isEncryptData;
 
     private String secreKey;
+    
+    private String traceId ;
 
     public String getSourceSystem() {
         return sourceSystem;
@@ -64,4 +66,12 @@ public class RequestHead {
     public void setSecreKey(String secreKey) {
         this.secreKey = secreKey;
     }
+
+	public String getTraceId() {
+		return traceId;
+	}
+
+	public void setTraceId(String traceId) {
+		this.traceId = traceId;
+	}
 }
