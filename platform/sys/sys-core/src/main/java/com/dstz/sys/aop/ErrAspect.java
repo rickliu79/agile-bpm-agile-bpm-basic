@@ -3,8 +3,10 @@ package com.dstz.sys.aop;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -23,6 +25,8 @@ import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.ExceptionUtil;
+import com.dstz.base.rest.util.RequestContext;
+import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.api.model.IUser;
 import com.dstz.sys.core.manager.LogErrManager;
 import com.dstz.sys.core.model.LogErr;
@@ -126,9 +130,10 @@ public class ErrAspect {
 
     @SuppressWarnings("unchecked")
     private String logError(ProceedingJoinPoint point, String error, String exception) {
-//        	HttpServletRequest request = RequestContext.getHttpServletRequest();
-//            String errorurl = request.getRequestURI();
-//	    String ip =RequestUtil.getIpAddr(request);
+    	HttpServletRequest request = RequestContext.getHttpServletRequest();
+        String errorurl = request.getRequestURI();
+	    String ip = RequestUtil.getIpAddr(request);
+	    
         IUser sysUser = ContextUtil.getCurrentUser();
         String account = "未知用户";
         if (BeanUtils.isNotEmpty(sysUser)) {
@@ -140,7 +145,7 @@ public class ErrAspect {
         logErr.setAccount(account);
         //	logErr.setIp(ip);
         logErr.setContent(error);
-//        logErr.setUrl(StringUtils.substring(errorurl, 0, 1000));
+        logErr.setUrl(StringUtils.substring(errorurl, 0, 1000));
         logErr.setCreateTime(new Date());
         logErr.setStackTrace(exception);
 
