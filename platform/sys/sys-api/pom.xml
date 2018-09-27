@@ -17,10 +17,6 @@
             <groupId>com.dstz.agilebpm</groupId>
             <artifactId>org-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.freemarker</groupId>
