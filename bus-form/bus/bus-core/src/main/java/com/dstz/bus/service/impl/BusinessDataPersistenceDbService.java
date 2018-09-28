@@ -52,7 +52,7 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 	@Override
 	public void saveData(BusinessData businessData) {
 		// 获取当前表的数据库操作者
-		TableOperator tableOperator = businessTableManager.newTableOperator(businessData.getBusTableRel().getTable());
+		TableOperator tableOperator = businessTableManager.newTableOperatorCheckExist(businessData.getBusTableRel().getTable());
 
 		String busTableRelType = businessData.getBusTableRel().getType();
 
@@ -117,7 +117,7 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 			if (!rel.getBusObj().haveTableDbEditRights(rel.getTableKey())) {// 该表没数据库操作权限
 				continue;
 			}
-			TableOperator tableOperator = businessTableManager.newTableOperator(rel.getTable());// 子表的表操作者
+			TableOperator tableOperator = businessTableManager.newTableOperatorCheckExist(rel.getTable());// 子表的表操作者
 			// 拥有数据库操作权限
 			if (BusTableRelType.ONE_TO_MANY.equalsWithKey(rel.getType()) || BusTableRelType.ONE_TO_ONE.equalsWithKey(rel.getType())) {
 				Map<String, Object> param = new HashMap<>();
@@ -176,7 +176,7 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 			return businessData;
 		}
 
-		Map<String, Object> data = businessTableManager.newTableOperator(businessTable).selectData(getReadableColumnName(busTableRel), id);
+		Map<String, Object> data = businessTableManager.newTableOperatorCheckExist(businessTable).selectData(getReadableColumnName(busTableRel), id);
 		if(data == null) {
 			throw new BusinessException(String.valueOf(id),BusStatusCode.BUS_DATA_LOSE);
 		}
@@ -217,7 +217,7 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 					param.put(fk.getFrom(), businessData.get(fk.getValue()));//跟上一个一样，但是还是在if中好操作点
 				}
 			}
-			List<Map<String, Object>> dataMapList = businessTableManager.newTableOperator(table).selectData(getReadableColumnName(rel), toDbMap(table, param));
+			List<Map<String, Object>> dataMapList = businessTableManager.newTableOperatorCheckExist(table).selectData(getReadableColumnName(rel), toDbMap(table, param));
 			for (Map<String, Object> dataMap : dataMapList) {
 				BusinessData data = new BusinessData();
 				data.setBusTableRel(rel);
@@ -240,7 +240,7 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 			return;
 		}
 
-		Map<String, Object> data = businessTableManager.newTableOperator(busTableRel.getTable()).selectData(id);
+		Map<String, Object> data = businessTableManager.newTableOperatorCheckExist(busTableRel.getTable()).selectData(id);
 		businessTableManager.newTableOperator(busTableRel.getTable()).deleteData(data.get(busTableRel.getTable().getPkName()));
 		removeChildren(data, busTableRel);
 	}
@@ -264,7 +264,7 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 				}
 			}
 			if (rel.getChildren().isEmpty()) {// 子表没子表了，那就按照主表外键输出子表数据
-				businessTableManager.newTableOperator(rel.getTable()).deleteData(toDbMap(rel.getTable(), param));
+				businessTableManager.newTableOperatorCheckExist(rel.getTable()).deleteData(toDbMap(rel.getTable(), param));
 			} else {// 子表还有子表，那就要遍历递归了
 				List<Map<String, Object>> dataMapList = businessTableManager.newTableOperator(rel.getTable()).selectData(toDbMap(rel.getTable(), param));
 				for (Map<String, Object> dataMap : dataMapList) {

@@ -117,6 +117,16 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 		JdbcTemplate dataSourceJdbcTemplate = sysDataSourceService.getJdbcTemplateByKey(businessTable.getDsKey());
 		return TableOperatorFactory.newOperator(DbContextHolder.getDataSourceDbType(businessTable.getDsKey()), businessTable, dataSourceJdbcTemplate);
 	}
+	
+	@Override
+	public TableOperator newTableOperatorCheckExist(BusinessTable businessTable) {
+		JdbcTemplate dataSourceJdbcTemplate = sysDataSourceService.getJdbcTemplateByKey(businessTable.getDsKey());
+		TableOperator tableOperator= TableOperatorFactory.newOperator(DbContextHolder.getDataSourceDbType(businessTable.getDsKey()), businessTable, dataSourceJdbcTemplate);
+		if(!tableOperator.isTableCreated()) {
+			throw new BusinessException("表["+businessTable.getName()+"]不存在数据库中");
+		}
+		return tableOperator;
+	}
 
 	@Override
 	public BusinessTable getFilledByKey(String key) {

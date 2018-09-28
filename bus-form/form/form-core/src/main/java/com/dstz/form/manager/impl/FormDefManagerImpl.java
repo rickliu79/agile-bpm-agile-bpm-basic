@@ -7,18 +7,17 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dstz.base.api.query.QueryFilter;
-import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.util.FileUtil;
 import com.dstz.base.core.util.PropertyUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.form.dao.FormDefDao;
 import com.dstz.form.manager.FormDefManager;
 import com.dstz.form.model.FormDef;
 import com.dstz.sys.api.model.ISysTreeNode;
 import com.dstz.sys.api.service.ISysTreeNodeService;
+
+import cn.hutool.core.lang.Assert;
 
 /**
  * 表单 Manager处理实现类
@@ -36,7 +35,8 @@ public class FormDefManagerImpl extends BaseManager<String, FormDef> implements 
 
 	@Override
 	public FormDef getByKey(String key) {
-		return formDefDao.getByKey(key);
+		FormDef form = formDefDao.getByKey(key);
+		return Assert.notNull(form, "业务表单[" + key + "]不存在，请检查");
 	}
 
 	@Override

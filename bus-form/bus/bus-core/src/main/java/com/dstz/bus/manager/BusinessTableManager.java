@@ -51,4 +51,15 @@ public interface BusinessTableManager extends Manager<String, BusinessTable> {
 	 * @return
 	 */
 	TableOperator newTableOperator(BusinessTable businessTable);
+	
+	/**
+	 * <pre>
+	 * 根据businessTable获取表操作对象
+	 * 并检查一下表是否存在，不存在报错
+	 * </pre>
+	 * 
+	 * @param businessTable
+	 * @return
+	 */
+	TableOperator newTableOperatorCheckExist(BusinessTable businessTable);
 }
