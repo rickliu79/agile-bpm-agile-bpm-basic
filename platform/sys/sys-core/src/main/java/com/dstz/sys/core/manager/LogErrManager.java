@@ -8,6 +8,4 @@ import com.dstz.sys.core.model.LogErr;
  */
 public interface LogErrManager extends Manager<String, LogErr> {
 
-    void getSub();
-
 }

@@ -33,7 +33,6 @@
     </appender>
     
     <!-- 修改日志级别不用重启服务器。所以默认是 info。请不要把debug 提交 -->
-	<logger name="com.dstz.bpm.core.dao" level="INFO"/> <!--请不要把debug 提交 -->
     <logger name="com.dstz" level="INFO"/><!--请不要把debug 提交 -->
     <!--请不要把debug 提交 -->
     <!-- 日志输出级别 -->

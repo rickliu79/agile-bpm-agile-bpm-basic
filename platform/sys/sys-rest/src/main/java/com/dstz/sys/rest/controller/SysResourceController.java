@@ -3,6 +3,7 @@ package com.dstz.sys.rest.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -113,6 +114,7 @@ public class SysResourceController extends GenericController {
         if (StringUtil.isEmpty(id)) {
             sysResource.setSn(System.currentTimeMillis());
             sysResourceManager.create(sysResource);
+            sysResource.setCreateTime(new Date());
             resultMsg = "添加子系统资源成功";
         } else {
             sysResourceManager.update(sysResource);
