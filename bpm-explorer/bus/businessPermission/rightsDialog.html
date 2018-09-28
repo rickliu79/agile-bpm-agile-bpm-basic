@@ -13,7 +13,7 @@
 		$scope.ArrayTool = ArrayToolService;
 
 		$scope.init = function() {
-			ToolsController.getInterFaceImpls("com.dstz.sys.api2.permission.IPermissionCalculator").then(function(data) {
+			ToolsController.getInterFaceImpls("com.dstz.sys.api.permission.IPermissionCalculator").then(function(data) {
 
 				$scope.$apply(function() {
 					$scope.dialogPermissions = [];//对话框的权限列表
