@@ -128,7 +128,6 @@ public class ErrAspect {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private String logError(ProceedingJoinPoint point, String error, String exception) {
     	HttpServletRequest request = RequestContext.getHttpServletRequest();
         String errorurl = request.getRequestURI();
@@ -143,7 +142,7 @@ public class ErrAspect {
         LogErr logErr = new LogErr();
         logErr.setId(id);
         logErr.setAccount(account);
-        //	logErr.setIp(ip);
+        logErr.setIp(ip);
         logErr.setContent(error);
         logErr.setUrl(StringUtils.substring(errorurl, 0, 1000));
         logErr.setCreateTime(new Date());

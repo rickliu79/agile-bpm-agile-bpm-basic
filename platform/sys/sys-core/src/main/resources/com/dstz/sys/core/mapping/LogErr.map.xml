@@ -9,17 +9,21 @@
         <result property="content" column="content_" jdbcType="CLOB"/>
         <result property="stackTrace" column="stack_trace_" jdbcType="CLOB"/>
         <result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
+        
+        <result property="ipAddress" column="ip_address_" jdbcType="VARCHAR"/>
+        <result property="status" column="status_" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="columns">
-		id_,account_,ip_,url_,content_,stack_trace_,create_time_
+		id_,account_,ip_,url_,content_,stack_trace_,create_time_,ip_address_,status_
 	</sql>
 
     <insert id="create" parameterType="com.dstz.sys.core.model.LogErr">
 		INSERT INTO SYS_LOG_ERR
-		(id_,account_,ip_,url_,content_,stack_trace_,create_time_)
+		(id_,account_,ip_,url_,content_,stack_trace_,create_time_,ip_address_,status_)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{content,jdbcType=CLOB},#{stackTrace,jdbcType=CLOB}, #{createTime,jdbcType=TIMESTAMP})
+		(#{id,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{content,jdbcType=CLOB},#{stackTrace,jdbcType=CLOB}, #{createTime,jdbcType=TIMESTAMP}
+				, #{ipAddress,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
 	</insert>
 
     <select id="get" parameterType="java.lang.String" resultMap="LogErr">
@@ -29,9 +33,17 @@
         WHERE
         id_=#{id}
     </select>
+    
+    <update id="update" parameterType="com.dstz.sys.core.model.LogErr">
+		UPDATE SYS_LOG_ERR SET
+		status_=#{status,jdbcType=VARCHAR},
+		content_=#{content,jdbcType=VARCHAR}
+		WHERE
+		ID_=#{id}
+	</update>
 
     <select id="query" parameterType="java.util.Map" resultMap="LogErr">
-        SELECT id_,account_,ip_,url_,create_time_ FROM SYS_LOG_ERR
+        SELECT id_,account_,ip_,url_,create_time_,ip_address_,status_,content_ FROM SYS_LOG_ERR
         <where>
             <if test="whereSql!=null">
                 ${whereSql}

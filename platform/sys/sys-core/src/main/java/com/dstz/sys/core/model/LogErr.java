@@ -9,14 +9,18 @@ import com.dstz.base.api.model.IDModel;
 
 /**
  *  错误日志 实体对象
+ *  @author Jeff
  */
 public class LogErr implements IDModel {
-    protected String id; /* 主键 */
+	private static final long serialVersionUID = 1L;
+	protected String id; /* 主键 */
     protected String account; /* 登录帐号 */
     protected String ip; /* IP地址 */
-    protected String url; /* URL地址 */
+    protected String ipAddress; /* IP地址 */
+	protected String url; /* URL地址 */
     protected String content; /* 内容 */
     protected String stackTrace;/*堆栈*/
+    protected String status = "unchecked";//状态   checked fixed
     protected java.util.Date createTime; /* 创建时间 */
 
     public LogErr() {
@@ -37,6 +41,15 @@ public class LogErr implements IDModel {
     public void setId(String id) {
         this.id = id;
     }
+    
+    public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+
 
     /**
      * 返回 主键
@@ -120,7 +133,15 @@ public class LogErr implements IDModel {
         this.stackTrace = stackTrace;
     }
 
-    /**
+    public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	/**
      * @see java.lang.Object#toString()
      */
     public String toString() {

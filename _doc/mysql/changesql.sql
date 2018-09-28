@@ -184,4 +184,9 @@ UPDATE `sys_resource` SET `SYSTEM_ID_` = '1', `ALIAS_` = 'sysDataSourceDefList',
 UPDATE `sys_resource` SET `SYSTEM_ID_` = '1', `ALIAS_` = 'sysTreeList', `NAME_` = '系统树', `default_url_` = 'sys/sysTree/sysTreeList.html', `ENABLE_MENU_` = 1, `HAS_CHILDREN_` = 1, `OPENED_` = 1, `ICON_` = '', `NEW_WINDOW_` = 0, `SN_` = 1521442292317, `PARENT_ID_` = '56', `CREATE_TIME_` = '2018-03-19 14:51:32' WHERE `ID_` = '20000002880001';
 UPDATE `sys_resource` SET `SYSTEM_ID_` = '1', `ALIAS_` = 'sysDataSourceList', `NAME_` = '系统数据源', `default_url_` = 'sys/sysDataSource/sysDataSourceList.html', `ENABLE_MENU_` = 1, `HAS_CHILDREN_` = 1, `OPENED_` = 1, `ICON_` = '', `NEW_WINDOW_` = 0, `SN_` = 6, `PARENT_ID_` = '44', `CREATE_TIME_` = NULL WHERE `ID_` = '50';
 
-
+-- 添加 IP地址 2018-9-28 10:15:04
+ALTER TABLE `sys_log_err` 
+ADD COLUMN `ip_address_` varchar(255) NULL COMMENT 'IP地址' AFTER `IP_`,
+ADD COLUMN `status_` varchar(64) NULL COMMENT '状态：unchecked，checked，fixed' AFTER `ip_address_`;
+-- 添加 异常日志菜单
+INSERT INTO `sys_resource`(`ID_`, `SYSTEM_ID_`, `ALIAS_`, `NAME_`, `default_url_`, `ENABLE_MENU_`, `HAS_CHILDREN_`, `OPENED_`, `ICON_`, `NEW_WINDOW_`, `SN_`, `PARENT_ID_`, `CREATE_TIME_`) VALUES ('403205519290925057', '1', 'errLog', '异常日志', 'sys/sysLogErr/sysLogErrList.html', 1, 1, 1, '', 0, 1538106991915, '56', NULL);
