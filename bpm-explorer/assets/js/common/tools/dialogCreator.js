@@ -258,7 +258,7 @@ dialogHelper__ .getUrl = function(obj){
 dialogHelper__.initCustDialogs = function(){
 	window.CustUtil = {
 		/**
-		 * @key 自定义查询的别名
+		 * @key 自定义对话框的别名
 		 * @callback 回调函数
 		 * @param 调用动态参数
 		 * @dialogSetting 强行修改key对话框的参数，用这个json数据中有的字段覆盖原有对话框的配置

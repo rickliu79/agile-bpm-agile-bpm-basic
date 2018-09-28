@@ -124,7 +124,12 @@ public class BusinessColumn extends Column implements IBaseModel, IBusinessColum
 			value = bigDecimal.setScale(this.getDecimal(), RoundingMode.HALF_UP);
 		} else if (ColumnType.DATE.equalsWithKey(type)) {
 			JSONObject config = JSON.parseObject(this.getCtrl().getConfig());
-			value = DateUtil.parse(str, config.getString("format"));
+			try {
+				value = DateUtil.parse(str, config.getString("format"));
+			}catch (Exception e) {//解析失败，默认超匹配模式
+				value = DateUtil.parse(str);
+			}
+			
 		}
 
 		return value;
