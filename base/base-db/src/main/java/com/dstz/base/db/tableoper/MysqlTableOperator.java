@@ -36,6 +36,7 @@ public class MysqlTableOperator extends TableOperator {
 	public void createTable() {
 		if (isTableCreated()) {
 			logger.debug("表[" + table.getName() + "(" + table.getComment() + ")]已存在数据库中，无需再次生成");
+			return;
 		}
 
 		// 建表语句

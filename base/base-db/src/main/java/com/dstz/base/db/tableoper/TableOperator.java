@@ -355,4 +355,5 @@ public abstract class TableOperator {
 		DbOperator dbOperator = DbOperatorFactory.newOperator(type(), jdbcTemplate);
 		return dbOperator.getTable(table.getName());
 	}
+	
 }

@@ -57,6 +57,16 @@ app.controller("ctrl", [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 			formatter : formatter
 		});
 
+		girdConf.onLoadSuccess = function(data) {
+			if (!data.isOk) {
+				jQuery.Toast.error(data.msg, data.cause);
+			}
+		};
+
+		girdConf.onLoadError = function(status) {
+			jQuery.Toast.error("加载失败，代码:" + status);
+		};
+
 		return girdConf;
 	};
 
