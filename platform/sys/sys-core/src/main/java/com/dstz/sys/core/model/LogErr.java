@@ -21,6 +21,7 @@ public class LogErr implements IDModel {
     protected String content; /* 内容 */
     protected String stackTrace;/*堆栈*/
     protected String status = "unchecked";//状态   checked fixed
+    protected String requestParam;
     protected java.util.Date createTime; /* 创建时间 */
 
     public LogErr() {
@@ -129,7 +130,15 @@ public class LogErr implements IDModel {
         return stackTrace;
     }
 
-    public void setStackTrace(String stackTrace) {
+    public String getRequestParam() {
+		return requestParam;
+	}
+
+	public void setRequestParam(String requestParam) {
+		this.requestParam = requestParam;
+	}
+
+	public void setStackTrace(String stackTrace) {
         this.stackTrace = stackTrace;
     }
 

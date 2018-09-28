@@ -11,7 +11,7 @@ import java.net.URL;
 public class IPAddressUtil {
 
 	public static String getAddresses(String content) throws UnsupportedEncodingException {
-		return getAddresses(content, "UTF-8");
+		return getAddresses("ip=" + content , "UTF-8");
 	}
 
 	/**
@@ -22,21 +22,19 @@ public class IPAddressUtil {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	public static String getAddresses(String content, String encodingString) throws UnsupportedEncodingException {
+	private static String getAddresses(String content, String encodingString) throws UnsupportedEncodingException {
 		// 这里调用pconline的接口
 		String urlStr = "http://ip.taobao.com/service/getIpInfo.php";
 		// 从http://whois.pconline.com.cn取得IP所在的省市区信息
 		String returnStr = getResult(urlStr, content, encodingString);
 		if (returnStr != null) {
 			// 处理返回的省市区信息
-			System.out.println("IP=====" + returnStr);
 			String[] temp = returnStr.split(",");
 			if (temp.length < 3) {
 				return "0"; // 无效IP，局域网测试
 			}
 			String region = (temp[5].split(":"))[1].replaceAll("\"", "");
 			region = decodeUnicode(region); // 省
-			System.out.println("region = " + region);
 
 			String country = "";
 			String area = "";
@@ -44,7 +42,6 @@ public class IPAddressUtil {
 			String city = "";
 			String county = "";
 			String isp = "";
-			System.out.println("temp的长度=" + temp.length);
 			for (int i = 0; i < temp.length; i++) {
 				switch (i) {
 				// 如果使用的是新浪的接口，那这里的需要修改，case:3 4 5分别对应国家，省，市区
@@ -74,7 +71,6 @@ public class IPAddressUtil {
 					break;
 				}
 			}
-			System.out.println(country + "=" + area + "=" + region + "=" + city + "=" + county + "=" + isp);
 			return region;
 		}
 		return null;
@@ -202,7 +198,7 @@ public class IPAddressUtil {
 		String ip = "219.134.241.202";
 		String address = "";
 		try {
-			address = IPAddressUtil.getAddresses("ip=" + ip, "utf-8");
+			address = IPAddressUtil.getAddresses(ip);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

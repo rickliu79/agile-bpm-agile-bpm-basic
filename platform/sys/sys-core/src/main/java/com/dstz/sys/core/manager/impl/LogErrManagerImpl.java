@@ -36,7 +36,7 @@ public class LogErrManagerImpl extends BaseManager<String, LogErr> implements Lo
 			}
     	}
     	
-    	super.create(entity);
+    	sysLogErrDao.create(entity);
     }
     
     

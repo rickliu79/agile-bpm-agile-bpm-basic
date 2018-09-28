@@ -1,8 +1,12 @@
 package com.dstz.sys.aop;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,6 +22,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.exception.BusinessException;
@@ -25,6 +30,7 @@ import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.ExceptionUtil;
+import com.dstz.base.core.util.FileUtil;
 import com.dstz.base.rest.util.RequestContext;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.api.model.IUser;
@@ -128,7 +134,7 @@ public class ErrAspect {
         }
     }
 
-    private String logError(ProceedingJoinPoint point, String error, String exception) {
+    private String logError(ProceedingJoinPoint point, String error, String exception) throws IOException {
     	HttpServletRequest request = RequestContext.getHttpServletRequest();
         String errorurl = request.getRequestURI();
 	    String ip = RequestUtil.getIpAddr(request);
@@ -144,6 +150,16 @@ public class ErrAspect {
         logErr.setAccount(account);
         logErr.setIp(ip);
         logErr.setContent(error);
+        
+        String requestParam = JSON.toJSONString(request.getParameterMap());
+        if(StringUtils.isEmpty(requestParam) || requestParam.length()<3) {
+        	requestParam = "";
+        	for(Object o: point.getArgs()) {
+        		if(o instanceof ServletRequest || o instanceof ServletResponse) continue;
+        		requestParam += JSON.toJSONString(o);
+        	}
+        }
+        logErr.setRequestParam(requestParam);
         logErr.setUrl(StringUtils.substring(errorurl, 0, 1000));
         logErr.setCreateTime(new Date());
         logErr.setStackTrace(exception);
