@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.dstz.base.api.exception.BusinessError;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
@@ -123,7 +124,7 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 		JdbcTemplate dataSourceJdbcTemplate = sysDataSourceService.getJdbcTemplateByKey(businessTable.getDsKey());
 		TableOperator tableOperator= TableOperatorFactory.newOperator(DbContextHolder.getDataSourceDbType(businessTable.getDsKey()), businessTable, dataSourceJdbcTemplate);
 		if(!tableOperator.isTableCreated()) {
-			throw new BusinessException("实体【"+businessTable.getComment()+"】对应的表["+businessTable.getName()+"]不存在数据库中！请为实体生成表，或者修改业务对象持久化方式为“实例表”！");
+			throw new BusinessError("实体【"+businessTable.getComment()+"】对应的表["+businessTable.getName()+"]不存在数据库中！请为实体生成表，或者修改业务对象持久化方式为“实例表”！");
 		}
 		return tableOperator;
 	}
