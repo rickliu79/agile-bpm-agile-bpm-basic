@@ -2,7 +2,7 @@ package com.dstz.sys.core.dao;
 import java.util.List;
 
 import com.dstz.base.dao.BaseDao;
-import com.dstz.sys.core.model.ScheduleParticipant;
+import com.dstz.sys.api.model.calendar.ScheduleParticipant;
 
 
 public interface ScheduleParticipantDao extends BaseDao<String, ScheduleParticipant> {

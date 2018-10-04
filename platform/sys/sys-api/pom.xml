@@ -11,7 +11,7 @@
     <dependencies>
         <dependency>
             <groupId>com.dstz.agilebpm</groupId>
-            <artifactId>base-db</artifactId>
+            <artifactId>base-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.dstz.agilebpm</groupId>

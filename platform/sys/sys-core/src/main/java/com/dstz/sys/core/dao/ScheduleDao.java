@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.dstz.base.dao.BaseDao;
-import com.dstz.sys.core.model.Schedule;
+import com.dstz.sys.api.model.calendar.Schedule;
 
 
 public interface ScheduleDao extends BaseDao<String, Schedule> {

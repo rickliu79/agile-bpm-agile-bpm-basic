@@ -1,4 +1,5 @@
-package com.dstz.sys.core.model;
+package com.dstz.sys.api.model.calendar;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import com.dstz.base.api.model.IDModel;
  * 版权：大道金服
  * </pre>
  */
-public class Schedule implements IDModel{
+public class Schedule implements IDModel ,Serializable{
 	public static final String TYPE_SINGLE = "single";
 	public static final String TYPE_SHARE = "share";
 	public static final String TYPE_ILKA = "ilka";

@@ -20,12 +20,6 @@
         <dependency>
             <groupId>com.dstz.agilebpm</groupId>
             <artifactId>base-rest</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.dstz.agilebpm</groupId>
-                    <artifactId>base-db</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.dstz.agilebpm</groupId>

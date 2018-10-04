@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.manager.impl.BaseManager;
+import com.dstz.sys.api.model.calendar.Schedule;
+import com.dstz.sys.api.model.calendar.ScheduleParticipant;
 import com.dstz.sys.core.dao.ScheduleDao;
 import com.dstz.sys.core.dao.ScheduleParticipantDao;
 import com.dstz.sys.core.manager.ScheduleManager;
-import com.dstz.sys.core.model.Schedule;
-import com.dstz.sys.core.model.ScheduleParticipant;
 
 import cn.hutool.core.lang.Assert;
 
