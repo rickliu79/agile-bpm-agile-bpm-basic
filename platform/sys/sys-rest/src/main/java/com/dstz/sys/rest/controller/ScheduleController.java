@@ -256,6 +256,7 @@ public class ScheduleController extends BaseController<Schedule>{
 						break;
 					}
 				}
+				// 共同任务。一人修改、所有人同步？？？
 				for(ScheduleParticipant participant : list) {
 					if(rate >= 100) {
 						participant.setRateProgress(100);

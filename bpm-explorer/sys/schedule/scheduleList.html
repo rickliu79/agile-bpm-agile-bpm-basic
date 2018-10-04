@@ -50,13 +50,12 @@
 	              <th data-field="ownerName" >所属人</th>
 	              <th data-field="participantNames" >参与者</th>
 	              <th data-field="openType" >任务打开方式</th>
-	              <th data-field="actualStartTime" data-formatter="ruleKey">实际开始日期</th>
+	              <th data-field="actualStartTime" data-formatter="dateTimeFormatter">实际开始日期</th>
 	              <th data-field="completeTime" >完成时间</th>
 	              <th data-field="submitNamer" >提交人</th>
 	              <th data-field="isLock" data-formatter="labelFormatter" data-value-style="1-是-primary,0-否-success," >锁定</th>
 	              <th data-field="id" data-formatter="innerHtmlFormatter" data-title="管理">
-	             	<a class="fa-edit btn btn-outline btn-primary btn-sm" openDialog="编辑" qtip="编辑" url="serialNoEdit.html?id={id}"></a>
-					<a class="fa-eye btn btn-outline btn-primary btn-sm" qtip="预览" onclick="preview('{alias}')"></a>
+	             	<a class="fa-edit btn btn-outline btn-primary btn-sm" openDialog="编辑" qtip="编辑" url="scheduleEdit.html?id={id}"></a>
 					<a class="fa-trash btn btn-outline btn-primary btn-sm" sendAction="删除" qtip="删除" url="/calendar/schedule/remove?id={id}"></a>
 	             </th>
 	          </tr>

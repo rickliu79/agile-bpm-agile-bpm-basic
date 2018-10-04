@@ -16,6 +16,8 @@ import com.dstz.sys.core.manager.ScheduleManager;
 import com.dstz.sys.core.model.Schedule;
 import com.dstz.sys.core.model.ScheduleParticipant;
 
+import cn.hutool.core.lang.Assert;
+
 /**
  * 
  * <pre> 
@@ -93,6 +95,7 @@ public class ScheduleManagerImpl extends BaseManager<String, Schedule> implement
 	 * 获取实体
 	 */
     public Schedule get(String entityId){
+    	Assert.notBlank("日程 ID 不能为空！");
     	Schedule schedule=super.get(entityId);
     	List<ScheduleParticipant> scheduleParticipantList=scheduleParticipantDao.getScheduleParticipantList(entityId);
     	schedule.setScheduleParticipantList(scheduleParticipantList);

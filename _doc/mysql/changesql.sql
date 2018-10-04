@@ -130,7 +130,7 @@ INSERT INTO `c_holiday_conf` VALUES ('10000042150116', '春节', 'public', '2018
 
 
 CREATE TABLE `c_schedule` (
-  `id` int(20) NOT NULL COMMENT 'ID',
+  `id` varchar(20) NOT NULL COMMENT 'ID',
   `title` varchar(500) DEFAULT NULL COMMENT '标题',
   `desc` varchar(2000) DEFAULT NULL COMMENT '描述',
   `task_url` varchar(255) DEFAULT NULL COMMENT '任务连接',
@@ -146,6 +146,7 @@ CREATE TABLE `c_schedule` (
   `rate_progress` int(10) DEFAULT NULL COMMENT '进度',
   `submitter` varchar(64) DEFAULT NULL COMMENT '提交人',
   `submitNamer` varchar(64) DEFAULT NULL COMMENT '提交人',
+  `remark` varchar(500) DEFAULT NULL,
   `isLock` varchar(10) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
@@ -175,7 +176,6 @@ CREATE TABLE `c_schedule_participant` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日程参与者';
 
 
-
 CREATE TABLE `c_schedule_biz` (
   `id` varchar(20) NOT NULL COMMENT 'id',
   `schedule_id` varchar(20) NOT NULL COMMENT '日程id',
@@ -199,3 +199,9 @@ ADD COLUMN `request_param_` text NULL COMMENT '请求参数' AFTER `CONTENT_`;
 
 -- 添加 异常日志菜单
 INSERT INTO `sys_resource`(`ID_`, `SYSTEM_ID_`, `ALIAS_`, `NAME_`, `default_url_`, `ENABLE_MENU_`, `HAS_CHILDREN_`, `OPENED_`, `ICON_`, `NEW_WINDOW_`, `SN_`, `PARENT_ID_`, `CREATE_TIME_`) VALUES ('403205519290925057', '1', 'errLog', '异常日志', 'sys/sysLogErr/sysLogErrList.html', 1, 1, 1, '', 0, 1538106991915, '56', NULL);
+
+
+-- 添加 日程功能菜单 2018-10-4 14:59:57
+UPDATE  `sys_resource` SET `ID_`='10000034500201', `SYSTEM_ID_`='1', `ALIAS_`='gjjjr', `NAME_`='国家节假日', `default_url_`='sys/holidayConf/holidayConfList.html', `ENABLE_MENU_`='1', `HAS_CHILDREN_`='1', `OPENED_`='1', `ICON_`='', `NEW_WINDOW_`='0', `SN_`='1516274778478', `PARENT_ID_`='44', `CREATE_TIME_`='2018-01-18 19:26:18' WHERE (`ID_`='10000034500201');
+UPDATE  `sys_resource` SET `ID_`='10000045331201', `SYSTEM_ID_`='1', `ALIAS_`='rcb', `NAME_`='我的日程', `default_url_`='sys/schedule/scheduleDisplay.html', `ENABLE_MENU_`='1', `HAS_CHILDREN_`='1', `OPENED_`='1', `ICON_`='', `NEW_WINDOW_`='0', `SN_`='1517382648293', `PARENT_ID_`='1', `CREATE_TIME_`='2018-01-31 15:10:48' WHERE (`ID_`='10000045331201');
+UPDATE  `sys_resource` SET `ID_`='10000047101201', `SYSTEM_ID_`='1', `ALIAS_`='rcgl', `NAME_`='日程管理', `default_url_`='sys/schedule/scheduleList.html', `ENABLE_MENU_`='1', `HAS_CHILDREN_`='1', `OPENED_`='1', `ICON_`='', `NEW_WINDOW_`='0', `SN_`='1517540203764', `PARENT_ID_`='1', `CREATE_TIME_`='2018-02-02 10:56:44' WHERE (`ID_`='10000047101201');

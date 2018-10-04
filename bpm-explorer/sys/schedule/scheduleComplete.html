@@ -7,16 +7,12 @@
 			var app = angular.module('app', ['baseDirective']);
 			app.controller("ctrl", [ '$scope', 'baseService', function($scope, baseService) {
 				var prevVal;
-				
+				$scope.participantId = $.getParam("id");
 				/* for(int i = 0; i < $scope.data.scheduleParticipantList.length; i ++) {
 					initParticipants[i].name = $scope.data.scheduleParticipantList[i].participantor_name;
 					initParticipants[i].id = $scope.data.scheduleParticipantList[i].participantor;
 				} */
-				//------------用户选择框可选多人设置-----------------//
-			    var conf = {
-					selectNum:-1,
-					initData:[{name:"超级管理员",id:1}]
-				};
+			   
 				//-------------返回列表页------------------------//
 				$scope.returnToList = function() {
 					parent.location.reload()
@@ -31,12 +27,8 @@
 						participant.id = $scope.data.scheduleParticipantList[i].participantor;
 						initParticipants.push(participant);
 					}
-					var conf = {
-							selectNum:-1,
-							initData:initParticipants
-						};
-					conf.initData = initParticipants;
-					CustomDialog.openCustomDialog('userSelector',function(data,dialog){
+					 
+					CustUtil.openCustomDialog('userSelector',function(data,dialog){
 						var participants = "";
 						for(var i = 0; i < data.length; i++) {
 							participants += data[i].name;
@@ -59,9 +51,8 @@
 						}
 						$scope.data.participantNames = participants;
 						$("#participant").val(participants);
-					    dialog.dialog('close');//关闭弹出框
-
-					},conf);
+						$.Dialog.close(dialog);
+					},initParticipants);
 				}
 				//--------改变日程类型时的校验：有参与者情况下不能变更为个人-------//
 				$scope.changeDjuge = function() {
@@ -105,7 +96,7 @@
 					<!-- <a class="btn btn-primary" ng-click="complete()"><span>完成</span></a> -->
 				</div>
 			</div>
-			<form name="form" method="post" ab-load="/calendar/schedule/get?id=${mainId}"  ng-model="data">
+			<form name="form" method="post" ab-load="/calendar/schedule/get?id={mainId}"  ng-model="data">
 				<table class="form-table">
 							<tr>								
 								<th>标题:</th>
@@ -157,62 +148,46 @@
 							<tr ng-if="data.type == 'single'">
 							    <th>描述:</th>
 								<td>
-									<textarea  type="text"  cols="40" rows="2" ng-model="data.remark"   ab-validate="{required:false}" ></textarea>
+									<textarea  type="text" class="form-control" rows="2" ng-model="data.remark"   ab-validate="{required:false}" ></textarea>
 								</td>		
 							</tr>
 
 				</table>
 				<br/>
-				<table class="table-grid" cellspacing="0" ng-if="(data.type == 'share' || data.type == 'ilka') && data.participantNames.length > 0">
-					<tr>
-						<td colspan="9">
-							<!-- <div class="buttons">
-								<a class="btn btn-primary fa-add" ng-click="openDetail('','edit')" >
-									<span>添加</span>
-								</a>
-							</div> -->
-						</td>
-					</tr>
-					<tr>
-								<th>参与者名字</th>
-								<!-- <th>参与者</th> -->
-								<th>完成比例</th>
-								<th>提交注释</th>
-								<!-- <th>创建时间</th>
-								<th>更新时间</th> -->
-								<th>实际开始时间</th>
-								<th>完成时间</th>
-					</tr>
-					<tr ng-repeat="item in data.scheduleParticipantList track by $index">
+				<div ng-if="(data.type == 'share' || data.type == 'ilka') && data.participantNames.length > 0">
+					<table ng-repeat="item in data.scheduleParticipantList track by $index" ng-if="item.id == participantId"  class="form-table">
+						<tr>
+							<th>参与者名字</th>
 							<td>
-								<input class="form-control" type="text" ng-model="item.participantorName"  ng-if="item.id == ${param.id}" ab-validate="{required:false,maxlength:765}"  readonly="readonly"/>
+								<input class="form-control" type="text" ng-model="item.participantorName"   ab-validate="{required:false,maxlength:765}"  readonly="readonly"/>
 							</td>
-							<!-- <td>
-								<input class="form-control" type="text" ng-model="item.participantor"  ab-validate="{required:false,maxlength:192}"  />
-							</td> -->
+						</tr>
+						<tr>
+							<th>当前完成比例</th>
 							<td>
-								<input class="form-control" type="text" ng-model="item.rateProgress" ng-if="item.id == ${param.id}" ab-validate="{required:false,number:true,maxIntLen:10}" />
+								<input class="form-control" type="text" ng-model="item.rateProgress" 	 ab-validate="{required:false,number:true,maxIntLen:10}" />%
 							</td>
+						</tr>
+						<tr>
+							<th>备注</th>
 							<td>
-								<input class="form-control" type="text" ng-model="item.submitComment" ng-if="item.id == ${param.id}" ab-validate="{required:false}"  />
+								<input class="form-control" type="text" ng-model="item.submitComment"	 ab-validate="{required:false}"  />
 							</td>
-							<!-- <td>
-								<input class="form-control" type="text" ab-date="yyyy-MM-dd HH:mm:ss" ng-model="item.createTime" />
-							</td>
+						</tr>
+						<tr>
+							<th>实际开始时间</th>
 							<td>
-								<input class="form-control" type="text" ab-date="yyyy-MM-dd HH:mm:ss" ng-model="item.updateTime" />
-							</td> -->
-							<td>
-								<input class="form-control" type="text" ab-date="yyyy-MM-dd HH:mm:ss" ng-if="item.id == ${param.id}" ng-model="item.actualStartTime" />
+								<input class="form-control" type="text" ab-date="yyyy-MM-dd HH:mm:ss" 	ng-model="item.actualStartTime" />
 							</td>
+						</tr>
+						<tr>
+							<th>完成时间</th>
 							<td>
-								<input class="form-control" type="text" ab-date="yyyy-MM-dd HH:mm:ss" ng-if="item.id == ${param.id}" ng-model="item.completeTime" />
+								<input class="form-control" type="text" ab-date="yyyy-MM-dd HH:mm:ss" 	 ng-model="item.completeTime" />
 							</td>
-					</tr>
-				</table>
-			
-				
+						</tr>
+					</table>
+				</div>
 			</form>
-		
 	</body>
 </html>
