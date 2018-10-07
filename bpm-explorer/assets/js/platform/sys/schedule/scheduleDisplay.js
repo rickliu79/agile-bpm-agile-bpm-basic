@@ -17,20 +17,20 @@ var clicks = 0;//判断双击
 		if((action=="Create.html") && !$.isEmpty(startTime) && !$.isEmpty(endTime)){
 			url+='?startTime=' + startTime + "&endTime=" + endTime;
 		}
-		var conf = { height:680,width:800,  url:url,  title:title};
+		var conf = { height:680,width:800,  url:'sys/schedule/'+url,  title:title,topOpen:true};
 		$.Dialog.open(conf); 
 	}
     function complete(id,type,mainId) {
     	var title = "完成日程";
 		
-		var url="scheduleComplete.html";
+		var url="sys/schedule/scheduleComplete.html";
 		if(mainId) {
 			url+='?mainId=' + mainId;
 			url+='&id=' + id;
 		} else {
 			url+='?mainId=' + id;
 		}
-		var conf = { height:520,width:600,  url:url,  title:title };
+		var conf = { height:520,width:600,  url:url,  title:title,topOpen:true };
 		$.Dialog.open(conf); 
 
     }
