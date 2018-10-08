@@ -1,4 +1,4 @@
-<html ng-app="app">
+<html ng-app="overallViewApp">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="../../build/common/ngEdit.css" rel="stylesheet">
@@ -7,8 +7,8 @@
 <script type="text/javascript" src="../../assets/js/platform/bpm/overallView/overallViewController.js"></script>
 <script type="text/javascript" src="../../assets/js/platform/bpm/overallView/formatJson.js"></script>
 <script type="text/javascript">
-	var defId= $.getParam("defId");'
-	var topDefKey =  $.getParam("topDefKey"); 
+	var defId= $.getParam("defId");
+	var defName =  $.getParam("defName"); 
 	var flowKey = $.getParam("defKey"); 
 </script>
 </head>
@@ -43,9 +43,9 @@
    			   <div  ng-click="autoTextAreaHeight('nodeSkipScript')" class="btn btn-sm btn-primary">节点跳转</div>
    			   <div  ng-click="autoTextAreaHeight('formInitScript')" class="btn btn-sm btn-primary">表单初始化</div>
 		</div>
-		 </div>
-		<div data-options="region:'center'" title="【{{overallView.bpmDefinition.name}}】-【{{overallView.bpmDefinition.defKey}}】">
-			<div ng-include="./overallViewContent0.html"></div>
+		 </div>											
+		<div data-options="region:'center'" title="【{{overallView.bpmDefinition.name}}】-【{{overallView.bpmDefinition.key}}】">
+			<div ng-include="'./overallViewContent0.html'"></div>
 		</div>
 	</body>
 </html>
