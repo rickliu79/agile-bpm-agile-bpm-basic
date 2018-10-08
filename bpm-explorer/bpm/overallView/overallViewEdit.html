@@ -36,21 +36,21 @@
 			   <label><input type="radio" name="showOne" ng-click="justShowOne('showBtn')" >展示节点按钮  </label>
 			   <label><input type="radio" name="showOne" ng-click="justShowOne('isShowGateway')">展示分支脚本  </label>
 			   
-				<label>　　脚本框高度适应内容:</label>
+				<label>脚本框高度适应内容:</label>
 				<div  ng-click="autoTextAreaHeight('nodeScript')" class="btn btn-sm btn-primary">节点脚本</div>
 			   <div  ng-click="autoTextAreaHeight('nodeBtnScript')" class="btn btn-sm btn-primary">按钮脚本</div>
    			   <div  ng-click="autoTextAreaHeight('gatewayScript')" class="btn btn-sm btn-primary">分支脚本</div>
    			   <div  ng-click="autoTextAreaHeight('nodeSkipScript')" class="btn btn-sm btn-primary">节点跳转</div>
    			   <div  ng-click="autoTextAreaHeight('formInitScript')" class="btn btn-sm btn-primary">表单初始化</div>
 		</div>
-		 </div>											
+		 </div>
 		<div data-options="region:'center'" title="【{{overallView.bpmDefinition.name}}】-【{{overallView.bpmDefinition.key}}】">
 			<div ng-include="'./overallViewContent0.html'"></div>
 		</div>
 	</body>
 </html>
 <style>
- .table {margin-bottom: 5px;}
+ .table {margin-bottom : 5px;}
  textarea{
  	max-width: 600px
  }
