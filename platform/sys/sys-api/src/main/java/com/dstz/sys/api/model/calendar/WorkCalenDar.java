@@ -1,11 +1,11 @@
-package com.dstz.sys.core.model;
+package com.dstz.sys.api.model.calendar;
+
+import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.dstz.base.api.model.IDModel;
 
-
-public class WorkCalenDar implements IDModel{
+public class WorkCalenDar implements Serializable{
 
 	//工作日
 	public static final String DAY_TYPE_WORKDAY = "DW";

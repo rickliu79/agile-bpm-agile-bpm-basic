@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.manager.impl.BaseManager;
+import com.dstz.sys.api.model.calendar.Schedule;
+import com.dstz.sys.api.model.calendar.ScheduleParticipant;
 import com.dstz.sys.core.dao.ScheduleDao;
 import com.dstz.sys.core.dao.ScheduleParticipantDao;
 import com.dstz.sys.core.manager.ScheduleManager;
-import com.dstz.sys.core.model.Schedule;
-import com.dstz.sys.core.model.ScheduleParticipant;
+
+import cn.hutool.core.lang.Assert;
 
 /**
  * 
@@ -93,6 +95,7 @@ public class ScheduleManagerImpl extends BaseManager<String, Schedule> implement
 	 * 获取实体
 	 */
     public Schedule get(String entityId){
+    	Assert.notBlank("日程 ID 不能为空！");
     	Schedule schedule=super.get(entityId);
     	List<ScheduleParticipant> scheduleParticipantList=scheduleParticipantDao.getScheduleParticipantList(entityId);
     	schedule.setScheduleParticipantList(scheduleParticipantList);

@@ -15,10 +15,7 @@
 					initParticipants[i].id = $scope.data.scheduleParticipantList[i].participantor;
 				} */
 				//------------用户选择框可选多人设置-----------------//
-			    var conf = {
-					selectNum:-1,
-					initData:[{name:"超级管理员",id:1}]
-				};
+			   
 				//-------------返回列表页------------------------//
 				$scope.returnToList = function() {
 					parent.location.reload()
@@ -33,12 +30,7 @@
 						participant.id = $scope.data.scheduleParticipantList[i].participantor;
 						initParticipants.push(participant);
 					}
-					var conf = {
-							selectNum:-1,
-							initData:initParticipants
-						};
-					conf.initData = initParticipants;
-					CustomDialog.openCustomDialog('userSelector',function(data,dialog){
+					CustUtil.openCustDialog('userSelector',function(data,dialog){
 						var participants = "";
 						for(var i = 0; i < data.length; i++) {
 							participants += data[i].name;
@@ -73,9 +65,9 @@
 						}
 						$scope.data.participantNames = participants;
 						$("#participant").val(participants);
-					    dialog.dialog('close');//关闭弹出框
+						$.Dialog.close(dialog);
 
-					},conf);
+					},initParticipants);
 				}
 				//--------改变日程类型时的校验：有参与者情况下不能变更为个人-------//
 				$scope.changeDjuge = function() {
@@ -275,7 +267,7 @@
 							<tr>
 							    <th>描述:</th>
 								<td>
-									<textarea  type="text"  cols="40" rows="2" ng-model="data.remark"   ab-validate="{required:false}" ></textarea>
+									<textarea  type="text" class="form-control"  rows="2" ng-model="data.remark"   ab-validate="{required:false}" ></textarea>
 								</td>		
 							</tr>
 				</table>

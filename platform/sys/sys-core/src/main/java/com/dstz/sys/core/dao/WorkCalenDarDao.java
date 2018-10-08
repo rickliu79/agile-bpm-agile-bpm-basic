@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.dstz.base.dao.BaseDao;
-import com.dstz.sys.core.model.WorkCalenDar;
+import com.dstz.sys.api.model.calendar.WorkCalenDar;
 
 /**
  * 

@@ -15,94 +15,9 @@
 	<packaging>war</packaging>
 	<description>提供主服务</description>
 
-	<build>
-
-		<finalName>agile-bpm-platform</finalName>
-
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-dependency-plugin</artifactId>
-										<versionRange>[2.0,)</versionRange>
-										<goals>
-											<goal>copy-dependencies</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<configuration>
-						<skip>true</skip>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-
-
-		<plugins>
-
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.4.2.v20170220</version>
-				<configuration>
-					<httpConnector>
-						<port>8080</port>
-					</httpConnector>
-
-					<webApp>
-						<contextPath>/agile-bpm-platform</contextPath>
-						<tempDirectory>${project.build.directory}/tmp</tempDirectory>
-					</webApp>
-
-					<classesDirectory>${project.build.outputDirectory}</classesDirectory>
-					<webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory>
-					<reload>manual</reload>
-
-					<contextHandlers>
-						<contextHandler
-							implementation="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
-							<contextPath>/bpm-explorer</contextPath>
-							<resourceBase>${project.basedir}/../bpm-explorer</resourceBase>
-						</contextHandler>
-					</contextHandlers>
-
-					<requestLog
-						implementation="org.eclipse.jetty.server.NCSARequestLog">
-						<filename>target/access.log</filename>
-						<retainDays>30</retainDays>
-						<append>true</append>
-						<extended>false</extended>
-						<logDateFormat>yyyy-MM-dd HH:mm:ss:SSS</logDateFormat>
-						<logTimeZone>GMT+8:00</logTimeZone>
-					</requestLog>
-				</configuration>
-			</plugin>
-
-		</plugins>
-	</build>
-
 	<properties>
 		<base.version>1.2.2-SNAPSHOT</base.version>
-		<bpm.version>1.2.4</bpm.version>
+		<bpm.version>1.2.5</bpm.version>
 		<bus-form.version>1.2.2-SNAPSHOT</bus-form.version>
 		<platform.version>1.2.2-SNAPSHOT</platform.version>
 	</properties>
@@ -126,7 +41,7 @@
 			<artifactId>bus-rest</artifactId>
 			<version>${bus-form.version}</version>
 		</dependency>
- 
+
 		<dependency>
 			<groupId>com.dstz.agilebpm</groupId>
 			<artifactId>form-rest</artifactId>
@@ -183,12 +98,94 @@
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
-		<!-- demo 模块   -->
+		<!-- demo 模块 -->
 		<dependency>
 			<groupId>com.dstz.demo</groupId>
 			<artifactId>demo-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 	</dependencies>
+
+	<build>
+		<finalName>agile-bpm-platform</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.0,)</versionRange>
+										<goals>
+											<goal>copy-dependencies</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.2.v20170220</version>
+				<configuration>
+					<httpConnector>
+						<port>8080</port>
+					</httpConnector>
+
+					<webApp>
+						<contextPath>/agile-bpm-platform</contextPath>
+						<tempDirectory>${project.build.directory}/tmp</tempDirectory>
+					</webApp>
+
+					<classesDirectory>${project.build.outputDirectory}</classesDirectory>
+					<webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory>
+					<reload>manual</reload>
+
+					<contextHandlers>
+						<contextHandler
+							implementation="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
+							<contextPath>/bpm-explorer</contextPath>
+							<resourceBase>${project.basedir}/../bpm-explorer</resourceBase>
+						</contextHandler>
+					</contextHandlers>
+
+					<requestLog
+						implementation="org.eclipse.jetty.server.NCSARequestLog">
+						<filename>target/access.log</filename>
+						<retainDays>30</retainDays>
+						<append>true</append>
+						<extended>false</extended>
+						<logDateFormat>yyyy-MM-dd HH:mm:ss:SSS</logDateFormat>
+						<logTimeZone>GMT+8:00</logTimeZone>
+					</requestLog>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
 </project>
