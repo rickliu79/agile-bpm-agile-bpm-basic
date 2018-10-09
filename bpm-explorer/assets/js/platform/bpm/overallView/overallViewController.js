@@ -104,6 +104,7 @@ overallViewApp.controller("overallViewController", [ '$scope', 'baseService', 'A
 			}
 			this.btn.isShow = true;
 		}
+		
 		//让每个格子高度适配
 		$scope.fixConfsHeight = function(){
 			var overallConfs = $(".overallConf");
@@ -121,43 +122,10 @@ overallViewApp.controller("overallViewController", [ '$scope', 'baseService', 'A
 					}
 					
 				});
-				
-				
 			}
-			
 			
 		}
-		//判断节点属性是否一致
-		$scope.getNodeIsSame = function(nodeConf,compareOverallView,path){
-			// 找到conf
-			var compareNode = null;
-			var nodeId = null;
-			for(var i=0,node;node = compareOverallView.nodeConfs[i++];){
-				if(node.nodeId===nodeConf.nodeId){
-					compareNode = node;
-					nodeId = node.nodeId;
-					break;
-				}
-			}
-			if(compareNode == null) return false;
-			
-			try {
-				var newVal = eval("nodeConf."+path);
-				var oldVal = eval("compareNode."+path);
-				
-				if(typeof newVal == "object" ){ newVal = JSON.stringify(newVal)};
-				if(typeof oldVal == "object" ){ oldVal = JSON.stringify(oldVal)};
-				
-				if(typeof  newVal == "string"){ newVal = newVal.trim(); };
-				if(typeof  oldVal == "string"){ oldVal = oldVal.trim(); };
-				if(newVal == undefined){ newVal = ""; };
-				if(oldVal == undefined){ oldVal = ""; };
-				
-				return newVal === oldVal;
-			} catch (e) {
-				return false;
-			}
-		}
+	 
 		
 		$scope.getIsSame = function(newObj,oldObj,path){
 			try {
@@ -170,6 +138,12 @@ overallViewApp.controller("overallViewController", [ '$scope', 'baseService', 'A
 				if(typeof  oldVal == "string"){
 					oldVal = oldVal.trim();
 				}
+				
+				if(typeof newVal == "object" ){ newVal = JSON.stringify(newVal)};
+				if(typeof oldVal == "object" ){ oldVal = JSON.stringify(oldVal)};
+				
+				if(typeof  newVal == "string"){ newVal = newVal.trim(); };
+				if(typeof  oldVal == "string"){ oldVal = oldVal.trim(); };
 				
 				if(newVal == undefined){ newVal = ""; }
 				if(oldVal == undefined){ oldVal = ""; }
