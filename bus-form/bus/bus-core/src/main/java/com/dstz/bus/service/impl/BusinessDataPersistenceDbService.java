@@ -37,7 +37,7 @@ import com.dstz.bus.service.BusinessDataPersistenceService;
  *
  */
 @Service
-@Transactional
+@Transactional(value = "abTransactionManager")
 public class BusinessDataPersistenceDbService implements BusinessDataPersistenceService {
 	@Autowired
 	BusinessTableManager businessTableManager;
@@ -60,7 +60,7 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 		if (!businessData.getBusTableRel().getBusObj().haveTableDbEditRights(businessData.getBusTableRel().getTableKey())) {
 			return;
 		}
-		
+
 		// 主表
 		if (BusTableRelType.MAIN.equalsWithKey(busTableRelType)) {
 			// 数据中的ID
@@ -89,11 +89,11 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 						businessData.put(fk.getFrom(), parBusinessData.get(fk.getValue()));
 					} else if (BusTableRelFkType.CHILD_FIELD.equalsWithKey(fk.getType())) {// 父外键对应当前字段，修改父数据
 						parBusinessData.put(fk.getValue(), businessData.get(fk.getFrom()));
-						//更新父级数据
+						// 更新父级数据
 						businessTableManager.newTableOperator(parBusinessData.getBusTableRel().getTable()).updateData(parBusinessData.getDbData());
 					}
 				}
-				
+
 				tableOperator.insertData(businessData.getDbData());
 			} else {// 更新
 				tableOperator.updateData(businessData.getDbData());
@@ -127,16 +127,16 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 						param.put(fk.getFrom(), fk.getValue());
 					} else if (BusTableRelFkType.PARENT_FIELD.equalsWithKey(fk.getType())) {// 对应父字段
 						param.put(fk.getFrom(), businessData.get(fk.getValue()));
-					}else if (BusTableRelFkType.CHILD_FIELD.equalsWithKey(fk.getType())) {// 父外键对应当前字段
-						//不需要删除旧数据
+					} else if (BusTableRelFkType.CHILD_FIELD.equalsWithKey(fk.getType())) {// 父外键对应当前字段
+						// 不需要删除旧数据
 					}
 				}
 				// 在子表中的原有数据
 				List<Map<String, Object>> oldDatas = new ArrayList<>();
-				if(!param.isEmpty()) {//不为空才去查旧数据
+				if (!param.isEmpty()) {// 不为空才去查旧数据
 					oldDatas = tableOperator.selectData(toDbMap(rel.getTable(), param));
 				}
-				
+
 				// 这是数据带过来的新数据
 				List<BusinessData> children = businessData.getChildren().computeIfAbsent(rel.getTableKey(), k -> new ArrayList<>());
 
@@ -177,8 +177,8 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 		}
 
 		Map<String, Object> data = businessTableManager.newTableOperatorCheckExist(businessTable).selectData(getReadableColumnName(busTableRel), id);
-		if(data == null) {
-			throw new BusinessException(String.valueOf(id),BusStatusCode.BUS_DATA_LOSE);
+		if (data == null) {
+			throw new BusinessException(String.valueOf(id), BusStatusCode.BUS_DATA_LOSE);
 		}
 		businessData.setDbData(data);
 
@@ -213,8 +213,8 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 					param.put(fk.getFrom(), fk.getValue());
 				} else if (BusTableRelFkType.PARENT_FIELD.equalsWithKey(fk.getType())) {// 对应父字段
 					param.put(fk.getFrom(), businessData.get(fk.getValue()));
-				}else if (BusTableRelFkType.CHILD_FIELD.equalsWithKey(fk.getType())) {// 父外键对应当前字段
-					param.put(fk.getFrom(), businessData.get(fk.getValue()));//跟上一个一样，但是还是在if中好操作点
+				} else if (BusTableRelFkType.CHILD_FIELD.equalsWithKey(fk.getType())) {// 父外键对应当前字段
+					param.put(fk.getFrom(), businessData.get(fk.getValue()));// 跟上一个一样，但是还是在if中好操作点
 				}
 			}
 			List<Map<String, Object>> dataMapList = businessTableManager.newTableOperatorCheckExist(table).selectData(getReadableColumnName(rel), toDbMap(table, param));

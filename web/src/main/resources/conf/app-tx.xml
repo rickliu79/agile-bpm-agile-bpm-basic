@@ -30,5 +30,17 @@
             <tx:method name="*" isolation="READ_COMMITTED"/>
         </tx:attributes>
     </tx:advice>
-
+	
+	<!-- ab 的bo操作支持多数据源的事务管理器 -->
+	<bean id="abTransactionManager" class="com.dstz.bus.service.impl.AbDataSourceTransactionManager"></bean>
+	<!-- ab的txAdvice -->
+	<tx:advice id="abTxAdvice" transaction-manager="abTransactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="is*" read-only="true"/>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="query*" read-only="true"/>
+            <tx:method name="*" isolation="READ_COMMITTED"/>
+        </tx:attributes>
+    </tx:advice>
 </beans>

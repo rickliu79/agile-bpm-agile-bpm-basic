@@ -1,12 +1,13 @@
 package com.dstz.base.db.datasource;
 
-import com.dstz.base.core.util.AppUtil;
-import com.dstz.base.core.util.StringUtil;
+import java.util.Map;
+
+import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.sql.DataSource;
-import java.util.Map;
+import com.dstz.base.core.util.AppUtil;
+import com.dstz.base.core.util.StringUtil;
 
 /**
  * 数据源工具。 可以动态添加删除数据源。
@@ -89,8 +90,8 @@ public class DataSourceUtil {
      */
     public static Map<String, DataSource> getDataSources() {
         DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(GLOBAL_DATASOURCE);
-        return dynamicDataSource.getDataSource();
-
+        Map<String, DataSource> map = dynamicDataSource.getDataSource();
+        return map;
     }
 
     /**
@@ -101,7 +102,7 @@ public class DataSourceUtil {
      * @throws IllegalAccessException
      * @throws NoSuchFieldException   DataSource
      */
-    private static DataSource getDataSourceByAlias(String alias) {
+    public static DataSource getDataSourceByAlias(String alias) {
         Map<String, DataSource> map = getDataSources();
         return map.get(alias);
     }
