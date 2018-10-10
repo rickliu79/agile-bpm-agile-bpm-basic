@@ -20,6 +20,7 @@ import org.springframework.transaction.support.DefaultTransactionStatus;
 import org.springframework.transaction.support.ResourceTransactionManager;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import com.dstz.base.core.util.ThreadMapUtil;
 import com.dstz.base.db.datasource.DataSourceUtil;
 
 /**
@@ -57,6 +58,14 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	}
 	
 	/**
+	 * 判断是否已存在事务
+	 */
+	@Override
+	protected boolean isExistingTransaction(Object transaction) {
+		return (boolean) ThreadMapUtil.getOrDefault("abTransactionManager", false);
+	}
+	
+	/**
 	 * <pre>
 	 * 准备事务，获取链接
 	 * </pre>
@@ -64,7 +73,6 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	@Override
 	protected void doBegin(Object transaction, TransactionDefinition definition) throws TransactionException {
 		Map<String, Connection> conMap = (Map<String, Connection>) transaction;
-		
 		Map<String, DataSource> dsMap = DataSourceUtil.getDataSources();
 		// 遍历系统中的所有数据源，打开连接
 		for (Entry<String, DataSource> entry : dsMap.entrySet()) {
@@ -86,7 +94,7 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				throw new CannotCreateTransactionException("数据源别名[" + entry.getKey() + "]打开连接错误", ex);
 			}
 		}
-
+		ThreadMapUtil.put("abTransactionManager", true);//标记ab事务管理器已经在线程内启动了
 	}
 
 	@Override
