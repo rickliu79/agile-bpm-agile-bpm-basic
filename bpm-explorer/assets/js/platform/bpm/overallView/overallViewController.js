@@ -8,7 +8,7 @@ overallViewApp.controller("overallViewController", [ '$scope', 'baseService', 'A
 			var param = {defId:defId};
 			var defer = baseService.postForm(__ctx+"/bpm/overallView/getOverallView",param);
 			$.getResultData(defer,function(data){
-				$scope.overallView = data;
+				$scope.overallView = data.defSetting;
 			});
 		}
 		if(defId){
@@ -318,7 +318,7 @@ overallViewApp.directive('abTrim', function() {
     		
     		scope.getBoCodes = function(){
     			var boCodes = "";
-    			for(var i=0,dm;dm= scope.$parent.bpmDefSetting.flow.dataModelList[i++];){
+    			for(var i=0,dm;dm= scope.$parent.overallView.flow.dataModelList[i++];){
     				if(boCodes){boCodes = boCodes + ","};
     				boCodes = boCodes + dm.code;
     			}
@@ -358,8 +358,8 @@ overallViewApp.directive('abTrim', function() {
 		    		<td>PC端</td>                                                                                                                                  \
 		    		<td>  {{bpmForm.name}}  </td>                                                                                                                  \
 		    		<td>                                                                                                                                           \
-		    			<a href="javascript:void(0);" class="btn btn-info btn-sm glyphicon glyphicon-search" ng-click="selectForm(true)"></a>                      \
-		    			<a href="javascript:void(0);" class="btn btn-info btn-sm glyphicon glyphicon-repeat" ng-click="clearForm(bpmForm)"></a>                    \
+		    			<a href="javascript:void(0);" class="btn btn-info btn-sm fa fa-search" ng-click="selectForm(true)"></a>                      \
+		    			<a href="javascript:void(0);" class="btn btn-info btn-sm fa fa-repeat" ng-click="clearForm(bpmForm)"></a>                    \
 		    		</td>                                                                                                                                          \
 		    	</tr>                                                                                                                                              \
 		    	<tr ng-if="bpmForm.type==\'FRAME\'">                                                                                                               \
@@ -371,8 +371,8 @@ overallViewApp.directive('abTrim', function() {
 		    		<td>移动端</td>                                                                                                                                \
 		    		<td>  {{mobileForm.name}} </td>                                                                                                                \
 		    		<td>                                                                                                                                           \
-		    			<a href="javascript:void(0);" class="btn btn-info btn-sm  glyphicon glyphicon-search" ng-click="selectForm(false)"></a>                    \
-		    			<a href="javascript:void(0);" class="btn btn-info btn-sm glyphicon glyphicon-repeat" ng-click="clearForm(mobileForm)"></a>                 \
+		    			<a href="javascript:void(0);" class="btn btn-info btn-sm  fa fa-search" ng-click="selectForm(false)"></a>                    \
+		    			<a href="javascript:void(0);" class="btn btn-info btn-sm fa fa-repeat" ng-click="clearForm(mobileForm)"></a>                 \
 		    		</td>									                                                                                                       \
 		    	</tr>                                                                                                                                              \
 		    	                                                                                                                                                   \
