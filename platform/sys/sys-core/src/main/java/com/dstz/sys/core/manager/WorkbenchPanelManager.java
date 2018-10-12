@@ -38,4 +38,8 @@ public interface WorkbenchPanelManager extends Manager<String, WorkbenchPanel> {
 
     List<WorkbenchPanel> getBylayoutKey(String layoutKey);
 
+	JSON getTestData();
+
+	JSON getPieData();
+
 }
