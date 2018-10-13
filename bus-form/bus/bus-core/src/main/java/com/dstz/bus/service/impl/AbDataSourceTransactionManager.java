@@ -20,8 +20,11 @@ import org.springframework.transaction.support.DefaultTransactionStatus;
 import org.springframework.transaction.support.ResourceTransactionManager;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.ThreadMapUtil;
 import com.dstz.base.db.datasource.DataSourceUtil;
+import com.dstz.base.db.datasource.DbContextHolder;
+import com.dstz.base.db.datasource.DynamicDataSource;
 
 /**
  * <pre>
@@ -35,7 +38,8 @@ import com.dstz.base.db.datasource.DataSourceUtil;
  * </pre>
  */
 public class AbDataSourceTransactionManager extends AbstractPlatformTransactionManager implements ResourceTransactionManager, InitializingBean {
-
+	private int i = 0;
+	
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		logger.debug("ab的事务管理器已就绪");
@@ -62,7 +66,20 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	 */
 	@Override
 	protected boolean isExistingTransaction(Object transaction) {
-		return (boolean) ThreadMapUtil.getOrDefault("abTransactionManager", false);
+		return (boolean) ThreadMapUtil.getOrDefault("abTransactionManagerExist", false);
+	}
+	
+	/**
+	 * <pre>
+	 * 必须实现的一个方法，设置线程内的事务为回滚状态。
+	 * 这里其实是为了预防传播性设置为 让线程内可以多次管理器操作的情况下，用来通知大家不要只做回滚，别commit了。
+	 * 在该事务管理器只支持PROPAGATION_REQUIRED 的情况下（线程只有一个管理器操作），没多大用，只是必须要实现这个
+	 * 不然抽象类那里会有报错代码。
+	 * </pre>
+	 */
+	@Override
+	protected void doSetRollbackOnly(DefaultTransactionStatus status) {
+		ThreadMapUtil.put("abTransactionManagerRollbackOnly", true);//标记ab事务管理器在线程内已准备要回滚了
 	}
 	
 	/**
@@ -72,6 +89,8 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	 */
 	@Override
 	protected void doBegin(Object transaction, TransactionDefinition definition) throws TransactionException {
+		logger.debug("分布式事务开始:"+i);
+		
 		Map<String, Connection> conMap = (Map<String, Connection>) transaction;
 		Map<String, DataSource> dsMap = DataSourceUtil.getDataSources();
 		// 遍历系统中的所有数据源，打开连接
@@ -87,6 +106,13 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				} else {
 					con = conHolder.getConnection();
 				}
+				
+				//系统数据源放进资源里
+				if(DbContextHolder.getDataSource().equals(entry.getKey())) {
+					DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
+					TransactionSynchronizationManager.bindResource(dynamicDataSource, new ConnectionHolder(con));
+				}
+				
 				conMap.put(entry.getKey(), con);
 				logger.debug("数据源别名[" + entry.getKey() + "]打开连接成功");
 			} catch (Throwable ex) {
@@ -94,7 +120,8 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				throw new CannotCreateTransactionException("数据源别名[" + entry.getKey() + "]打开连接错误", ex);
 			}
 		}
-		ThreadMapUtil.put("abTransactionManager", true);//标记ab事务管理器已经在线程内启动了
+		
+		ThreadMapUtil.put("abTransactionManagerExist", true);//标记ab事务管理器已经在线程内启动了
 	}
 
 	@Override
@@ -109,6 +136,7 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				throw new TransactionSystemException("数据源别名[" + entry.getKey() + "]提交事务失败", ex);
 			}
 		}
+		logger.debug("分布式事务提交:"+i);
 	}
 	
 	/**
@@ -126,6 +154,7 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				throw new TransactionSystemException("数据源别名[" + entry.getKey() + "]回滚事务失败", ex);
 			}
 		}
+		logger.debug("分布式事务回滚:"+i);
 	}
 	
 	/**
@@ -140,5 +169,15 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 			DataSourceUtils.releaseConnection(entry.getValue(), dataSource);
 			logger.debug("数据源别名[" + entry.getKey() + "]关闭链接成功");
 		}
+		
+		//最后把本地资源也释放了
+		DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
+		TransactionSynchronizationManager.unbindResource(dynamicDataSource);
+		
+		ThreadMapUtil.remove("abTransactionManagerExist");
+		ThreadMapUtil.remove("abTransactionManagerRollbackOnly");
+		ThreadMapUtil.remove();
+		
+		logger.debug("分布式事务释放:"+(i++));
 	}
 }

@@ -16,7 +16,7 @@ import java.util.function.Function;
  */
 public class ThreadMapUtil {
 	private static ThreadLocal<Map<String, Object>> threadLocalMap = new ThreadLocal<>();
-
+	
 	private ThreadMapUtil() {
 
 	}
@@ -40,8 +40,20 @@ public class ThreadMapUtil {
 
 	public static void remove(String key) {
 		map().remove(key);
+		if(map().isEmpty()) {
+			threadLocalMap.remove();
+		}
 	}
-
+	
+	/**
+	 * <pre>
+	 * 清除线程变量
+	 * </pre>
+	 */
+	public static void remove() {
+		threadLocalMap.remove();
+	}
+	
 	public static Object getOrDefault(String key, Object defaultValue) {
 		return map().getOrDefault(key, defaultValue);
 	}

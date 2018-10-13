@@ -91,7 +91,6 @@ public class DataSourceUtil {
     public static Map<String, DataSource> getDataSources() {
         DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(GLOBAL_DATASOURCE);
         Map<String, DataSource> map = dynamicDataSource.getDataSource();
-        map.put(GLOBAL_DATASOURCE, dynamicDataSource);//加入本地数据源
         return map;
     }
 
