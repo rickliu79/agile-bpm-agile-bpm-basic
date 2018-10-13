@@ -89,7 +89,7 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	 */
 	@Override
 	protected void doBegin(Object transaction, TransactionDefinition definition) throws TransactionException {
-		logger.debug("分布式事务开始:"+i);
+		logger.info("分布式事务开始:"+i);
 		
 		Map<String, Connection> conMap = (Map<String, Connection>) transaction;
 		Map<String, DataSource> dsMap = DataSourceUtil.getDataSources();
@@ -136,7 +136,7 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				throw new TransactionSystemException("数据源别名[" + entry.getKey() + "]提交事务失败", ex);
 			}
 		}
-		logger.debug("分布式事务提交:"+i);
+		logger.info("分布式事务提交:"+i);
 	}
 	
 	/**
@@ -154,7 +154,7 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				throw new TransactionSystemException("数据源别名[" + entry.getKey() + "]回滚事务失败", ex);
 			}
 		}
-		logger.debug("分布式事务回滚:"+i);
+		logger.info("分布式事务回滚:"+i);
 	}
 	
 	/**
@@ -178,6 +178,6 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 		ThreadMapUtil.remove("abTransactionManagerRollbackOnly");
 		ThreadMapUtil.remove();
 		
-		logger.debug("分布式事务释放:"+(i++));
+		logger.info("分布式事务释放:"+(i++));
 	}
 }
