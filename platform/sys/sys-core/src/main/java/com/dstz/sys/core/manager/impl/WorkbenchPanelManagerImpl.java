@@ -94,7 +94,6 @@ public class WorkbenchPanelManagerImpl extends BaseManager<String, WorkbenchPane
 
         String[] aryHandler = dataSource.split("[.]");
         if (aryHandler == null || aryHandler.length != 2) throw new RuntimeException("自定义对话框数据服务接口格式不正确！" + dataSource);
-        ;
 
         String beanId = aryHandler[0];
         String method = aryHandler[1];
@@ -149,6 +148,7 @@ public class WorkbenchPanelManagerImpl extends BaseManager<String, WorkbenchPane
      *
      * @return
      */
+    @Override
     public JSON getTestData() {
 
         String json = "[[\"product\", \"纯牛奶\", \"咖啡\", \"矿泉水\"]," // 产品项
@@ -164,6 +164,7 @@ public class WorkbenchPanelManagerImpl extends BaseManager<String, WorkbenchPane
      *
      * @return
      */
+    @Override
     public JSON getPieData() {
         String json = "[[\"纯牛奶\"," + getRandomInt() + "]," // 产品项
                 + "[\"咖啡\"," + getRandomInt() + "],"

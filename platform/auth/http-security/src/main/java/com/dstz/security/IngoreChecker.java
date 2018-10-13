@@ -27,6 +27,9 @@ public class IngoreChecker {
      * @return
      */
     public boolean isIngores(String requestUrl) {
+    	// 会再跳转 index.html 所以直接忽略
+    	if("/".equals(requestUrl))return true;
+    	
         for (Pattern pattern : ingores) {
             Matcher regexMatcher = pattern.matcher(requestUrl);
             if (regexMatcher.find()) {
