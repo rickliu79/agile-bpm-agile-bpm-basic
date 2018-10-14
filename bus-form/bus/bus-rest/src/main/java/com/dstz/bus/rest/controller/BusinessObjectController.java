@@ -65,7 +65,7 @@ public class BusinessObjectController extends BaseController<BusinessObject> {
 	@Override
 	 public ResultMsg<String> save(@RequestBody BusinessObject businessObject) throws Exception {
 		 ResultMsg<String> resultMsg= super.save(businessObject);
-		 BusinessObjectCacheUtil.putDataSourcesKeys(businessObject.getKey(), businessObject.calDataSourceKeys());
+		 BusinessObjectCacheUtil.putDataSourcesKeys(businessObject.getKey(), businessObjectManager.getFilledByKey(businessObject.getKey()).calDataSourceKeys());
 		 return resultMsg;
 	 }
 	
