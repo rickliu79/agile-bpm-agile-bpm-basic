@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -38,8 +39,20 @@ import com.dstz.base.db.datasource.DynamicDataSource;
  * </pre>
  */
 public class AbDataSourceTransactionManager extends AbstractPlatformTransactionManager implements ResourceTransactionManager, InitializingBean {
+	/**
+	 * 事务标记为回滚的标记
+	 */
+	private static final String AB_TRANSACTION_MANAGER_ROLLBACK_ONLY = "abTransactionManagerRollbackOnly";
+	/**
+	 * 事务已在线程内存在的标记
+	 */
+	public static final String AB_TRANSACTION_MANAGER_EXIST = "abTransactionManagerExist";
+	/**
+	 * 分布式事务管理器需要保护的数据库keys
+	 */
+	public static final String AB_TRANSACTION_MANAGER_DATASOURCE_KEYS = "abTransactionManagerDataSourceKeys";
 	private int i = 0;
-	
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		logger.debug("ab的事务管理器已就绪");
@@ -60,15 +73,15 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	protected Object doGetTransaction() {
 		return new HashMap<String, Connection>();
 	}
-	
+
 	/**
 	 * 判断是否已存在事务
 	 */
 	@Override
 	protected boolean isExistingTransaction(Object transaction) {
-		return (boolean) ThreadMapUtil.getOrDefault("abTransactionManagerExist", false);
+		return (boolean) ThreadMapUtil.getOrDefault(AB_TRANSACTION_MANAGER_EXIST, false);
 	}
-	
+
 	/**
 	 * <pre>
 	 * 必须实现的一个方法，设置线程内的事务为回滚状态。
@@ -79,9 +92,9 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	 */
 	@Override
 	protected void doSetRollbackOnly(DefaultTransactionStatus status) {
-		ThreadMapUtil.put("abTransactionManagerRollbackOnly", true);//标记ab事务管理器在线程内已准备要回滚了
+		ThreadMapUtil.put(AB_TRANSACTION_MANAGER_ROLLBACK_ONLY, true);// 标记ab事务管理器在线程内已准备要回滚了
 	}
-	
+
 	/**
 	 * <pre>
 	 * 准备事务，获取链接
@@ -89,12 +102,17 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	 */
 	@Override
 	protected void doBegin(Object transaction, TransactionDefinition definition) throws TransactionException {
-		logger.info("分布式事务开始:"+i);
-		
+		logger.info("分布式事务开始:" + i);
+
+		Set<String> dsKeys = (Set<String>) ThreadMapUtil.get(AB_TRANSACTION_MANAGER_DATASOURCE_KEYS);
 		Map<String, Connection> conMap = (Map<String, Connection>) transaction;
 		Map<String, DataSource> dsMap = DataSourceUtil.getDataSources();
 		// 遍历系统中的所有数据源，打开连接
 		for (Entry<String, DataSource> entry : dsMap.entrySet()) {
+			if (!dsKeys.contains(entry.getKey())) {// 跳过不需要保护的数据源别名
+				continue;
+			}
+
 			Connection con = null;
 			try {
 				ConnectionHolder conHolder = (ConnectionHolder) TransactionSynchronizationManager.getResource(entry.getValue());
@@ -106,13 +124,7 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				} else {
 					con = conHolder.getConnection();
 				}
-				
-				//系统数据源放进资源里
-				if(DbContextHolder.getDataSource().equals(entry.getKey())) {
-					DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
-					TransactionSynchronizationManager.bindResource(dynamicDataSource, new ConnectionHolder(con));
-				}
-				
+
 				conMap.put(entry.getKey(), con);
 				logger.debug("数据源别名[" + entry.getKey() + "]打开连接成功");
 			} catch (Throwable ex) {
@@ -120,8 +132,30 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				throw new CannotCreateTransactionException("数据源别名[" + entry.getKey() + "]打开连接错误", ex);
 			}
 		}
-		
-		ThreadMapUtil.put("abTransactionManagerExist", true);//标记ab事务管理器已经在线程内启动了
+
+		/**
+		 * <pre>
+		 * 处理本地数据源。
+		 * 其逻辑，是如果本地数据源已有链接放到conMap中；如果没有，则新建链接，把key为GLOBAL_DATASOURCE放到conMap中
+		 * 然后再把数据源链接绑定到TransactionSynchronizationManager中
+		 * </pre>
+		 */
+		Connection con = conMap.get(DbContextHolder.getDataSource());
+		DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
+		if (con == null) {
+			try {
+				con = dynamicDataSource.getConnection();
+				con.setAutoCommit(false);
+				logger.debug("数据源别名[" + DbContextHolder.getDataSource() + "]打开连接成功");
+			} catch (SQLException e) {
+				doCleanupAfterCompletion(conMap);
+				throw new CannotCreateTransactionException("数据源别名[" + DbContextHolder.getDataSource() + "]打开连接错误", e);
+			}
+			conMap.put(DataSourceUtil.GLOBAL_DATASOURCE, con);
+		}
+		TransactionSynchronizationManager.bindResource(dynamicDataSource, new ConnectionHolder(con));
+
+		ThreadMapUtil.put(AB_TRANSACTION_MANAGER_EXIST, true);// 标记ab事务管理器已经在线程内启动了
 	}
 
 	@Override
@@ -136,9 +170,9 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				throw new TransactionSystemException("数据源别名[" + entry.getKey() + "]提交事务失败", ex);
 			}
 		}
-		logger.info("分布式事务提交:"+i);
+		logger.info("分布式事务提交:" + i);
 	}
-	
+
 	/**
 	 * 回滚
 	 */
@@ -154,30 +188,36 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				throw new TransactionSystemException("数据源别名[" + entry.getKey() + "]回滚事务失败", ex);
 			}
 		}
-		logger.info("分布式事务回滚:"+i);
+		logger.info("分布式事务回滚:" + i);
 	}
-	
+
 	/**
 	 * 回收链接
 	 */
 	@Override
 	protected void doCleanupAfterCompletion(Object transaction) {
+		// 释放线程变量
+		ThreadMapUtil.remove(AB_TRANSACTION_MANAGER_EXIST);
+		ThreadMapUtil.remove(AB_TRANSACTION_MANAGER_ROLLBACK_ONLY);
+		ThreadMapUtil.remove(AB_TRANSACTION_MANAGER_DATASOURCE_KEYS);
+		
+		DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
 		Map<String, Connection> conMap = (Map<String, Connection>) transaction;
 		for (Entry<String, Connection> entry : conMap.entrySet()) {
 			DataSource dataSource = DataSourceUtil.getDataSourceByAlias(entry.getKey());
+			if (DataSourceUtil.GLOBAL_DATASOURCE.equals(entry.getKey())) {
+				dataSource = dynamicDataSource;
+			}
 			TransactionSynchronizationManager.unbindResource(dataSource);
 			DataSourceUtils.releaseConnection(entry.getValue(), dataSource);
 			logger.debug("数据源别名[" + entry.getKey() + "]关闭链接成功");
 		}
 		
-		//最后把本地资源也释放了
-		DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
-		TransactionSynchronizationManager.unbindResource(dynamicDataSource);
+		if(!conMap.containsKey(DataSourceUtil.GLOBAL_DATASOURCE)) {//处理一下本地数据源
+			TransactionSynchronizationManager.unbindResource(dynamicDataSource);
+		}
 		
-		ThreadMapUtil.remove("abTransactionManagerExist");
-		ThreadMapUtil.remove("abTransactionManagerRollbackOnly");
-		ThreadMapUtil.remove();
-		
-		logger.info("分布式事务释放:"+(i++));
+		logger.info("分布式事务释放:" + (i++));
 	}
+
 }

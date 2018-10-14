@@ -1,5 +1,8 @@
 package com.dstz.bus.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.dstz.base.core.model.BaseModel;
@@ -148,7 +151,7 @@ public class BusinessObject extends BaseModel implements IBusinessObject {
 	public boolean haveTableDbEditRights(String tableKey) {
 		return haveTableDbRights(true, tableKey);
 	}
-	
+
 	@Override
 	public boolean haveTableDbReadRights(String tableKey) {
 		return haveTableDbRights(false, tableKey);
@@ -197,7 +200,7 @@ public class BusinessObject extends BaseModel implements IBusinessObject {
 			return rightsType.isDbReadable();
 		}
 	}
-	
+
 	/**
 	 * <pre>
 	 * 判断某个表有没有数据库某权限
@@ -214,14 +217,14 @@ public class BusinessObject extends BaseModel implements IBusinessObject {
 			BusTablePermission tablePermission = this.permission.getTableMap().get(tableKey);// 获取表权限
 			if (tablePermission != null) {
 				for (BusinessColumn column : this.relation.find(tableKey).getTable().getColumnsWithoutPk()) {
-					if (isEdit&&haveColumnDbEditRights(tableKey, column.getKey())) {// 有一个字段有编辑权限则结束了
+					if (isEdit && haveColumnDbEditRights(tableKey, column.getKey())) {// 有一个字段有编辑权限则结束了
 						return true;
 					}
-					if (!isEdit&&haveColumnDbReadRights(tableKey, column.getKey())) {// 有一个字段有读取权限则结束了
+					if (!isEdit && haveColumnDbReadRights(tableKey, column.getKey())) {// 有一个字段有读取权限则结束了
 						return true;
 					}
 				}
-				return false;//字段没权限，那表才算没有权限
+				return false;// 字段没权限，那表才算没有权限
 			}
 		}
 		if (isEdit) {
@@ -229,5 +232,14 @@ public class BusinessObject extends BaseModel implements IBusinessObject {
 		} else {
 			return RightsType.getDefalut().isDbReadable();
 		}
+	}
+	
+	@Override
+	public Set<String> calDataSourceKeys() {
+		Set<String> keys = new HashSet<>();
+		for(BusTableRel rel:relation.list()) {
+			keys.add(rel.getTable().getDsKey());
+		}
+		return keys;
 	}
 }

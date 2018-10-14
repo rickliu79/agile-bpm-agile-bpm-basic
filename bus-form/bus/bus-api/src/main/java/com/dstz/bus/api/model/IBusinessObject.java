@@ -1,5 +1,7 @@
 package com.dstz.bus.api.model;
 
+import java.util.Set;
+
 import com.dstz.bus.api.model.permission.IBusObjPermission;
 
 /**
@@ -108,4 +110,12 @@ public interface IBusinessObject {
 	 * @return
 	 */
 	boolean haveColumnDbReadRights(String tableKey, String columnKey);
+	
+	/**
+	 * <pre>
+	 * 计算出这个Bo用到的所有数据源别名
+	 * </pre>	
+	 * @return
+	 */
+	Set<String> calDataSourceKeys();
 }

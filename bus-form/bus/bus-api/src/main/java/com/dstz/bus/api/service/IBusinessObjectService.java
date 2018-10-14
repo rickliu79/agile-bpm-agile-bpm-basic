@@ -1,6 +1,7 @@
 package com.dstz.bus.api.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.bus.api.model.IBusinessObject;
@@ -37,4 +38,12 @@ public interface IBusinessObjectService {
 	List<JSONObject> boTreeData(String key);
 	
 	IBusinessObject getFilledByKey(String key);
+	
+	/**
+	 * <pre>
+	 * 为分布式事务作准备，主要是计算出bo中使用的数据源
+	 * </pre>	
+	 * @param boKeys
+	 */
+	void prepareForAbTransaction(Set<String> boKeys);
 }

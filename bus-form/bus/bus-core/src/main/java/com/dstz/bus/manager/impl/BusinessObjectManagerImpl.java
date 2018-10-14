@@ -25,7 +25,6 @@ import com.dstz.bus.model.BusinessColumn;
 import com.dstz.bus.model.BusinessObject;
 import com.dstz.bus.model.BusinessTable;
 import com.dstz.bus.service.BusinessPermissionService;
-import com.dstz.form.api.service.FormService;
 
 /**
  * BusinessObject 的manager层实现类
@@ -160,5 +159,4 @@ public class BusinessObjectManagerImpl extends BaseManager<String, BusinessObjec
 		
 		super.remove(entityId);
 	}
-
 }

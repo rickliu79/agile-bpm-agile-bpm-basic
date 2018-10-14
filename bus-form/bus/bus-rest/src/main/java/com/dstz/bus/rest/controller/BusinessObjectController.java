@@ -4,15 +4,18 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
+import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.BaseController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.bus.manager.BusinessObjectManager;
 import com.dstz.bus.model.BusinessObject;
+import com.dstz.bus.util.BusinessObjectCacheUtil;
 
 /**
  * <pre>
@@ -58,7 +61,14 @@ public class BusinessObjectController extends BaseController<BusinessObject> {
 
 		writeSuccessData(response, object);
 	}
-
+	
+	@Override
+	 public ResultMsg<String> save(@RequestBody BusinessObject businessObject) throws Exception {
+		 ResultMsg<String> resultMsg= super.save(businessObject);
+		 BusinessObjectCacheUtil.putDataSourcesKeys(businessObject.getKey(), businessObject.calDataSourceKeys());
+		 return resultMsg;
+	 }
+	
 	@Override
 	protected String getModelDesc() {
 		return "业务对象";

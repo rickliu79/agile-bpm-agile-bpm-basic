@@ -1,7 +1,9 @@
 package com.dstz.bus.service;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.core.util.AppUtil;
@@ -50,6 +52,12 @@ public class BusinessDataPersistenceServiceFactory {
 	public static void saveData(BusinessData businessData) {
 		BusinessObject businessObject = businessData.getBusTableRel().getBusObj();
 		BusinessDataPersistenceService businessDataPersistenceService = getService(businessObject.getPersistenceType());
+		
+		//为进入事务前做准备
+		Set<String> set = new HashSet<>();
+		set.add(businessObject.getKey());
+		AppUtil.getBean(BusinessObjectService.class).prepareForAbTransaction(set);
+		
 		businessDataPersistenceService.saveData(businessData);
 	}
 
