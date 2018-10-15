@@ -48,7 +48,7 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 		return BusinessObjectPersistenceType.DB.getKey();
 	}
 
-	@Transactional(value = "abTransactionManager")
+//	@Transactional(value = "abTransactionManager")
 	@Override
 	public void saveData(BusinessData businessData) {
 		// 获取当前表的数据库操作者
