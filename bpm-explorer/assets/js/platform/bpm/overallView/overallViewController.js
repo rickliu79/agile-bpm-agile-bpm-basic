@@ -305,10 +305,10 @@ overallViewApp.directive('abTrim', function() {
     			var objVal = type;
     			var objName = type == "global"?"全局":"实例";
     			if(type==="node"){
-    				objVal = scope.$parent.selectedItem.nodeId;
-    				objName = scope.$parent.selectedItem.title;
+    				objVal = scope.$parent.nodeConf.nodeId;
+    				objName = scope.$parent.nodeConf.nodeName;
     			}
-    			objVal = scope.$parent.bpmDefSetting.bpmDefinition.key + "-" + objVal;
+    			objVal = scope.$parent.overallView.bpmDefinition.key + "-" + objVal;
     			
     			var url = '/bus/businessPermission/businessPermissionEdit.html?objType=flow&objVal='+objVal+'&boKeys=' + boCodes;
     			var def = { title : objName+"授权", width : 800, height : 600, modal : true, resizable : true};
