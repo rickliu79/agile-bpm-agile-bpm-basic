@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.PropertyUtil;
 import com.dstz.base.db.api.table.DbType;
+import com.dstz.base.db.datasource.DbContextHolder;
 
 /**
  * <pre>
@@ -43,6 +44,6 @@ public class DbOperatorFactory {
      * @return
      */
     public static DbOperator getLocal() {
-    	return newOperator(PropertyUtil.getJdbcType(), AppUtil.getBean(JdbcTemplate.class));
+    	return newOperator(DbContextHolder.getDbType(), AppUtil.getBean(JdbcTemplate.class));
     }
 }

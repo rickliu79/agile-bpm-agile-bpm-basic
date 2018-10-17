@@ -117,6 +117,10 @@ public class PropertyUtil {
      */
     public static String getJdbcType() {
         String str = getProperty("jdbc.dbType");
+        if(StringUtil.isEmpty(str)) {
+        	str = getProperty("spring.datasource.dbType");
+        }
+        
         return str;
     }
     
