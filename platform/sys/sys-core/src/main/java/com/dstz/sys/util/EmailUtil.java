@@ -16,9 +16,6 @@ import cn.hutool.extra.mail.MailUtil;
  * </pre>
  */
 public class EmailUtil {
-	private EmailUtil() {
-
-	}
 
 	private static MailAccount account;
 
@@ -38,23 +35,32 @@ public class EmailUtil {
 		MailUtil.send(account(), CollUtil.newArrayList(email), subject, content, true);
 	}
 	
-	private static MailAccount account() {
-		if (account == null) {
-			account = new MailAccount();
-
-			String host = PropertyUtil.getProperty("mail.host");
-			int port = PropertyUtil.getIntProperty("mail.port");
-			boolean isSSL = PropertyUtil.getBoolProperty("mail.ssl");
-			String user = PropertyUtil.getProperty("mail.nickName");
-			String from = PropertyUtil.getProperty("mail.address");
-			String pass = PropertyUtil.getProperty("mail.password");
-			account.setHost(host);
-			account.setPort(port);
-			account.setFrom(from);
-			account.setUser(user);
-			account.setPass(pass);
-			account.setSslEnable(isSSL);
-		}
-		return account;
+	private static  MailAccount account() {
+		if(account != null) return account;
+		
+		MailAccount mailAccount = new MailAccount();
+		String host = PropertyUtil.getProperty("mail.host");
+		int port = PropertyUtil.getIntProperty("mail.port");
+		boolean isSSL = PropertyUtil.getBoolProperty("mail.ssl");
+		String user = PropertyUtil.getProperty("mail.nickName");
+		String from = PropertyUtil.getProperty("mail.address");
+		String pass = PropertyUtil.getProperty("mail.password");
+		mailAccount.setHost(host);
+		mailAccount.setPort(port);
+		mailAccount.setFrom(from);
+		mailAccount.setUser(user);
+		mailAccount.setPass(pass);
+		mailAccount.setSslEnable(isSSL);
+		
+		setAccount(mailAccount);
+		return mailAccount;
+	}
+	
+	/**
+	 * spring boot项目启动的时候设置参数
+	 * @param account
+	 */
+	public static void setAccount(MailAccount account) {
+		EmailUtil.account = account;
 	}
 }

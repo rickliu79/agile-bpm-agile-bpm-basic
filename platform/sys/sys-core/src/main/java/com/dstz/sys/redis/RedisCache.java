@@ -20,25 +20,26 @@ public class RedisCache<T extends Object> implements ICache<T> {
 
     @Override
     public synchronized void add(String key, T obj) {
-        logger.info("key=" + key);
         redisService.set(key, obj);
+        logger.info("redis add " + key);
     }
 
     @Override
     public synchronized void add(String key, T obj, int timeout) {
-        logger.info("key=" + key);
         redisService.set(key, obj, timeout);
+        logger.info("redis add " + key+" timeout "+ timeout);
     }
 
     @Override
     public synchronized void delByKey(String key) {
-        logger.info("key=" + key);
         redisService.del(key);
+        logger.info("redis delByKey " + key);
     }
 
     @Override
     public void clearAll() {
         redisService.flushDB();
+        logger.info("redis flushDB");
     }
 
     @Override
