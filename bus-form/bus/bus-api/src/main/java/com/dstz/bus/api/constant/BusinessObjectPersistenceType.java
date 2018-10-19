@@ -16,7 +16,7 @@ public enum BusinessObjectPersistenceType {
 	/**
 	 * 实例表
 	 */
-	INST("inst", "实例表");
+	INST("inst", "实例表-暂不支持");
 	private String key;
 	private String desc;
 
