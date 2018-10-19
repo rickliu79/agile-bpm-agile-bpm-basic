@@ -13,14 +13,16 @@ CREATE TABLE `org_user` (
   `mobile_` varchar(32) DEFAULT NULL COMMENT '手机号码',
   `weixin_` varchar(64) DEFAULT NULL COMMENT '微信号',
   `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   `address_` varchar(512) DEFAULT NULL COMMENT '地址',
   `photo_` varchar(255) DEFAULT NULL COMMENT '头像',
   `sex_` varchar(10) DEFAULT NULL COMMENT '性别：男，女，未知',
   `from_` varchar(64) DEFAULT NULL COMMENT '来源',
   `status_` int(11) NOT NULL DEFAULT '1' COMMENT '0:禁用，1正常',
   PRIMARY KEY (`id_`)
-)  ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='用户表';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Table structure for org_role
@@ -32,9 +34,12 @@ CREATE TABLE `org_role` (
   `alias_` varchar(64) NOT NULL COMMENT '英文别名',
   `enabled_` int(11) NOT NULL DEFAULT '1' COMMENT '0：禁用，1：启用',
   `description` varchar(200) NOT NULL COMMENT '描述',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`)
-)  ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='角色管理';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色管理';
 -- ----------------------------
 -- Table structure for org_group
 -- ----------------------------
@@ -47,8 +52,13 @@ CREATE TABLE `org_group` (
   `code_` varchar(64) NOT NULL,
   `grade_` varchar(64) DEFAULT NULL COMMENT '级别',
   `desc_` varchar(500) DEFAULT NULL,
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='组织架构';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织架构';
+
 
 -- ----------------------------
 -- Table structure for org_group_reldef
@@ -60,8 +70,14 @@ CREATE TABLE `org_group_reldef` (
   `code_` varchar(64) NOT NULL COMMENT '编码',
   `post_level_` varchar(64) DEFAULT NULL COMMENT '职务级别',
   `description_` varchar(500) DEFAULT NULL COMMENT '描述',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='组织关系定义';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织关系定义';
+
+
 -- ----------------------------
 -- Table structure for org_group_rel
 -- ----------------------------
@@ -73,12 +89,16 @@ CREATE TABLE `org_group_rel` (
   `rel_name_` varchar(64) DEFAULT NULL COMMENT '岗位名称',
   `rel_code_` varchar(64) DEFAULT NULL COMMENT '岗位编码',
   `rel_def_name_` varchar(64) DEFAULT NULL COMMENT '职务名称',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`),
   KEY `FK_reference_19` (`rel_def_id_`) USING BTREE,
   KEY `FK_reference_20` (`group_id_`) USING BTREE,
   CONSTRAINT `org_group_rel_ibfk_1` FOREIGN KEY (`group_id_`) REFERENCES `org_group` (`id_`) ON DELETE CASCADE,
   CONSTRAINT `org_group_rel_ibfk_2` FOREIGN KEY (`rel_def_id_`) REFERENCES `org_group_reldef` (`id_`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='组织关联关系';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织关联关系';
 
 
 -- ----------------------------
@@ -91,6 +111,10 @@ CREATE TABLE `org_group_user` (
   `user_id_` varchar(64) NOT NULL,
   `is_master_` int(11) NOT NULL DEFAULT '0' COMMENT '0:非主部门，1：主部门',
   `rel_id_` varchar(64) DEFAULT NULL,
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`),
   KEY `FK_reference_21` (`user_id_`) USING BTREE,
   KEY `FK_reference_22` (`group_id_`) USING BTREE,
@@ -98,7 +122,8 @@ CREATE TABLE `org_group_user` (
   CONSTRAINT `org_group_user_ibfk_1` FOREIGN KEY (`rel_id_`) REFERENCES `org_group_rel` (`id_`) ON DELETE CASCADE,
   CONSTRAINT `org_group_user_ibfk_2` FOREIGN KEY (`user_id_`) REFERENCES `org_user` (`id_`) ON DELETE CASCADE,
   CONSTRAINT `org_group_user_ibfk_3` FOREIGN KEY (`group_id_`) REFERENCES `org_group` (`id_`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='用户组织关系';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户组织关系';
+
 
 -- ----------------------------
 -- Table structure for org_user_role
@@ -108,12 +133,16 @@ CREATE TABLE `org_user_role` (
   `id_` varchar(64) NOT NULL,
   `role_id_` varchar(64) NOT NULL,
   `user_id_` varchar(64) NOT NULL,
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`),
   KEY `FK_reference_user_role` (`role_id_`) USING BTREE,
   KEY `FK_reference_userrole_user` (`user_id_`) USING BTREE,
   CONSTRAINT `org_user_role_ibfk_1` FOREIGN KEY (`user_id_`) REFERENCES `org_user` (`id_`) ON DELETE CASCADE,
   CONSTRAINT `org_user_role_ibfk_2` FOREIGN KEY (`role_id_`) REFERENCES `org_role` (`id_`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='用户角色管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色管理';
 
 
 -- -----常用脚本，流水号，子系统，菜单资源，通用授权，面板，系统属性，数据字典等功能表
@@ -193,13 +222,15 @@ CREATE TABLE `sys_log_err` (
   `id_` varchar(50) NOT NULL COMMENT '主键',
   `ACCOUNT_` varchar(20) DEFAULT NULL COMMENT '帐号',
   `IP_` varchar(20) DEFAULT NULL COMMENT 'IP来源',
+  `ip_address_` varchar(255) DEFAULT NULL COMMENT 'IP地址',
+  `status_` varchar(64) DEFAULT NULL COMMENT '状态：unchecked，checked，fixed',
   `URL_` varchar(1500) DEFAULT NULL COMMENT '错误URL',
   `CONTENT_` text COMMENT '出错信息',
+  `request_param_` text COMMENT '请求参数',
   `CREATE_TIME_` datetime DEFAULT NULL COMMENT '出错时间',
   `stack_trace_` longtext COMMENT '出错异常堆栈',
   PRIMARY KEY (`id_`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
-
 -- ----------------------------
 -- Table structure for sys_properties
 -- ----------------------------
@@ -446,8 +477,13 @@ CREATE TABLE `bus_column` (
   `primary_` tinyint(4) DEFAULT NULL,
   `default_value_` varchar(128) DEFAULT NULL,
   `comment_` varchar(256) DEFAULT NULL,
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`)
-) DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='业务字段表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务字段表';
+
 
 -- ----------------------------
 -- Table structure for bus_column_ctrl
@@ -459,9 +495,14 @@ CREATE TABLE `bus_column_ctrl` (
   `type_` varchar(64) DEFAULT NULL COMMENT '控件类型',
   `config_` varchar(256) DEFAULT NULL COMMENT '控件配置',
   `valid_rule_` varchar(256) DEFAULT NULL COMMENT '验证规则',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `column_id_unique` (`column_id_`) USING BTREE
-) DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='字段控件表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字段控件表';
+
 
 -- ----------------------------
 -- Table structure for bus_object
@@ -476,9 +517,14 @@ CREATE TABLE `bus_object` (
   `group_id_` varchar(64) DEFAULT NULL COMMENT '分组id',
   `group_name_` varchar(128) DEFAULT NULL COMMENT '分组名称',
   `persistence_type_` varchar(64) DEFAULT NULL COMMENT '持久化类型',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `key_unique_idx` (`key_`) USING BTREE
-) DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='业务对象';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务对象';
+
 
 -- ----------------------------
 -- Table structure for bus_permission
@@ -491,9 +537,14 @@ CREATE TABLE `bus_permission` (
   `obj_val_` varchar(128) DEFAULT NULL COMMENT '能获取到配置权限的对象的唯一值\r\n 通常是key 或 id \r\n 可以是自定义的\r\n 例如 某个流程的某个节点，可以是 流程key.nodeKey\r\n 这样的格式\r\n',
   `bus_obj_map_json_` longtext COMMENT 'busObjMap的json数据',
   `rights_json_` longtext COMMENT 'rights的json数据',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`),
-  UNIQUE KEY `obj_type_obj_val_unique_idx_` (`obj_type_`,`obj_val_`)
-) DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='bo权限';
+  UNIQUE KEY `obj_type_obj_val_unique_idx_` (`obj_type_`,`obj_val_`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='bo权限';
+
 
 -- ----------------------------
 -- Table structure for bus_table
@@ -509,10 +560,14 @@ CREATE TABLE `bus_table` (
   `group_id_` varchar(64) DEFAULT NULL COMMENT '分组id',
   `group_name_` varchar(128) DEFAULT NULL COMMENT '分组名称',
   `external_` smallint(6) DEFAULT NULL COMMENT '是否外部表',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `key_unique_idx` (`key_`) USING BTREE
-) DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='业务表';
-  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务表';
+
 
 -- ----------------------------
 -- Table structure for form_cust_dialog
@@ -1057,9 +1112,87 @@ CREATE TABLE `bpm_task_stack` (
 
 
 
+DROP TABLE IF EXISTS `c_holiday_conf`;
+CREATE TABLE `c_holiday_conf` (
+  `id` varchar(64) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `system` varchar(255) DEFAULT NULL,
+  `year` int(255) DEFAULT NULL,
+  `startDay` date DEFAULT NULL,
+  `endDay` date DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `remark` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `c_work_calendar` (
+  `id` varchar(20) NOT NULL,
+  `day` date DEFAULT NULL,
+  `isWorkDay` varchar(20) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `system` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
+CREATE TABLE `c_schedule` (
+  `id` varchar(20) NOT NULL COMMENT 'ID',
+  `title` varchar(500) DEFAULT NULL COMMENT '标题',
+  `desc` varchar(2000) DEFAULT NULL COMMENT '描述',
+  `task_url` varchar(255) DEFAULT NULL COMMENT '任务连接',
+  `type` varchar(64) DEFAULT NULL COMMENT '类型',
+  `open_type` varchar(64) DEFAULT NULL COMMENT '任务打开方式',
+  `owner` varchar(64) DEFAULT NULL COMMENT '所属人',
+  `owner_name` varchar(64) DEFAULT NULL COMMENT '所属人',
+  `participant_names` varchar(1000) DEFAULT NULL COMMENT '参与者',
+  `start_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '开始日期',
+  `end_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '结束日期',
+  `actual_start_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '实际开始日期',
+  `complete_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '完成时间',
+  `rate_progress` int(10) DEFAULT NULL COMMENT '进度',
+  `submitter` varchar(64) DEFAULT NULL COMMENT '提交人',
+  `submitNamer` varchar(64) DEFAULT NULL COMMENT '提交人',
+  `remark` varchar(500) DEFAULT NULL,
+  `isLock` varchar(10) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `delete_flag` varchar(10) DEFAULT NULL COMMENT '删除标记',
+  `rev` int(10) DEFAULT NULL COMMENT '版本',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日程';
+
+
+
+CREATE TABLE `c_schedule_participant` (
+  `id_` varchar(20) NOT NULL COMMENT 'id',
+  `schedule_id` varchar(20) DEFAULT NULL COMMENT '日程ID',
+  `participantor_name` varchar(255) DEFAULT NULL COMMENT '参与者名字',
+  `participantor` varchar(64) DEFAULT NULL COMMENT '参与者',
+  `rate_progress` int(10) DEFAULT NULL COMMENT 'ilka完成比例',
+  `submit_comment` varchar(500) DEFAULT NULL COMMENT 'ilka提交注释',
+  `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `actual_start_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'ilka实际开始时间',
+  `complete_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'ilka完成时间',
+  PRIMARY KEY (`id_`),
+  KEY `idx_schedule_id` (`schedule_id`),
+  KEY `idx_participantor` (`participantor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日程参与者';
+
+
+CREATE TABLE `c_schedule_biz` (
+  `id` varchar(20) NOT NULL COMMENT 'id',
+  `schedule_id` varchar(20) NOT NULL COMMENT '日程id',
+  `biz_id` varchar(20) NOT NULL COMMENT '业务id',
+  `from` varchar(64) NOT NULL COMMENT '来源',
+  PRIMARY KEY (`id`),
+  KEY `idx_schedule_id` (`schedule_id`),
+  KEY `idx_biz_id` (`biz_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日程业务关联表';
 
 
 

@@ -16,8 +16,13 @@ CREATE TABLE `bus_column` (
   `primary_` tinyint(4) DEFAULT NULL,
   `default_value_` varchar(128) DEFAULT NULL,
   `comment_` varchar(256) DEFAULT NULL,
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`)
-) DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='业务字段表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务字段表';
+
 
 -- ----------------------------
 -- Table structure for bus_column_ctrl
@@ -29,9 +34,14 @@ CREATE TABLE `bus_column_ctrl` (
   `type_` varchar(64) DEFAULT NULL COMMENT '控件类型',
   `config_` varchar(256) DEFAULT NULL COMMENT '控件配置',
   `valid_rule_` varchar(256) DEFAULT NULL COMMENT '验证规则',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `column_id_unique` (`column_id_`) USING BTREE
-) DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='字段控件表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字段控件表';
+
 
 -- ----------------------------
 -- Table structure for bus_object
@@ -46,9 +56,14 @@ CREATE TABLE `bus_object` (
   `group_id_` varchar(64) DEFAULT NULL COMMENT '分组id',
   `group_name_` varchar(128) DEFAULT NULL COMMENT '分组名称',
   `persistence_type_` varchar(64) DEFAULT NULL COMMENT '持久化类型',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `key_unique_idx` (`key_`) USING BTREE
-) DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='业务对象';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务对象';
+
 
 -- ----------------------------
 -- Table structure for bus_permission
@@ -61,9 +76,14 @@ CREATE TABLE `bus_permission` (
   `obj_val_` varchar(128) DEFAULT NULL COMMENT '能获取到配置权限的对象的唯一值\r\n 通常是key 或 id \r\n 可以是自定义的\r\n 例如 某个流程的某个节点，可以是 流程key.nodeKey\r\n 这样的格式\r\n',
   `bus_obj_map_json_` longtext COMMENT 'busObjMap的json数据',
   `rights_json_` longtext COMMENT 'rights的json数据',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`),
-  UNIQUE KEY `obj_type_obj_val_unique_idx_` (`obj_type_`,`obj_val_`)
-) DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='bo权限';
+  UNIQUE KEY `obj_type_obj_val_unique_idx_` (`obj_type_`,`obj_val_`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='bo权限';
+
 
 -- ----------------------------
 -- Table structure for bus_table
@@ -79,10 +99,13 @@ CREATE TABLE `bus_table` (
   `group_id_` varchar(64) DEFAULT NULL COMMENT '分组id',
   `group_name_` varchar(128) DEFAULT NULL COMMENT '分组名称',
   `external_` smallint(6) DEFAULT NULL COMMENT '是否外部表',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time_` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id_`),
   UNIQUE KEY `key_unique_idx` (`key_`) USING BTREE
-) DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='业务表';
-  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务表';
 
 -- ----------------------------
 -- Table structure for form_cust_dialog
