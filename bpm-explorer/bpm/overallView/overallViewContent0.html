@@ -10,11 +10,11 @@
 				<span>流程全局配置</span>
 			</legend>
 			<div title="全局表单设置 "  style="width:100%;padding:5px;" >
-				<div title="全局表单" type="global" bpm-form="overallView.flow.globalForm" mobile-form="overallView.flow.globalMobileForm" ></div>
-				<div title="实例表单" type="instance" bpm-form="overallView.flow.instForm"></div>
+				<div title="全局表单" type="global" bpm-form="defSetting.flow.globalForm" mobile-form="defSetting.flow.globalMobileForm" ></div>
+				<div title="实例表单" type="instance" bpm-form="defSetting.flow.instForm"></div>
 			</div>
 			<table class="table table-bordered" >
-		          <tr ng-repeat="bo in overallView.flow.dataModelList">
+		          <tr ng-repeat="bo in defSetting.flow.dataModelList">
 		          		<th>BO配置</th> <td>{{bo.name}}</td> <td>{{bo.code}}</td>
 		          </tr>
 			</table>
@@ -22,8 +22,8 @@
 			<table class="table table-bordered" title="节点初始化脚本">
 				<thead><th>表单初始化节点</th><th>脚本描述</th><th>打开节点任务表单时 初始化脚本</th><th>保存数据前置执行脚本</th></thead>
 		        <tbody>
-		          <tr ng-if="!overallView.flow.nodeInitList.length"><td colspan="4">流程尚未配置节点初始化内容</td></tr>
-		          <tr ng-repeat="formInit in overallView.flow.nodeInitList" id="aaformInitScript">
+		          <tr ng-if="!defSetting.flow.nodeInitList.length"><td colspan="4">流程尚未配置节点初始化内容</td></tr>
+		          <tr ng-repeat="formInit in defSetting.flow.nodeInitList" id="aaformInitScript">
 		          		<td>{{formInit.nodeId}}</td>
 		          		<td>{{formInit.desc}}</td>
 		          		<td>
@@ -35,7 +35,7 @@
 		          </tr>
 		        </tbody>
 		   </table>
-		   <div ng-repeat="(pluginKey,plugin) in overallView.flow.nodeInitList">
+		   <div ng-repeat="(pluginKey,plugin) in defSetting.flow.nodeInitList">
 		   		 <table class="table table-hover table-striped table-bordered" title="节点消息 " ng-if="pluginKey='nodeMessage' && plugin.nodeMessage.length">
 			        <tr ng-repeat="nodeMessage in plugin.nodeMessage track by $index" >
 			  			<th>{{nodeMessage.nodeId?nodeMessage.nodeId:'所有节点'}}</th>
@@ -49,7 +49,7 @@
 			   </table>
 		   </div>
 		</fieldset>
-		<fieldset class="scheduler-border" ng-repeat="(nodeId,nodeConf) in overallView.nodeMap" ng-if="'StartNoneEvent,UserTask,EndNoneEvent,ExclusiveGateway,InclusiveGateway'.indexOf(nodeConf.nodeType)!=-1" name="{{nodeConf.nodeId}}Fieldset">
+		<fieldset class="scheduler-border" ng-repeat="(nodeId,nodeConf) in defSetting.nodeMap" ng-if="'StartNoneEvent,UserTask,EndNoneEvent,ExclusiveGateway,InclusiveGateway'.indexOf(nodeConf.nodeType)!=-1" name="{{nodeConf.nodeId}}Fieldset">
 			<legend style="width: 320px; border-bottom: 0; margin-bottom: 10px;">
 				<div style="text-align: center;">{{nodeConf.nodeName}}一 {{nodeConf.nodeId}}</div>
 			</legend>

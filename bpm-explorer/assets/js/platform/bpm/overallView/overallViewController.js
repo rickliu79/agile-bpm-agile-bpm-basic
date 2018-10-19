@@ -8,7 +8,8 @@ overallViewApp.controller("overallViewController", [ '$scope', 'baseService', 'A
 			var param = {defId:defId};
 			var defer = baseService.postForm(__ctx+"/bpm/overallView/getOverallView",param);
 			$.getResultData(defer,function(data){
-				$scope.overallView = data.defSetting;
+				$scope.overallView = data;
+				$scope.defSetting = $scope.overallView.defSetting;
 			});
 		}
 		if(defId){
@@ -18,16 +19,8 @@ overallViewApp.controller("overallViewController", [ '$scope', 'baseService', 'A
 		// 一览页保存
 		$scope.saveOverallView = function(){
 			var defer = baseService.post(__ctx+"/bpm/overallView/overallViewSave",$scope.overallView);
-			defer.then(function(data){
-				if(data.result==1){
-					$.Dialog.success("保存成功！");
-					$scope.getOverallViewByDefId();
-				}else{
-					$.Dialog.error("保存异常"+data.message);
-				}
-				
-			},function(code){
-				$.Dialog.error("获取流程定义异常"+code);
+			$.getResultMsg(defer,function(){
+				$scope.getOverallViewByDefId();
 			});
 		}
 		
@@ -308,7 +301,7 @@ overallViewApp.directive('abTrim', function() {
     				objVal = scope.$parent.nodeConf.nodeId;
     				objName = scope.$parent.nodeConf.nodeName;
     			}
-    			objVal = scope.$parent.overallView.bpmDefinition.key + "-" + objVal;
+    			objVal = scope.$parent.defSetting.bpmDefinition.key + "-" + objVal;
     			
     			var url = '/bus/businessPermission/businessPermissionEdit.html?objType=flow&objVal='+objVal+'&boKeys=' + boCodes;
     			var def = { title : objName+"授权", width : 800, height : 600, modal : true, resizable : true};
@@ -318,7 +311,7 @@ overallViewApp.directive('abTrim', function() {
     		
     		scope.getBoCodes = function(){
     			var boCodes = "";
-    			for(var i=0,dm;dm= scope.$parent.overallView.flow.dataModelList[i++];){
+    			for(var i=0,dm;dm= scope.$parent.defSetting.flow.dataModelList[i++];){
     				if(boCodes){boCodes = boCodes + ","};
     				boCodes = boCodes + dm.code;
     			}
