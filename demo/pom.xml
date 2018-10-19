@@ -5,18 +5,18 @@
     <groupId>com.dstz.demo</groupId>
     <packaging>pom</packaging>
     <name>【开发案例模块】..........可参考该模块来开发自己的业务模块</name>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <description>案例模块</description>
 	
 	 <parent>
         <groupId>com.dstz.agilebpm</groupId>
         <artifactId>agile-bpm</artifactId>
-        <version>1.2.2-SNAPSHOT</version>
+        <version>1.2.2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 	
 	 <properties>
-        <agilebpm.version>1.2.2-SNAPSHOT</agilebpm.version>
+        <agilebpm.version>1.2.2</agilebpm.version>
     </properties>
 	 
 	<dependencyManagement>
