@@ -16,10 +16,17 @@
 	<description>提供主服务</description>
 
 	<properties>
+<<<<<<< Upstream, based on origin/dev
 		<base.version>1.2.3</base.version>
 		<bpm.version>1.3.3</bpm.version>
 		<bus-form.version>1.2.3</bus-form.version>
 		<platform.version>1.2.3</platform.version>
+=======
+		<base.version>1.2.2</base.version>
+		<bpm.version>1.3.1</bpm.version>
+		<bus-form.version>1.2.2</bus-form.version>
+		<platform.version>1.2.2</platform.version>
+>>>>>>> fbb59ae 修复  修改流程定义 缓存 未清除导致的配置页bug
 	</properties>
 
 	<dependencies>
