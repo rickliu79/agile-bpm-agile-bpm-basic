@@ -111,5 +111,10 @@ AgileBPM 目前是标准的SOA架构，但依然拥有微服务架构的特点�
 我们是专业工作流研发团队，有多年工作流程实施经验，针对各种特殊场景，经过近一年多的(业余)时间设计开发了这款产品。
 目前还有很多组件正在筹备开发中，如果有更多人支持，我们也会继续下去。
 
-## 目前基础版源码正在整理中......
-qq 交流群 477781857
+## spring boot 版本
+https://gitee.com/agile-bpm/agilebpm-base-spring-boot/tree/master
+## vue2 移动端版本
+https://gitee.com/agile-bpm/bpm-app
+
+## 欢迎 **Star** 持续关注！！！ 
+
