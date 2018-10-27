@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.BeanUtils;
+import com.dstz.base.db.datasource.DataSourceUtil;
 import com.dstz.base.db.tableoper.TableOperator;
+import com.dstz.base.db.transaction.AbDataSourceTransactionManager;
 import com.dstz.bus.api.constant.BusStatusCode;
 import com.dstz.bus.api.constant.BusTableRelFkType;
 import com.dstz.bus.api.constant.BusTableRelType;
@@ -48,9 +52,15 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 		return BusinessObjectPersistenceType.DB.getKey();
 	}
 
-//	@Transactional(value = "abTransactionManager")
+	@Transactional(value = "abTransactionManager")
 	@Override
 	public void saveData(BusinessData businessData) {
+		//操作ab事务管理器，把bo用到的数据源进入到事务管理中
+		for(String key: businessData.getBusTableRel().getBusObj().calDataSourceKeys()) {
+			DataSource dataSource = DataSourceUtil.getDataSourceByAlias(key);
+			AbDataSourceTransactionManager.addDataSource(key, dataSource);
+		}
+		
 		// 获取当前表的数据库操作者
 		TableOperator tableOperator = businessTableManager.newTableOperatorCheckExist(businessData.getBusTableRel().getTable());
 

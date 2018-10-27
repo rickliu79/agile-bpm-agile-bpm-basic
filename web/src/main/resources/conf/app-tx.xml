@@ -32,7 +32,7 @@
     </tx:advice>
 	
 	<!-- ab 的bo操作支持多数据源的事务管理器 -->
-	<bean id="abTransactionManager" class="com.dstz.bus.service.impl.AbDataSourceTransactionManager"></bean>
+	<bean id="abTransactionManager" class="com.dstz.base.db.transaction.AbDataSourceTransactionManager"></bean>
 	<!-- ab的txAdvice -->
 	<tx:advice id="abTxAdvice" transaction-manager="abTransactionManager">
         <tx:attributes>
