@@ -73,11 +73,11 @@ overallViewApp.controller("overallViewController", [ '$scope', 'baseService', 'A
 	              data: fd,
 	              headers: {'Content-Type':undefined},transformRequest: angular.identity})   
 	              .success(function(data) {
-	            	  if(data.message){
-	            		  $.Dialog.error(data.message);
+	            	  if(!data.isOk){
+	            		  $.Dialog.error(data.msg);
 	            		  return
 	            	  }
-	            	  $scope.importOverallViewMap = data;
+	            	  $scope.importOverallViewMap = data.data;
 	            	  window.setTimeout(function(){
 	            		  $('#tt').tabs({width:'100%',height:'100%'});
 	            	  },100)

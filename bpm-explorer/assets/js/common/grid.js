@@ -40,8 +40,8 @@
 		var arrays = $("[ab-grid]").bootstrapTable('getSelections');
 		var idName = $("[ab-grid]").bootstrapTable('getOptions').idField;
 		var ids = [];
-		arrays.each(function(){
-			ids.push(this[idName]);
+		arrays.forEach(function(item){
+			ids.push(item[idName]);
 		})
 		
 		return ids;

@@ -2,7 +2,9 @@
 <html ng-app="overallViewApp">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link href="../../build/common/ngEdit.css" rel="stylesheet">
 		<script type="text/javascript" src="../../build/common/ngEdit.js"></script>
+		
 		<script type="text/javascript" src="../../build/common/easyLayout.js"></script>
 		<script type="text/javascript" src="../../assets/js/platform/bpm/overallView/overallViewController.js"></script>
 		<script type="text/javascript" src="../../assets/js/platform/bpm/overallView/formatJson.js"></script>
@@ -18,7 +20,6 @@
 			</div>
 			<form class="form-inline"  method="post" enctype="multipart/form-data">
 			  <div class="form-group">
-			    <label class="sr-only" for="exampleInputEmail3">选择文件:</label>
 			    <input type="file" class="form-control" id="exampleInputEmail3" name="xmlFile" accept="application/zip">
 			  </div>
 			  <button type="button" ng-click='importPreview()' class="btn btn-primary">上传预览</button>
@@ -61,8 +62,8 @@
 			  			 	覆盖当前系统存在的流程版本  
 			  			 </label>
 			    	</div>
-			       	<div ng-repeat="overallView in importOverallViewMap[defName]" class="{{importOverallViewMap[defName].length==1?'col-lg-12':'col-lg-6'}} overallConf" >
-			       		<div id="a" ng-include="'overallViewContent'+($index+1)+'.html'" ng-init="$index==1 ? compareOverallView = importOverallViewMap[defName][0]:''">
+			       	<div ng-repeat="overallView in overallViewList" class="{{overallViewList.length==1?'col-lg-12':'col-lg-6'}} overallConf" >
+			       		<div id="a" ng-include="'overallViewContent'+($index)+'.html'" ng-init="$index==1 ? compareOverallView = overallViewList[0]:''">
 			       		</div>
 			       	</div>
 			    </div>
