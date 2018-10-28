@@ -6,7 +6,7 @@
     <parent>
         <artifactId>sys</artifactId>
         <groupId>com.dstz.agilebpm</groupId>
-        <version>1.2.2</version>
+        <version>1.2.3-SNAPSHOT</version>
     </parent>
     <artifactId>sys-rest</artifactId>
     <name>sys-rest</name>
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>com.dstz.agilebpm</groupId>
             <artifactId>sys-core</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>com.dstz.agilebpm</groupId>
             <artifactId>base-rest</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
