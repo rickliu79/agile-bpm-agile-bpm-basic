@@ -89,7 +89,7 @@
 	            <bean class="com.github.pagehelper.PageInterceptor">
 	            	<property name="properties">
 	            		<value>
-	            			helperDialect=mysql
+	            			helperDialect=oracle
                             <!-- autoRuntimeDialect=true -->
                             rowBoundsWithCount=true
                         </value>
