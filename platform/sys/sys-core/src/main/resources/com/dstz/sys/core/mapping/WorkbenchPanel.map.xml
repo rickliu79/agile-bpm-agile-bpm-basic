@@ -82,7 +82,8 @@
 	</delete>
 
     <select id="getBylayoutKey" parameterType="java.lang.String" resultMap="WorkbenchPanel">
-		 select DISTINCT * from (SELECT l.sn_, p.id_,p.alias_,p.name_,p.type_,p.desc_,p.data_type_,p.data_source_,p.auto_refresh_,p.width_,p.height_,p.display_content_,p.more_url_,
+		 select DISTINCT * from (SELECT l.sn_, p.id_,p.alias_,p.name_,p.type_,p.desc_,p.data_type_,p.data_source_,p.auto_refresh_,
+		 p.width_,p.height_,to_char(p.display_content_) display_content_,p.more_url_,
 		l.cust_width_,l.cust_height_,l.id_ as custLayOutId
 		FROM sys_workbench_panel p inner join sys_workbench_layout l on p.id_ = l.panel_id_
 		WHERE l.user_id_ = #{userId}
@@ -91,7 +92,7 @@
 
     <select id="getByUser" parameterType="java.lang.String" resultMap="WorkbenchPanel">
 		select DISTINCT * from ( SELECT  l.sn_, p.id_,p.alias_,p.name_,p.type_,p.desc_,p.data_type_,p.data_source_,p.auto_refresh_,p.width_,
-		p.height_,p.display_content_,p.more_url_,l.cust_width_,l.cust_height_,l.id_ as custLayOutId
+		p.height_,to_char(p.display_content_) display_content_,p.more_url_,l.cust_width_,l.cust_height_,l.id_ as custLayOutId
 		FROM sys_workbench_panel p inner join sys_workbench_layout l on p.id_ = l.panel_id_
 	    ${rightsSql}
 		where l.user_id_ = #{userId} )t   order by sn_
