@@ -11,8 +11,10 @@ CREATE TABLE bpm_bus_link (
   biz_code_ varchar2(64) NOT NULL ,
   PRIMARY KEY (id_,biz_code_)
 )  
-/*!50500 PARTITION BY LIST  COLUMNS(biz_code_)
-(PARTITION p01 VALUES IN ('unknown') ENGINE = InnoDB) */;
+partition by list(biz_code_)  
+(  
+  partition p01 values('unknown')
+);
 
 COMMENT ON TABLE bpm_bus_link IS '流程实例与业务数据关系表';
 
