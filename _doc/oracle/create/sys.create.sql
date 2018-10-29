@@ -20,7 +20,7 @@ CREATE TABLE sys_authorization (
   PRIMARY KEY (rights_id_)
 )  ;
 
-COMMENT ON TABLE sys_authorization IS '通用资源授权配置'
+COMMENT ON TABLE sys_authorization IS '通用资源授权配置';
 
 CREATE INDEX idx_permission_code_ ON sys_authorization (rights_permission_code_);
 
@@ -41,7 +41,7 @@ CREATE TABLE sys_data_dict (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE sys_data_dict IS '数据字典'
+COMMENT ON TABLE sys_data_dict IS '数据字典';
 
 -- ----------------------------
 -- Table structure for sys_data_source
@@ -58,7 +58,7 @@ CREATE TABLE sys_data_source (
   CONSTRAINT key_unique UNIQUE  (key_)
 )  ;
 
-COMMENT ON TABLE sys_data_source IS '数据源'
+COMMENT ON TABLE sys_data_source IS '数据源';
 
 -- ----------------------------
 -- Table structure for sys_data_source_def
@@ -71,7 +71,7 @@ CREATE TABLE sys_data_source_def (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE sys_data_source_def IS '数据源模板'
+COMMENT ON TABLE sys_data_source_def IS '数据源模板';
 
 CREATE INDEX class_path_unique ON sys_data_source_def (class_path_);
  
@@ -119,7 +119,7 @@ CREATE TABLE sys_rel_resources (
   PRIMARY KEY (ID_)
 )   ;
 
-COMMENT ON TABLE sys_rel_resources IS '关联资源'
+COMMENT ON TABLE sys_rel_resources IS '关联资源';
 
 -- ----------------------------
 -- Table structure for sys_resource
@@ -141,7 +141,7 @@ CREATE TABLE sys_resource (
   PRIMARY KEY (ID_)
 )   ;
 
-COMMENT ON TABLE sys_resource IS '子系统资源'
+COMMENT ON TABLE sys_resource IS '子系统资源';
 
 -- ----------------------------
 -- Table structure for sys_res_role
@@ -154,7 +154,7 @@ CREATE TABLE sys_res_role (
   PRIMARY KEY (ID_)
 )   ;
 
-COMMENT ON TABLE sys_res_role IS '角色资源分配'
+COMMENT ON TABLE sys_res_role IS '角色资源分配';
 
 -- ----------------------------
 -- Table structure for sys_schedule_job
@@ -176,7 +176,7 @@ CREATE TABLE sys_schedule_job (
   PRIMARY KEY (id_)
 )   ;
 
-COMMENT ON TABLE sys_schedule_job IS '系统任务计划'
+COMMENT ON TABLE sys_schedule_job IS '系统任务计划';
 
 -- ----------------------------
 -- Table structure for sys_schedule_job_log
@@ -197,7 +197,7 @@ CREATE TABLE sys_schedule_job_log (
   PRIMARY KEY (id)
 )   ;
 
-COMMENT ON TABLE sys_schedule_job_log IS '任务计划日志'
+COMMENT ON TABLE sys_schedule_job_log IS '任务计划日志';
 
 CREATE INDEX job_id ON sys_schedule_job_log (job_id);
 
@@ -213,7 +213,7 @@ CREATE TABLE sys_script (
   PRIMARY KEY (id_)
 )   ;
 
-COMMENT ON TABLE sys_script IS '常用脚本'
+COMMENT ON TABLE sys_script IS '常用脚本';
 
 -- ----------------------------
 -- Table structure for sys_serialno
@@ -232,7 +232,7 @@ CREATE TABLE sys_serialno (
   PRIMARY KEY (id_)
 )   ;
 
-COMMENT ON TABLE sys_serialno IS '流水号生成'
+COMMENT ON TABLE sys_serialno IS '流水号生成';
 
 CREATE INDEX idx_uni_alias_val ON sys_serialno (alias_,cur_value_);
 
@@ -256,7 +256,7 @@ CREATE TABLE sys_subsystem (
   PRIMARY KEY (ID_)
 )   ;
 
-COMMENT ON TABLE sys_subsystem IS '子系统定义'
+COMMENT ON TABLE sys_subsystem IS '子系统定义';
 
 -- ----------------------------
 -- Table structure for sys_tree
@@ -271,7 +271,7 @@ CREATE TABLE sys_tree (
   CONSTRAINT key_unique_ UNIQUE  (key_)
 )     ;
 
-COMMENT ON TABLE sys_tree IS '系统树'
+COMMENT ON TABLE sys_tree IS '系统树';
 
 -- ----------------------------
 -- Table structure for sys_tree_node
@@ -289,7 +289,7 @@ CREATE TABLE sys_tree_node (
   CONSTRAINT tree_id_key_unique_ UNIQUE  (key_,tree_id_)
 )     ;
 
-COMMENT ON TABLE sys_tree_node IS '系统树节点'
+COMMENT ON TABLE sys_tree_node IS '系统树节点';
 
 -- ----------------------------
 -- Table structure for sys_workbench_layout
@@ -305,7 +305,7 @@ CREATE TABLE sys_workbench_layout (
   PRIMARY KEY (id_)
 )   ;
 
-COMMENT ON TABLE sys_workbench_layout IS '工作台布局'
+COMMENT ON TABLE sys_workbench_layout IS '工作台布局';
 
 CREATE INDEX idx_panel_id_ ON sys_workbench_layout (panel_id_);
 
@@ -333,7 +333,7 @@ CREATE TABLE sys_workbench_panel (
   PRIMARY KEY (id_)
 )   ;
 
-COMMENT ON TABLE sys_workbench_panel IS '工作台面板'
+COMMENT ON TABLE sys_workbench_panel IS '工作台面板';
 
 CREATE INDEX idx_alias_ ON sys_workbench_panel (alias_);
 
@@ -349,7 +349,7 @@ CREATE TABLE sys_workbench_panel_templ (
   PRIMARY KEY (id_)
 )   ;
 
-COMMENT ON TABLE sys_workbench_panel_templ IS '工作台面板模板'
+COMMENT ON TABLE sys_workbench_panel_templ IS '工作台面板模板';
 
 CREATE TABLE sys_file (
   id_ varchar2(64) NOT NULL ,
@@ -365,7 +365,7 @@ CREATE TABLE sys_file (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE sys_file IS '系统附件'
+COMMENT ON TABLE sys_file IS '系统附件';
 
 
 -- 附件存储 2018-6-10 00:29:06

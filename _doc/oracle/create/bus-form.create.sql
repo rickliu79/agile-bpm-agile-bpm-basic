@@ -22,7 +22,7 @@ CREATE TABLE bus_column (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE bus_column IS '业务字段表'
+COMMENT ON TABLE bus_column IS '业务字段表';
 
 
 -- ----------------------------
@@ -42,7 +42,7 @@ CREATE TABLE bus_column_ctrl (
   CONSTRAINT column_id_unique UNIQUE  (column_id_)
 )  ;
 
-COMMENT ON TABLE bus_column_ctrl IS '字段控件表'
+COMMENT ON TABLE bus_column_ctrl IS '字段控件表';
 
 
 -- ----------------------------
@@ -65,7 +65,7 @@ CREATE TABLE bus_object (
   CONSTRAINT key_unique_idx UNIQUE  (key_)
 )  ;
 
-COMMENT ON TABLE bus_object IS '业务对象'
+COMMENT ON TABLE bus_object IS '业务对象';
 
 
 -- ----------------------------
@@ -86,7 +86,7 @@ CREATE TABLE bus_permission (
   CONSTRAINT obj_type_obj_val_unique_idx_ UNIQUE  (obj_type_,obj_val_)
 )  ;
 
-COMMENT ON TABLE bus_permission IS 'bo权限'
+COMMENT ON TABLE bus_permission IS 'bo权限';
 
 
 -- ----------------------------
@@ -110,7 +110,7 @@ CREATE TABLE bus_table (
   CONSTRAINT key_unique_idx UNIQUE  (key_)
 )  ;
 
-COMMENT ON TABLE bus_table IS '业务表'
+COMMENT ON TABLE bus_table IS '业务表';
 
 -- ----------------------------
 -- Table structure for form_cust_dialog
@@ -141,7 +141,7 @@ CREATE TABLE form_cust_dialog (
   CONSTRAINT idx_unqiue UNIQUE  (key_)
 ) ;
 
-COMMENT ON TABLE form_cust_dialog IS '自定义对话框'
+COMMENT ON TABLE form_cust_dialog IS '自定义对话框';
  
 -- ----------------------------
 -- Table structure for form_def
@@ -169,7 +169,7 @@ CREATE TABLE form_def (
   CONSTRAINT key_unique_idx UNIQUE  (key_)
 ) ;
 
-COMMENT ON TABLE form_def IS '表单'
+COMMENT ON TABLE form_def IS '表单';
  
 -- ----------------------------
 -- Table structure for form_template
@@ -186,4 +186,4 @@ CREATE TABLE form_template (
   PRIMARY KEY (id_)
 ) ;
 
-COMMENT ON TABLE form_template IS '表单模版'
+COMMENT ON TABLE form_template IS '表单模版';

@@ -22,7 +22,7 @@ CREATE TABLE org_user (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE org_user IS '用户表'
+COMMENT ON TABLE org_user IS '用户表';
 
 -- ----------------------------
 -- Table structure for org_role
@@ -40,7 +40,7 @@ CREATE TABLE org_role (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE org_role IS '角色管理'
+COMMENT ON TABLE org_role IS '角色管理';
 -- ----------------------------
 -- Table structure for org_group
 -- ----------------------------
@@ -59,7 +59,7 @@ CREATE TABLE org_group (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE org_group IS '组织架构'
+COMMENT ON TABLE org_group IS '组织架构';
 
 
 -- ----------------------------
@@ -78,7 +78,7 @@ CREATE TABLE org_group_reldef (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE org_group_reldef IS '组织关系定义'
+COMMENT ON TABLE org_group_reldef IS '组织关系定义';
 
 
 -- ----------------------------
@@ -101,7 +101,7 @@ CREATE TABLE org_group_rel (
   CONSTRAINT org_group_rel_ibfk_2 FOREIGN KEY (rel_def_id_) REFERENCES org_group_reldef (id_) ON DELETE CASCADE
 )  ;
 
-COMMENT ON TABLE org_group_rel IS '组织关联关系'
+COMMENT ON TABLE org_group_rel IS '组织关联关系';
 
 CREATE INDEX FK_reference_19 ON org_group_rel (rel_def_id_);
 CREATE INDEX FK_reference_20 ON org_group_rel (group_id_);
@@ -127,7 +127,7 @@ CREATE TABLE org_group_user (
   CONSTRAINT org_group_user_ibfk_3 FOREIGN KEY (group_id_) REFERENCES org_group (id_) ON DELETE CASCADE
 )  ;
 
-COMMENT ON TABLE org_group_user IS '用户组织关系'
+COMMENT ON TABLE org_group_user IS '用户组织关系';
 
 CREATE INDEX FK_reference_21 ON org_group_user (user_id_);
 CREATE INDEX FK_reference_22 ON org_group_user (group_id_);
@@ -151,7 +151,7 @@ CREATE TABLE org_user_role (
   CONSTRAINT org_user_role_ibfk_2 FOREIGN KEY (role_id_) REFERENCES org_role (id_) ON DELETE CASCADE
 )  ;
 
-COMMENT ON TABLE org_user_role IS '用户角色管理'
+COMMENT ON TABLE org_user_role IS '用户角色管理';
 
 CREATE INDEX FK_reference_user_role ON org_user_role (role_id_);
 CREATE INDEX FK_reference_userrole_user ON org_user_role (user_id_);

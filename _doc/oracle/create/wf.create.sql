@@ -14,7 +14,7 @@ CREATE TABLE bpm_bus_link (
 /*!50500 PARTITION BY LIST  COLUMNS(biz_code_)
 (PARTITION p01 VALUES IN ('unknown') ENGINE = InnoDB) */;
 
-COMMENT ON TABLE bpm_bus_link IS '流程实例与业务数据关系表'
+COMMENT ON TABLE bpm_bus_link IS '流程实例与业务数据关系表';
 
 -- ----------------------------
 -- Table structure for bpm_definition
@@ -43,7 +43,7 @@ CREATE TABLE bpm_definition (
   PRIMARY KEY (id_)
 )   ;
 
-COMMENT ON TABLE bpm_definition IS '流程定义'
+COMMENT ON TABLE bpm_definition IS '流程定义';
 
 CREATE INDEX bpm_process_def_key ON bpm_definition (key_);
 
@@ -78,7 +78,7 @@ CREATE TABLE bpm_instance (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE bpm_instance IS '流程实例'
+COMMENT ON TABLE bpm_instance IS '流程实例';
 
 CREATE INDEX idx_proinst_bpminstid ON bpm_instance (act_inst_id_);
 CREATE INDEX idx_proinst_parentId ON bpm_instance (parent_inst_id_);
@@ -112,7 +112,7 @@ CREATE TABLE bpm_task (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE bpm_task IS '流程任务'
+COMMENT ON TABLE bpm_task IS '流程任务';
 
 CREATE INDEX idx_bpmtask_instid ON bpm_task (inst_id_);
 CREATE INDEX idx_bpmtask_taskid ON bpm_task (task_id_);
@@ -133,11 +133,11 @@ CREATE TABLE bpm_task_identitylink (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE bpm_task_identitylink IS '任务候选人'
+COMMENT ON TABLE bpm_task_identitylink IS '任务候选人';
 
 CREATE INDEX idx_taskcandidate_taskid ON bpm_task_identitylink (task_id_);
 CREATE INDEX idx_candidate_instid ON bpm_task_identitylink (inst_id_);
-CREATE INDEX idx_permission_code_ ON bpm_task_identitylink (permission_code_);
+CREATE INDEX idx_candidate_permission_code_ ON bpm_task_identitylink (permission_code_);
 
 -- ----------------------------
 -- Table structure for bpm_task_opinion
@@ -163,7 +163,7 @@ CREATE TABLE bpm_task_opinion (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE bpm_task_opinion IS '流程任务审批记录'
+COMMENT ON TABLE bpm_task_opinion IS '流程任务审批记录';
 
 CREATE INDEX idx_opinion_supinstid ON bpm_task_opinion (sup_inst_id_);
 CREATE INDEX idx_opinion_task ON bpm_task_opinion (task_id_);
@@ -186,7 +186,7 @@ CREATE TABLE bpm_task_stack (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE bpm_task_stack IS '流程执行堆栈树'
+COMMENT ON TABLE bpm_task_stack IS '流程执行堆栈树';
 
 CREATE INDEX idx_exestack_instid ON bpm_task_stack (inst_id_);
 
