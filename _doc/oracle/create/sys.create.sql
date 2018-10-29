@@ -69,7 +69,7 @@ CREATE TABLE sys_data_source_def (
   class_path_ varchar2(100) DEFAULT NULL ,
   attributes_json_ clob ,
   PRIMARY KEY (id_)
-)  ;
+);
 
 COMMENT ON TABLE sys_data_source_def IS '数据源模板';
 
