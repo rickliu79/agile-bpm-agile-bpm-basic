@@ -107,7 +107,7 @@ CREATE TABLE bus_table (
   update_time_ timestamp(0) DEFAULT NULL ,
   update_by_ varchar2(64) DEFAULT NULL ,
   PRIMARY KEY (id_),
-  CONSTRAINT key_unique_idx UNIQUE  (key_)
+  CONSTRAINT bus_table_key_unique_idx UNIQUE  (key_)
 )  ;
 
 COMMENT ON TABLE bus_table IS '业务表';
@@ -166,7 +166,7 @@ CREATE TABLE form_def (
   version_ number(10) DEFAULT NULL ,
   delete_ number(3) DEFAULT NULL ,
   PRIMARY KEY (id_),
-  CONSTRAINT key_unique_idx UNIQUE  (key_)
+  CONSTRAINT form_def_key_unique_idx UNIQUE  (key_)
 ) ;
 
 COMMENT ON TABLE form_def IS '表单';
