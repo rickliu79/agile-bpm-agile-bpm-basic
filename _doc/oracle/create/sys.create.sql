@@ -82,8 +82,11 @@ CREATE TABLE sys_log_err (
   id_ varchar2(50) NOT NULL ,
   ACCOUNT_ varchar2(20) DEFAULT NULL ,
   IP_ varchar2(20) DEFAULT NULL ,
+  ip_address_ varchar2(255) DEFAULT NULL ,
+  status_ varchar2(64) DEFAULT NULL ,
   URL_ varchar2(1500) DEFAULT NULL ,
   CONTENT_ clob ,
+  request_param_ clob ,
   CREATE_TIME_ timestamp(0) DEFAULT NULL ,
   stack_trace_ clob ,
   PRIMARY KEY (id_)
@@ -378,12 +381,95 @@ CREATE TABLE db_uploader (
 
 
 
+ 
+CREATE TABLE c_holiday_conf (
+  "id" varchar2(64) NOT NULL,
+  name varchar2(255) DEFAULT NULL,
+  system varchar2(255) DEFAULT NULL,
+  year number(10) DEFAULT NULL,
+  startDay date DEFAULT NULL,
+  endDay date DEFAULT NULL,
+  "type" varchar2(255) DEFAULT NULL,
+  remark varchar2(500) DEFAULT NULL,
+  PRIMARY KEY ("id")
+) ;
+
+
+CREATE TABLE c_work_calendar (
+  "id" varchar2(20) NOT NULL,
+  "day" date DEFAULT NULL,
+  isWorkDay varchar2(20) DEFAULT NULL,
+  "type" varchar2(255) DEFAULT NULL,
+  "system" varchar2(255) DEFAULT NULL,
+  PRIMARY KEY ("id")
+) ;
 
 
 
+CREATE TABLE c_schedule (
+  "id" varchar2(20) NOT NULL ,
+  title varchar2(500) DEFAULT NULL ,
+  "desc" varchar2(2000) DEFAULT NULL ,
+  task_url varchar2(255) DEFAULT NULL ,
+  "type" varchar2(64) DEFAULT NULL ,
+  open_type varchar2(64) DEFAULT NULL ,
+  owner varchar2(64) DEFAULT NULL ,
+  owner_name varchar2(64) DEFAULT NULL ,
+  participant_names varchar2(1000) DEFAULT NULL ,
+  start_time timestamp(0) DEFAULT NULL ,
+  end_time timestamp(0) DEFAULT NULL ,
+  actual_start_time timestamp(0) DEFAULT NULL ,
+  complete_time timestamp(0) DEFAULT NULL ,
+  rate_progress number(10) DEFAULT NULL ,
+  submitter varchar2(64) DEFAULT NULL ,
+  submitNamer varchar2(64) DEFAULT NULL ,
+  remark varchar2(500) DEFAULT NULL,
+  isLock varchar2(10) DEFAULT NULL,
+  create_time timestamp(0) DEFAULT NULL ,
+  create_by varchar2(64) DEFAULT NULL ,
+  update_time timestamp(0) DEFAULT NULL ,
+  update_by_ varchar2(64) DEFAULT NULL ,
+  delete_flag varchar2(10) DEFAULT NULL ,
+  rev number(10) DEFAULT NULL ,
+  PRIMARY KEY ("id")
+)  ;
+
+COMMENT ON TABLE c_schedule IS '日程'
 
 
 
+CREATE TABLE c_schedule_participant (
+  id_ varchar2(20) NOT NULL ,
+  schedule_id varchar2(20) DEFAULT NULL ,
+  participantor_name varchar2(255) DEFAULT NULL ,
+  participantor varchar2(64) DEFAULT NULL ,
+  rate_progress number(10) DEFAULT NULL ,
+  submit_comment varchar2(500) DEFAULT NULL ,
+  create_time timestamp(0) DEFAULT NULL ,
+  update_time timestamp(0) DEFAULT NULL ,
+  actual_start_time timestamp(0) DEFAULT NULL ,
+  complete_time timestamp(0) DEFAULT NULL ,
+  PRIMARY KEY (id_)
+)  ;
+
+COMMENT ON TABLE c_schedule_participant IS '日程参与者'
+
+CREATE INDEX idx_schedule_id ON c_schedule_participant (schedule_id);
+CREATE INDEX idx_participantor ON c_schedule_participant (participantor);
+
+
+CREATE TABLE c_schedule_biz (
+  "id" varchar2(20) NOT NULL ,
+  schedule_id varchar2(20) NOT NULL ,
+  biz_id varchar2(20) NOT NULL ,
+  "from" varchar2(64) NOT NULL ,
+  PRIMARY KEY ("id")
+)  ;
+
+COMMENT ON TABLE c_schedule_biz IS '日程业务关联表'
+
+CREATE INDEX c_schedule_biz_idx_schedule_id ON c_schedule_biz (schedule_id);
+CREATE INDEX idx_biz_id ON c_schedule_biz (biz_id);
 
 
 

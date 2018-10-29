@@ -552,6 +552,90 @@ CREATE TABLE `db_uploader` (
 
 
 
+DROP TABLE IF EXISTS `c_holiday_conf`;
+CREATE TABLE `c_holiday_conf` (
+  `id` varchar(64) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `system` varchar(255) DEFAULT NULL,
+  `year` int(255) DEFAULT NULL,
+  `startDay` date DEFAULT NULL,
+  `endDay` date DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `remark` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `c_work_calendar` (
+  `id` varchar(20) NOT NULL,
+  `day` date DEFAULT NULL,
+  `isWorkDay` varchar(20) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `system` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE `c_schedule` (
+  `id` varchar(20) NOT NULL COMMENT 'ID',
+  `title` varchar(500) DEFAULT NULL COMMENT '标题',
+  `desc` varchar(2000) DEFAULT NULL COMMENT '描述',
+  `task_url` varchar(255) DEFAULT NULL COMMENT '任务连接',
+  `type` varchar(64) DEFAULT NULL COMMENT '类型',
+  `open_type` varchar(64) DEFAULT NULL COMMENT '任务打开方式',
+  `owner` varchar(64) DEFAULT NULL COMMENT '所属人',
+  `owner_name` varchar(64) DEFAULT NULL COMMENT '所属人',
+  `participant_names` varchar(1000) DEFAULT NULL COMMENT '参与者',
+  `start_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '开始日期',
+  `end_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '结束日期',
+  `actual_start_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '实际开始日期',
+  `complete_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '完成时间',
+  `rate_progress` int(10) DEFAULT NULL COMMENT '进度',
+  `submitter` varchar(64) DEFAULT NULL COMMENT '提交人',
+  `submitNamer` varchar(64) DEFAULT NULL COMMENT '提交人',
+  `remark` varchar(500) DEFAULT NULL,
+  `isLock` varchar(10) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `delete_flag` varchar(10) DEFAULT NULL COMMENT '删除标记',
+  `rev` int(10) DEFAULT NULL COMMENT '版本',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日程';
+
+
+
+CREATE TABLE `c_schedule_participant` (
+  `id_` varchar(20) NOT NULL COMMENT 'id',
+  `schedule_id` varchar(20) DEFAULT NULL COMMENT '日程ID',
+  `participantor_name` varchar(255) DEFAULT NULL COMMENT '参与者名字',
+  `participantor` varchar(64) DEFAULT NULL COMMENT '参与者',
+  `rate_progress` int(10) DEFAULT NULL COMMENT 'ilka完成比例',
+  `submit_comment` varchar(500) DEFAULT NULL COMMENT 'ilka提交注释',
+  `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `actual_start_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'ilka实际开始时间',
+  `complete_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'ilka完成时间',
+  PRIMARY KEY (`id_`),
+  KEY `idx_schedule_id` (`schedule_id`),
+  KEY `idx_participantor` (`participantor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日程参与者';
+
+
+CREATE TABLE `c_schedule_biz` (
+  `id` varchar(20) NOT NULL COMMENT 'id',
+  `schedule_id` varchar(20) NOT NULL COMMENT '日程id',
+  `biz_id` varchar(20) NOT NULL COMMENT '业务id',
+  `from` varchar(64) NOT NULL COMMENT '来源',
+  PRIMARY KEY (`id`),
+  KEY `idx_schedule_id` (`schedule_id`),
+  KEY `idx_biz_id` (`biz_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日程业务关联表';
+
+
+
 
 
 

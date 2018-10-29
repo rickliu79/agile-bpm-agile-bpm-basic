@@ -29,7 +29,7 @@
 	
 	<insert id="create" parameterType="com.dstz.sys.api.model.calendar.Schedule">
 		INSERT INTO c_schedule
-		(id,title,remark,task_url,type,open_type,owner,owner_name,participant_names,start_time,end_time,actual_start_time,complete_time,rate_progress,submitter,submitNamer,isLock,create_time,create_by,update_time,update_by_,delete_flag,rev)
+		(id,title,remark,task_url,type,open_type,"owner",owner_name,participant_names,start_time,end_time,actual_start_time,complete_time,rate_progress,submitter,submitNamer,isLock,create_time,create_by,update_time,update_by_,delete_flag,rev)
 		VALUES 
 		(#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{taskUrl,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{openType,jdbcType=VARCHAR}, #{owner,jdbcType=VARCHAR}, #{ownerName,jdbcType=VARCHAR}, #{participantNames,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{actualStartTime,jdbcType=TIMESTAMP}, #{completeTime,jdbcType=TIMESTAMP}, #{rateProgress,jdbcType=NUMERIC}, #{submitter,jdbcType=VARCHAR}, #{submitNamer,jdbcType=VARCHAR}, #{isLock,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=VARCHAR}, #{rev,jdbcType=NUMERIC})
 	</insert>
@@ -62,7 +62,7 @@
 		task_url=#{taskUrl,jdbcType=VARCHAR},
 		type=#{type,jdbcType=VARCHAR},
 		open_type=#{openType,jdbcType=VARCHAR},
-		owner=#{owner,jdbcType=VARCHAR},
+		"owner"=#{owner,jdbcType=VARCHAR},
 		owner_name=#{ownerName,jdbcType=VARCHAR},
 		participant_names=#{participantNames,jdbcType=VARCHAR},
 		start_time=#{startTime,jdbcType=TIMESTAMP},
@@ -101,7 +101,7 @@
 			open_type=#{openType,jdbcType=VARCHAR},
 		</if>
 		<if test="owner!=null">
-			owner=#{owner,jdbcType=VARCHAR},
+			"owner"=#{owner,jdbcType=VARCHAR},
 		</if>
 		<if test="ownerName!=null">
 			owner_name=#{ownerName,jdbcType=VARCHAR},
@@ -166,7 +166,7 @@
 		SELECT * FROM c_schedule 
 		WHERE start_time &gt;= #{startTime,jdbcType=TIMESTAMP} 
 		AND end_time &lt;= #{endTime,jdbcType=TIMESTAMP}
-		AND (owner_name = #{ownerName,jdbcType=VARCHAR} or c_schedule.owner = #{owner,jdbcType=VARCHAR})
+		AND (owner_name = #{ownerName,jdbcType=VARCHAR} or c_schedule."owner" = #{owner,jdbcType=VARCHAR})
 	</select>
 	
 	<select id="getByPeriodAndSource"   parameterType="java.util.Map" resultMap="Schedule">
@@ -195,7 +195,7 @@
 		UPDATE c_schedule a 
 		LEFT JOIN c_schedule_biz b 
 		ON a.id = b.schedule_id 
-		SET a.start_time=#{startTime,jdbcType=TIMESTAMP}, a.end_time=#{endTime,jdbcType=TIMESTAMP}, a.owner=#{owner,jdbcType=VARCHAR} 
+		SET a.start_time=#{startTime,jdbcType=TIMESTAMP}, a.end_time=#{endTime,jdbcType=TIMESTAMP}, a."owner"=#{owner,jdbcType=VARCHAR} 
 		WHERE b.biz_id=#{bizId,jdbcType=VARCHAR}
 	</update>
 	
@@ -205,7 +205,7 @@
 	</select>
 	
 	<select id="getParticipantEvents"   parameterType="java.util.Map" resultType="java.util.Map">
-		SELECT a.title,a.remark,a.task_url,a.type,a.open_type,a.start_time,a.end_time,a.owner,a.owner_name,a.submitter,a.submitNamer,b.participantor,b.participantor_name,b.rate_progress,b.id_,b.schedule_id,b.submit_comment,b.actual_start_time,b.complete_time FROM c_schedule a 
+		SELECT a.title,a.remark,a.task_url,a.type,a.open_type,a.start_time,a.end_time,a."owner"r",a.owner_name,a.submitter,a.submitNamer,b.participantor,b.participantor_name,b.rate_progress,b.id_,b.schedule_id,b.submit_comment,b.actual_start_time,b.complete_time FROM c_schedule a 
 		INNER JOIN c_schedule_participant b 
 		ON a.id = b.schedule_id
 		WHERE a.start_time &gt;= #{startTime,jdbcType=TIMESTAMP} 
