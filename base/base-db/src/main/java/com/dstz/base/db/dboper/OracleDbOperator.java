@@ -16,25 +16,25 @@ import com.dstz.base.db.model.table.Table;
 
 /**
  * <pre>
- * 描述：mysql 的DbOperator实现类
+ * 描述：oracle 的DbOperator实现类
  * 作者:aschs
  * 邮箱:aschs@qq.com
  * 日期:2018年1月22日 下午8:17:49
  * 版权:summer
  * </pre>
  */
-public class MysqlDbOperator extends DbOperator {
+public class OracleDbOperator extends DbOperator {
 
 	/**
 	 * @param jdbcTemplate
 	 */
-	public MysqlDbOperator(JdbcTemplate jdbcTemplate) {
+	public OracleDbOperator(JdbcTemplate jdbcTemplate) {
 		super(jdbcTemplate);
 	}
 
 	@Override
 	public String type() {
-		return DbType.MYSQL.getKey();
+		return DbType.ORACLE.getKey();
 	}
 
 	@Override

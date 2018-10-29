@@ -3,31 +3,30 @@ package com.dstz.base.db.tableoper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.dstz.base.api.constant.ColumnType;
-import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.api.table.DbType;
 import com.dstz.base.db.model.table.Column;
 import com.dstz.base.db.model.table.Table;
 
 /**
  * <pre>
- * mysql的实现类
+ * oracle的实现类
  * </pre>
  *
  * @author aschs
  */
-public class MysqlTableOperator extends TableOperator {
+public class OracleTableOperator extends TableOperator {
 
 	/**
 	 * @param table
 	 * @param jdbcTemplate
 	 */
-	public MysqlTableOperator(Table<? extends Column> table, JdbcTemplate jdbcTemplate) {
+	public OracleTableOperator(Table<? extends Column> table, JdbcTemplate jdbcTemplate) {
 		super(table, jdbcTemplate);
 	}
 
 	@Override
 	public String type() {
-		return DbType.MYSQL.getKey();
+		return DbType.ORACLE.getKey();
 	}
 
 	@Override
@@ -44,41 +43,46 @@ public class MysqlTableOperator extends TableOperator {
 			sql.append(columnToSql(column) + ",\n");
 		}
 		sql.append("PRIMARY KEY (" + table.getPkColumn().getName() + ")" + "\n)");
-		if (StringUtil.isNotEmpty(table.getComment())) {
-			sql.append(" COMMENT='" + table.getComment() + "'");
-		}
 		// 建表结束
 		sql.append(";");
+
+		// 开始处理注释
+		sql.append("COMMENT ON TABLE \"" + table.getName() + "\" IS '" + table.getComment() + "';" + "\n");// 表注解
+		// 字段注解
+		for (Column column : table.getColumns()) {
+			sql.append("COMMENT ON COLUMN \"" + table.getName() + "\".\"" + column.getName() + "\"  IS '" + column.getComment() + "';" + "\n");
+		}
+
 		jdbcTemplate.execute(sql.toString());
 	}
 
 	@Override
 	public boolean isTableCreated() {
-		String sql = "select count(1) from information_schema.TABLES t where table_name =?";
+		String sql = "select count(1) from all_tables t where table_name =?";
 		return jdbcTemplate.queryForObject(sql, Integer.class, table.getName()) > 0 ? true : false;
 	}
 
 	@Override
 	public void addColumn(Column column) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("ALTER TABLE " + table.getName() + "");
-		sql.append(" ADD COLUMN " + columnToSql(column) + ";");
+		sql.append("ALTER TABLE \"" + table.getName() + "\"");
+		sql.append(" ADD ( " + columnToSql(column) + " );");
 		jdbcTemplate.execute(sql.toString());
 	}
 
 	@Override
 	public void updateColumn(Column column) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("ALTER TABLE " + table.getName() + "");
-		sql.append(" MODIFY COLUMN " + columnToSql(column) + ";");
+		sql.append("ALTER TABLE \"" + table.getName() + "\"");
+		sql.append(" MODIFY( " + columnToSql(column) + " );");
 		jdbcTemplate.execute(sql.toString());
 	}
 
 	@Override
 	public void dropColumn(String columnName) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("ALTER TABLE " + table.getName() + "");
-		sql.append(" DROP COLUMN " + columnName + ";");
+		sql.append("ALTER TABLE \"" + table.getName() + "\"");
+		sql.append(" DROP(\"" + columnName + "\");");
 		jdbcTemplate.execute(sql.toString());
 	}
 
@@ -92,26 +96,21 @@ public class MysqlTableOperator extends TableOperator {
 	 */
 	private String columnToSql(Column column) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("" + column.getName() + "");
+		sb.append("\"" + column.getName() + "\"");
 		if (ColumnType.CLOB.equalsWithKey(column.getType())) {
-			sb.append(" text");
+			sb.append(" CLOB");
 		} else if (ColumnType.DATE.equalsWithKey(column.getType())) {
-			sb.append(" datetime");
+			sb.append(" TIMESTAMP");
 		} else if (ColumnType.NUMBER.equalsWithKey(column.getType())) {
-			sb.append(" decimal(" + column.getLength() + "," + column.getDecimal() + ")");
+			sb.append(" NUMBER(" + column.getLength() + "," + column.getDecimal() + ")");
 		} else if (ColumnType.VARCHAR.equalsWithKey(column.getType())) {
-			sb.append(" varchar(" + column.getLength() + ")");
+			sb.append(" VARCHAR2(" + column.getLength() + ")");
 		}
 
 		if (column.isRequired() || column.isPrimary()) {
 			sb.append(" NOT NULL");
-		} else {
-			sb.append(" NULL");
 		}
-		if (StringUtil.isNotEmpty(column.getDefaultValue())) {
-			sb.append(" DEFAULT " + column.getDefaultValue() + "");
-		}
-		sb.append(" COMMENT '" + column.getComment() + "'");
 		return sb.toString();
 	}
+
 }

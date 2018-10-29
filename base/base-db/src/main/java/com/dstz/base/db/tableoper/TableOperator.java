@@ -77,7 +77,7 @@ public abstract class TableOperator {
 			return;
 		}
 		String sql = "drop table " + table.getName() + ";";
-		JdbcTemplateUtil.executeWithTransaction(jdbcTemplate, sql);
+		jdbcTemplate.execute(sql);
 	}
 
 	/**
