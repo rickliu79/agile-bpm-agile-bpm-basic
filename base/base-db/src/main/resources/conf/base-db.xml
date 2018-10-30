@@ -89,8 +89,8 @@
 	            <bean class="com.github.pagehelper.PageInterceptor">
 	            	<property name="properties">
 	            		<value>
-	            			helperDialect=oracle
-                            <!-- autoRuntimeDialect=true -->
+	            			helperDialect=${jdbc.dbType}
+                            <!--数据源存在多种时打开  autoRuntimeDialect=true -->
                             rowBoundsWithCount=true
                         </value>
 	            	</property>
