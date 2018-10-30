@@ -2,20 +2,14 @@ package com.dstz.sys.core.manager;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.dstz.base.manager.Manager;
 import com.dstz.sys.api.model.calendar.Schedule;
 
 /**
  * 
- * <pre> 
  * 描述：日程 处理接口
- * 构建组：x5-bpmx-platform
- * 作者:linkai
- * 邮箱:linkai@ddjf.com.cn
- * 日期:2018-02-01 17:45:09
- * 版权：大道金服
- * </pre>
  */
 public interface ScheduleManager extends Manager<String, Schedule>{
 	
@@ -34,5 +28,7 @@ public interface ScheduleManager extends Manager<String, Schedule>{
 	public List<Schedule> getByBizId(String biz_id);
 	
 	public void updateOnlySchedule(Schedule schedule);
+
+	public List<Map<String, Object>> getParticipantEvents(Date startDate, Date endDate, String name, String id);
 	
 }

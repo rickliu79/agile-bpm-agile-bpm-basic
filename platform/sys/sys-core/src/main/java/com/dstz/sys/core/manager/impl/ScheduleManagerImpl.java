@@ -1,7 +1,9 @@
 package com.dstz.sys.core.manager.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -207,6 +209,17 @@ public class ScheduleManagerImpl extends BaseManager<String, Schedule> implement
 	@Override
 	public void updateOnlySchedule(Schedule schedule) {
 		scheduleDao.updateOnlySchedule(schedule);
+	}
+
+	@Override
+	public List<Map<String, Object>> getParticipantEvents(Date startDate, Date endDate, String name, String id) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("startTime", startDate);
+		map.put("endTime", endDate);
+		map.put("participantName", name);
+		map.put("participant", id);
+		
+		return scheduleDao.getParticipantEvents(map);
 	}
     
     

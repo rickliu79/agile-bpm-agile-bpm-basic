@@ -7,6 +7,7 @@ import com.dstz.sys.core.model.WorkbenchPanel;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 @MapperScan
@@ -28,6 +29,6 @@ public interface WorkbenchPanelDao extends BaseDao<String, WorkbenchPanel> {
     List<WorkbenchPanel> getByUser(Map<String, Object> userPermission);
 
 
-    List<WorkbenchPanel> getBylayoutKey(String layoutKey);
+    List<WorkbenchPanel> getBylayoutKey(@Param("layoutKey")String layoutKey, @Param("dbType")String dbType);
 
 }

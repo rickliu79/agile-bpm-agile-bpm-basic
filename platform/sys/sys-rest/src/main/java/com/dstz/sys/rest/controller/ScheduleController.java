@@ -20,6 +20,7 @@ import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.BaseController;
+import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys.api.model.calendar.Schedule;
 import com.dstz.sys.api.model.calendar.ScheduleParticipant;
 import com.dstz.sys.core.dao.ScheduleDao;
@@ -27,18 +28,13 @@ import com.dstz.sys.core.dao.ScheduleParticipantDao;
 import com.dstz.sys.core.manager.ScheduleManager;
 import com.dstz.sys.util.ContextUtil;
 
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
+
 
 
 /**
- * 
- * <pre> 
  * 描述：日程 控制器类
- * 构建组：x5-bpmx-platform
- * 作者:linkai
- * 邮箱:linkai@ddjf.com.cn
- * 日期:2018-02-01 17:53:04
- * 版权：大道金服
- * </pre>
  */
 @RestController
 @RequestMapping("/calendar/schedule")
@@ -147,7 +143,7 @@ public class ScheduleController extends BaseController<Schedule>{
 		startDate.setTimeInMillis(Long.valueOf(start));
 		endDate.setTimeInMillis(Long.valueOf(end));
 		
-		list = scheduleDao.getParticipantEvents(startDate.getTime(), endDate.getTime(), name, id);
+		list = scheduleManager.getParticipantEvents(startDate.getTime(),endDate.getTime(), name, id);
 		return list;
 	}
 	

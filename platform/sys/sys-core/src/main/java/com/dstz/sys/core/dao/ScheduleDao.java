@@ -55,6 +55,6 @@ public interface ScheduleDao extends BaseDao<String, Schedule> {
 	 */
 	public void updateOnlySchedule(Schedule schedule);
 	
-	List<Map<String, Object>> getParticipantEvents(@Param("startTime")Date startTime, @Param("endTime")Date endTime, @Param("participantName")String participantName, @Param("participant")String participant);
+	public List<Map<String, Object>> getParticipantEvents(Map<String, Object> params);
 }
 

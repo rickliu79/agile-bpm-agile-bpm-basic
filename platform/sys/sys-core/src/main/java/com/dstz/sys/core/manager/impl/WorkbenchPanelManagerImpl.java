@@ -18,6 +18,7 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
+import com.dstz.base.db.datasource.DbContextHolder;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys.api.constant.RightsObjectConstants;
@@ -45,6 +46,8 @@ public class WorkbenchPanelManagerImpl extends BaseManager<String, WorkbenchPane
     public List<WorkbenchPanel> getByUserId(String userId) {
         Map<String, Object> userPermission = sysAuthorizationManager.getUserRightsSql(RightsObjectConstants.WORKBENCH, userId, "p.id_");
         userPermission.put("userId", userId);
+        
+        userPermission.put("dbType", DbContextHolder.getDbType());
 
         List<WorkbenchPanel> layOut = workbenchPanelDao.getByUser(userPermission);
 
@@ -59,7 +62,8 @@ public class WorkbenchPanelManagerImpl extends BaseManager<String, WorkbenchPane
 
     @Override
     public List<WorkbenchPanel> getBylayoutKey(String layoutKey) {
-        return workbenchPanelDao.getBylayoutKey(layoutKey);
+    	String dbType = DbContextHolder.getDbType();
+        return workbenchPanelDao.getBylayoutKey(layoutKey,dbType);
     }
 
     @Override
