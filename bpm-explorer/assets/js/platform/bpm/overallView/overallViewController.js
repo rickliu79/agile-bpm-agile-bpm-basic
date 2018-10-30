@@ -9,7 +9,6 @@ overallViewApp.controller("overallViewController", [ '$scope', 'baseService', 'A
 			var defer = baseService.postForm(__ctx+"/bpm/overallView/getOverallView",param);
 			$.getResultData(defer,function(data){
 				$scope.overallView = data;
-				$scope.defSetting = $scope.overallView.defSetting;
 			});
 		}
 		if(defId){
@@ -77,10 +76,12 @@ overallViewApp.controller("overallViewController", [ '$scope', 'baseService', 'A
 	            		  $.Dialog.error(data.msg);
 	            		  return
 	            	  }
+	            	  for(var key in data.data){
+	            		  data.data[key][0].bpmDefinition.defSetting;
+	            		  
+	            	  }
 	            	  $scope.importOverallViewMap = data.data;
-	            	  window.setTimeout(function(){
-	            		  $('#tt').tabs({width:'100%',height:'100%'});
-	            	  },100)
+	            	  
 	               }); 
 
 	     }
