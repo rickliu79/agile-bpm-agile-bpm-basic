@@ -28,11 +28,11 @@
 		          		<td>{{formInit.desc}}</td>
 		          		<td>
 							 <textarea disabled="disabled" ab-trim ng-model="formInit.beforeShow" rows="2" class="form-control"
-							 ng-class="{true: 'same', false: 'nosame'}[getIsSame(defSetting,compareDefSetting,('defSetting.flow.nodeInitList['+this.$index+'].beforeShow'))]"></textarea>
+							 ng-class="{true: 'same', false: 'nosame'}[getIsSame(defSetting,compareDefSetting,('flow.nodeInitList['+this.$index+'].beforeShow'))]"></textarea>
 						</td> 
 		          		<td>
 							 <textarea disabled="disabled" ab-trim ng-model="formInit.whenSave" rows="2" class="form-control"
-							 ng-class="{true: 'same', false: 'nosame'}[getIsSame(defSetting,compareDefSetting,('defSetting.flow.nodeInitList['+this.$index+'].whenSave'))]"></textarea>
+							 ng-class="{true: 'same', false: 'nosame'}[getIsSame(defSetting,compareDefSetting,('flow.nodeInitList['+this.$index+'].whenSave'))]"></textarea>
 		          		</td> 
 		          </tr>
 		        </tbody>
@@ -67,7 +67,7 @@
 				          <tr ng-repeat="userConf in nodeConf.plugins.userAssign.ruleList"> 
 				          		<td style="width: 200px">{{userConf.description}}</td>
 				          		<td><textarea style="max-width: 1100px!important" ab-show-json="false" ng-model="userConf.calcs" disabled="disabled" class="form-control"
-				          		ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting[nodeId],'userConf.plugins.userAssign.ruleList['+$index+'].calcs')]"></textarea></td> 
+				          		ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting.nodeMap[nodeId],'plugins.userAssign.ruleList['+$index+'].calcs')]"></textarea></td> 
 				          </tr>
 				        </tbody>
 				   </table>
@@ -81,11 +81,11 @@
 					          <tr id="{{nodeConf.nodeId}}nodeBtnScript" ng-repeat="btn in nodeConf.btnList"  ng-show="btn.beforeScript || btn.afterScript || btn.groovyScript || btn.isShow"> 
 					          		<td>{{btn.name}}</td><td>{{btn.alias}}</td>
 					          		<td><textarea rows="1" ab-trim ng-model="btn.beforeScript" class="form-control" disabled="disabled"
-					          					ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting[nodeId],'btnList['+$index+'].beforeScript')]"></textarea></td> 
+					          					ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting.nodeMap[nodeId],'btnList['+$index+'].beforeScript')]"></textarea></td> 
 					          		<td><textarea rows="1" ab-trim ng-model="btn.afterScript"  class="form-control" disabled="disabled"
-					          					ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting[nodeId],'btnList['+$index+'].afterScript')]"></textarea></td>
+					          					ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting.nodeMap[nodeId],'btnList['+$index+'].afterScript')]"></textarea></td>
 					          		<td><textarea rows="1" ab-trim ng-model="btn.groovyScript" class="form-control" disabled="disabled"
-					          					ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting[nodeId],'btnList['+$index+'].groovyScript')]"></textarea></td>
+					          					ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting.nodeMap[nodeId],'btnList['+$index+'].groovyScript')]"></textarea></td>
 					          </tr>
 					   </table>
 			  		</div>
@@ -100,7 +100,7 @@
 			          <tr ng-repeat="ruleSkip in plugin" id="xxnodeSkipScript"> 
 			          	<td>{{ruleSkip.name}}</td> <td>{{ruleSkip.targetNodeDesc}}-{{ruleSkip.targetNode}}</td> 
 			          	<td><textarea  class="form-control" ab-trim ng-model="ruleSkip.script" disabled="disabled"
-			          		ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareOverallView[nodeId],'plugins.ruleSkip['+$index+'].script')]"></textarea></td> 
+			          		ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting.nodeMap[nodeId],'plugins.ruleSkip['+$index+'].script')]"></textarea></td> 
 			          </tr>
 			        </tbody>
 			   </table>
@@ -111,23 +111,23 @@
 			          <tr id="{{nodeConf.nodeId}}-nodeScript">  
 			          		<td  ab-tip="{position:{my:'bottom center',at:'top center'}}" title="任务创建时脚本" ng-if="nodeConf.nodeType=='UserTask'"> 
 			          			<textarea ng-model="nodeConf.plugins.nodeScript.taskCreate" ab-trim rows="2" class="form-control" disabled="disabled"
-			          				ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting[nodeId],'plugins.nodeScript.taskCreate')]"></textarea>  
+			          				ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting.nodeMap[nodeId],'plugins.nodeScript.taskCreate')]"></textarea>  
 			          		</td> 
 			          		<td ab-tip="{position:{my:'bottom center',at:'top center'}}" title="任务完成时脚本" ng-if="nodeConf.nodeType=='UserTask'"> 
 			          			<textarea id="{{nodeConf.nodeId}}" ab-trim ng-model="nodeConf.plugins.nodeScript.taskComplete" rows="2" class="form-control" disabled="disabled"
-			          				ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting[nodeId],'plugins.nodeScript.taskComplete')]"></textarea>
+			          				ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting.nodeMap[nodeId],'plugins.nodeScript.taskComplete')]"></textarea>
 			          		</td>
 			          		<td ab-tip="{position:{my:'bottom center',at:'top center'}}"  title="流程创建时脚本" ng-if="nodeConf.nodeType=='StartNoneEvent'"> 
 			          			<textarea ab-trim ng-model="nodeConf.plugins.nodeScript.startEvent" rows="2" class="form-control" disabled="disabled"
-			          				ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting[nodeId],'plugins.nodeScript.startEvent')]"></textarea>  
+			          				ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting.nodeMap[nodeId],'plugins.nodeScript.startEvent')]"></textarea>  
 			          		</td>
 			          		<td ab-tip="{position:{my:'bottom center',at:'top center'}}"  title="流程完成时执行脚本"  ng-if="nodeConf.nodeType=='EndNoneEvent'"> 
 			          			<textarea ab-trim rows="2" ng-model="nodeConf.plugins.nodeScript.endEvent" class="form-control" disabled="disabled"
-			          				ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting[nodeId],'plugins.nodeScript.endEvent')]"></textarea>  
+			          				ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting.nodeMap[nodeId],'plugins.nodeScript.endEvent')]"></textarea>  
 			          		</td> 
 			          	   <td ab-tip="{position:{my:'bottom center',at:'top center'}}"  title="流程人工结束时执行脚本"  ng-if="nodeConf.nodeType=='EndNoneEvent'"> 
 			          	   		<textarea ab-trim rows="2" ng-model="nodeConf.plugins.nodeScript.manualEnd"  class="form-control" disabled="disabled"
-			          				ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting[nodeId],'plugins.nodeScript.manualEnd')]"></textarea>
+			          				ng-class="{true: 'same', false: 'nosame'}[getIsSame(nodeConf,compareDefSetting.nodeMap[nodeId],'plugins.nodeScript.manualEnd')]"></textarea>
 			          	   </td>
 			          </tr>
 			        </tbody>

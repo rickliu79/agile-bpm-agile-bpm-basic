@@ -38,22 +38,13 @@ overallViewApp.controller("overallViewController", [ '$scope', 'baseService', 'A
 				overallViewList.push(obj);
 			}
 			if(overallViewList.length==0){
-				$.Dialog.error("要上传的数据不存在！");
+				$.Dialog.error("要上传的数据不存在！,请先导入合法的流程定义文件");
 				return;
 			}
 			
 			var defer = baseService.post(__ctx+"/bpm/overallView/importSave",overallViewList);
-			defer.then(function(data){
-				if(data.result==1){
-					$.Dialog.success(data.message,function(){
-						window.location = "overallViewUpload";
-					});
-				}else{
-					$.Dialog.error("保存异常"+data.message);
-				}
-				
-			},function(code){
-				$.Dialog.error("获取流程定义异常"+code);
+			$.getResultMsg(defer,function(){
+				window.location = "/bpm/overallView/overallViewUpload.html";
 			});
 		}
 		
