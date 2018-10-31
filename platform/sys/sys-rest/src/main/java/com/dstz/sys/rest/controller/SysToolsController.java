@@ -14,6 +14,8 @@ import com.dstz.base.core.util.ConstantUtil;
 import com.dstz.base.core.util.EnumUtil;
 import com.dstz.base.core.util.PinyinUtil;
 import com.dstz.base.core.util.StringUtil;
+import com.dstz.base.db.api.table.DbType;
+import com.dstz.base.db.datasource.DbContextHolder;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
 
@@ -85,6 +87,9 @@ public class SysToolsController extends GenericController {
 			result = PinyinUtil.getPinyin(chinese);
 		} else {
 			result = PinyinUtil.getPinYinHeadChar(chinese);
+		}
+		if(DbType.ORACLE.equalsWithKey(DbContextHolder.getDbType())) {
+			result = result.toUpperCase();//oracle默认映射都大写
 		}
 		response.getWriter().write(result);
 	}

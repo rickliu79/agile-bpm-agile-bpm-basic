@@ -99,7 +99,7 @@ public class FormCustDialogController extends BaseController<FormCustDialog> {
     @RequestMapping("getTable")
     @CatchErr(write2response = true, value = "根据数据源获取objName的字段信息失败")
     public void getTable(HttpServletRequest request, HttpServletResponse response, @RequestBody FormCustDialog formCustDialog) throws Exception {
-        writeSuccessData(response, formCustDialogManager.getTable(formCustDialog), "根据数据源获取objName的字段信息成功");
+    	writeSuccessData(response, formCustDialogManager.getTable(formCustDialog), "根据数据源获取objName的字段信息成功");
     }
 
     /**

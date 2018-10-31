@@ -15,6 +15,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import com.dstz.base.core.id.IdUtil;
+import com.dstz.base.core.util.PropertyUtil;
 import com.dstz.base.db.api.table.DbType;
 import com.dstz.base.db.datasource.DataSourceUtil;
 import com.dstz.sys.core.manager.SysDataSourceManager;
@@ -57,6 +58,13 @@ public class DataSourceInitListener implements ApplicationListener<ContextRefres
 	 */
 	private void loadDataSourceFromSysDataSource() {
 		for (SysDataSource sysDataSource : sysDataSourceManager.getAll()) {
+			// 系统数据源，同时sysDataSource表中的数据库类型跟配置文件的不一致
+			if (sysDataSource.getKey().equals(DataSourceUtil.DEFAULT_DATASOURCE) && !PropertyUtil.getJdbcType().equals(sysDataSource.getDbType())) {
+				sysDataSource.setDbType(PropertyUtil.getJdbcType());
+				sysDataSourceManager.update(sysDataSource);
+
+			}
+
 			// 本地数据源不需要再次增加进去
 			if (DataSourceUtil.isDataSourceExist(sysDataSource.getKey()) || sysDataSource.getKey().equals(DataSourceUtil.GLOBAL_DATASOURCE) || sysDataSource.getKey().equals(DataSourceUtil.DEFAULT_DATASOURCE)) {
 				continue;

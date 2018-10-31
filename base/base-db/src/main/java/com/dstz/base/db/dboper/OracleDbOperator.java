@@ -1,9 +1,11 @@
 package com.dstz.base.db.dboper;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,10 +41,10 @@ public class OracleDbOperator extends DbOperator {
 
 	@Override
 	public Map<String, String> getTableNames(String tableName) {
-		String sql = "select table_name,table_comment from information_schema.tables t where t.table_type='BASE TABLE' AND t.table_schema=DATABASE()";
+		String sql = "select t.table_name,f.comments from user_tables t inner join user_tab_comments f on t.table_name = f.table_name";
 		List<Map<String, Object>> list;
 		if (StringUtils.isNotEmpty(tableName)) {
-			sql += " AND TABLE_NAME LIKE ?";
+			sql += " AND t.table_name LIKE ?";
 			list = jdbcTemplate.queryForList(sql, "%" + tableName + "%");
 		}else {
 			list = jdbcTemplate.queryForList(sql);
@@ -50,7 +52,7 @@ public class OracleDbOperator extends DbOperator {
 
 		Map<String, String> map = new LinkedHashMap<>();
 		for (Map<String, Object> m : list) {
-			map.put(m.get("table_name").toString(), m.get("table_comment").toString());
+			map.put(m.get("table_name").toString(), getOrDefault(m,"comments","").toString());
 		}
 
 		return map;
@@ -58,13 +60,13 @@ public class OracleDbOperator extends DbOperator {
 
 	@Override
 	public List<String> getViewNames(String viewName) {
-		String sql = "show table status where comment='view'";
+		String sql = "SELECT * FROM USER_VIEWS ";
 		if (StringUtils.isNotEmpty(viewName))
-			sql += " AND NAME LIKE ?";
+			sql += " WHERE VIEW_NAME LIKE ?";
 		List<String> list = new ArrayList<>();
 		List<Map<String, Object>> results = jdbcTemplate.queryForList(sql, "%" + viewName + "%");
 		for (Map<String, Object> line : results) {
-			list.add(line.get("Name").toString());
+			list.add(line.get("VIEW_NAME").toString());
 		}
 		return list;
 	}
@@ -106,39 +108,48 @@ public class OracleDbOperator extends DbOperator {
 	 * @return
 	 */
 	private List<Column> getColumns(String name) {
-		String sql = "SELECT * FROM  INFORMATION_SCHEMA.COLUMNS  WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME=?";
+		//先找到主键
+		String sqlT = "select col.column_name from user_constraints con,user_cons_columns col where con.constraint_name=col.constraint_name and con.constraint_type='P' and col.table_name= ?";
+		List<Map<String, Object>> listT = jdbcTemplate.queryForList(sqlT, name);
+		Set<String> pkNames = new HashSet<>();//主键
+		for (Map<String, Object> map : listT) {
+			pkNames.add(getOrDefault(map,"COLUMN_NAME", "").toString());
+		}
+		
+		//开始解析字段信息
+		String sql = "select a.*,b.comments from user_tab_columns a inner join user_col_comments b on a.table_name = b.table_name and a.column_name = b.column_name and a.table_name = ? ";
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, name);
 		List<Column> columns = new ArrayList<>();
 		for (Map<String, Object> map : list) {
 			Column column = new Column();
-			column.setComment(map.getOrDefault("COLUMN_COMMENT", "").toString());
-			column.setDefaultValue(map.get("COLUMN_DEFAULT") == null ? null : map.get("COLUMN_DEFAULT").toString());
-			column.setName(map.getOrDefault("COLUMN_NAME", "").toString());
-			column.setPrimary("PRI".equals(map.getOrDefault("COLUMN_KEY", "")));
-			column.setRequired("NO".equals(map.getOrDefault("IS_NULLABLE", "")));
+			column.setComment(getOrDefault(map,"COMMENTS", "").toString());
+			column.setDefaultValue(map.get("DATA_DEFAULT") == null ? null : map.get("DATA_DEFAULT").toString());
+			column.setName(getOrDefault(map,"COLUMN_NAME", "").toString());
+			column.setPrimary(pkNames.contains(column.getName()));
+			column.setRequired("N".equals(getOrDefault(map,"NULLABLE", "Y")));
 			column.setType(ColumnType.getByDbDataType(map.get("DATA_TYPE").toString()).getKey());
 			if (ColumnType.VARCHAR.equalsWithKey(column.getType())) {
-				column.setLength(Integer.parseInt(map.getOrDefault("CHARACTER_MAXIMUM_LENGTH", "0").toString()));
+				column.setLength(Integer.parseInt(getOrDefault(map,"DATA_LENGTH", "0").toString()));
 			}
 			if (ColumnType.NUMBER.equalsWithKey(column.getType())) {
-				column.setLength(Integer.parseInt(map.getOrDefault("NUMERIC_PRECISION", "0").toString()));
-				column.setDecimal(Integer.parseInt(map.getOrDefault("NUMERIC_SCALE", "0").toString()));
+				column.setLength(Integer.parseInt(getOrDefault(map,"DATA_PRECISION", "0").toString()));
+				column.setDecimal(Integer.parseInt(getOrDefault(map,"DATA_SCALE", "0").toString()));
 			}
 			columns.add(column);
 		}
 		return columns;
 	}
-
+	
 	@Override
 	public boolean supportPartition(String tableName) {
-		String sql = "select count(*) from information_schema.partitions where table_name=?;";
+		String sql = "select count(*) from information_schema.partitions where table_name=?";
 		Integer rtn = jdbcTemplate.queryForObject(sql, Integer.class, tableName);
 		return rtn > 0;
 	}
 
 	@Override
 	public boolean isExsitPartition(String tableName, String partName) {
-		String sql = "select count(*) from information_schema.partitions where table_name=? and partition_name =?;";
+		String sql = "select count(*) from information_schema.partitions where table_name=? and partition_name =?";
 		String[] args = new String[2];
 		args[0] = tableName;
 		args[1] = "P_" + partName.toUpperCase();

@@ -4,8 +4,6 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
 
@@ -106,21 +104,5 @@ public class DataSourceUtil {
         Map<String, DataSource> map = getDataSources();
         return map.get(alias);
     }
-
-    /**
-     * 根据数据源别名返回容器里对应的jdbctemp
-     *
-     * @param alias
-     * @return
-     * @throws Exception JdbcTemplate
-     * @throws
-     * @since 1.0.0
-     */
-    public static JdbcTemplate getJdbcTempByDsAlias(String alias) {
-        if (alias.equals(DEFAULT_DATASOURCE)) {
-            return (JdbcTemplate) AppUtil.getBean("jdbcTemplate");
-        }
-        return new JdbcTemplate(DataSourceUtil.getDataSourceByAlias(alias));
-    }
-
+   
 }

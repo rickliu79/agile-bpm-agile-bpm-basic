@@ -29,6 +29,9 @@ public class TableOperatorFactory {
 		if (DbType.MYSQL.equalsWithKey(type)) {
 			return new MysqlTableOperator(table, jdbcTemplate);
 		}
+		if (DbType.ORACLE.equalsWithKey(type)) {
+			return new OracleTableOperator(table, jdbcTemplate);
+		}
 		throw new RuntimeException("找不到类型[" + type + "]的数据库处理者(TableOperator)");
 	}
 	

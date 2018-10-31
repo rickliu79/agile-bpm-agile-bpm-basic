@@ -10,9 +10,11 @@ import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
+import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.datasource.DataSourceUtil;
+import com.dstz.base.db.datasource.DbContextHolder;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys.core.dao.SysDataSourceDao;
@@ -67,6 +69,11 @@ public class SysDataSourceManagerImpl extends BaseManager<String, SysDataSource>
 
 	@Override
 	public DataSource getDataSourceByKey(String key, boolean add) {
+		//如果是线程中的数据源 
+    	if(DbContextHolder.getDataSource().equals(key)) {
+    		return (DataSource) AppUtil.getBean("dataSource");
+    	}
+		
 		// 1从spring配置中取
 		DataSource dataSource = DataSourceUtil.getDataSourceByAlias(key);
 		if (dataSource != null) {
@@ -90,6 +97,11 @@ public class SysDataSourceManagerImpl extends BaseManager<String, SysDataSource>
 
 	@Override
 	public JdbcTemplate getJdbcTemplateByKey(String key) {
+		//如果是线程中的数据源 
+    	if(DbContextHolder.getDataSource().equals(key)) {
+    		return (JdbcTemplate) AppUtil.getBean("jdbcTemplate");
+    	}
+		
 		return new JdbcTemplate(getDataSourceByKey(key));
 	}
 

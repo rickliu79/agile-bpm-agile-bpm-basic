@@ -3,7 +3,6 @@ package com.dstz.base.db.dboper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.dstz.base.core.util.AppUtil;
-import com.dstz.base.core.util.PropertyUtil;
 import com.dstz.base.db.api.table.DbType;
 import com.dstz.base.db.datasource.DbContextHolder;
 
@@ -33,6 +32,9 @@ public class DbOperatorFactory {
     public static DbOperator newOperator(String type, JdbcTemplate jdbcTemplate) {
         if (DbType.MYSQL.equalsWithKey(type)) {
             return new MysqlDbOperator(jdbcTemplate);
+        }
+        if (DbType.ORACLE.equalsWithKey(type)) {
+            return new OracleDbOperator(jdbcTemplate);
         }
         return null;
     }

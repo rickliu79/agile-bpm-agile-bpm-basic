@@ -3,6 +3,7 @@ package com.dstz.base.db.tableoper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.dstz.base.api.constant.ColumnType;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.api.table.DbType;
 import com.dstz.base.db.model.table.Column;
 import com.dstz.base.db.model.table.Table;
@@ -38,27 +39,34 @@ public class OracleTableOperator extends TableOperator {
 
 		// 建表语句
 		StringBuilder sql = new StringBuilder();
-		sql.append("CREATE TABLE " + table.getName() + " (" + "\n");
+		sql.append("CREATE TABLE \"" + table.getName() + "\" (" + "\n");
 		for (Column column : table.getColumns()) {
 			sql.append(columnToSql(column) + ",\n");
 		}
-		sql.append("PRIMARY KEY (" + table.getPkColumn().getName() + ")" + "\n)");
+		sql.append("PRIMARY KEY (\"" + table.getPkColumn().getName() + "\")" + "\n)");
 		// 建表结束
-		sql.append(";");
-
-		// 开始处理注释
-		sql.append("COMMENT ON TABLE \"" + table.getName() + "\" IS '" + table.getComment() + "';" + "\n");// 表注解
-		// 字段注解
-		for (Column column : table.getColumns()) {
-			sql.append("COMMENT ON COLUMN \"" + table.getName() + "\".\"" + column.getName() + "\"  IS '" + column.getComment() + "';" + "\n");
-		}
-
 		jdbcTemplate.execute(sql.toString());
+		
+		// 开始处理注释
+		if(StringUtil.isNotEmpty(table.getComment())) {
+			String str = "COMMENT ON TABLE \"" + table.getName() + "\" IS '" + table.getComment() + "'";
+			jdbcTemplate.execute(str);// 表注解
+		}
+		
+		// 字段注解
+		for (int i = 0; i < table.getColumns().size(); i++) {
+			Column column = table.getColumns().get(i);
+			if(StringUtil.isEmpty(column.getComment())) {
+				continue;
+			}
+			String str = "COMMENT ON COLUMN \"" + table.getName() + "\".\"" + column.getName() + "\"  IS '" + column.getComment()+"'";
+			jdbcTemplate.execute(str);
+		}
 	}
 
 	@Override
 	public boolean isTableCreated() {
-		String sql = "select count(1) from all_tables t where table_name =?";
+		String sql = "select count(1) from user_tables t where table_name =?";
 		return jdbcTemplate.queryForObject(sql, Integer.class, table.getName()) > 0 ? true : false;
 	}
 
@@ -66,15 +74,22 @@ public class OracleTableOperator extends TableOperator {
 	public void addColumn(Column column) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("ALTER TABLE \"" + table.getName() + "\"");
-		sql.append(" ADD ( " + columnToSql(column) + " );");
+		sql.append(" ADD ( " + columnToSql(column) + " )");
 		jdbcTemplate.execute(sql.toString());
+		
+		//注解
+		if(StringUtil.isEmpty(column.getComment())) {
+			return;
+		}
+		String str = "COMMENT ON COLUMN \"" + table.getName() + "\".\"" + column.getName() + "\"  IS '" + column.getComment()+"'";
+		jdbcTemplate.execute(str);
 	}
 
 	@Override
 	public void updateColumn(Column column) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("ALTER TABLE \"" + table.getName() + "\"");
-		sql.append(" MODIFY( " + columnToSql(column) + " );");
+		sql.append(" MODIFY( " + columnToSql(column) + " )");
 		jdbcTemplate.execute(sql.toString());
 	}
 
@@ -82,7 +97,7 @@ public class OracleTableOperator extends TableOperator {
 	public void dropColumn(String columnName) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("ALTER TABLE \"" + table.getName() + "\"");
-		sql.append(" DROP(\"" + columnName + "\");");
+		sql.append(" DROP(\"" + columnName + "\")");
 		jdbcTemplate.execute(sql.toString());
 	}
 

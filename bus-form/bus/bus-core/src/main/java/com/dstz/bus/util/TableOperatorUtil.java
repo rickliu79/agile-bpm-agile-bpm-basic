@@ -1,24 +1,25 @@
 package com.dstz.bus.util;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.db.api.table.DbType;
-import com.dstz.base.db.datasource.DataSourceUtil;
 import com.dstz.base.db.tableoper.MysqlTableOperator;
 import com.dstz.base.db.tableoper.TableOperator;
 import com.dstz.bus.model.BusinessTable;
-import org.springframework.jdbc.core.JdbcTemplate;
+import com.dstz.sys.api.service.ISysDataSourceService;
 
 public class TableOperatorUtil {
 
     /**
-     * 从当前可用的数据源中 加工 tableOperator<br>
-     * TODO 如果不存在动态数据源中。也不可用。那么不支持获取吧busData
+     * 从当前可用的数据源中 加工 tableOperator
      *
      * @param dsKey
      * @param table
      * @return
      */
     public static TableOperator newOperator(BusinessTable table) {
-        JdbcTemplate jdbcTemplate = DataSourceUtil.getJdbcTempByDsAlias(table.getDsKey());
+        JdbcTemplate jdbcTemplate = AppUtil.getBean(ISysDataSourceService.class).getJdbcTemplateByKey(table.getDsKey());
         if (jdbcTemplate == null) {
             throw new RuntimeException("当前系统不存在的数据源:" + table.getDsKey());
         }

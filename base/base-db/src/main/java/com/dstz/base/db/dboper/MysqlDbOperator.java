@@ -44,7 +44,7 @@ public class MysqlDbOperator extends DbOperator {
 		if (StringUtils.isNotEmpty(tableName)) {
 			sql += " AND TABLE_NAME LIKE ?";
 			list = jdbcTemplate.queryForList(sql, "%" + tableName + "%");
-		}else {
+		} else {
 			list = jdbcTemplate.queryForList(sql);
 		}
 
@@ -111,18 +111,18 @@ public class MysqlDbOperator extends DbOperator {
 		List<Column> columns = new ArrayList<>();
 		for (Map<String, Object> map : list) {
 			Column column = new Column();
-			column.setComment(map.getOrDefault("COLUMN_COMMENT", "").toString());
+			column.setComment(getOrDefault(map, "COLUMN_COMMENT", "").toString());
 			column.setDefaultValue(map.get("COLUMN_DEFAULT") == null ? null : map.get("COLUMN_DEFAULT").toString());
-			column.setName(map.getOrDefault("COLUMN_NAME", "").toString());
-			column.setPrimary("PRI".equals(map.getOrDefault("COLUMN_KEY", "")));
-			column.setRequired("NO".equals(map.getOrDefault("IS_NULLABLE", "")));
+			column.setName(getOrDefault(map, "COLUMN_NAME", "").toString());
+			column.setPrimary("PRI".equals(getOrDefault(map, "COLUMN_KEY", "")));
+			column.setRequired("NO".equals(getOrDefault(map, "IS_NULLABLE", "")));
 			column.setType(ColumnType.getByDbDataType(map.get("DATA_TYPE").toString()).getKey());
 			if (ColumnType.VARCHAR.equalsWithKey(column.getType())) {
-				column.setLength(Integer.parseInt(map.getOrDefault("CHARACTER_MAXIMUM_LENGTH", "0").toString()));
+				column.setLength(Integer.parseInt(getOrDefault(map, "CHARACTER_MAXIMUM_LENGTH", "0").toString()));
 			}
 			if (ColumnType.NUMBER.equalsWithKey(column.getType())) {
-				column.setLength(Integer.parseInt(map.getOrDefault("NUMERIC_PRECISION", "0").toString()));
-				column.setDecimal(Integer.parseInt(map.getOrDefault("NUMERIC_SCALE", "0").toString()));
+				column.setLength(Integer.parseInt(getOrDefault(map, "NUMERIC_PRECISION", "0").toString()));
+				column.setDecimal(Integer.parseInt(getOrDefault(map, "NUMERIC_SCALE", "0").toString()));
 			}
 			columns.add(column);
 		}

@@ -76,6 +76,7 @@ public enum ColumnType {
 	/**
 	 * <pre>
 	 * 根据数据库的字段类型获取type
+	 * 无视大小写
 	 * </pre>
 	 *
 	 * @param dbDataType
@@ -84,9 +85,12 @@ public enum ColumnType {
 	 */
 	public static ColumnType getByDbDataType(String dbDataType) {
 		for (ColumnType type : ColumnType.values()) {
-			if (Arrays.asList(type.supports).contains(dbDataType)) {
-				return type;
+			for(String support:Arrays.asList(type.supports)) {
+				if(dbDataType.toLowerCase().contains(support.toLowerCase())) {
+					return type;
+				}
 			}
+			
 		}
 		throw new BusinessException(String.format("数据库类型[%s]转换不了系统支持的类型", dbDataType));
 	}
