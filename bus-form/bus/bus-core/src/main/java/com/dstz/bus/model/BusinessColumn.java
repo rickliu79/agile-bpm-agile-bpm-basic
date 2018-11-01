@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.constant.ColumnType;
+import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.model.IBaseModel;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
@@ -48,15 +49,15 @@ public class BusinessColumn extends Column implements IBaseModel, IBusinessColum
 	@Valid
 	private BusColumnCtrl ctrl;
 	private BusinessTable table;
-	
-    // 创建时间
-    protected Date createTime;
-    // 创建人ID
-    protected String createBy;
-    // 更新时间
-    protected Date updateTime;
-    // 更新人ID
-    protected String updateBy;
+
+	// 创建时间
+	protected Date createTime;
+	// 创建人ID
+	protected String createBy;
+	// 更新时间
+	protected Date updateTime;
+	// 更新人ID
+	protected String updateBy;
 
 	public String getId() {
 		return id;
@@ -116,62 +117,66 @@ public class BusinessColumn extends Column implements IBaseModel, IBusinessColum
 		}
 
 		Object value = null;
-		if (ColumnType.VARCHAR.equalsWithKey(type) || ColumnType.CLOB.equalsWithKey(type)) {
-			value = str;
-		} else if (ColumnType.NUMBER.equalsWithKey(type)) {
-			BigDecimal bigDecimal = new BigDecimal(str);
-			// 保留精度小数，且四舍五入
-			value = bigDecimal.setScale(this.getDecimal(), RoundingMode.HALF_UP);
-		} else if (ColumnType.DATE.equalsWithKey(type)) {
-			JSONObject config = JSON.parseObject(this.getCtrl().getConfig());
-			try {
-				value = DateUtil.parse(str, config.getString("format"));
-			}catch (Exception e) {//解析失败，默认超匹配模式
-				value = DateUtil.parse(str);
+		try {
+			if (ColumnType.VARCHAR.equalsWithKey(type) || ColumnType.CLOB.equalsWithKey(type)) {
+				value = str;
+			} else if (ColumnType.NUMBER.equalsWithKey(type)) {
+				BigDecimal bigDecimal = new BigDecimal(str);
+				// 保留精度小数，且四舍五入
+				value = bigDecimal.setScale(this.getDecimal(), RoundingMode.HALF_UP);
+			} else if (ColumnType.DATE.equalsWithKey(type)) {
+				JSONObject config = JSON.parseObject(this.getCtrl().getConfig());
+				try {
+					value = DateUtil.parse(str, config.getString("format"));
+				} catch (Exception e) {// 解析失败，默认超匹配模式
+					value = DateUtil.parse(str);
+				}
 			}
-			
+		} catch (Exception e) {
+			ColumnType columnType = ColumnType.getByKey(this.type);
+			throw new BusinessException("字段值解析失败，无法把字符串[" + str + "]转化成" + columnType.getDesc() + "[" + columnType.getKey() + "]");
 		}
-
 		return value;
 	}
 
-    @Override
-    public Date getCreateTime() {
-        return createTime;
-    }
+	@Override
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    @Override
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	@Override
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
-    @Override
-    public String getCreateBy() {
-        return createBy;
-    }
+	@Override
+	public String getCreateBy() {
+		return createBy;
+	}
 
-    @Override
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-    @Override
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+	@Override
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
 
-    @Override
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+	@Override
+	public Date getUpdateTime() {
+		return updateTime;
+	}
 
-    @Override
-    public String getUpdateBy() {
-        return updateBy;
-    }
+	@Override
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
 
-    @Override
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-    }
+	@Override
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	@Override
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
+	}
 
 }

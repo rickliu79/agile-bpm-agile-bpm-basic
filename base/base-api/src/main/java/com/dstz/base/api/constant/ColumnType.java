@@ -72,7 +72,16 @@ public enum ColumnType {
 	public boolean equalsWithKey(String key) {
 		return this.key.equals(key);
 	}
-
+	
+	public static ColumnType getByKey(String key) {
+		for (ColumnType type : ColumnType.values()) {
+			if(type.getKey().equals(key)) {
+				return type;
+			}
+		}
+		throw new BusinessException(String.format("找不到key为[%s]的字段类型", key));
+	}
+	
 	/**
 	 * <pre>
 	 * 根据数据库的字段类型获取type

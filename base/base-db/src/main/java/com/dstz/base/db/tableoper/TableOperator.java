@@ -76,7 +76,7 @@ public abstract class TableOperator {
 		if (!isTableCreated()) {
 			return;
 		}
-		String sql = "drop table " + table.getName() + ";";
+		String sql = "drop table " + table.getName() + "";
 		jdbcTemplate.execute(sql);
 	}
 
@@ -151,7 +151,7 @@ public abstract class TableOperator {
 			paramNameSql.append("?");
 			param.add(entry.getValue());
 		}
-		sql.append("(" + columnNameSql + ") VALUES(" + paramNameSql + ");");
+		sql.append("(" + columnNameSql + ") VALUES(" + paramNameSql + ")");
 		jdbcTemplate.update(sql.toString(), param.toArray());
 	}
 
@@ -164,7 +164,7 @@ public abstract class TableOperator {
 	 *            主键值
 	 */
 	public void deleteData(Object id) {
-		String sql = "DELETE FROM " + table.getName() + " where " + table.getPkColumn().getName() + " = ?;";
+		String sql = "DELETE FROM " + table.getName() + " where " + table.getPkColumn().getName() + " = ?";
 		jdbcTemplate.update(sql, id);
 	}
 
@@ -316,7 +316,6 @@ public abstract class TableOperator {
 			sql.append(entry.getKey() + " = ?");
 			paramList.add(entry.getValue());
 		}
-		sql.append(";");
 
 		return jdbcTemplate.queryForList(sql.toString(), paramList.toArray());
 	}
