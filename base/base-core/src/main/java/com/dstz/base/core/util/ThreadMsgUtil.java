@@ -67,13 +67,17 @@ public class ThreadMsgUtil {
      * @return
      */
     public static String getMessage(boolean clean) {
+    	return	getMessage(clean, "\r\n");
+    }
+    
+    public static String getMessage(boolean clean,String lineBreak) {
         List<String> list = getMsg(clean);
         String str = "";
         if (BeanUtils.isEmpty(list)) {
             return str;
         }
         for (String msg : list) {
-            str += msg + "\r\n";
+            str += msg + lineBreak;
         }
         return str;
     }

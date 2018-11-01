@@ -29,8 +29,8 @@ overallViewApp.controller("overallViewController", [ '$scope', 'baseService', 'A
 			if($scope.importOverallViewMap)
 			for(var key in $scope.importOverallViewMap){
 				var obj = $scope.importOverallViewMap[key][0];
-				if(obj.defId){
-					$.Dialog.error("数据异常");
+				if(obj.defId || !obj.bpmnXml || !obj.modelJson){
+					$.Dialog.error("数据异常,请检查 流程 bpmnxml , bpmnModelJson 是否完整！");
 					console.error($scope.importOverallViewMap);
 					return;
 				}
@@ -44,7 +44,7 @@ overallViewApp.controller("overallViewController", [ '$scope', 'baseService', 'A
 			
 			var defer = baseService.post(__ctx+"/bpm/overallView/importSave",overallViewList);
 			$.getResultMsg(defer,function(){
-				window.location = "/bpm/overallView/overallViewUpload.html";
+				window.location = "bpm/overallView/overallViewUpload.html";
 			});
 		}
 		
