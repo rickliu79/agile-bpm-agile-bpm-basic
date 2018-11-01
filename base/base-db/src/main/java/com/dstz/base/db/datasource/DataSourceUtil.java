@@ -93,8 +93,11 @@ public class DataSourceUtil {
     }
 
     /**
+     * <pre>
      * 根据别名返回容器里对应的数据源
-     *
+     * 尽量用sysDataSOurceService，那里作了取本地数据源的优化
+     * 不然在这里取的话在普通事务中有影响
+     *	</pre>
      * @param alias
      * @return
      * @throws IllegalAccessException

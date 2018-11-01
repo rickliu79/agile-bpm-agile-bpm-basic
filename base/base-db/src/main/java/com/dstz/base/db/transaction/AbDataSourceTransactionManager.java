@@ -121,11 +121,11 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				con.setAutoCommit(false);
 				// 缓存链接
 				TransactionSynchronizationManager.bindResource(dataSource, new ConnectionHolder(con));
+				log.debug("数据源别名[" + dsKey + "]打开连接成功");
 			} else {
 				con = conHolder.getConnection();
 			}
 			threadLocalTransaction.get().put(dsKey, con);
-			log.debug("数据源别名[" + dsKey + "]打开连接成功");
 		} catch (Throwable ex) {
 			doStaticCleanupAfterCompletion();
 			throw new CannotCreateTransactionException("数据源别名[" + dsKey + "]打开连接错误", ex);
@@ -142,8 +142,13 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	 * @param dataSource
 	 */
 	public static void addDataSource(String dsKey, DataSource dataSource) {
-		// key跟本地数据源取的真正数据源是一样的，则拿出本地数据源的链接绑定到这个数据源中
-		if (DbContextHolder.getDataSource().equals(dsKey)) {
+		// 系统数据源去重
+		DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
+		if (dataSource == dynamicDataSource) {
+			return;
+		}
+		// key跟本地数据源取的真正数据源是一样的且资源中无该链接，则拿出本地数据源的链接绑定到这个数据源中
+		if (DbContextHolder.getDataSource().equals(dsKey) && TransactionSynchronizationManager.getResource(dataSource) == null) {
 			Connection con = threadLocalTransaction.get().getConnMap().get(DataSourceUtil.GLOBAL_DATASOURCE);
 			TransactionSynchronizationManager.bindResource(dataSource, new ConnectionHolder(con));
 			return;
