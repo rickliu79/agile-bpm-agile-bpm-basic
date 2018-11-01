@@ -52,8 +52,8 @@ INSERT INTO "SYS_AUTHORIZATION" VALUES ('20000000120012', 'FLOW', '1000000000014
 INSERT INTO "SYS_AUTHORIZATION" VALUES ('20000000120013', 'FLOW', '10000000000125', 'all', 'user', '所有人', 'user-all', TO_TIMESTAMP(' 2018-07-18 16:26:07', 'YYYY-MM-DD HH24:MI:SS:'), '1');
 INSERT INTO "SYS_AUTHORIZATION" VALUES ('20000000540057', 'FLOW', 'demo', 'all', 'user', '所有人', 'user-all', TO_TIMESTAMP(' 2018-08-16 20:28:45', 'YYYY-MM-DD HH24:MI:SS:'), '1');
 INSERT INTO "SYS_AUTHORIZATION" VALUES ('20000000540058', 'FLOW', 'schoolStudent', 'all', 'user', '所有人', 'user-all', TO_TIMESTAMP(' 2018-08-16 20:28:51', 'YYYY-MM-DD HH24:MI:SS:'), '1');
-INSERT INTO "SYS_AUTHORIZATION" VALUES ('20000000540059', 'FLOW', 'orderCustomer', 'all', 'user', '所有人', 'user-all', TO_TIMESTAMP(' 2018-08-16 20:28:56', 'YYYY-MM-DD HH24:MI:SS:'), '1');
 INSERT INTO "SYS_AUTHORIZATION" VALUES ('20000000570008', 'WORKBENCH', '20000000570002', 'all', 'user', '所有人', 'user-all', TO_TIMESTAMP(' 2018-08-17 15:14:15', 'YYYY-MM-DD HH24:MI:SS:'), '1');
+INSERT INTO "SYS_AUTHORIZATION" VALUES ('403960673230389249', 'FLOW', 'orderCustomer', 'all', 'user', '所有人', 'user-all', TO_TIMESTAMP(' 2018-10-31 20:07:56', 'YYYY-MM-DD HH24:MI:SS:'), '1');
 
 -- 默认布局
 INSERT INTO "SYS_WORKBENCH_LAYOUT" VALUES ('403344394360455169', '10000049030124', '43', '450', '0', 'default_layout', TO_TIMESTAMP(' 2018-10-04 15:05:58', 'YYYY-MM-DD HH24:MI:SS:'));
@@ -153,44 +153,9 @@ INSERT INTO "SYS_WORKBENCH_PANEL" VALUES ('10000053631203', 'org', '当前组织
 </div>', null, TO_TIMESTAMP(' 2018-03-12 11:26:21', 'YYYY-MM-DD HH24:MI:SS:'), null, TO_TIMESTAMP(' 2018-03-29 16:13:54', 'YYYY-MM-DD HH24:MI:SS:'), null, null);
 INSERT INTO "SYS_WORKBENCH_PANEL" VALUES ('20000000570002', 'cacheDesign', '提前缓存设计器', 'iframe', null, 'iframe', '/flow-editor/modeler.html?modelId=20000000530051', null, '25', '20', empty_clob(), null, TO_TIMESTAMP(' 2018-08-17 15:06:33', 'YYYY-MM-DD HH24:MI:SS:'), null, TO_TIMESTAMP(' 2018-08-17 15:06:33', 'YYYY-MM-DD HH24:MI:SS:'), null, null);
 
+
+
 -- 面板模板
-INSERT INTO "SYS_WORKBENCH_PANEL_TEMPL" VALUES ('1', 'basic', '基础模板', '适用基本信息展示，或者列表数据', '<ul class="list-group">
-  <li class="list-group-item">{{data-alias.account}}</li>
-  <li class="list-group-item">{{data-alias.fullname}}</li>
-  <li class="list-group-item">{{data-alias.mobile}}</li>
-  <li class="list-group-item">{{data-alias.orgName}}</li>
-  <li class="list-group-item">{{data-alias.roleNames}}</li>
-</ul>');
-INSERT INTO "SYS_WORKBENCH_PANEL_TEMPL" VALUES ('3', 'echarts', '柱状图折线图模板', null, '{
-	"title": {
-		"text": "产品销售情况"
-	},
-	"legend": {},
-	"tooltip": {},
-	"toolbox": {
-		"show": true,
-		"feature": {
-			"magicType": {
-				"show": true,
-				"type": ["line", "bar", "stack", "tiled"]
-			},
-			"restore": {
-				"show": true
-			},
-			"saveAsImage": {
-				"show": true
-			}
-		}
-	},
-	"dataset": {
-		"source": []
-	},
-	"xAxis": {
-		"type": "category"
-	},
-	"yAxis": {},
-	"series": []
-}');
 INSERT INTO "SYS_WORKBENCH_PANEL_TEMPL" VALUES ('4', 'basic', '列表模板', '列表数据的模板案例，支持检索', '<div class="row">
 	<div class="col-sm-7 m-b-xs">
 		<div data-toggle="buttons" class="btn-group">
@@ -239,6 +204,43 @@ INSERT INTO "SYS_WORKBENCH_PANEL_TEMPL" VALUES ('5', 'echarts', '饼图模板', 
 	"series": [{
 		"type": "pie"
 	}]
+}');
+INSERT INTO "SYS_WORKBENCH_PANEL_TEMPL" VALUES ('1', 'basic', '基础模板', '适用基本信息展示，或者列表数据', '<ul class="list-group">
+  <li class="list-group-item">{{data-alias.account}}</li>
+  <li class="list-group-item">{{data-alias.fullname}}</li>
+  <li class="list-group-item">{{data-alias.mobile}}</li>
+  <li class="list-group-item">{{data-alias.orgName}}</li>
+  <li class="list-group-item">{{data-alias.roleNames}}</li>
+</ul>');
+INSERT INTO "SYS_WORKBENCH_PANEL_TEMPL" VALUES ('3', 'echarts', '柱状图折线图模板', null, '{
+	"title": {
+		"text": "产品销售情况"
+	},
+	"legend": {},
+	"tooltip": {},
+	"toolbox": {
+		"show": true,
+		"feature": {
+			"magicType": {
+				"show": true,
+				"type": ["line", "bar", "stack", "tiled"]
+			},
+			"restore": {
+				"show": true
+			},
+			"saveAsImage": {
+				"show": true
+			}
+		}
+	},
+	"dataset": {
+		"source": []
+	},
+	"xAxis": {
+		"type": "category"
+	},
+	"yAxis": {},
+	"series": []
 }');
 
 -- 系统菜单
