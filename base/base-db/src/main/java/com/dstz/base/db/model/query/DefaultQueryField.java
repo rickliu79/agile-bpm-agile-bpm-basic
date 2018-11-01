@@ -58,9 +58,9 @@ public class DefaultQueryField implements QueryField {
             sb.append("(");
             StringTokenizer st = new StringTokenizer(value.toString(), ",");
             while (st.hasMoreTokens()) {
-                sb.append("\"");
+                sb.append("\'");//oracle参数只支持'
                 sb.append(st.nextToken());
-                sb.append("\"");
+                sb.append("\'");
                 sb.append(",");
             }
             sb = new StringBuilder(sb.substring(0, sb.length() - 1));

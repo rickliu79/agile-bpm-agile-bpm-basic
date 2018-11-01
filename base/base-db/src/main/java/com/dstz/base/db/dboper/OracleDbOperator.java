@@ -46,13 +46,13 @@ public class OracleDbOperator extends DbOperator {
 		if (StringUtils.isNotEmpty(tableName)) {
 			sql += " AND t.table_name LIKE ?";
 			list = jdbcTemplate.queryForList(sql, "%" + tableName + "%");
-		}else {
+		} else {
 			list = jdbcTemplate.queryForList(sql);
 		}
 
 		Map<String, String> map = new LinkedHashMap<>();
 		for (Map<String, Object> m : list) {
-			map.put(m.get("table_name").toString(), getOrDefault(m,"comments","").toString());
+			map.put(m.get("table_name").toString(), getOrDefault(m, "comments", "").toString());
 		}
 
 		return map;
@@ -108,48 +108,48 @@ public class OracleDbOperator extends DbOperator {
 	 * @return
 	 */
 	private List<Column> getColumns(String name) {
-		//先找到主键
+		// 先找到主键
 		String sqlT = "select col.column_name from user_constraints con,user_cons_columns col where con.constraint_name=col.constraint_name and con.constraint_type='P' and col.table_name= ?";
 		List<Map<String, Object>> listT = jdbcTemplate.queryForList(sqlT, name);
-		Set<String> pkNames = new HashSet<>();//主键
+		Set<String> pkNames = new HashSet<>();// 主键
 		for (Map<String, Object> map : listT) {
-			pkNames.add(getOrDefault(map,"COLUMN_NAME", "").toString());
+			pkNames.add(getOrDefault(map, "COLUMN_NAME", "").toString());
 		}
-		
-		//开始解析字段信息
+
+		// 开始解析字段信息
 		String sql = "select a.*,b.comments from user_tab_columns a inner join user_col_comments b on a.table_name = b.table_name and a.column_name = b.column_name and a.table_name = ? ";
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, name);
 		List<Column> columns = new ArrayList<>();
 		for (Map<String, Object> map : list) {
 			Column column = new Column();
-			column.setComment(getOrDefault(map,"COMMENTS", "").toString());
+			column.setComment(getOrDefault(map, "COMMENTS", "").toString());
 			column.setDefaultValue(map.get("DATA_DEFAULT") == null ? null : map.get("DATA_DEFAULT").toString());
-			column.setName(getOrDefault(map,"COLUMN_NAME", "").toString());
+			column.setName(getOrDefault(map, "COLUMN_NAME", "").toString());
 			column.setPrimary(pkNames.contains(column.getName()));
-			column.setRequired("N".equals(getOrDefault(map,"NULLABLE", "Y")));
+			column.setRequired("N".equals(getOrDefault(map, "NULLABLE", "Y")));
 			column.setType(ColumnType.getByDbDataType(map.get("DATA_TYPE").toString()).getKey());
 			if (ColumnType.VARCHAR.equalsWithKey(column.getType())) {
-				column.setLength(Integer.parseInt(getOrDefault(map,"DATA_LENGTH", "0").toString()));
+				column.setLength(Integer.parseInt(getOrDefault(map, "DATA_LENGTH", "0").toString()));
 			}
 			if (ColumnType.NUMBER.equalsWithKey(column.getType())) {
-				column.setLength(Integer.parseInt(getOrDefault(map,"DATA_PRECISION", "0").toString()));
-				column.setDecimal(Integer.parseInt(getOrDefault(map,"DATA_SCALE", "0").toString()));
+				column.setLength(Integer.parseInt(getOrDefault(map, "DATA_PRECISION", "0").toString()));
+				column.setDecimal(Integer.parseInt(getOrDefault(map, "DATA_SCALE", "0").toString()));
 			}
 			columns.add(column);
 		}
 		return columns;
 	}
-	
+
 	@Override
 	public boolean supportPartition(String tableName) {
-		String sql = "select count(*) from information_schema.partitions where table_name=?";
+		String sql = "select count(*) from user_tab_partitions where table_name = ?";
 		Integer rtn = jdbcTemplate.queryForObject(sql, Integer.class, tableName);
 		return rtn > 0;
 	}
 
 	@Override
 	public boolean isExsitPartition(String tableName, String partName) {
-		String sql = "select count(*) from information_schema.partitions where table_name=? and partition_name =?";
+		String sql = "select count(*) from user_tab_partitions where table_name = ? and partition_name = ?";
 		String[] args = new String[2];
 		args[0] = tableName;
 		args[1] = "P_" + partName.toUpperCase();
@@ -159,7 +159,7 @@ public class OracleDbOperator extends DbOperator {
 
 	@Override
 	public void createPartition(String tableName, String partName) {
-		String sql = "alter table " + tableName + " add partition (partition P_" + partName.toUpperCase() + " values in ('" + partName + "')) ";
-		jdbcTemplate.execute(sql);
+		String sql = "ALTER TABLE " + tableName + " ADD PARTITION P_" + partName.toUpperCase() + " VALUES ( '" + partName + "') NOCOMPRESS ";
+		jdbcTemplate.update(sql);
 	}
 }
