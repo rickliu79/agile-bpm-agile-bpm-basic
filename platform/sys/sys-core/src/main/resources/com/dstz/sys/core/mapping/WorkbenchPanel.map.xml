@@ -12,7 +12,7 @@
         <result property="autoRefresh" column="auto_refresh_" jdbcType="NUMERIC"/>
         <result property="width" column="width_" jdbcType="NUMERIC"/>
         <result property="height" column="height_" jdbcType="NUMERIC"/>
-        <result property="displayContent" column="display_content_" jdbcType="CLOB"/>
+        <result property="displayContent" column="display_content_" jdbcType="VARCHAR"/>
         <result property="moreUrl" column="more_url_" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
         <result property="createBy" column="create_by_" jdbcType="VARCHAR"/>

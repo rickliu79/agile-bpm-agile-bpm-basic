@@ -58,9 +58,6 @@
         <if test="orderBySql!=null">
             ORDER BY ${orderBySql}
         </if>
-        <if test="orderBySql==null">
-            ORDER BY id_ DESC
-        </if>
     </select>
     
     

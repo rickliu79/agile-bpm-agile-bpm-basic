@@ -277,13 +277,10 @@ INSERT INTO "SYS_RESOURCE" VALUES ('31', '1', 'mobileForm', '手机表单', 'for
 INSERT INTO "SYS_RESOURCE" VALUES ('32', '1', 'formTemplate', '表单模版', 'form/formTemplate/formTemplateList.html', '1', '1', '1', null, '0', '0', '28', null);
 INSERT INTO "SYS_RESOURCE" VALUES ('33', '1', 'flowDefManager', '流程管理', null, '0', '1', '1', 'fa-slideshare', '0', '0', '23', null);
 INSERT INTO "SYS_RESOURCE" VALUES ('4', '1', 'myHandledEvent', '办理历史', 'bpm/my/approveList.html', '1', '1', '1', null, '0', '2', '2', null);
-INSERT INTO "SYS_RESOURCE" VALUES ('402552195187998721', '1', 'DEMO', 'DEMO', null, '1', '1', '1', null, '0', '1535614758245', '0', null);
-INSERT INTO "SYS_RESOURCE" VALUES ('402552219777630209', '1', 'demoModule', '案例模块', 'demo/demo/demoList.html', '0', '1', '1', null, '0', '1535614852042', '402552195187998721', null);
 INSERT INTO "SYS_RESOURCE" VALUES ('403205519290925057', '1', 'errLog', '异常日志', 'sys/sysLogErr/sysLogErrList.html', '1', '1', '1', null, '0', '1538106991915', '56', null);
 INSERT INTO "SYS_RESOURCE" VALUES ('43', '1', 'sysSetting', '系统配置', null, '1', '1', '1', 'cogs', '0', '40', '0', null);
 INSERT INTO "SYS_RESOURCE" VALUES ('44', '1', 'systemMgr', '系统设置', null, '1', '1', '1', null, '0', '0', '43', null);
 INSERT INTO "SYS_RESOURCE" VALUES ('46', '1', 'dicManager', '数据字典', 'sys/dataDict/dataDictList.html', '1', '1', '1', null, '0', '2', '44', null);
-INSERT INTO "SYS_RESOURCE" VALUES ('47', '1', 'schedulerMgr', '定时计划', 'sys/scheduleJob/sysjobList.html', '1', '1', '1', null, '0', '3', '44', null);
 INSERT INTO "SYS_RESOURCE" VALUES ('49', '1', 'syspropertyMgr', '系统属性管理', 'sys/sysProperties/sysPropertiesList.html', '1', '1', '1', null, '0', '5', '44', null);
 INSERT INTO "SYS_RESOURCE" VALUES ('50', '1', 'sysDataSourceList', '系统数据源', 'sys/sysDataSource/sysDataSourceList.html', '1', '1', '1', null, '0', '6', '44', null);
 INSERT INTO "SYS_RESOURCE" VALUES ('54', '1', 'subSystemMgr', '子系统管理', '/base/base/subsystem/subsystemList', '0', '1', '1', null, '0', '1473151574699', '44', null);

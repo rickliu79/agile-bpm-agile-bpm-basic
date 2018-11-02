@@ -112,7 +112,7 @@ public class WorkbenchPanelController extends BaseController<WorkbenchPanel>{
 		
 		List<WorkbenchPanel> workbenchPanelList = null;
 		
-		if(StringUtil.isNotEmpty(layoutKey) && ContextUtil.currentUserIsAdmin()){
+		if(StringUtil.isNotEmpty(layoutKey)){
 			workbenchPanelList = workbenchPanelManager.getBylayoutKey(layoutKey);
 		}else{
 			workbenchPanelList = workbenchPanelManager.getByUserId(ContextUtil.getCurrentUserId());

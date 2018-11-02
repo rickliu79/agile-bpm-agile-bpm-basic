@@ -180,7 +180,6 @@ public class ScheduleManagerImpl extends BaseManager<String, Schedule> implement
 	
 	@Override
 	public void saveSchedule(Schedule schedule) {
-		// TODO Auto-generated method stub
 		if(schedule.getStartTime().compareTo(schedule.getEndTime()) > 0) {
 			throw new BusinessException("日程开始时间不能大于结束时间");
 		}

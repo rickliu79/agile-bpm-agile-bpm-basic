@@ -403,7 +403,7 @@ CREATE TABLE `c_schedule` (
   `create_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
   `update_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `update_by__` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   `delete_flag_` varchar(10) DEFAULT NULL COMMENT '删除标记',
   `rev_` int(10) DEFAULT NULL COMMENT '版本',
   PRIMARY KEY (`id_`)

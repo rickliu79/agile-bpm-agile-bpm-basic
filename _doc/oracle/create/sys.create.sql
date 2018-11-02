@@ -428,13 +428,13 @@ CREATE TABLE c_schedule (
   create_time_ timestamp(0) DEFAULT NULL ,
   create_by_ varchar2(64) DEFAULT NULL ,
   update_time_ timestamp(0) DEFAULT NULL ,
-  update_by__ varchar2(64) DEFAULT NULL ,
+  update_by_ varchar2(64) DEFAULT NULL ,
   delete_flag_ varchar2(10) DEFAULT NULL ,
   rev_ number(10) DEFAULT NULL ,
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE c_schedule IS '日程'
+COMMENT ON TABLE c_schedule IS '日程';
 
 
 
@@ -452,7 +452,7 @@ CREATE TABLE c_schedule_participant (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE c_schedule_participant IS '日程参与者'
+COMMENT ON TABLE c_schedule_participant IS '日程参与者';
 
 CREATE INDEX idx_schedule_id ON c_schedule_participant (schedule_id_);
 CREATE INDEX idx_participantor ON c_schedule_participant (participantor_);
@@ -466,7 +466,7 @@ CREATE TABLE c_schedule_biz (
   PRIMARY KEY (id_)
 )  ;
 
-COMMENT ON TABLE c_schedule_biz IS '日程业务关联表'
+COMMENT ON TABLE c_schedule_biz IS '日程业务关联表';
 
 CREATE INDEX c_schedule_biz_idx_schedule_id ON c_schedule_biz (schedule_id_);
 CREATE INDEX schedule_biz_id_idx ON c_schedule_biz (biz_id_);

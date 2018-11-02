@@ -57,7 +57,7 @@ public class WorkbenchPanelManagerImpl extends BaseManager<String, WorkbenchPane
         }
 
         return layOut;
-    }
+    }	
 
 
     @Override
