@@ -38,7 +38,7 @@ public class EnumUtil {
 		try {
 			Method method = enumClass.getMethod("values");
 			Enum<?>[] enums = (Enum[]) method.invoke(enumClass, null);
-			JSONObject jsonObject = new JSONObject();
+			JSONObject jsonObject = new JSONObject(16, true);
 			for (Enum<?> e : enums) {
 				jsonObject.put(e.name(), toJSON(e));
 			}
