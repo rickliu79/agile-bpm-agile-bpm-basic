@@ -65,17 +65,17 @@
 	
 	<select id="getDictNodeList"   parameterType="java.util.Map" resultMap="DataDict">
 		SELECT * FROM sys_data_dict  WHERE  dict_key_= #{dictKey} 
-		<if test="!hasRoot">and dict_type_ = 'node'</if> ;
+		<if test="!hasRoot">and dict_type_ = 'node'</if>
 	</select>
 	
 	<select id="isExistDict"   parameterType="java.util.Map" resultType="java.lang.Integer">
 		SELECT count(*) FROM sys_data_dict  WHERE  key_= #{key} and dict_type_ = 'dict'
-		<if test="id!=null"> and id_ != #{id}</if> ;
+		<if test="id!=null"> and id_ != #{id}</if>
 	</select>
 	
 	<select id="isExistNode"   parameterType="java.util.Map" resultType="java.lang.Integer">
 		SELECT count(*) FROM sys_data_dict  WHERE  dict_key_= #{dictKey} and key_ = #{key} and dict_type_ = 'node'
-		<if test="id!=null"> and id_ != #{id}</if>;
+		<if test="id!=null"> and id_ != #{id}</if>
 	</select>
 	
 </mapper>
