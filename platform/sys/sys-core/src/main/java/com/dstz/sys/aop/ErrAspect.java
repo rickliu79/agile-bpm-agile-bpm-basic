@@ -97,6 +97,7 @@ public class ErrAspect {
                 // 生产环境 提示  系统异常，为了不暴露系统架构。而且提示具体异常会引起客户恐慌，增加用户不信任感。
                 if(AppUtil.getCtxEnvironment().contains(EnvironmentConstant.PROD.key())) {
                 	resultMsg = new ResultMsg(errorCode, errorCode.getDesc());
+                	//resultMsg.setCause(error);//可以通过控制台看到具体异常，方便快速定位。也可以删除，呵呵
                 }else {
                 	resultMsg = new ResultMsg(errorCode, error);
                 }
