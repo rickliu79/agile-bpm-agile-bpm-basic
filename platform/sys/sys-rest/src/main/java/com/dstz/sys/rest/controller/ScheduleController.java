@@ -26,6 +26,7 @@ import com.dstz.sys.api.model.calendar.ScheduleParticipant;
 import com.dstz.sys.core.dao.ScheduleDao;
 import com.dstz.sys.core.dao.ScheduleParticipantDao;
 import com.dstz.sys.core.manager.ScheduleManager;
+import com.dstz.sys.core.model.ParticipantScheduleDO;
 import com.dstz.sys.util.ContextUtil;
 
 import cn.hutool.core.date.DateUnit;
@@ -129,9 +130,7 @@ public class ScheduleController extends BaseController<Schedule>{
 	 */
 	@RequestMapping("getParticipantEvents")
 	@CatchErr("日程获取失败")
-	public List<Map<String, Object>> getParticipantEvents(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		List<Map<String, Object>> list = null;
-		
+	public List<ParticipantScheduleDO> getParticipantEvents(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String name = ContextUtil.getCurrentUser().getFullname();
 		String id = ContextUtil.getCurrentUserId();
 		
@@ -143,7 +142,7 @@ public class ScheduleController extends BaseController<Schedule>{
 		startDate.setTimeInMillis(Long.valueOf(start));
 		endDate.setTimeInMillis(Long.valueOf(end));
 		
-		list = scheduleManager.getParticipantEvents(startDate.getTime(),endDate.getTime(), name, id);
+		List<ParticipantScheduleDO> list = scheduleManager.getParticipantEvents(startDate.getTime(),endDate.getTime(), name, id);
 		return list;
 	}
 	

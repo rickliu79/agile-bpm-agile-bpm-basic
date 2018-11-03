@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.dstz.base.manager.Manager;
 import com.dstz.sys.api.model.calendar.Schedule;
+import com.dstz.sys.core.model.ParticipantScheduleDO;
 
 /**
  * 
@@ -29,6 +30,6 @@ public interface ScheduleManager extends Manager<String, Schedule>{
 	
 	public void updateOnlySchedule(Schedule schedule);
 
-	public List<Map<String, Object>> getParticipantEvents(Date startDate, Date endDate, String name, String id);
+	public List<ParticipantScheduleDO> getParticipantEvents(Date startDate, Date endDate, String name, String id);
 	
 }
