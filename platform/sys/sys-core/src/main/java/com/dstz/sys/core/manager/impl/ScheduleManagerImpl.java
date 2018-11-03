@@ -17,6 +17,7 @@ import com.dstz.sys.api.model.calendar.ScheduleParticipant;
 import com.dstz.sys.core.dao.ScheduleDao;
 import com.dstz.sys.core.dao.ScheduleParticipantDao;
 import com.dstz.sys.core.manager.ScheduleManager;
+import com.dstz.sys.core.model.ParticipantScheduleDO;
 
 import cn.hutool.core.lang.Assert;
 
@@ -211,7 +212,7 @@ public class ScheduleManagerImpl extends BaseManager<String, Schedule> implement
 	}
 
 	@Override
-	public List<Map<String, Object>> getParticipantEvents(Date startDate, Date endDate, String name, String id) {
+	public List<ParticipantScheduleDO> getParticipantEvents(Date startDate, Date endDate, String name, String id) {
 		Map<String,Object> map = new HashMap<>();
 		map.put("startTime", startDate);
 		map.put("endTime", endDate);

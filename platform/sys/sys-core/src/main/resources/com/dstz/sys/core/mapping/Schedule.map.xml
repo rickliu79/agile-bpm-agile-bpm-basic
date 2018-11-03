@@ -204,8 +204,34 @@
 		WHERE id_ IN (SELECT schedule_id_ from c_schedule_biz WHERE biz_id_=#{bizId,jdbcType=VARCHAR})
 	</select>
 	
-	<select id="getParticipantEvents"   parameterType="java.util.Map" resultType="java.util.Map">
-		SELECT a.title_,a.remark_,a.task_url_,a.type_,a.open_type_,a.start_time_,a.end_time_,a.owner_,a.owner_name_,a.submitter_,a.submitNamer_,b.participantor_,b.participantor_name_,b.rate_progress_,b.id_,b.schedule_id_,b.submit_comment_,b.actual_start_time_,b.complete_time_ 
+	
+		<resultMap id="participantSchedule" type="com.dstz.sys.core.model.ParticipantScheduleDO">
+			<id property="id" column="id_" jdbcType="VARCHAR"/>
+			<result property="title" column="title_" jdbcType="VARCHAR"/>
+			<result property="remark" column="remark_" jdbcType="VARCHAR"/>
+			<result property="taskUrl" column="task_url_" jdbcType="VARCHAR"/>
+			<result property="type" column="type_" jdbcType="VARCHAR"/>
+			<result property="openType" column="open_type_" jdbcType="VARCHAR"/>
+			<result property="owner" column="owner_" jdbcType="VARCHAR"/>
+			<result property="ownerName" column="owner_name_" jdbcType="VARCHAR"/>
+			<result property="submitter" column="submitter_" jdbcType="VARCHAR"/>
+			<result property="submitNamer" column="submitNamer_" jdbcType="VARCHAR"/>
+			<result property="startTime" column="start_time_" jdbcType="TIMESTAMP"/>
+			<result property="endTime" column="end_time_" jdbcType="TIMESTAMP"/>
+			
+			<result property="scheduleId" column="schedule_id_" jdbcType="VARCHAR"/>
+			<result property="participantorName" column="participantor_name_" jdbcType="VARCHAR"/>
+			<result property="participantor" column="participantor_" jdbcType="VARCHAR"/>
+			<result property="rateProgress" column="rate_progress_" jdbcType="NUMERIC"/>
+			<result property="submitComment" column="submit_comment_" jdbcType="VARCHAR"/>
+			<result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
+			<result property="updateTime" column="update_time_" jdbcType="TIMESTAMP"/>
+			<result property="actualStartTime" column="actual_start_time_" jdbcType="TIMESTAMP"/>
+			<result property="completeTime" column="complete_time_" jdbcType="TIMESTAMP"/>
+		</resultMap>
+	
+	<select id="getParticipantEvents"   parameterType="java.util.Map" resultMap="participantSchedule">
+		SELECT a.title_,a.remark_,a.task_url_,a.type_,a.open_type_,a.start_time_,a.end_time_,a.owner_,a.owner_name_,a.submitter_,a.submitNamer_	,b.participantor_,b.participantor_name_,b.rate_progress_,b.id_,b.schedule_id_,b.submit_comment_,b.actual_start_time_,b.complete_time_ 
 		FROM c_schedule a  INNER JOIN c_schedule_participant b 
 		ON a.id_ = b.schedule_id_
 		WHERE a.start_time_ &gt;= #{startTime,jdbcType=TIMESTAMP} 

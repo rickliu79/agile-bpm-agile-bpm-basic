@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.dstz.base.dao.BaseDao;
 import com.dstz.sys.api.model.calendar.Schedule;
+import com.dstz.sys.core.model.ParticipantScheduleDO;
 
 
 public interface ScheduleDao extends BaseDao<String, Schedule> {
@@ -55,6 +56,6 @@ public interface ScheduleDao extends BaseDao<String, Schedule> {
 	 */
 	public void updateOnlySchedule(Schedule schedule);
 	
-	public List<Map<String, Object>> getParticipantEvents(Map<String, Object> params);
+	public List<ParticipantScheduleDO> getParticipantEvents(Map<String, Object> params);
 }
 
