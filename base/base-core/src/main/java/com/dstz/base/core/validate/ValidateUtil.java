@@ -2,6 +2,7 @@ package com.dstz.base.core.validate;
 
 import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.core.util.StringUtil;
 
 import org.apache.commons.logging.Log;
@@ -25,7 +26,7 @@ public class ValidateUtil {
         String msg = ValidateUtil.getValidateMsg(o);
         if (StringUtil.isNotEmpty(msg)) {
             logger.info("参数拦截信息" + msg);
-            throw new BusinessException(msg, BaseStatusCode.PARAM_ILLEGAL);
+            throw new BusinessMessage(msg, BaseStatusCode.PARAM_ILLEGAL);
         }
     }
 

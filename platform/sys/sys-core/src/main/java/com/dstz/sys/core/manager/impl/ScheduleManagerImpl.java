@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys.api.model.calendar.Schedule;
@@ -182,7 +182,7 @@ public class ScheduleManagerImpl extends BaseManager<String, Schedule> implement
 	@Override
 	public void saveSchedule(Schedule schedule) {
 		if(schedule.getStartTime().compareTo(schedule.getEndTime()) > 0) {
-			throw new BusinessException("日程开始时间不能大于结束时间");
+			throw new BusinessMessage("日程开始时间不能大于结束时间");
 		}
 		create(schedule);
 	}

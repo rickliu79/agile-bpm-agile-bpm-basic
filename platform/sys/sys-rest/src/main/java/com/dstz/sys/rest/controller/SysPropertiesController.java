@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
-import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
@@ -82,7 +82,7 @@ public class SysPropertiesController extends GenericController {
 
         boolean isExist = sysPropertiesManager.isExist(sysProperties);
         if (isExist) {
-            throw new BusinessException("别名系统中已存在!");
+            throw new BusinessMessage("别名系统中已存在!");
         }
 
         String id = sysProperties.getId();

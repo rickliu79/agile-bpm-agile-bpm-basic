@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
@@ -56,7 +57,7 @@ public class HolidayConfController extends BaseController<HolidayConf>{
 		
 		if(StringUtil.isEmpty(id)){
 			HolidayConf hc = holidayConfManager.queryOne(holidayConf.getName(),holidayConf.getStartDay(),holidayConf.getEndDay());
-			if(hc != null)  throw new BusinessException("重复添加,相同日期内只能有一个同名节假日");
+			if(hc != null)  throw new BusinessMessage("重复添加,相同日期内只能有一个同名节假日");
 			
 			holidayConf.setId(IdUtil.getSuid());
 			workCalenDarManager.updateWhenHolidayConfCreate(holidayConf);
@@ -76,7 +77,7 @@ public class HolidayConfController extends BaseController<HolidayConf>{
 	public ResultMsg<String> initWorkCalenDar(HttpServletRequest request,HttpServletResponse response){
 		int year = RequestUtil.getInt(request, "year");
 		if(year < 2000){
-			throw new BusinessException("初始化日历信息，年份必须大于2000");
+			throw new BusinessMessage("初始化日历信息，年份必须大于2000");
 		}
 	
 		workCalenDarManager.initWorkCalenDarRecord(year);

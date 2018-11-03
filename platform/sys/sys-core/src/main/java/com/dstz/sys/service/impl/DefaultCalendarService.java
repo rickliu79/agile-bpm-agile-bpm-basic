@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.constant.BaseStatusCode;
-import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.sys.api.model.calendar.WorkCalenDar;
 import com.dstz.sys.api.service.CalendarService;
@@ -53,7 +53,7 @@ public class DefaultCalendarService implements CalendarService{
 	@CatchErr
 	public ResultMsg<List<WorkCalenDar>> getWorkCalenDars(Date startDay,Date endDay){
 		if(startDay.after(endDay)){
-			throw new BusinessException("开始日期不应该晚于结束日期", BaseStatusCode.PARAM_ILLEGAL);
+			throw new BusinessMessage("开始日期不应该晚于结束日期", BaseStatusCode.PARAM_ILLEGAL);
 		}
 		List workCalenDars = workCalenDarManager.getByTime(startDay, endDay);
 		
@@ -63,7 +63,7 @@ public class DefaultCalendarService implements CalendarService{
 	@CatchErr
 	public ResultMsg<List<WorkCalenDar>> getWorkCalenDars(Date startDay,Date endDay, String system){
 		if(startDay.after(endDay)){
-			throw new BusinessException("开始日期不应该晚于结束日期", BaseStatusCode.PARAM_ILLEGAL);
+			throw new BusinessMessage("开始日期不应该晚于结束日期", BaseStatusCode.PARAM_ILLEGAL);
 		}
 		List workCalenDars = workCalenDarManager.getByTimeContainPublic(startDay, endDay, system);
 		return new ResultMsg<List<WorkCalenDar>>(workCalenDars);

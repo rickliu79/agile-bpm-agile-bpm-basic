@@ -1,7 +1,15 @@
 package com.dstz.org.rest.controller;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.dstz.base.api.aop.annotion.CatchErr;
-import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.api.response.impl.ResultMsg;
@@ -9,12 +17,6 @@ import com.dstz.base.core.encrypt.EncryptUtil;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
-import com.github.pagehelper.Page;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
-import com.dstz.base.manager.Manager;
 import com.dstz.base.rest.BaseController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.core.manager.GroupUserManager;
@@ -22,13 +24,7 @@ import com.dstz.org.core.manager.UserManager;
 import com.dstz.org.core.model.GroupUser;
 import com.dstz.org.core.model.User;
 import com.dstz.sys.util.ContextUtil;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.github.pagehelper.Page;
 
 /**
  * <pre>
@@ -93,7 +89,7 @@ public class UserController extends BaseController<User> {
         String resultMsg = null;
         boolean isExist = userManager.isUserExist(user);
         if (isExist) {
-            throw new BusinessException("用户在系统中已存在!");
+            throw new BusinessMessage("用户在系统中已存在!");
         }
 
         String id = user.getId();
@@ -136,7 +132,7 @@ public class UserController extends BaseController<User> {
 
         User user = userManager.get(ContextUtil.getCurrentUserId());
         if (!user.getPassword().equals(EncryptUtil.encryptSha256(oldPassWorld))) {
-            throw new BusinessException("旧密码输入错误");
+            throw new BusinessMessage("旧密码输入错误");
         }
 
         user.setPassword(EncryptUtil.encryptSha256(newPassword));

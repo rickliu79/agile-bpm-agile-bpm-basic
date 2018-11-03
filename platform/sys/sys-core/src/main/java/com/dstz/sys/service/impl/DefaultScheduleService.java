@@ -15,6 +15,7 @@ import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.aop.annotion.ParamValidate;
 import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.org.api.model.IUser;
@@ -297,11 +298,11 @@ public class DefaultScheduleService implements ScheduleService {
 					schedule.setId(id);
 					if(schedule.getStartTime() != null && schedule.getEndTime() != null &&
 							schedule.getStartTime().getTime() >= schedule.getEndTime().getTime()) {
-						throw new BusinessException("预计结束时间不能小于预计开始时间");
+						throw new BusinessMessage("预计结束时间不能小于预计开始时间");
 					}
 					if(schedule.getActualStartTime() != null && schedule.getCompleteTime() != null && 
 							schedule.getActualStartTime().getTime() >= schedule.getCompleteTime().getTime()) {
-						throw new BusinessException("完成时间不能小于实际开始时间");
+						throw new BusinessMessage("完成时间不能小于实际开始时间");
 					}
 					schedule.setId(IdUtil.getSuid());
 					schedule.setRateProgress(0);//--创建时进度为0--

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.dstz.base.api.exception.BusinessError;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.id.IdUtil;
@@ -148,7 +149,7 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 		
 		List<String> boNames = jdbcTemplate.queryForList("select name_ from bus_object where relation_json_ like  '%\"tableKey\":\""+table.getKey()+"\"%'", String.class);
 		if(BeanUtils.isNotEmpty(boNames)) {
-			throw new BusinessException("业务对象:"+boNames.toString()+"还在使用实体， 删除实体失败！"); 
+			throw new BusinessMessage("业务对象:"+boNames.toString()+"还在使用实体， 删除实体失败！"); 
 		}
 		
 		super.remove(entityId);

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
-import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
@@ -87,7 +87,7 @@ public class SysSerialNoController extends GenericController {
 
         boolean rtn = serialNoManager.isAliasExisted(SerialNo.getId(), SerialNo.getAlias());
         if (rtn) {
-            throw new BusinessException("别名已经存在!", SysStatusCode.SERIALNO_EXSIT);
+            throw new BusinessMessage("别名已经存在!", SysStatusCode.SERIALNO_EXSIT);
         }
 
         if (StringUtil.isEmpty(SerialNo.getId())) {

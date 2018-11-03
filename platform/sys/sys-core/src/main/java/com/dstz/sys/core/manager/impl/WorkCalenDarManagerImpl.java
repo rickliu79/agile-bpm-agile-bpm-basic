@@ -1,6 +1,5 @@
 package com.dstz.sys.core.manager.impl;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.manager.impl.BaseManager;
@@ -51,7 +51,7 @@ public class WorkCalenDarManagerImpl extends BaseManager<String, WorkCalenDar> i
 		 
 		List<WorkCalenDar> workCalenDarList = getByTime(calendarStart.getTime());
 		if(BeanUtils.isNotEmpty(workCalenDarList)){
-			throw new BusinessException("当前年份已经初始化过");
+			throw new BusinessMessage("当前年份已经初始化过");
 		}
 		 
 		while(calendarStart.before(calendarEnd)){
@@ -125,7 +125,7 @@ public class WorkCalenDarManagerImpl extends BaseManager<String, WorkCalenDar> i
 		end.setTime(conf.getEndDay());
 		//判断开始日期是否大于结束日期
 		if(start.compareTo(end) > 0) {
-			throw new BusinessException("开始日期大于结束日期");
+			throw new BusinessMessage("开始日期大于结束日期");
 		}
 		
 		List<WorkCalenDar> workCalenDars = getByTime(conf.getStartDay(), conf.getEndDay(), conf.getSystem());
