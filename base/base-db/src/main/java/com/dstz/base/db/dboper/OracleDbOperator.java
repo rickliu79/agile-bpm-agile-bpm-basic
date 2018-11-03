@@ -123,7 +123,10 @@ public class OracleDbOperator extends DbOperator {
 		for (Map<String, Object> map : list) {
 			Column column = new Column();
 			column.setComment(getOrDefault(map, "COMMENTS", "").toString());
-			column.setDefaultValue(map.get("DATA_DEFAULT") == null ? null : map.get("DATA_DEFAULT").toString());
+			Object defVal = map.get("DATA_DEFAULT");
+			if(defVal!=null&&!defVal.equals("NULL")&&!defVal.equals("NULL ")) {
+				column.setDefaultValue(map.get("DATA_DEFAULT").toString());
+			}
 			column.setName(getOrDefault(map, "COLUMN_NAME", "").toString());
 			column.setPrimary(pkNames.contains(column.getName()));
 			column.setRequired("N".equals(getOrDefault(map, "NULLABLE", "Y")));
