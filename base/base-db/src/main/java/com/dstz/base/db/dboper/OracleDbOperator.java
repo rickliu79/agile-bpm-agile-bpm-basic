@@ -124,7 +124,7 @@ public class OracleDbOperator extends DbOperator {
 			Column column = new Column();
 			column.setComment(getOrDefault(map, "COMMENTS", "").toString());
 			Object defVal = map.get("DATA_DEFAULT");
-			if(defVal!=null&&!defVal.equals("NULL")&&!defVal.equals("NULL ")) {
+			if(defVal!=null&&!defVal.toString().trim().equals("NULL")) {
 				column.setDefaultValue(map.get("DATA_DEFAULT").toString());
 			}
 			column.setName(getOrDefault(map, "COLUMN_NAME", "").toString());
