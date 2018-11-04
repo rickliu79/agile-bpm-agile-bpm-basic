@@ -158,52 +158,8 @@ CREATE TABLE sys_res_role (
 )   ;
 
 COMMENT ON TABLE sys_res_role IS '角色资源分配';
-
--- ----------------------------
--- Table structure for sys_schedule_job
--- ----------------------------
-CREATE TABLE sys_schedule_job (
-  id_ varchar2(64) NOT NULL ,
-  name_ varchar2(50) NOT NULL ,
-  group_ varchar2(100) NOT NULL ,
-  description_ varchar2(1000) DEFAULT NULL ,
-  invoke_target_ varchar2(500) NOT NULL ,
-  cron_expression_ varchar2(50) NOT NULL ,
-  running_state_ varchar2(10) NOT NULL ,
-  is_concurrent_ number(3) DEFAULT '0' NOT NULL ,
-  create_by_ varchar2(50) DEFAULT NULL ,
-  create_time_ timestamp(0) DEFAULT NULL ,
-  update_by_ varchar2(50) DEFAULT NULL ,
-  update_time_ timestamp(0) DEFAULT NULL ,
-  delete_flag_ number(3) DEFAULT '0' ,
-  PRIMARY KEY (id_)
-)   ;
-
-COMMENT ON TABLE sys_schedule_job IS '系统任务计划';
-
--- ----------------------------
--- Table structure for sys_schedule_job_log
--- ----------------------------
-CREATE TABLE sys_schedule_job_log (
-  id varchar2(64) NOT NULL ,
-  job_id varchar2(64) NOT NULL ,
-  run_state varchar2(50) NOT NULL ,
-  run_ms number(10) NOT NULL ,
-  content clob ,
-  start_time timestamp(0) NOT NULL ,
-  end_time timestamp(0) NOT NULL ,
-  create_by_ varchar2(50) DEFAULT NULL ,
-  create_time_ timestamp(0) DEFAULT NULL ,
-  update_by_ varchar2(50) DEFAULT NULL ,
-  update_time_ timestamp(0) DEFAULT NULL ,
-  delete_flag_ number(3) DEFAULT '0' ,
-  PRIMARY KEY (id)
-)   ;
-
-COMMENT ON TABLE sys_schedule_job_log IS '任务计划日志';
-
-CREATE INDEX job_id ON sys_schedule_job_log (job_id);
-
+ 
+ 
 -- ----------------------------
 -- Table structure for sys_script
 -- ----------------------------
