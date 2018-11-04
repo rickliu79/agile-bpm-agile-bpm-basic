@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.util.BeanUtils;
@@ -154,7 +155,7 @@ public class BusinessObjectManagerImpl extends BaseManager<String, BusinessObjec
 		
 		List<String> names = jdbcTemplate.queryForList(" select name_ from form_def where bo_key_ = '"+businessObject.getKey()+"'", String.class);
 		if(BeanUtils.isNotEmpty(names)) {
-			throw new BusinessException("表单:"+names.toString()+"还在使用业务对象， 删除业务对象失败！"); 
+			throw new BusinessMessage("表单:"+names.toString()+"还在使用业务对象， 删除业务对象失败！"); 
 		}
 		
 		super.remove(entityId);

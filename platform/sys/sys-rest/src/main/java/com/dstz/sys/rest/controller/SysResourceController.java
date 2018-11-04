@@ -12,11 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
-import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.BeanUtils;
@@ -108,7 +107,7 @@ public class SysResourceController extends GenericController {
         String id = sysResource.getId();
         boolean isExist = sysResourceManager.isExist(sysResource);
         if (isExist) {
-           throw new BusinessException("资源已经存在,请修改重新添加!");
+           throw new BusinessMessage("资源已经存在,请修改重新添加!");
         }
         
         if (StringUtil.isEmpty(id)) {

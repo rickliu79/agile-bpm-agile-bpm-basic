@@ -25,15 +25,20 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.constant.BaseStatusCode;
+import com.dstz.base.api.constant.IStatusCode;
+import com.dstz.base.api.exception.BusinessError;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
+import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.ExceptionUtil;
 import com.dstz.base.core.util.FileUtil;
 import com.dstz.base.rest.util.RequestContext;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.api.model.IUser;
+import com.dstz.sys.api.constant.EnvironmentConstant;
 import com.dstz.sys.core.manager.LogErrManager;
 import com.dstz.sys.core.model.LogErr;
 import com.dstz.sys.util.ContextUtil;
@@ -76,13 +81,28 @@ public class ErrAspect {
             String exception = ExceptionUtil.getExceptionMessage(ex);
 
             ResultMsg resultMsg = null;
-            if (!(ex instanceof BusinessException)) {
-                LOGGER.error("{}.{}出错", point.getTarget().getClass(), point.getSignature().getName(), ex);
+            if (!(ex instanceof BusinessMessage)) {
+                LOGGER.error("操作出现异常     {}.{} ", point.getTarget().getClass(), point.getSignature().getName(), ex);
                 String errorId = logError(point, error, exception);
                 error = "errorCode[" + errorId + "] : " + error;
-                resultMsg = new ResultMsg(BaseStatusCode.SYSTEM_ERROR, error);
+                
+                // 假如是包装异常则获取具体异常码
+                IStatusCode errorCode = BaseStatusCode.SYSTEM_ERROR;
+                if(ex instanceof BusinessException) {
+                	errorCode = ((BusinessException)ex).getStatusCode();
+                }
+                if(ex instanceof BusinessError) {
+                	errorCode = ((BusinessError)ex).getStatusCode();
+                }
+                // 生产环境 提示  系统异常，为了不暴露系统架构。而且提示具体异常会引起客户恐慌，增加用户不信任感。
+                if(AppUtil.getCtxEnvironment().contains(EnvironmentConstant.PROD.key())) {
+                	resultMsg = new ResultMsg(errorCode, errorCode.getDesc());
+                	//resultMsg.setCause(error);//可以通过控制台看到具体异常，方便快速定位。也可以删除，呵呵
+                }else {
+                	resultMsg = new ResultMsg(errorCode, error);
+                }
             } else {
-                BusinessException busEx = (BusinessException) ex;
+            	BusinessMessage busEx = (BusinessMessage) ex;
                 error = ex.getMessage();
                 resultMsg = new ResultMsg(busEx.getStatusCode(), error);
             }
@@ -99,6 +119,7 @@ public class ErrAspect {
 
         return returnVal;
     }
+    
 
     /**
      * 假如是void
@@ -118,8 +139,9 @@ public class ErrAspect {
                 response = (HttpServletResponse) o;
             }
         }
-        //假如http 请求，且void方法时，写入response
-        if (void.class.equals(returnType) && response != null) {
+       
+        //假如 http 请求，且void方法时，写入response
+        if (/*void.class.equals(returnType) &&*/ response != null) {
             iswrite = true;
         }
 

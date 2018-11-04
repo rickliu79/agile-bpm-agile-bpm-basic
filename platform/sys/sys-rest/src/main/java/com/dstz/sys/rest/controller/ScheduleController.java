@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
+import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.BaseController;
-import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys.api.model.calendar.Schedule;
 import com.dstz.sys.api.model.calendar.ScheduleParticipant;
 import com.dstz.sys.core.dao.ScheduleDao;
@@ -28,9 +28,6 @@ import com.dstz.sys.core.dao.ScheduleParticipantDao;
 import com.dstz.sys.core.manager.ScheduleManager;
 import com.dstz.sys.core.model.ParticipantScheduleDO;
 import com.dstz.sys.util.ContextUtil;
-
-import cn.hutool.core.date.DateUnit;
-import cn.hutool.core.date.DateUtil;
 
 
 
@@ -65,10 +62,10 @@ public class ScheduleController extends BaseController<Schedule>{
 		String resultMsg=null;
 		String id=schedule.getId();
 			if(schedule.getEndTime() != null && schedule.getStartTime() != null && schedule.getEndTime().getTime() <= schedule.getStartTime().getTime()) {
-				throw new BusinessException("结束日期不能小于开始日期");
+				throw new BusinessMessage("结束日期不能小于开始日期");
 			}
 			if(schedule.getActualStartTime() != null && schedule.getCompleteTime() != null && schedule.getCompleteTime().getTime() <= schedule.getActualStartTime().getTime()) {
-				throw new BusinessException("完成时间不能小于实际开始日期");
+				throw new BusinessMessage("完成时间不能小于实际开始日期");
 			}
 			if(StringUtil.isEmpty(id)){
 				String ownerName = ContextUtil.getCurrentUser().getFullname();
@@ -117,7 +114,11 @@ public class ScheduleController extends BaseController<Schedule>{
 		startDate.setTimeInMillis(Long.valueOf(start));
 		endDate.setTimeInMillis(Long.valueOf(end));
 		
-		list = scheduleManager.getByPeriodAndOwner(startDate.getTime(), endDate.getTime(), name, id);
+		try {
+			list = scheduleManager.getByPeriodAndOwner(startDate.getTime(), endDate.getTime(), name, id);
+		} catch (Exception e) {
+			throw new BusinessException("呵呵",BaseStatusCode.NO_ACCESS,e);
+		}
 		 
 		return list;
 	}
@@ -225,7 +226,7 @@ public class ScheduleController extends BaseController<Schedule>{
 			//--single情况下是所属
 			if(Schedule.TYPE_SINGLE.equals(type)) {
 				if(schedule2.getCompleteTime() != null && schedule2.getActualStartTime() != null && schedule2.getCompleteTime().getTime() <= schedule2.getActualStartTime().getTime()) {
-					throw new BusinessException("完成时间不能小于实际开始日期");
+					throw new BusinessMessage("完成时间不能小于实际开始日期");
 				}
 				if(schedule2.getRateProgress() >= 100 ) {
 					schedule2.setRateProgress(100);

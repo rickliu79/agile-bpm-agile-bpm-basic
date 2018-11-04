@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.GenericController;
@@ -49,10 +50,10 @@ public class LoginController extends GenericController {
         String account = RequestUtil.getString(request, "account");
         String password = RequestUtil.getString(request, "password");
         if (StringUtil.isEmpty(account)) {
-            throw new BusinessException("账户不能为空", PlatFormStatusCode.LOGIN_ERROR);
+            throw new BusinessMessage("账户不能为空", PlatFormStatusCode.LOGIN_ERROR);
         }
         if (StringUtil.isEmpty(password)) {
-            throw new BusinessException("密码不能为空", PlatFormStatusCode.LOGIN_ERROR);
+            throw new BusinessMessage("密码不能为空", PlatFormStatusCode.LOGIN_ERROR);
         }
         
         try {
@@ -64,15 +65,14 @@ public class LoginController extends GenericController {
             wiriteToken(request, response);
             return getSuccessResult("登录成功！");
         } catch (BadCredentialsException e) {
-            throw new BusinessException("账号或密码错误", PlatFormStatusCode.LOGIN_ERROR);
+            throw new BusinessMessage("账号或密码错误", PlatFormStatusCode.LOGIN_ERROR);
         } catch (DisabledException e) {
-            throw new BusinessException("帐号已禁用", PlatFormStatusCode.LOGIN_ERROR);
+            throw new BusinessMessage("帐号已禁用", PlatFormStatusCode.LOGIN_ERROR);
         } catch (LockedException e) {
-            throw new BusinessException("帐号已锁定", PlatFormStatusCode.LOGIN_ERROR);
+            throw new BusinessMessage("帐号已锁定", PlatFormStatusCode.LOGIN_ERROR);
         } catch (AccountExpiredException e) {
-            throw new BusinessException("帐号已过期", PlatFormStatusCode.LOGIN_ERROR);
+            throw new BusinessMessage("帐号已过期", PlatFormStatusCode.LOGIN_ERROR);
         } catch (Exception ex) {
-        	ex.printStackTrace();
             throw new BusinessException(PlatFormStatusCode.LOGIN_ERROR, ex);
         }
     }

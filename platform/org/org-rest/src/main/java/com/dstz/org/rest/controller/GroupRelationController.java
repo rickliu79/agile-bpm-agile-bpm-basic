@@ -2,6 +2,7 @@ package com.dstz.org.rest.controller;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
@@ -62,7 +63,7 @@ public class GroupRelationController extends BaseController<GroupRelation> {
         if (StringUtil.isEmpty(orgRel.getId())) {
             GroupRelation relation = groupRelManager.getByCode(orgRel.getGroupCode());
             if (relation != null) {
-                throw new BusinessException("岗位编码已经存在！");
+                throw new BusinessMessage("岗位编码已经存在！");
             }
         }
        return super.save(orgRel);

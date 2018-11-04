@@ -4,28 +4,23 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
-import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.db.model.query.DefaultQueryField;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys.api.constant.SysStatusCode;
 import com.dstz.sys.core.dao.DataDictDao;
-import com.dstz.sys.core.model.DataDict;
-import com.dstz.sys.core.dao.SysTreeDao;
-import com.dstz.sys.core.dao.SysTreeNodeDao;
+import com.dstz.sys.core.manager.DataDictManager;
 import com.dstz.sys.core.manager.SysTreeManager;
 import com.dstz.sys.core.manager.SysTreeNodeManager;
+import com.dstz.sys.core.model.DataDict;
 import com.dstz.sys.core.model.SysTree;
 import com.dstz.sys.core.model.SysTreeNode;
-import com.dstz.sys.core.manager.DataDictManager;
 /**
  * 数据字典 Manager处理实现类
  * @author aschs
@@ -59,7 +54,7 @@ public class DataDictManagerImpl extends BaseManager<String, DataDict> implement
 		}
 		
 		if(count != 0) {
-			throw new BusinessException(dataDict.getKey()+"字典已经存在",SysStatusCode.PARAM_ILLEGAL);
+			throw new BusinessMessage(dataDict.getKey()+"字典已经存在",SysStatusCode.PARAM_ILLEGAL);
 		}
 		
 		super.create(dataDict);
@@ -77,7 +72,7 @@ public class DataDictManagerImpl extends BaseManager<String, DataDict> implement
 		}
 		
 		if(count != 0) {
-			throw new BusinessException(dataDict.getKey()+"字典Key已经存在",SysStatusCode.PARAM_ILLEGAL);
+			throw new BusinessMessage(dataDict.getKey()+"字典Key已经存在",SysStatusCode.PARAM_ILLEGAL);
 		}
 		
 		super.update(dataDict);

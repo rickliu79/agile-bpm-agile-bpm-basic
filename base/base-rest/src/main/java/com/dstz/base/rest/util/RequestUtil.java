@@ -20,7 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.constant.ColumnType;
-import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.FieldLogic;
 import com.dstz.base.api.query.FieldRelation;
 import com.dstz.base.api.query.QueryOP;
@@ -45,7 +45,7 @@ public class RequestUtil {
 	public static String getRQString(HttpServletRequest request, String key, String errorMsg) {
 		String result = RequestUtil.getString(request, key,null);
 		if(result == null) {
-			throw new BusinessException(String.format("[%s] %s",key, errorMsg),BaseStatusCode.PARAM_ILLEGAL);
+			throw new BusinessMessage(String.format("[%s] %s",key, errorMsg),BaseStatusCode.PARAM_ILLEGAL);
 		}
 		
 		return result;
