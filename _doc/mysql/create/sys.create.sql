@@ -1,9 +1,6 @@
--- -----含qrtz，常用脚本，流水号，子系统，菜单资源，通用授权，面板，系统属性，数据字典等功能表
+-- ----- 常用脚本，流水号，子系统，菜单资源，通用授权，面板，系统属性，数据字典等功能表
 
--- -------------------qrtz 相关-----------------------
--- ----------------------------
--- Table structure for qrtz_blob_triggers
--- ----------------------------
+ 
 SET FOREIGN_KEY_CHECKS=0;
 -- ------------------sys 模块功能 持久化表-----------------
 
@@ -151,49 +148,7 @@ CREATE TABLE `sys_res_role` (
   `ROLE_ID_` varchar(50) DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`ID_`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='角色资源分配';
-
--- ----------------------------
--- Table structure for sys_schedule_job
--- ----------------------------
-DROP TABLE IF EXISTS `sys_schedule_job`;
-CREATE TABLE `sys_schedule_job` (
-  `id_` varchar(64) NOT NULL COMMENT '主键编号',
-  `name_` varchar(50) NOT NULL COMMENT '任务计划名称',
-  `group_` varchar(100) NOT NULL COMMENT '任务计划分组',
-  `description_` varchar(1000) DEFAULT NULL COMMENT '任务计划说明',
-  `invoke_target_` varchar(500) NOT NULL COMMENT '调用目标',
-  `cron_expression_` varchar(50) NOT NULL COMMENT '运行表达式',
-  `running_state_` varchar(10) NOT NULL COMMENT '运行状态',
-  `is_concurrent_` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否并发执行',
-  `create_by_` varchar(50) DEFAULT NULL COMMENT '创建用户',
-  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by_` varchar(50) DEFAULT NULL COMMENT '修改用户',
-  `update_time_` datetime DEFAULT NULL COMMENT '修改时间',
-  `delete_flag_` tinyint(1) DEFAULT '0' COMMENT '有效记录 0 正常 1 已删除',
-  PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='系统任务计划';
-
--- ----------------------------
--- Table structure for sys_schedule_job_log
--- ----------------------------
-DROP TABLE IF EXISTS `sys_schedule_job_log`;
-CREATE TABLE `sys_schedule_job_log` (
-  `id` varchar(64) NOT NULL COMMENT '编号',
-  `job_id` varchar(64) NOT NULL COMMENT '任务计划ID',
-  `run_state` varchar(50) NOT NULL COMMENT '执行状态',
-  `run_ms` int(21) NOT NULL COMMENT '运行毫秒',
-  `content` text COMMENT '运行内容',
-  `start_time` datetime NOT NULL COMMENT '运行启动时间',
-  `end_time` datetime NOT NULL COMMENT '运行结束时间',
-  `create_by_` varchar(50) DEFAULT NULL COMMENT '创建用户',
-  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by_` varchar(50) DEFAULT NULL COMMENT '修改用户',
-  `update_time_` datetime DEFAULT NULL COMMENT '修改时间',
-  `delete_flag_` tinyint(1) DEFAULT '0' COMMENT '有效记录 0 正常 1 已删除',
-  PRIMARY KEY (`id`),
-  KEY `job_id` (`job_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='任务计划日志';
-
+ 
 -- ----------------------------
 -- Table structure for sys_script
 -- ----------------------------
