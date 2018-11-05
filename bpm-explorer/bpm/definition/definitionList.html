@@ -3,7 +3,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>流程定义</title>
 	<link href="../../build/common/gridList.css" rel="stylesheet">
-	<script type="text/javascript" src="../../build/common/gridList-ori.js"></script>
+	<script type="text/javascript" src="../../build/common/gridList.js"></script>
 </head>
 <body class="panel-body">
 	<div>
@@ -35,8 +35,6 @@
 		<div class="btn-group toolbar">
 			<a class="btn btn-outline btn-primary fa-plus" openDialog="创建流程定义" url="definitionEdit" dialogConf="{height:300,width:500}" href="javascript:void(0)">新增 </a>
 			<button class="btn btn-outline btn-primary fa-clear" qtip='清除系统所有缓存，用于数据库更新发布内容等系统无法感知数据被更新的场景' sendAction="清除系统缓存" url="/bpm/definition/clearSysCache">清除系统缓存</button>
-			<a class="btn btn-outline btn-primary fa-download"  href="javascript:void(0)" onclick="exportbpm()">导出 </a>
-			<a class="btn btn-outline btn-primary fa-upload" openDialog="预览导入" top="true" url="bpm/overallView/overallViewUpload.html" href="javascript:void(0)">预览导入 </a>
 		</div>
 		<table ab-grid data-id-field="id" data-url="bpm/definition/listJson">
 			<thead>
