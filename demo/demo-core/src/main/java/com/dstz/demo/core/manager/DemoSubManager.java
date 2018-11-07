@@ -3,6 +3,7 @@ package com.dstz.demo.core.manager;
 import java.util.List;
 
 import com.dstz.base.manager.Manager;
+import com.dstz.bpm.api.engine.action.cmd.ActionCmd;
 import com.dstz.demo.core.model.DemoSub;
 
 /**
@@ -14,5 +15,4 @@ import com.dstz.demo.core.model.DemoSub;
 public interface DemoSubManager extends Manager<String, DemoSub>{
 
 	List<DemoSub> getByFk(String entityId);
-	
 }
