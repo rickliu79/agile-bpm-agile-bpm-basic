@@ -24,12 +24,17 @@ AgileBPM 的相关组件可以自由依附于该软件，并基于该 springboot
 
 
 项目部署、实施文档 请参考 http://doc.agilebpm.cn/  
+<<<<<<< HEAD
 <<<<<<< Upstream, based on origin/dev
 流程实施视频介绍： https://share.weiyun.com/5uuOrvS
 =======
 流程实施视频介绍：https://v.youku.com/v_show/id_XMzkwMjEyMzIxNg==.html
 https://share.weiyun.com/5uuOrvS
 >>>>>>> 5a202c8 更新 README.md
+=======
+流程实施视频介绍：https://v.youku.com/v_show/id_XMzkwMjEyMzIxNg==.html
+https://share.weiyun.com/5uuOrvS
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 
 PC在线测试地址（1核Linux机器，部署了一堆东西，略慢请见谅） http://test.agilebpm.cn/login.html
 
