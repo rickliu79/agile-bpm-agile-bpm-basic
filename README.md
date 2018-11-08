@@ -23,17 +23,13 @@ AgileBPM 的相关组件可以自由依附于该软件，并基于该 springboot
 ## AgileBPM 项目介绍
 
 
-项目部署、实施文档 请参考 http://doc.agilebpm.cn/  
-<<<<<<< Upstream, based on origin/dev
-流程实施视频介绍： https://share.weiyun.com/5uuOrvS
-=======
-流程实施视频介绍：https://v.youku.com/v_show/id_XMzkwMjEyMzIxNg==.html
-https://share.weiyun.com/5uuOrvS
->>>>>>> 5a202c8 更新 README.md
+- 项目部署、实施文档 请参考 http://doc.agilebpm.cn/  
 
-PC在线测试地址（1核Linux机器，部署了一堆东西，略慢请见谅） http://test.agilebpm.cn/login.html
+- 流程实施视频介绍： https://share.weiyun.com/5uuOrvS
 
-功能缺陷请在项目上创建建 **issues**，可以查看已完成issues来寻找问题解决方法 https://gitee.com/agile-bpm/agile-bpm-basic/issues
+- PC在线测试地址（1核Linux机器，部署了一堆东西，略慢请见谅） http://test.agilebpm.cn/login.html
+
+- 功能缺陷请在项目上创建建 **issues**，可以查看已完成issues来寻找问题解决方法 https://gitee.com/agile-bpm/agile-bpm-basic/issues
 
 ![移动端测试地址](https://images.gitee.com/uploads/images/2018/0719/100556_de9bc8a4_1861740.png "屏幕截图.png")
 移动端测试 账号密码 admin 1  [源码](https://gitee.com/agile-bpm/bpm-app)
