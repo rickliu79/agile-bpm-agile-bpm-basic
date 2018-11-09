@@ -90,7 +90,7 @@ public class WorkbenchPanelController extends BaseController<WorkbenchPanel>{
 	@CatchErr
 	public  ResultMsg removeMyPanel(HttpServletRequest request,HttpServletResponse response,String layoutId) throws Exception{
 		workbenchLayoutMananger.remove(layoutId);
-		return new ResultMsg("移除成功");
+		return getSuccessResult("移除成功！");
 	}
 	
 	@RequestMapping("saveMyPanel")
@@ -101,7 +101,7 @@ public class WorkbenchPanelController extends BaseController<WorkbenchPanel>{
 		
 		List<WorkbenchLayout> layOutList = JSON.parseArray(layoutListStr, WorkbenchLayout.class);
 		workbenchLayoutMananger.savePanelLayout(layOutList,layoutKey);
-		return new ResultMsg("布局更新成功");
+		return getSuccessResult("布局更新成功");
 	}
 	
 	
