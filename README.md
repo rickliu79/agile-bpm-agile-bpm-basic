@@ -6,33 +6,22 @@ AgileBPM 是完全模块化的项目集合，含【流程模块】、【业务�
 
 **AgileBPM 致力于构建灵活的、可选择的软件生态圈，您可以依赖自身需要的模块来构建自身应用，欢迎   :tw-1f449: Star  :tw-1f448:   持续关注！！！**
 
-- **Spring boot2 脚手架项目V1.x**  https://gitee.com/bdj/SpringBoot_v2
-
->该项目会进行模块化改造、前后端分离、与 AgileBPM 底层 API 一致化改造，也会适时会增加一些新的可选模块（如组织架构）
-AgileBPM 的相关组件可以自由依附于该软件，并基于该 springboot 应用起步软件为基础不断 构建更多应用组件
-
-
-- **OA 智慧系统办公系统 V1.x** https://gitee.com/aaluoxiang/oa_system
-
->该项目会作为 AgileBPM 的 OA办公模块
-
-
-###### **热衷开源的朋友都一直保持着对编码的热情，看到两位朋友与我构建方向一致，简单一聊便发现大家十分有默契，志同道合，愿意为开源软件贡献自己的一份力量**
-同时我们也欢迎更多有志之士与我们一起共同打造 【基于统一底层的更多可共享应用的圈圈】
+我们欢迎更多有志之士与我们一起共同打造 【基于统一底层的更多可共享应用的圈圈】
 
 ## AgileBPM 项目介绍
 
 
-- 项目部署、实施文档 请参考 http://doc.agilebpm.cn/  
+- 项目部署、实施文档: http://doc.agilebpm.cn/  
 
 - 流程实施视频介绍： https://share.weiyun.com/5uuOrvS
 
-- PC在线测试地址（1核Linux机器，部署了一堆东西，略慢请见谅） http://test.agilebpm.cn/login.html
+- PC在线测试地址: http://test.agilebpm.cn/login.html
 
-- 功能缺陷请在项目上创建建 **issues**，可以查看已完成issues来寻找问题解决方法 https://gitee.com/agile-bpm/agile-bpm-basic/issues
+- 功能缺陷请在项目上创建建 **issues**，可以查看已完成issues来寻找问题解决方法
 
 ![移动端测试地址](https://images.gitee.com/uploads/images/2018/0719/100556_de9bc8a4_1861740.png "屏幕截图.png")
-移动端测试 账号密码 admin 1  [源码](https://gitee.com/agile-bpm/bpm-app)
+
+移动端测试账号密码 admin 1  [源码](https://gitee.com/agile-bpm/bpm-app)
 
 ## 工作流解决方案
 **我们通过业务对象、表单、流程引擎共同协作来解决业务流难实施的痛点**
@@ -117,6 +106,8 @@ AgileBPM 目前是标准的SOA架构，但依然拥有微服务架构的特点�
 https://gitee.com/agile-bpm/agilebpm-base-spring-boot/tree/master
 ## vue2 移动端版本
 https://gitee.com/agile-bpm/bpm-app
+
+##### SpringCloud 微服务版本正在构建中...
 
 ## 欢迎 **Star** 持续关注！！！ 
 
