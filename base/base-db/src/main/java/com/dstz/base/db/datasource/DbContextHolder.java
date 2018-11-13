@@ -40,7 +40,9 @@ public class DbContextHolder {
         try {
         	//切换线程的mybatis的数据库类型 主要是为了databaseId的sql写法
         	SqlSessionFactoryBean sqlSessionFactoryBean = AppUtil.getBean(SqlSessionFactoryBean.class);
-			sqlSessionFactoryBean.getObject().getConfiguration().setDatabaseId(dbType);
+			if(sqlSessionFactoryBean!=null&&sqlSessionFactoryBean.getObject()!=null&&sqlSessionFactoryBean.getObject().getConfiguration()!=null) {
+				sqlSessionFactoryBean.getObject().getConfiguration().setDatabaseId(dbType);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
