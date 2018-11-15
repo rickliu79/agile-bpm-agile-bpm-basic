@@ -3,6 +3,9 @@ package com.dstz.base.db.datasource;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.mybatis.spring.SqlSessionFactoryBean;
+
+import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
 
 /**
@@ -33,7 +36,17 @@ public class DbContextHolder {
     public static void setDataSource(String dbAlias, String dbType) {
         contextHolderAlias.set(dbAlias);
         DbContextHolder.dataSourceDbType.put(dbAlias, dbType);
-    }
+        
+        try {
+        	//切换线程的mybatis的数据库类型 主要是为了databaseId的sql写法
+        	SqlSessionFactoryBean sqlSessionFactoryBean = AppUtil.getBean(SqlSessionFactoryBean.class);
+			if(sqlSessionFactoryBean!=null&&sqlSessionFactoryBean.getObject()!=null&&sqlSessionFactoryBean.getObject().getConfiguration()!=null) {
+				sqlSessionFactoryBean.getObject().getConfiguration().setDatabaseId(dbType);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+   }
 
     public static void setDefaultDataSource() {
         contextHolderAlias.set(DataSourceUtil.DEFAULT_DATASOURCE);

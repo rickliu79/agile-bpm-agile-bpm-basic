@@ -98,7 +98,17 @@
 	        	<bean class="com.dstz.base.dao.baseinterceptor.QueryInterceptor">  </bean>
 	        	<bean class="com.dstz.base.dao.baseinterceptor.SaveInterceptor">  </bean>
 	        </array>
-	    </property>   
+	    </property>
+	    <property name="databaseIdProvider">
+		     <bean class="org.apache.ibatis.mapping.VendorDatabaseIdProvider">
+		          <property name="properties">
+		               <props>
+		                    <prop key="MySQL">mysql</prop>
+		                    <prop key="Oracle">oracle</prop>
+		               </props>
+		          </property>
+		     </bean>
+		</property>
     </bean>
     
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -109,5 +119,6 @@
     <bean id="abSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
         <constructor-arg index="0" ref="sqlSessionFactory"/>
     </bean>
+   	
    
 </beans>
