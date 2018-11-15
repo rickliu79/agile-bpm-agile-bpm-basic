@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.dstz.base.api.exception.BusinessError;
-import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
@@ -54,6 +53,10 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 	public void save(BusinessTable businessTable) {
 		if (StringUtil.isEmpty(businessTable.getId())) {
 			businessTable.setId(IdUtil.getSuid());
+			if(newTableOperator(businessTable).isTableCreated()) {//新建时，表已经存在库中，则抛出异常
+				throw new BusinessMessage("表["+businessTable.getName()+"]已经存在数据库中");
+			}
+			
 			this.create(businessTable);
 		} else {
 			this.update(businessTable);
