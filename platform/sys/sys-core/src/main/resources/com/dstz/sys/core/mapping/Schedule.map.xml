@@ -188,7 +188,7 @@
 		start_time_=#{startTime,jdbcType=TIMESTAMP},
 		end_time_=#{endTime,jdbcType=TIMESTAMP}
 		WHERE
-		id=#{id}
+		id_=#{id}
 	</update>
 	
 	<update id="updateSchedule" parameterType="com.dstz.sys.api.model.calendar.Schedule">
