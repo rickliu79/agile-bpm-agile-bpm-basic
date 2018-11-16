@@ -38,6 +38,10 @@ public abstract class DbOperator {
 	public DbOperator(JdbcTemplate jdbcTemplate) {
 		super();
 		this.jdbcTemplate = jdbcTemplate;
+		
+		if(jdbcTemplate == null) {
+			logger.warn("create DbOperator with error ! jdbcTemplate cannot be null!");
+		}
 	}
 
 	/**

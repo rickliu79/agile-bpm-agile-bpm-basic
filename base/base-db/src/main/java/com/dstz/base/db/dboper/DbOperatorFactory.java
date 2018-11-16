@@ -1,5 +1,7 @@
 package com.dstz.base.db.dboper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.dstz.base.core.util.AppUtil;
@@ -16,6 +18,8 @@ import com.dstz.base.db.datasource.DbContextHolder;
  * </pre>
  */
 public class DbOperatorFactory {
+	protected static final Logger LOG = LoggerFactory.getLogger(DbOperatorFactory.class);
+
     private DbOperatorFactory() {
 
     }
@@ -36,6 +40,7 @@ public class DbOperatorFactory {
         if (DbType.ORACLE.equalsWithKey(type)) {
             return new OracleDbOperator(jdbcTemplate);
         }
+        LOG.warn("cannot get DbOperator ! DbType:{}",type);
         return null;
     }
     

@@ -1,9 +1,11 @@
 package com.dstz.base.db.datasource;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
@@ -25,7 +27,9 @@ import com.dstz.base.core.util.StringUtil;
  */
 public class DbContextHolder {
     private static final ThreadLocal<String> contextHolderAlias = new ThreadLocal<String>();
-    private static Map<String, String> dataSourceDbType = new HashMap<String, String>();
+    private static Map<String, String> dataSourceDbType = new ConcurrentHashMap<String, String>();
+
+	protected static final Logger LOG = LoggerFactory.getLogger(DbContextHolder.class);
 
     /**
      * 设置当前数据库。
@@ -65,10 +69,13 @@ public class DbContextHolder {
     public static String getDbType() {
         String dataSourceAlias = contextHolderAlias.get();
         if (StringUtil.isEmpty(dataSourceAlias)) {
-            dataSourceAlias = DataSourceUtil.DEFAULT_DATASOURCE;
+            dataSourceAlias =  DataSourceUtil.DEFAULT_DATASOURCE;
         }
 
-        String str = DbContextHolder.dataSourceDbType.get(contextHolderAlias.get());
+        String str = DbContextHolder.dataSourceDbType.get(dataSourceAlias);
+        if(StringUtil.isEmpty(str)) {
+        	LOG.warn("cannot get current dataSourceDbType!");
+        }
         return str;
     }
 
