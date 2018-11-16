@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.dstz.base.api.exception.BusinessError;
-import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
@@ -54,6 +53,10 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 	public void save(BusinessTable businessTable) {
 		if (StringUtil.isEmpty(businessTable.getId())) {
 			businessTable.setId(IdUtil.getSuid());
+			// 新建内部表时，表已经存在库中，则抛出异常
+			if (!businessTable.isExternal() && newTableOperator(businessTable).isTableCreated()) {
+				throw new BusinessMessage("表[" + businessTable.getName() + "]已经存在数据库中");
+			}
 			this.create(businessTable);
 		} else {
 			this.update(businessTable);
@@ -77,9 +80,9 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 			ctrl.setColumnId(businessColumn.getId());
 			busColCtrlManager.create(businessColumn.getCtrl());
 		}
-		
+
 		newTableOperator(businessTable).syncColumn();
-		
+
 		BusinessTableCacheUtil.put(businessTable);// 入缓存
 	}
 
@@ -119,13 +122,13 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 		JdbcTemplate dataSourceJdbcTemplate = sysDataSourceService.getJdbcTemplateByKey(businessTable.getDsKey());
 		return TableOperatorFactory.newOperator(DbContextHolder.getDataSourceDbType(businessTable.getDsKey()), businessTable, dataSourceJdbcTemplate);
 	}
-	
+
 	@Override
 	public TableOperator newTableOperatorCheckExist(BusinessTable businessTable) {
 		JdbcTemplate dataSourceJdbcTemplate = sysDataSourceService.getJdbcTemplateByKey(businessTable.getDsKey());
-		TableOperator tableOperator= TableOperatorFactory.newOperator(DbContextHolder.getDataSourceDbType(businessTable.getDsKey()), businessTable, dataSourceJdbcTemplate);
-		if(!tableOperator.isTableCreated()) {
-			throw new BusinessError("实体【"+businessTable.getComment()+"】对应的表["+businessTable.getName()+"]不存在数据库中！请为实体生成表，或者修改业务对象持久化方式为“实例表”！");
+		TableOperator tableOperator = TableOperatorFactory.newOperator(DbContextHolder.getDataSourceDbType(businessTable.getDsKey()), businessTable, dataSourceJdbcTemplate);
+		if (!tableOperator.isTableCreated()) {
+			throw new BusinessError("实体【" + businessTable.getComment() + "】对应的表[" + businessTable.getName() + "]不存在数据库中！请为实体生成表，或者修改业务对象持久化方式为“实例表”！");
 		}
 		return tableOperator;
 	}
@@ -141,17 +144,18 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 		BusinessTableCacheUtil.put(businessTable);// 入缓存
 		return businessTable;
 	}
-	
+
 	@Override
 	public void remove(String entityId) {
 		BusinessTable table = this.get(entityId);
-		if(table == null) return;
-		
-		List<String> boNames = jdbcTemplate.queryForList("select name_ from bus_object where relation_json_ like  '%\"tableKey\":\""+table.getKey()+"\"%'", String.class);
-		if(BeanUtils.isNotEmpty(boNames)) {
-			throw new BusinessMessage("业务对象:"+boNames.toString()+"还在使用实体， 删除实体失败！"); 
+		if (table == null)
+			return;
+
+		List<String> boNames = jdbcTemplate.queryForList("select name_ from bus_object where relation_json_ like  '%\"tableKey\":\"" + table.getKey() + "\"%'", String.class);
+		if (BeanUtils.isNotEmpty(boNames)) {
+			throw new BusinessMessage("业务对象:" + boNames.toString() + "还在使用实体， 删除实体失败！");
 		}
-		
+
 		super.remove(entityId);
 	}
 }
