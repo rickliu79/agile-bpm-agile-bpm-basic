@@ -44,6 +44,8 @@ public class MysqlTableOperator extends TableOperator {
 			sql.append(columnToSql(column) + ",\n");
 		}
 		sql.append("PRIMARY KEY (" + table.getPkColumn().getName() + ")" + "\n)");
+		//默认设置字符集
+		sql.append(" ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin ");
 		if (StringUtil.isNotEmpty(table.getComment())) {
 			sql.append(" COMMENT='" + table.getComment() + "'");
 		}
