@@ -53,10 +53,9 @@ AgileBPM 是完全模块化的项目集合，含【流程模块】、【业务�
 
 #### 组件化
 系统通过功能划分出了多个模块，每个模块由API、CORE、REST、SERVICE(apiImpl) 几部分组成。模块与模块间通过API交互，WEB则用于整合各个模块 
+[系统模块介绍介绍]( https://agile-bpm.gitee.io/docs/base/framework.html)
 
-[系统模块介绍介绍]( http://agilebpm.gitee.io/docs/base/framework.html)
-
-[组件更多详细介绍](http://agilebpm.gitee.io/docs/base/module.html)
+[组件更多详细介绍](http://agile-bpm.gitee.io/docs/base/module.html)
  
 
 #### 前后端分离
