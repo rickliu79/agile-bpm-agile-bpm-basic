@@ -122,4 +122,4 @@ https://gitee.com/agile-bpm/agilebpm-base-spring-boot/tree/master
 https://gitee.com/agile-bpm/bpm-app
 
 ## 欢迎 **Star** 持续关注！！！ 
-
+qq 群 477781857  
