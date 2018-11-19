@@ -114,7 +114,6 @@
 		UPDATE org_user SET
 		fullname_=#{fullname,jdbcType=VARCHAR},
 		account_=#{account,jdbcType=VARCHAR},
-		password_=#{password,jdbcType=VARCHAR},
 		email_=#{email,jdbcType=VARCHAR},
 		mobile_=#{mobile,jdbcType=VARCHAR},
 		weixin_=#{weixin,jdbcType=VARCHAR},
