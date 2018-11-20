@@ -11,6 +11,7 @@
 	<template key="subOneColumn" name="单列模板" desc="单列模板" type="subTable" dir="pc"/>
 	<template key="subTwoColumn" name="两列模板" desc="两列模板" type="subTable" dir="pc"/>
 	<template key="subThreeColumn" name="三列模板" desc="三列模板" type="subTable" dir="pc"/>
+	<template key="subOneline" name="单行模板" desc="单行模板，暂时不支持一对一" type="subTable" dir="pc"/>
 	
 	
 	<!-- 移动 端默认的所有模板  -->
