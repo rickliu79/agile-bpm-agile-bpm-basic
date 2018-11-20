@@ -2,23 +2,21 @@
 	<div class="ibox-title"><span class="title">${relation.tableComment}</span>
 		<a href="javascript:void(0)" class="btn btn-primary btn-sm fa fa-plus" ng-model="${generator.getScopePath(relation)}" ab-sub-add="initData.${relation.busObj.key}.${relation.tableKey}" ab-edit-permission="tablePermission.${relation.busObj.key}.${relation.tableKey}">添加</a>
 	</div>
-	<div class="ibox-content" ng-repeat="${relation.tableKey} in ${generator.getScopePath(relation)} track by $index"> ${getOne2ManyChild(relation)}
+	<div class="ibox-content">
 		<table class="form-table">
 			<thead>
 				<tr>
 					<#list relation.table.columnsWithOutHidden as column>
-					<th>
-						${column.comment}
-					</th>
+					<th>${column.comment}</th>
 					</#list>	
 					<th>操作</th>
 				</tr>
 			</thead>
-			<tr>
+			<tr ng-repeat="${relation.tableKey} in ${generator.getScopePath(relation)} track by $index">
 			<#list relation.table.columnsWithOutHidden as column>
 				<td>${generator.getColumn(column,relation)} </td>
 			</#list>
-			<td><a class="btn btn-danger btn-sm fa fa-delete" ng-click="ArrayTool.del($index,${generator.getScopePath(relation)})" ab-edit-permission="tablePermission.${relation.busObj.key}.${relation.tableKey}"> </a></td>
+			<td>${getOne2ManyChild(relation)}<a class="btn btn-danger btn-sm fa fa-delete" ng-click="ArrayTool.del($index,${generator.getScopePath(relation)})" ab-edit-permission="tablePermission.${relation.busObj.key}.${relation.tableKey}"> </a></td>
 			</tr>
 		</table>
 	</div>
