@@ -27,7 +27,7 @@ public class JsonUtil {
      * @return String
      */
     public static String getString(JSONObject obj, String key, String defaultValue) {
-        if (!obj.containsKey(key)) return defaultValue;
+        if (obj == null || !obj.containsKey(key)) return defaultValue;
         return obj.getString(key);
     }
 
@@ -50,7 +50,7 @@ public class JsonUtil {
      * @return int
      */
     public static int getInt(JSONObject obj, String key) {
-        if (!obj.containsKey(key)) return 0;
+        if (obj == null || !obj.containsKey(key)) return 0;
         return obj.getIntValue(key);
     }
 
@@ -63,12 +63,12 @@ public class JsonUtil {
      * @return int
      */
     public static int getInt(JSONObject obj, String key, int defaultValue) {
-        if (!obj.containsKey(key)) return defaultValue;
+        if (obj == null || !obj.containsKey(key)) return defaultValue;
         return obj.getIntValue(key);
     }
 
     public static boolean getBoolean(JSONObject obj, String key) {
-        if (!obj.containsKey(key)) return false;
+        if (obj == null || !obj.containsKey(key)) return false;
         return obj.getBoolean(key);
     }
 
@@ -81,7 +81,7 @@ public class JsonUtil {
      * @return boolean
      */
     public static boolean getBoolean(JSONObject obj, String key, boolean defaultValue) {
-        if (!obj.containsKey(key)) return defaultValue;
+        if (obj == null || !obj.containsKey(key)) return defaultValue;
         return obj.getBoolean(key);
     }
 
