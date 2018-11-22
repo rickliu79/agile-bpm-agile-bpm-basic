@@ -9,7 +9,8 @@ import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.datasource.ConnectionHolder;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -38,12 +39,16 @@ import com.dstz.base.db.datasource.DynamicDataSource;
  * </pre>
  */
 public class AbDataSourceTransactionManager extends AbstractPlatformTransactionManager implements ResourceTransactionManager, InitializingBean {
+	private static Logger log = LoggerFactory.getLogger(AbDataSourceTransactionManager.class);
 	/**
-	 * 线程当前的abTxObject
+	 * <pre>
+	 * 当前线程的顶层abTxObject
+	 * 调用AbDataSourceTransactionManager.addDataSource的数据源全部归于这里处理
+	 * </pre>
 	 */
-	private static ThreadLocal<AbDataSourceTransactionObject> threadLocalAbTxObject = new ThreadLocal<>();
+	private static ThreadLocal<AbDataSourceTransactionObject> threadLocalTopAbTxObject = new ThreadLocal<>();
 	/**
-	 * 线程中是否有活跃的事务
+	 * 线程中是否有活跃的事务（进行过dobegin的事务）
 	 */
 	private static ThreadLocal<Boolean> transactionActive = new ThreadLocal<>();
 
@@ -59,10 +64,6 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 		setNestedTransactionAllowed(true);
 	}
 
-	private static Log logger() {
-		return AppUtil.getBean(AbDataSourceTransactionManager.class).logger;
-	}
-
 	public void setEnforceReadOnly(boolean enforceReadOnly) {
 		this.enforceReadOnly = enforceReadOnly;
 	}
@@ -73,7 +74,7 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		logger.debug("ab的事务管理器已就绪");
+		log.debug("ab的事务管理器已就绪");
 	}
 
 	@Override
@@ -89,9 +90,16 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	@Override
 	protected Object doGetTransaction() {
 		AbDataSourceTransactionObject abTxObject = new AbDataSourceTransactionObject();
-		threadLocalAbTxObject.set(abTxObject);
-		if (logger().isDebugEnabled()) {
-			logger().debug("ab事务编号["+abTxObject.getSerialNumber()+"]开始");
+		// 如果线程没有顶层，则说明这次是顶层事务
+		if (threadLocalTopAbTxObject.get() == null) {
+			threadLocalTopAbTxObject.set(abTxObject);
+			if (log.isDebugEnabled()) {
+				log.debug("ab事务编号[" + abTxObject.getSerialNumber() + "]为顶层事务开始，调用AbDataSourceTransactionManager.addDataSource的数据源全部归于这里处理");
+			}
+		} else {
+			if (log.isDebugEnabled()) {
+				log.debug("进入ab事务编号[" + abTxObject.getSerialNumber() + "]");
+			}
 		}
 		return abTxObject;
 	}
@@ -101,7 +109,7 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	 */
 	@Override
 	protected boolean isExistingTransaction(Object transaction) {
-		if(transactionActive.get()==null) {
+		if (transactionActive.get() == null) {
 			return false;
 		}
 		return transactionActive.get();
@@ -115,11 +123,14 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	@Override
 	protected void doBegin(Object transaction, TransactionDefinition definition) throws TransactionException {
 		AbDataSourceTransactionObject abTxObject = (AbDataSourceTransactionObject) transaction;
+		if (log.isDebugEnabled()) {
+			log.debug("ab事务编号[" + abTxObject.getSerialNumber() + "]开始");
+		}
 		abTxObject.setDefinition(definition);
 		// 先把本地数据源加入管理中
 		DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
-		addGlobalDataSource(DataSourceUtil.GLOBAL_DATASOURCE, dynamicDataSource);
-		transactionActive.set(true);//标记线程已开启了事务
+		addGlobalDataSource(DataSourceUtil.GLOBAL_DATASOURCE, dynamicDataSource, abTxObject);
+		transactionActive.set(true);// 标记线程已开启了事务
 	}
 
 	/**
@@ -129,9 +140,9 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	 * 
 	 * @param dsKey
 	 * @param dataSource
+	 * @param abTxObject
 	 */
-	private static void addGlobalDataSource(String dsKey, DataSource dataSource) {
-		AbDataSourceTransactionObject abTxObject = threadLocalAbTxObject.get();
+	private static void addGlobalDataSource(String dsKey, DataSource dataSource, AbDataSourceTransactionObject abTxObject) {
 		try {
 			// 拿出dsKey的资源 txObject
 			DataSourceTransactionObject txObject = abTxObject.getDsTxObj(dsKey);
@@ -149,8 +160,8 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 					txObject.setConnectionHolder(conHolder, false);
 				} else {
 					Connection newCon = dataSource.getConnection();
-					if (logger().isDebugEnabled()) {
-						logger().debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"数据源别名[" + dsKey + "]打开连接成功");
+					if (log.isDebugEnabled()) {
+						log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "数据源别名[" + dsKey + "]打开连接成功");
 					}
 					// 标记为这次事务中生成的资源，需要回收资源
 					txObject.setConnectionHolder(new ConnectionHolder(newCon), true);
@@ -167,8 +178,8 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 			// 设置这个链接必须要被恢复为自动提交，有些数据源的池是有这方面的需要的
 			if (con.getAutoCommit()) {
 				txObject.setMustRestoreAutoCommit(true);
-				if (logger().isDebugEnabled()) {
-					logger().debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"设置数据源别名为[" + dsKey + "]的链接为手动提交(本来是自动提交的)");
+				if (log.isDebugEnabled()) {
+					log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "设置数据源别名为[" + dsKey + "]的链接为手动提交(本来是自动提交的)");
 				}
 				con.setAutoCommit(false);
 			}
@@ -187,7 +198,7 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 			}
 		} catch (Throwable ex) {
 			// 释放和关闭这次事务的相关资源
-			for (Entry<String, DataSourceTransactionObject> entry : threadLocalAbTxObject.get().getDsTxObjMap().entrySet()) {
+			for (Entry<String, DataSourceTransactionObject> entry : threadLocalTopAbTxObject.get().getDsTxObjMap().entrySet()) {
 				DataSourceTransactionObject txObject = entry.getValue();
 				if (txObject.isNewConnectionHolder()) {
 					DataSource ds = DataSourceUtil.getDataSourceByAlias(entry.getKey());
@@ -196,9 +207,9 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 					txObject.setConnectionHolder(null, false);
 				}
 			}
-			threadLocalAbTxObject.remove();
-			transactionActive.remove();//清除事务标记
-			throw new CannotCreateTransactionException("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"数据源别名[" + dsKey + "]打开连接错误", ex);
+			threadLocalTopAbTxObject.remove();
+			transactionActive.remove();// 清除事务标记
+			throw new CannotCreateTransactionException("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "数据源别名[" + dsKey + "]打开连接错误", ex);
 		}
 
 	}
@@ -219,11 +230,16 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 		}
 		// key跟本地数据源取的真正数据源是一样的且资源中无该ConnectionHolder，则拿出本地数据源的ConnectionHolder绑定到这个数据源中
 		if (DbContextHolder.getDataSource().equals(dsKey) && TransactionSynchronizationManager.getResource(dataSource) == null) {
-			ConnectionHolder holder = threadLocalAbTxObject.get().getDsTxObj(DataSourceUtil.GLOBAL_DATASOURCE).getConnectionHolder();
+			ConnectionHolder holder = threadLocalTopAbTxObject.get().getDsTxObj(DataSourceUtil.GLOBAL_DATASOURCE).getConnectionHolder();
 			TransactionSynchronizationManager.bindResource(dataSource, holder);
 			return;
 		}
-		addGlobalDataSource(dsKey, dataSource);
+		// 已加入过的也不需要加入
+		if (threadLocalTopAbTxObject.get().getDsTxObjMap().containsKey(dsKey)) {
+			return;
+		}
+		// 加入的是父事务
+		addGlobalDataSource(dsKey, dataSource, threadLocalTopAbTxObject.get());
 	}
 
 	/**
@@ -243,8 +259,8 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 			DataSource dataSource = DataSourceUtil.getDataSourceByAliasWithLoacl(entry.getKey());
 			Object obj = TransactionSynchronizationManager.unbindResource(dataSource);
 			objMap.put(entry.getKey(), obj);
-			if (logger().isDebugEnabled()) {
-				logger().debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"设置数据源别名为[" + entry.getKey() + "]的资源被挂起");
+			if (log.isDebugEnabled()) {
+				log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "设置数据源别名为[" + entry.getKey() + "]的资源被挂起");
 			}
 		}
 		return objMap;
@@ -263,8 +279,8 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 		for (Entry<String, Object> entry : objMap.entrySet()) {
 			DataSource dataSource = DataSourceUtil.getDataSourceByAliasWithLoacl(entry.getKey());
 			TransactionSynchronizationManager.bindResource(dataSource, entry.getValue());
-			if (logger().isDebugEnabled()) {
-				logger().debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"设置数据源别名为[" + entry.getKey() + "]的被挂起资源恢复");
+			if (log.isDebugEnabled()) {
+				log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "设置数据源别名为[" + entry.getKey() + "]的被挂起资源恢复");
 			}
 		}
 	}
@@ -280,7 +296,9 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 					sb.append(",");
 				}
 				sb.append(entry.getKey());
-				logger.debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"数据源别名[" + entry.getKey() + "]提交事务成功");
+				if (log.isDebugEnabled()) {
+					log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "数据源别名[" + entry.getKey() + "]提交事务成功");
+				}
 			} catch (SQLException ex) {
 				throw new TransactionSystemException("数据源别名[" + entry.getKey() + "]提交事务失败，需要干预已提交成功的数据源别名[" + sb + "]的数据", ex);
 			}
@@ -296,7 +314,9 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 		for (Entry<String, DataSourceTransactionObject> entry : abTxObject.getDsTxObjMap().entrySet()) {
 			try {
 				entry.getValue().getConnectionHolder().getConnection().rollback();
-				logger.debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"数据源别名[" + entry.getKey() + "]回滚事务成功");
+				if (log.isDebugEnabled()) {
+					log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "数据源别名[" + entry.getKey() + "]回滚事务成功");
+				}
 			} catch (SQLException ex) {
 				throw new TransactionSystemException("数据源别名[" + entry.getKey() + "]回滚事务失败", ex);
 			}
@@ -313,7 +333,7 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 		AbDataSourceTransactionObject abTxObject = (AbDataSourceTransactionObject) status.getTransaction();
 		for (Entry<String, DataSourceTransactionObject> entry : abTxObject.getDsTxObjMap().entrySet()) {
 			if (status.isDebug()) {
-				logger.debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"修改数据别名为 [" + entry.getKey() + "]的链接资源为 rollback-only");
+				log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "修改数据别名为 [" + entry.getKey() + "]的链接资源为 rollback-only");
 			}
 			entry.getValue().setRollbackOnly();
 		}
@@ -341,12 +361,12 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				}
 				DataSourceUtils.resetConnectionAfterTransaction(con, txObject.getPreviousIsolationLevel());
 			} catch (Throwable ex) {
-				logger.debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"在完成事务后，数据源别名为[" + entry.getKey() + "]的属性无法被还原", ex);
+				log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "在完成事务后，数据源别名为[" + entry.getKey() + "]的属性无法被还原", ex);
 			}
 
 			if (txObject.isNewConnectionHolder()) {
-				if (logger.isDebugEnabled()) {
-					logger.debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"在完成事务后，释放数据源别名为[" + entry.getKey() + "]的jdbc的链接");
+				if (log.isDebugEnabled()) {
+					log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "在完成事务后，释放数据源别名为[" + entry.getKey() + "]的jdbc的链接");
 				}
 				DataSourceUtils.releaseConnection(con, dataSource);
 			}
@@ -359,11 +379,20 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 		if (conHolder != null) {
 			TransactionSynchronizationManager.unbindResource(dataSource);
 		}
-		threadLocalAbTxObject.remove();
-		transactionActive.remove();//清除事务标记
-		if (logger().isDebugEnabled()) {
-			logger().debug("ab事务编号["+abTxObject.getSerialNumber()+"]结束");
+
+		// 回收顶层事务的线程资源
+		if (abTxObject == threadLocalTopAbTxObject.get()) {
+			threadLocalTopAbTxObject.remove();
+			transactionActive.remove();// 清除事务标记
+			if (log.isDebugEnabled()) {
+				log.debug("ab事务顶层事务编号[" + abTxObject.getSerialNumber() + "]结束");
+			}
+		} else {
+			if (log.isDebugEnabled()) {
+				log.debug("ab事务编号[" + abTxObject.getSerialNumber() + "]结束");
+			}
 		}
+
 	}
 
 	/**
