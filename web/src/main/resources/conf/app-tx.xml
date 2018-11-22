@@ -40,7 +40,7 @@
             <tx:method name="is*" read-only="true"/>
             <tx:method name="find*" read-only="true"/>
             <tx:method name="query*" read-only="true"/>
-            <tx:method name="*" isolation="READ_COMMITTED" propagation="REQUIRES_NEW"/>
+            <tx:method name="*" isolation="READ_COMMITTED"/>
         </tx:attributes>
     </tx:advice>
 </beans>
