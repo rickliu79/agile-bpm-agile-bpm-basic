@@ -3,8 +3,6 @@ package com.dstz.base.db.transaction;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.sql.DataSource;
@@ -244,45 +242,28 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 
 	/**
 	 * <pre>
-	 * 挂起事务，把线程中的ConnectionHolder先移除
-	 * return后是会被存储起来的，然后再doResume来还原
-	 * 注意，其中的数据库链接是没关闭的哦，只是删除了在线程中的引用
+	 * 挂起事务，把线程中的系统数据源ConnectionHolder先移除
+	 * 
+	 * 注意！！这里传入的transaction是新事务的transaction！！！基本是一个空对象
+	 * 所以我们只支持系统数据源挂起，AbDataSourceTransactionManager.addDataSource加入的数据源无法被挂起
+	 * 则会在线程中一直重用着，其实不挂起的话，被其他事务所使用commit只要不释放就行，这样也能实现分段提交，感觉挂起意义不大。
 	 * </pre>
 	 */
 	@Override
 	protected Object doSuspend(Object transaction) {
-		Map<String, Object> objMap = new HashMap<>();
-		AbDataSourceTransactionObject abTxObject = (AbDataSourceTransactionObject) transaction;
-		for (Entry<String, DataSourceTransactionObject> entry : abTxObject.getDsTxObjMap().entrySet()) {
-			DataSourceTransactionObject txObject = entry.getValue();
-			txObject.setConnectionHolder(null);
-			DataSource dataSource = DataSourceUtil.getDataSourceByAliasWithLoacl(entry.getKey());
-			Object obj = TransactionSynchronizationManager.unbindResource(dataSource);
-			objMap.put(entry.getKey(), obj);
-			if (log.isDebugEnabled()) {
-				log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "设置数据源别名为[" + entry.getKey() + "]的资源被挂起");
-			}
-		}
-		return objMap;
+		DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
+		return TransactionSynchronizationManager.unbindResource(dynamicDataSource);
 	}
 
 	/**
 	 * <pre>
-	 * 恢复之前挂起的ConnectionHolder
-	 * 只需要把资源再次挂上线程中则可，因为dobegin会直接先从线程取
+	 * 恢复之前挂起的系统本地数据源ConnectionHolder
 	 * </pre>
 	 */
 	@Override
 	protected void doResume(Object transaction, Object suspendedResources) {
-		AbDataSourceTransactionObject abTxObject = (AbDataSourceTransactionObject) transaction;
-		Map<String, Object> objMap = (Map<String, Object>) suspendedResources;
-		for (Entry<String, Object> entry : objMap.entrySet()) {
-			DataSource dataSource = DataSourceUtil.getDataSourceByAliasWithLoacl(entry.getKey());
-			TransactionSynchronizationManager.bindResource(dataSource, entry.getValue());
-			if (log.isDebugEnabled()) {
-				log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "设置数据源别名为[" + entry.getKey() + "]的被挂起资源恢复");
-			}
-		}
+		DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
+		TransactionSynchronizationManager.bindResource(dynamicDataSource, suspendedResources);
 	}
 
 	@Override
