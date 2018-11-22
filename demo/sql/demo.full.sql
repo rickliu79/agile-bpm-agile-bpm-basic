@@ -23,8 +23,8 @@ CREATE TABLE `biz_demo` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='案例';
 
-----------------------------------------------------
---导入表单需要导入 （TODO 业务对象导入导出功能，流程可以使用预览导入）
+-- --------------------------------------------------
+-- 导入表单需要导入 （TODO 业务对象导入导出功能，流程可以使用预览导入）
 -- 1.业务对象 ：select * from bus_object where key_ = 'SchoolStudent';
 -- 2.表定义	  ：select * from bus_table where name_ in ('biz_school','biz_student','biz_class');
 -- 3.字段定义 ：select * from bus_column where table_id_ in (select id_ from bus_table where name_ in ('biz_school','biz_student','biz_class'));
@@ -33,7 +33,7 @@ CREATE TABLE `biz_demo` (
 
 -- 5.表单	  ：select * from form_def where key_ in('SchoolStudent_m','SchoolStudent');
 -- 6.表单权限 ：select * from bus_permission where bo_key_ in ('SchoolStudent') and type ='flow/form'
--------------------------------------------------------
+-- -----------------------------------------------------
 
 
 
