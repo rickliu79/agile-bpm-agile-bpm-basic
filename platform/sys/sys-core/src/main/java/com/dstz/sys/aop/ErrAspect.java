@@ -107,14 +107,15 @@ public class ErrAspect {
                 resultMsg = new ResultMsg(busEx.getStatusCode(), error);
             }
 
-            writeResultMessage2Writer(point, resultMsg, catchErr.write2response());
 
             // 若返回值是resultType 则返回错误
             org.aspectj.lang.Signature signature = point.getSignature();
             Class returnType = ((MethodSignature) signature).getReturnType();
             if (returnType.isAssignableFrom(ResultMsg.class)) {
-                returnVal = resultMsg;
+            	return resultMsg;
             }
+            
+            writeResultMessage2Writer(point, resultMsg, catchErr.write2response());
         }
 
         return returnVal;

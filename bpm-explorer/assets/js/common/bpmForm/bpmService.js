@@ -80,6 +80,12 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 	bpmService.getTaskId = function(){
 		return taskId;
 	};
+	bpmService.getNodeId = function(){
+		if(this.bpmTask){
+			return bpmTask.nodeId;
+		}
+		return "";
+	}
 	bpmService.getInstanceId = function(){
 		if(!this.instanceId && bpmTask){
 			return bpmTask.instId;
@@ -151,7 +157,8 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 						instanceId: bpmService.getInstanceId(),
 						formType: scope.form.type,
 						data: busData,
-						action: button.alias
+						action: button.alias,
+						nodeId:bpmService.getNodeId()
 					};
 				//获取更多完成动作配置
 				if( button.configPage){
@@ -162,6 +169,7 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 					var conf = {title:button.name,url:button.configPage,height:height,width:width,passData:flowData,topOpen:true};
 					conf.ok = function(index,innerWindow){
 						if(!innerWindow.isValidate())return ;
+						debugger;
 						scope.postAction(flowData);
 					}
 					$.Dialog.open(conf);
