@@ -95,17 +95,29 @@ public class DataSourceUtil {
     /**
      * <pre>
      * 根据别名返回容器里对应的数据源
-     * 尽量用sysDataSOurceService，那里作了取本地数据源的优化
-     * 不然在这里取的话在普通事务中有影响
      *	</pre>
      * @param alias
      * @return
-     * @throws IllegalAccessException
-     * @throws NoSuchFieldException   DataSource
      */
     public static DataSource getDataSourceByAlias(String alias) {
         Map<String, DataSource> map = getDataSources();
         return map.get(alias);
     }
-   
+    
+    /**
+     * <pre>
+     * 根据别名返回容器里对应的数据源
+     * 如果是取的是DataSourceUtil.GLOBAL_DATASOURCE
+     * 则返回DynamicDataSource 系统的路由数据源
+     * </pre>	
+     * @param alias
+     * @return
+     */
+    public static DataSource getDataSourceByAliasWithLoacl(String alias) {
+    	DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
+    	if (DataSourceUtil.GLOBAL_DATASOURCE.equals(alias)) {
+			return dynamicDataSource;
+		}
+    	return getDataSourceByAlias(alias);
+    }
 }

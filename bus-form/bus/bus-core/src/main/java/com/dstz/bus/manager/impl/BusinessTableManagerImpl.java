@@ -51,6 +51,8 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 
 	@Override
 	public void save(BusinessTable businessTable) {
+		busColCtrlManager.get("");
+		
 		if (StringUtil.isEmpty(businessTable.getId())) {
 			businessTable.setId(IdUtil.getSuid());
 			// 新建内部表时，表已经存在库中，则抛出异常
@@ -63,6 +65,7 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 			busColCtrlManager.removeByTableId(businessTable.getId());// 删除关联字段控件
 			businessColumnManager.removeByTableId(businessTable.getId());// 删除关联字段
 		}
+		
 		for (BusinessColumn businessColumn : businessTable.getColumns()) {
 			if (StringUtil.isEmpty(businessColumn.getId())) {
 				businessColumn.setId(IdUtil.getSuid());

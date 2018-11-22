@@ -2,14 +2,14 @@ package com.dstz.base.db.transaction;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.datasource.ConnectionHolder;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -38,11 +38,38 @@ import com.dstz.base.db.datasource.DynamicDataSource;
  * </pre>
  */
 public class AbDataSourceTransactionManager extends AbstractPlatformTransactionManager implements ResourceTransactionManager, InitializingBean {
-	private static Logger log = LoggerFactory.getLogger(AbDataSourceTransactionManager.class);
 	/**
-	 * 线程事务变量
+	 * 线程当前的abTxObject
 	 */
-	private static ThreadLocal<AbDataSourceTransaction> threadLocalTransaction = new ThreadLocal<>();
+	private static ThreadLocal<AbDataSourceTransactionObject> threadLocalAbTxObject = new ThreadLocal<>();
+	/**
+	 * 线程中是否有活跃的事务
+	 */
+	private static ThreadLocal<Boolean> transactionActive = new ThreadLocal<>();
+
+	/**
+	 * <pre>
+	 * 事务是否支持数据库层级别的只读
+	 * 则会改变Statement的行为
+	 * </pre>
+	 */
+	private boolean enforceReadOnly = false;
+
+	public AbDataSourceTransactionManager() {
+		setNestedTransactionAllowed(true);
+	}
+
+	private static Log logger() {
+		return AppUtil.getBean(AbDataSourceTransactionManager.class).logger;
+	}
+
+	public void setEnforceReadOnly(boolean enforceReadOnly) {
+		this.enforceReadOnly = enforceReadOnly;
+	}
+
+	public boolean isEnforceReadOnly() {
+		return enforceReadOnly;
+	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -57,12 +84,16 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	/**
 	 * <pre>
 	 * 生成一个在整个事务处理都用到的资源
-	 * 本人用线程变量来做了
 	 * </pre>
 	 */
 	@Override
 	protected Object doGetTransaction() {
-		return new HashMap<>();
+		AbDataSourceTransactionObject abTxObject = new AbDataSourceTransactionObject();
+		threadLocalAbTxObject.set(abTxObject);
+		if (logger().isDebugEnabled()) {
+			logger().debug("ab事务编号["+abTxObject.getSerialNumber()+"]开始");
+		}
+		return abTxObject;
 	}
 
 	/**
@@ -70,23 +101,10 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	 */
 	@Override
 	protected boolean isExistingTransaction(Object transaction) {
-		if (threadLocalTransaction.get() == null) {
+		if(transactionActive.get()==null) {
 			return false;
 		}
-		return threadLocalTransaction.get().isExist();
-	}
-
-	/**
-	 * <pre>
-	 * 必须实现的一个方法，设置线程内的事务为回滚状态。
-	 * 这里其实是为了预防传播性设置为 让线程内可以多次管理器操作的情况下，用来通知大家只做回滚，别commit了。
-	 * 在该事务管理器只支持PROPAGATION_REQUIRED 的情况下（线程只有一个管理器操作），没多大用，只是必须要实现这个
-	 * 不然抽象类那里会有报错代码。
-	 * </pre>
-	 */
-	@Override
-	protected void doSetRollbackOnly(DefaultTransactionStatus status) {
-		threadLocalTransaction.get().setRollbackOnly(true);
+		return transactionActive.get();
 	}
 
 	/**
@@ -96,12 +114,12 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	 */
 	@Override
 	protected void doBegin(Object transaction, TransactionDefinition definition) throws TransactionException {
-		threadLocalTransaction.set(new AbDataSourceTransaction());
-
+		AbDataSourceTransactionObject abTxObject = (AbDataSourceTransactionObject) transaction;
+		abTxObject.setDefinition(definition);
 		// 先把本地数据源加入管理中
 		DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
 		addGlobalDataSource(DataSourceUtil.GLOBAL_DATASOURCE, dynamicDataSource);
-		threadLocalTransaction.get().setExist(true);// 标记ab事务管理器已经在线程内启动了
+		transactionActive.set(true);//标记线程已开启了事务
 	}
 
 	/**
@@ -113,22 +131,74 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	 * @param dataSource
 	 */
 	private static void addGlobalDataSource(String dsKey, DataSource dataSource) {
+		AbDataSourceTransactionObject abTxObject = threadLocalAbTxObject.get();
 		try {
-			Connection con = null;
-			ConnectionHolder conHolder = (ConnectionHolder) TransactionSynchronizationManager.getResource(dataSource);
-			if (conHolder == null) {
-				con = dataSource.getConnection();
-				con.setAutoCommit(false);
-				// 缓存链接
-				TransactionSynchronizationManager.bindResource(dataSource, new ConnectionHolder(con));
-				log.debug("数据源别名[" + dsKey + "]打开连接成功");
-			} else {
-				con = conHolder.getConnection();
+			// 拿出dsKey的资源 txObject
+			DataSourceTransactionObject txObject = abTxObject.getDsTxObj(dsKey);
+			if (txObject == null) {
+				txObject = new DataSourceTransactionObject();
+				abTxObject.putDsTxObj(dsKey, txObject);
 			}
-			threadLocalTransaction.get().put(dsKey, con);
+
+			// 判断资源是否为空，或者资源是否在事务中要同步（则不允许其他事务重复使用）
+			if (!txObject.hasConnectionHolder() || txObject.getConnectionHolder().isSynchronizedWithTransaction()) {
+				// 尝试在资源中拿
+				ConnectionHolder conHolder = (ConnectionHolder) TransactionSynchronizationManager.getResource(dataSource);
+				if (conHolder != null) {
+					// 标记为不是这次管理这次事务中生成的资源，后面回收资源时不回收
+					txObject.setConnectionHolder(conHolder, false);
+				} else {
+					Connection newCon = dataSource.getConnection();
+					if (logger().isDebugEnabled()) {
+						logger().debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"数据源别名[" + dsKey + "]打开连接成功");
+					}
+					// 标记为这次事务中生成的资源，需要回收资源
+					txObject.setConnectionHolder(new ConnectionHolder(newCon), true);
+				}
+			}
+
+			txObject.getConnectionHolder().setSynchronizedWithTransaction(true);
+			Connection con = txObject.getConnectionHolder().getConnection();
+
+			TransactionDefinition definition = abTxObject.getDefinition();
+			Integer previousIsolationLevel = DataSourceUtils.prepareConnectionForTransaction(con, definition);
+			txObject.setPreviousIsolationLevel(previousIsolationLevel);
+
+			// 设置这个链接必须要被恢复为自动提交，有些数据源的池是有这方面的需要的
+			if (con.getAutoCommit()) {
+				txObject.setMustRestoreAutoCommit(true);
+				if (logger().isDebugEnabled()) {
+					logger().debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"设置数据源别名为[" + dsKey + "]的链接为手动提交(本来是自动提交的)");
+				}
+				con.setAutoCommit(false);
+			}
+
+			prepareTransactionalConnection(con, definition);
+
+			// 设置超时
+			int timeout = staticDetermineTimeout(definition);
+			if (timeout != TransactionDefinition.TIMEOUT_DEFAULT) {
+				txObject.getConnectionHolder().setTimeoutInSeconds(timeout);
+			}
+
+			// 判断是否本次事务生成的新资源，需要绑定到资源中
+			if (txObject.isNewConnectionHolder()) {
+				TransactionSynchronizationManager.bindResource(dataSource, txObject.getConnectionHolder());
+			}
 		} catch (Throwable ex) {
-			doStaticCleanupAfterCompletion();
-			throw new CannotCreateTransactionException("数据源别名[" + dsKey + "]打开连接错误", ex);
+			// 释放和关闭这次事务的相关资源
+			for (Entry<String, DataSourceTransactionObject> entry : threadLocalAbTxObject.get().getDsTxObjMap().entrySet()) {
+				DataSourceTransactionObject txObject = entry.getValue();
+				if (txObject.isNewConnectionHolder()) {
+					DataSource ds = DataSourceUtil.getDataSourceByAlias(entry.getKey());
+					Connection con = txObject.getConnectionHolder().getConnection();
+					DataSourceUtils.releaseConnection(con, ds);
+					txObject.setConnectionHolder(null, false);
+				}
+			}
+			threadLocalAbTxObject.remove();
+			transactionActive.remove();//清除事务标记
+			throw new CannotCreateTransactionException("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"数据源别名[" + dsKey + "]打开连接错误", ex);
 		}
 
 	}
@@ -147,27 +217,70 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 		if (dataSource == dynamicDataSource) {
 			return;
 		}
-		// key跟本地数据源取的真正数据源是一样的且资源中无该链接，则拿出本地数据源的链接绑定到这个数据源中
+		// key跟本地数据源取的真正数据源是一样的且资源中无该ConnectionHolder，则拿出本地数据源的ConnectionHolder绑定到这个数据源中
 		if (DbContextHolder.getDataSource().equals(dsKey) && TransactionSynchronizationManager.getResource(dataSource) == null) {
-			Connection con = threadLocalTransaction.get().getConnMap().get(DataSourceUtil.GLOBAL_DATASOURCE);
-			TransactionSynchronizationManager.bindResource(dataSource, new ConnectionHolder(con));
+			ConnectionHolder holder = threadLocalAbTxObject.get().getDsTxObj(DataSourceUtil.GLOBAL_DATASOURCE).getConnectionHolder();
+			TransactionSynchronizationManager.bindResource(dataSource, holder);
 			return;
 		}
 		addGlobalDataSource(dsKey, dataSource);
 	}
 
+	/**
+	 * <pre>
+	 * 挂起事务，把线程中的ConnectionHolder先移除
+	 * return后是会被存储起来的，然后再doResume来还原
+	 * 注意，其中的数据库链接是没关闭的哦，只是删除了在线程中的引用
+	 * </pre>
+	 */
+	@Override
+	protected Object doSuspend(Object transaction) {
+		Map<String, Object> objMap = new HashMap<>();
+		AbDataSourceTransactionObject abTxObject = (AbDataSourceTransactionObject) transaction;
+		for (Entry<String, DataSourceTransactionObject> entry : abTxObject.getDsTxObjMap().entrySet()) {
+			DataSourceTransactionObject txObject = entry.getValue();
+			txObject.setConnectionHolder(null);
+			DataSource dataSource = DataSourceUtil.getDataSourceByAliasWithLoacl(entry.getKey());
+			Object obj = TransactionSynchronizationManager.unbindResource(dataSource);
+			objMap.put(entry.getKey(), obj);
+			if (logger().isDebugEnabled()) {
+				logger().debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"设置数据源别名为[" + entry.getKey() + "]的资源被挂起");
+			}
+		}
+		return objMap;
+	}
+
+	/**
+	 * <pre>
+	 * 恢复之前挂起的ConnectionHolder
+	 * 只需要把资源再次挂上线程中则可，因为dobegin会直接先从线程取
+	 * </pre>
+	 */
+	@Override
+	protected void doResume(Object transaction, Object suspendedResources) {
+		AbDataSourceTransactionObject abTxObject = (AbDataSourceTransactionObject) transaction;
+		Map<String, Object> objMap = (Map<String, Object>) suspendedResources;
+		for (Entry<String, Object> entry : objMap.entrySet()) {
+			DataSource dataSource = DataSourceUtil.getDataSourceByAliasWithLoacl(entry.getKey());
+			TransactionSynchronizationManager.bindResource(dataSource, entry.getValue());
+			if (logger().isDebugEnabled()) {
+				logger().debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"设置数据源别名为[" + entry.getKey() + "]的被挂起资源恢复");
+			}
+		}
+	}
+
 	@Override
 	protected void doCommit(DefaultTransactionStatus status) {
+		AbDataSourceTransactionObject abTxObject = (AbDataSourceTransactionObject) status.getTransaction();
 		StringBuilder sb = new StringBuilder();
-		Map<String, Connection> conMap = threadLocalTransaction.get().getConnMap();
-		for (Entry<String, Connection> entry : conMap.entrySet()) {
+		for (Entry<String, DataSourceTransactionObject> entry : abTxObject.getDsTxObjMap().entrySet()) {
 			try {
-				entry.getValue().commit();
+				entry.getValue().getConnectionHolder().getConnection().commit();
 				if (sb.length() > 0) {
 					sb.append(",");
 				}
 				sb.append(entry.getKey());
-				logger.debug("数据源别名[" + entry.getKey() + "]提交事务成功");
+				logger.debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"数据源别名[" + entry.getKey() + "]提交事务成功");
 			} catch (SQLException ex) {
 				throw new TransactionSystemException("数据源别名[" + entry.getKey() + "]提交事务失败，需要干预已提交成功的数据源别名[" + sb + "]的数据", ex);
 			}
@@ -179,11 +292,11 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	 */
 	@Override
 	protected void doRollback(DefaultTransactionStatus status) throws TransactionException {
-		Map<String, Connection> conMap = threadLocalTransaction.get().getConnMap();
-		for (Entry<String, Connection> entry : conMap.entrySet()) {
+		AbDataSourceTransactionObject abTxObject = (AbDataSourceTransactionObject) status.getTransaction();
+		for (Entry<String, DataSourceTransactionObject> entry : abTxObject.getDsTxObjMap().entrySet()) {
 			try {
-				entry.getValue().rollback();
-				logger.debug("数据源别名[" + entry.getKey() + "]回滚事务成功");
+				entry.getValue().getConnectionHolder().getConnection().rollback();
+				logger.debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"数据源别名[" + entry.getKey() + "]回滚事务成功");
 			} catch (SQLException ex) {
 				throw new TransactionSystemException("数据源别名[" + entry.getKey() + "]回滚事务失败", ex);
 			}
@@ -191,38 +304,102 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 	}
 
 	/**
-	 * 回收链接
+	 * <pre>
+	 * 告诉所有数据源的ConnectionHolder，已被置为回滚状态
+	 * </pre>
 	 */
 	@Override
-	protected void doCleanupAfterCompletion(Object transaction) {
-		// 释放线程变量
-		doStaticCleanupAfterCompletion();
-	}
-
-	private static void doStaticCleanupAfterCompletion() {
-		try {
-			// 释放线程变量
-			DynamicDataSource dynamicDataSource = (DynamicDataSource) AppUtil.getBean(DataSourceUtil.GLOBAL_DATASOURCE);
-			Map<String, Connection> conMap = threadLocalTransaction.get().getConnMap();
-			for (Entry<String, Connection> entry : conMap.entrySet()) {
-				DataSource dataSource = DataSourceUtil.getDataSourceByAlias(entry.getKey());
-				if (DataSourceUtil.GLOBAL_DATASOURCE.equals(entry.getKey())) {
-					dataSource = dynamicDataSource;
-				}
-				TransactionSynchronizationManager.unbindResource(dataSource);
-				DataSourceUtils.releaseConnection(entry.getValue(), dataSource);
-				log.debug("数据源别名[" + entry.getKey() + "]关闭链接成功");
+	protected void doSetRollbackOnly(DefaultTransactionStatus status) {
+		AbDataSourceTransactionObject abTxObject = (AbDataSourceTransactionObject) status.getTransaction();
+		for (Entry<String, DataSourceTransactionObject> entry : abTxObject.getDsTxObjMap().entrySet()) {
+			if (status.isDebug()) {
+				logger.debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"修改数据别名为 [" + entry.getKey() + "]的链接资源为 rollback-only");
 			}
-
-			// 释放链接刚好是本地数据源的链接复用，而绑定了TransactionSynchronizationManager的资源
-			DataSource dataSource = DataSourceUtil.getDataSourceByAlias(DbContextHolder.getDataSource());
-			ConnectionHolder conHolder = (ConnectionHolder) TransactionSynchronizationManager.getResource(dataSource);
-			if (conHolder != null) {
-				TransactionSynchronizationManager.unbindResource(dataSource);
-			}
-		} finally {
-			threadLocalTransaction.remove();// 释放资源
+			entry.getValue().setRollbackOnly();
 		}
 	}
 
+	/**
+	 * 回收链接ConnectionHolder
+	 */
+	@Override
+	protected void doCleanupAfterCompletion(Object transaction) {
+		AbDataSourceTransactionObject abTxObject = (AbDataSourceTransactionObject) transaction;
+		for (Entry<String, DataSourceTransactionObject> entry : abTxObject.getDsTxObjMap().entrySet()) {
+			DataSourceTransactionObject txObject = entry.getValue();
+			DataSource dataSource = DataSourceUtil.getDataSourceByAliasWithLoacl(entry.getKey());
+			// 如果ConnectionHolder是由本次事务产生，则回收
+			if (txObject.isNewConnectionHolder()) {
+				TransactionSynchronizationManager.unbindResource(dataSource);
+			}
+
+			// 重置链接属性
+			Connection con = txObject.getConnectionHolder().getConnection();
+			try {
+				if (txObject.isMustRestoreAutoCommit()) {
+					con.setAutoCommit(true);
+				}
+				DataSourceUtils.resetConnectionAfterTransaction(con, txObject.getPreviousIsolationLevel());
+			} catch (Throwable ex) {
+				logger.debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"在完成事务后，数据源别名为[" + entry.getKey() + "]的属性无法被还原", ex);
+			}
+
+			if (txObject.isNewConnectionHolder()) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("在ab事务编号["+abTxObject.getSerialNumber()+"]中，"+"在完成事务后，释放数据源别名为[" + entry.getKey() + "]的jdbc的链接");
+				}
+				DataSourceUtils.releaseConnection(con, dataSource);
+			}
+
+			txObject.getConnectionHolder().clear();
+		}
+		// 释放链接刚好是本地数据源的链接复用，而绑定了TransactionSynchronizationManager的资源
+		DataSource dataSource = DataSourceUtil.getDataSourceByAlias(DbContextHolder.getDataSource());
+		ConnectionHolder conHolder = (ConnectionHolder) TransactionSynchronizationManager.getResource(dataSource);
+		if (conHolder != null) {
+			TransactionSynchronizationManager.unbindResource(dataSource);
+		}
+		threadLocalAbTxObject.remove();
+		transactionActive.remove();//清除事务标记
+		if (logger().isDebugEnabled()) {
+			logger().debug("ab事务编号["+abTxObject.getSerialNumber()+"]结束");
+		}
+	}
+
+	/**
+	 * <pre>
+	 * 处理一下链接为只读链接
+	 * </pre>
+	 * 
+	 * @param con
+	 * @param definition
+	 * @throws SQLException
+	 */
+	private static void prepareTransactionalConnection(Connection con, TransactionDefinition definition) throws SQLException {
+		boolean isEnforceReadOnly = AppUtil.getBean(AbDataSourceTransactionManager.class).isEnforceReadOnly();
+		if (isEnforceReadOnly && definition.isReadOnly()) {
+			Statement stmt = con.createStatement();
+			try {
+				stmt.executeUpdate("SET TRANSACTION READ ONLY");
+			} finally {
+				stmt.close();
+			}
+		}
+	}
+
+	/**
+	 * <pre>
+	 * 静态方法取超时时间
+	 * </pre>
+	 * 
+	 * @param definition
+	 * @return
+	 */
+	private static int staticDetermineTimeout(TransactionDefinition definition) {
+		if (definition.getTimeout() != TransactionDefinition.TIMEOUT_DEFAULT) {
+			return definition.getTimeout();
+		}
+		AbDataSourceTransactionManager abTransactionManager = (AbDataSourceTransactionManager) AppUtil.getBean("abTransactionManager");
+		return abTransactionManager.getDefaultTimeout();
+	}
 }
