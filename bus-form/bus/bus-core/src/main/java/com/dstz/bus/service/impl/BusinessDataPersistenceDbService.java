@@ -54,7 +54,7 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 		return BusinessObjectPersistenceType.DB.getKey();
 	}
 
-	@Transactional(value = "abTransactionManager")
+	@Transactional
 	@Override
 	public void saveData(BusinessData businessData) {
 		// 操作ab事务管理器，把bo用到的数据源进入到事务管理中
