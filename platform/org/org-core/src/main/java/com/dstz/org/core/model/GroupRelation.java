@@ -15,13 +15,22 @@ import java.util.Map;
  */
 public class GroupRelation extends BaseModel implements IGroup {
 
-    protected String groupId;
+    protected String orgId;
 
     protected String relDefId;
 
     protected String relName;
 
-    protected String relCode;
+    public String getOrgId() {
+		return orgId;
+	}
+
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+	protected String relCode;
     protected String orgName;
     protected String jobName;
 
@@ -72,7 +81,7 @@ public class GroupRelation extends BaseModel implements IGroup {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", this.id)
-                .append("groupId", this.groupId)
+                .append("orgId", this.orgId)
                 .append("relDefId", this.relDefId)
                 .append("relName", this.relName)
                 .append("relCode", this.relCode)
@@ -84,7 +93,7 @@ public class GroupRelation extends BaseModel implements IGroup {
     }
 
     public String getGroupId() {
-        return this.groupId;
+        return this.id; 
     }
 
     public String getName() {
@@ -92,7 +101,7 @@ public class GroupRelation extends BaseModel implements IGroup {
     }
 
     public void setGroupId(String groupId) {
-        this.groupId = groupId;
+        this.id = groupId;
     }
 
     public String getGroupCode() {

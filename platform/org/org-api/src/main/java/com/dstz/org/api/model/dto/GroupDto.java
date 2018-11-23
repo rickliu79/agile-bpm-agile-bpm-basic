@@ -14,6 +14,18 @@ public class GroupDto implements IGroup {
 	String parentId;
 	String path;
 	
+	public GroupDto(IGroup group) {
+		this.groupCode = group.getGroupCode();
+		this.groupId = group.getGroupId();
+		this.groupType = group.getGroupType();
+		this.parentId = group.getParentId();
+		this.name = group.getName();
+	}
+	
+	public GroupDto() {
+
+	}
+	
 	public String getIdentityType() {
 		return identityType;
 	}

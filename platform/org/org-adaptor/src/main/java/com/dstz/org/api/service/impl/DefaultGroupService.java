@@ -138,8 +138,9 @@ public class DefaultGroupService implements GroupService {
         	group = groupRelManager.get(groupId);
         }
         
-        group = BeanCopierUtils.transformBean(group, GroupDto.class);
-        return group;
+        if(group == null) return null;
+        
+        return new GroupDto(group);
     }
 
     /**
@@ -159,8 +160,9 @@ public class DefaultGroupService implements GroupService {
         	group = groupRelManager.getByCode(code);
         }
         
-        group = BeanCopierUtils.transformBean(group, GroupDto.class);
-        return group;
+        if(group == null) return null;
+        
+        return new GroupDto(group);
     }
 
     /**
