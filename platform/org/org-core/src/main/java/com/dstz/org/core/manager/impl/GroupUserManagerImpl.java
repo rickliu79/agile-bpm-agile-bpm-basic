@@ -59,6 +59,7 @@ public class GroupUserManagerImpl extends BaseManager<String, GroupUser> impleme
         //删除缓存。
         String userKey = ICurrentContext.CURRENT_ORG + orgUser.getUserId();
         iCache.delByKey(userKey);
+        int a = 2/0;
     }
 
 
