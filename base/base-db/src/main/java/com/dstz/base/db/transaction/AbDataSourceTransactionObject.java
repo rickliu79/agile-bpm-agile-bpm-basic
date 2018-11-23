@@ -29,11 +29,11 @@ public class AbDataSourceTransactionObject {
 	 * Map<数据源别名,DataSourceTransactionObject>
 	 */
 	private Map<String, DataSourceTransactionObject> dsTxObjMap = new LinkedHashMap<>();
-	
+
 	public AbDataSourceTransactionObject() {
-		this.serialNumber = System.currentTimeMillis()+"";
+		this.serialNumber = Integer.toHexString(this.hashCode());
 	}
-	
+
 	public String getSerialNumber() {
 		return serialNumber;
 	}
@@ -65,9 +65,9 @@ public class AbDataSourceTransactionObject {
 		DataSourceTransactionObject txObj = dsTxObjMap.remove(DataSourceUtil.GLOBAL_DATASOURCE);
 		dsTxObjMap.put(DataSourceUtil.GLOBAL_DATASOURCE, txObj);
 	}
-	
+
 	public DataSourceTransactionObject getDsTxObj(String dsKey) {
 		return dsTxObjMap.get(dsKey);
 	}
-	
+
 }

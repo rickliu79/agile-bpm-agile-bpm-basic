@@ -408,4 +408,5 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 		AbDataSourceTransactionManager abTransactionManager = (AbDataSourceTransactionManager) AppUtil.getBean("abTransactionManager");
 		return abTransactionManager.getDefaultTimeout();
 	}
+	
 }
