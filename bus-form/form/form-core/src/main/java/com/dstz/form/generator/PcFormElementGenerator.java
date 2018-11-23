@@ -168,6 +168,7 @@ public class PcFormElementGenerator extends AbsFormElementGenerator{
 		
 		if(isMultiple) {
 			permissionElement.attr("multiple", "true");
+			permissionElement.attr("ab-array-str","");
 		}
 		
 		JSONArray options = config.getJSONArray("options");
