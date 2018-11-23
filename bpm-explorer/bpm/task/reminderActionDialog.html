@@ -8,7 +8,7 @@
 			var ComplateController = ['$scope','baseService',function(scope,baseService){
 				scope.flowParam = window.passData;
 				scope.flowParam.opinion = "您好，请您尽快处理任务：subject ！"
-				scope.flowParam.extendConf = {"isUrgent":"false"};
+				scope.flowParam.extendConf = {"isUrgent":"false","msgType":"email"};
 			}];
 			
 			function isValidate(){
@@ -28,6 +28,15 @@
 					<td>
 						 <textarea rows="2" cols="20" class="form-control" ng-model="flowParam.opinion"></textarea>
 					</td>								
+				</tr>
+				<tr>								
+				<th>消息类型: <span class="required">*</span></th>
+				<td> 
+					<label><input type="checkbox" ab-checkbox ng-model="flowParam.extendConf.msgType" value="inner" ab-validate="{required:true}"/>钉钉消息</label>
+					 <label><input type="checkbox" ab-checkbox ng-model="flowParam.extendConf.msgType" value="email" ab-validate="{required:true}"/>邮件消息</label>
+					 <label><input type="checkbox" ab-checkbox ng-model="flowParam.extendConf.msgType" value="sms" ab-validate="{required:true}"/>短信消息</label>
+				</td>
+			</tr>							
 				</tr>
 				<tr>								
 					<th><span>是否加急任务:</span><span class="required">*</span></th>

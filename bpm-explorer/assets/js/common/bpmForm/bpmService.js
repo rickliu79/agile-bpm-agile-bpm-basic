@@ -81,7 +81,7 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 		return taskId;
 	};
 	bpmService.getNodeId = function(){
-		if(this.bpmTask){
+		if(bpmTask){
 			return bpmTask.nodeId;
 		}
 		return "";
@@ -169,8 +169,7 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 					var conf = {title:button.name,url:button.configPage,height:height,width:width,passData:flowData,topOpen:true};
 					conf.ok = function(index,innerWindow){
 						if(!innerWindow.isValidate())return ;
-						debugger;
-						scope.postAction(flowData);
+						scope.postAction(flowData,innerWindow);
 					}
 					$.Dialog.open(conf);
 				}else{
@@ -178,20 +177,25 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 				}
 			}
 			
-			scope.postAction = function(flowData){
+			scope.postAction = function(flowData,innerWindow){
 				ii = layer.load();
 				// 执行动作
 				var url =  __ctx + (flowData.taskId? "/bpm/task/doAction":"/bpm/instance/doAction");
 				var defer = baseService.post(url,flowData);
 				$.getResultMsg(defer,function(){
-					layer.close(ii);
+					layer.close(ii); //关闭等待框
 					scope.execuFn(button.afterScript);
 					
+					if(innerWindow){
+						$.Dialog.close(innerWindow);
+					}
+					//关不掉 已经绝望、打一波组合拳吧
+					top.layer.closeAll('dialog');
+					layer.closeAll();
+					parent.layer.closeAll(); // 父窗口把当前窗口关掉
 					if(window.opener && window.opener.reloadGrid){
 						window.opener.reloadGrid();
 					}
-					layer.closeAll();
-					parent.layer.closeAll();
 				},function(){
 					layer.close(ii);
 				});
