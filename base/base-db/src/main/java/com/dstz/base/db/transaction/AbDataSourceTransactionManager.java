@@ -177,7 +177,7 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 			if (con.getAutoCommit()) {
 				txObject.setMustRestoreAutoCommit(true);
 				if (log.isDebugEnabled()) {
-					log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "设置数据源别名为[" + dsKey + "]的链接为手动提交(本来是自动提交的)");
+					log.debug("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "设置数据源别名为[" + dsKey + "]的链接为手动提交");
 				}
 				con.setAutoCommit(false);
 			}
@@ -195,18 +195,14 @@ public class AbDataSourceTransactionManager extends AbstractPlatformTransactionM
 				TransactionSynchronizationManager.bindResource(dataSource, txObject.getConnectionHolder());
 			}
 		} catch (Throwable ex) {
+			DataSourceTransactionObject txObject = abTxObject.getDsTxObj(dsKey);
 			// 释放和关闭这次事务的相关资源
-			for (Entry<String, DataSourceTransactionObject> entry : threadLocalTopAbTxObject.get().getDsTxObjMap().entrySet()) {
-				DataSourceTransactionObject txObject = entry.getValue();
-				if (txObject.isNewConnectionHolder()) {
-					DataSource ds = DataSourceUtil.getDataSourceByAlias(entry.getKey());
-					Connection con = txObject.getConnectionHolder().getConnection();
-					DataSourceUtils.releaseConnection(con, ds);
-					txObject.setConnectionHolder(null, false);
-				}
+			if (txObject != null && txObject.isNewConnectionHolder()) {
+				DataSource ds = DataSourceUtil.getDataSourceByAlias(dsKey);
+				Connection con = txObject.getConnectionHolder().getConnection();
+				DataSourceUtils.releaseConnection(con, ds);
+				txObject.setConnectionHolder(null, false);
 			}
-			threadLocalTopAbTxObject.remove();
-			transactionActive.remove();// 清除事务标记
 			throw new CannotCreateTransactionException("在ab事务编号[" + abTxObject.getSerialNumber() + "]中，" + "数据源别名[" + dsKey + "]打开连接错误", ex);
 		}
 
