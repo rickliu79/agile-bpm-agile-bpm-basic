@@ -452,17 +452,19 @@ CREATE TABLE `bpm_task_opinion` (
 DROP TABLE IF EXISTS `bpm_task_stack`;
 CREATE TABLE `bpm_task_stack` (
   `id_` varchar(64) NOT NULL COMMENT '主键',
-  `task_id_` varchar(255) DEFAULT NULL COMMENT '任务ID',
+  `task_id_` varchar(64) NOT NULL COMMENT '任务ID',
   `inst_id_` varchar(64) DEFAULT NULL COMMENT '流程实例ID',
   `parent_id_` varchar(64) DEFAULT NULL COMMENT '父ID',
   `node_id_` varchar(64) NOT NULL COMMENT '节点ID',
   `node_name_` varchar(125) DEFAULT NULL,
   `start_time_` datetime DEFAULT NULL COMMENT '开始时间',
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
-  `is_muliti_task_` smallint(6) DEFAULT NULL COMMENT '1=是,0=否',
-  `path_` varchar(512) DEFAULT NULL COMMENT '路径',
+  `is_muliti_task_` smallint(6) DEFAULT NULL COMMENT '1=是\r\n                        0=否',
+  `node_type_` varchar(64) DEFAULT NULL COMMENT '节点类型',
+  `action_name_` varchar(64) DEFAULT NULL COMMENT '响应动作',
   PRIMARY KEY (`id_`),
-  KEY `idx_exestack_instid` (`inst_id_`) USING BTREE
+  KEY `idx_exestack_instid` (`inst_id_`) USING BTREE,
+  KEY `idx_exestack_taskid` (`task_id_`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='流程执行堆栈树';
 
 
