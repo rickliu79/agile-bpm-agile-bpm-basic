@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.dstz.agilebpm</groupId>
         <artifactId>platform</artifactId>
-        <version>1.2.3</version>
+        <version>1.2.5-SNAPSHOTS</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -16,7 +16,7 @@
 
     <modules>
         <module>http-security</module>
-        <!--<module>oauth2</module>-->
+        <module>ab-security-jwt</module>
     </modules>
 
     <build>

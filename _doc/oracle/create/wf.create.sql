@@ -176,7 +176,7 @@ CREATE INDEX idx_opinion_instId ON bpm_task_opinion (inst_id_);
 -- ----------------------------
 CREATE TABLE bpm_task_stack (
   id_ varchar2(64) NOT NULL ,
-  task_id_ varchar2(255) DEFAULT NULL ,
+  task_id_ varchar2(64) DEFAULT NULL ,
   inst_id_ varchar2(64) DEFAULT NULL ,
   parent_id_ varchar2(64) DEFAULT NULL ,
   node_id_ varchar2(64) NOT NULL ,
@@ -184,7 +184,8 @@ CREATE TABLE bpm_task_stack (
   start_time_ timestamp(0) DEFAULT NULL ,
   end_time timestamp(0) DEFAULT NULL ,
   is_muliti_task_ number(5) DEFAULT NULL ,
-  path_ varchar2(512) DEFAULT NULL ,
+  node_type_ varchar2(64) DEFAULT NULL ,
+  action_name_ varchar2(64) DEFAULT NULL ,
   PRIMARY KEY (id_)
 )  ;
 
