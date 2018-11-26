@@ -36,14 +36,15 @@ public class RefererCsrfFilter extends IngoreChecker implements Filter {
             if (isIngoreUrl) {
                 chain.doFilter(request, response);
             } else {
-            	 ResultMsg resultMsg = new ResultMsg<>(BaseStatusCode.PARAM_ILLEGAL,referer + "系统不支持当前域名的访问，请联系管理员！");
+            	String msg = String.format("系统不支持当前域名的访问，请联系管理员！<br> 服务器：%s,当前域名:%s",serverName ,referer);
+            	 ResultMsg resultMsg = new ResultMsg<>(BaseStatusCode.PARAM_ILLEGAL,msg);
                  response.getWriter().print(JSON.toJSONString(resultMsg));
             }
         } else {
             chain.doFilter(request, response);
         }
     }
-
+    
     @Override
     public void init(FilterConfig config) throws ServletException {
     }

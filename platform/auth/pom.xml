@@ -16,7 +16,7 @@
 
     <modules>
         <module>http-security</module>
-        <!--<module>oauth2</module>-->
+        <module>ab-security-jwt</module>
     </modules>
 
     <build>

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
@@ -29,12 +30,16 @@ import com.dstz.sys.api.model.system.ISysResource;
 import com.dstz.sys.api.service.SysResourceService;
 import com.dstz.sys.util.ContextUtil;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 用户资源
  *
  * @author Jeff
  */
 @RestController
+@Api(description="用户资源信息")
 public class UserResourceController extends GenericController {
     @Resource
     GroupService orgService;
@@ -42,8 +47,9 @@ public class UserResourceController extends GenericController {
     SysResourceService sysResourceService;
 
 
-    @RequestMapping("userResource/userMsg")
+    @RequestMapping(value="userResource/userMsg",method={RequestMethod.POST,RequestMethod.GET})
     @CatchErr
+    @ApiOperation(value = "用户信息",notes="获取用户信息，当前组织，可切换的组织岗位，当前系统，拥有的系统列表等信息")
     public ResultMsg<JSONObject> userMsg(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<ISubsystem> subsystemList = sysResourceService.getCuurentUserSystem();
         JSONObject mv = new JSONObject();
@@ -104,7 +110,8 @@ public class UserResourceController extends GenericController {
         return getSuccessResult("切换成功");
     }
 
-    @RequestMapping("userResource/getResTree")
+    @RequestMapping(value="userResource/getResTree",method={RequestMethod.POST,RequestMethod.GET})
+    @ApiOperation(value = "用户菜单资源",notes="获取用户可访问的菜单资源")
     public List<ISysResource> getSysResource(HttpServletRequest request, HttpServletResponse response) throws IOException {
         IUser user = ContextUtil.getCurrentUser();
         String systemId = SubSystemUtil.getSystemId(request);

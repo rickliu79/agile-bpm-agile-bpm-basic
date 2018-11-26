@@ -15,6 +15,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.dstz.base.core.util.StringUtil;
+import com.dstz.base.rest.util.CookieUitl;
+import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.security.jwt.service.JWTService;
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
@@ -22,7 +25,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 	
 	@Resource
     private JWTService jwtService;
-	@Resource
+	@Resource 
 	private UserDetailsService userDetailsService;
 
     @Override
@@ -33,6 +36,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     	}
     	
     	  String authHeader = request.getHeader(jwtService.getJwtHeader());
+    	  //支持 session的形式，从cookie中尝试获取
+    	  if(StringUtil.isEmpty(authHeader)) {
+    		  authHeader = CookieUitl.getValueByName(jwtService.getJwtHeader(), request);
+    	  }
+    	  
           String tokenHead = this.jwtService.getJwtTokenHead();
           
           if (authHeader != null && authHeader.startsWith(tokenHead)) {
