@@ -46,7 +46,7 @@ public class XssFilter extends IngoreChecker implements Filter {
             //检测是否有XSS攻击。
             boolean hasXss = checkXss(req);
             if (hasXss) {
-            	ResultMsg resultMsg = new ResultMsg<>(BaseStatusCode.PARAM_ILLEGAL, "系统不支持当前域名的访问，请联系管理员！");
+            	ResultMsg resultMsg = new ResultMsg<>(BaseStatusCode.PARAM_ILLEGAL, "检测到提交内容含HTML代码，被拦截！");
                 response.getWriter().print(JSON.toJSONString(resultMsg));
             } else {
                 chain.doFilter(request, response);

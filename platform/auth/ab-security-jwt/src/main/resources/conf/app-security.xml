@@ -5,19 +5,24 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-4.1.xsd">
-
+	http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+	<!-- security 版本 -->
     <security:http entry-point-ref="authenticationLoginEntry">
         <security:remember-me key="rememberPrivateKey"/>
-        <security:logout success-handler-ref="logoutSuccessHandler" logout-url="/logout"/>
+        <security:logout success-handler-ref="logoutSuccessHandler"/>
         
 		<security:custom-filter before="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter"/>
 
         <security:custom-filter ref="csrfFilter" after="CAS_FILTER"/>
-        <security:custom-filter ref="xssFilter" before="BASIC_AUTH_FILTER"/>
+        
+        <security:custom-filter ref="requestThreadFilter" after="CSRF_FILTER"/>
+        <security:custom-filter ref="encodingFilter" before="PRE_AUTH_FILTER"/>
 
         <security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="securityInterceptor"/>
         <security:access-denied-handler ref="accessDeniedHandler"/>
+        <security:headers>
+			<security:frame-options policy="SAMEORIGIN"/>
+		</security:headers>
         <security:csrf disabled="true"/>
     </security:http>
 
@@ -25,13 +30,6 @@
     <bean id="jwtAuthenticationFilter" class="com.dstz.security.authentication.JWTAuthenticationFilter"/>
     <bean id="jWTService" class="com.dstz.security.jwt.service.JWTService"/>
 		
-
-
-
-    <!-- 待改造https://www.jianshu.com/p/672b6390c25f
-        <security:csrf request-matcher-ref="csrfSecurityRequestMatcher" token-repository-ref="tokenRepository" />
-      <b:bean id="tokenRepository" class="org.springframework.security.web.csrf.CookieCsrfTokenRepository"  p:cookieHttpOnly="false"/> -->
-
     <bean id="authenticationLoginEntry" class="com.dstz.security.forbidden.DefualtAuthenticationEntryPoint"/>
     <bean id="accessDeniedHandler" class="com.dstz.security.forbidden.DefaultAccessDeniedHandler"/>
     <bean id="logoutSuccessHandler" class="com.dstz.security.login.logout.DefualtLogoutSuccessHandler"/>
@@ -56,6 +54,11 @@
         </property>
     </bean>
 
+	<!-- request 请求filter 主要清除线程 变量，为线程添加request 线程变量 -->
+    <bean id="requestThreadFilter" class="com.dstz.security.filter.RequestThreadFilter"/>
+    <!-- 编码过滤器， 设置当前系统的编码,并支持所有跨域请求,让跨域通过 csrfFilter 来控制  -->
+    <bean id="encodingFilter" class="com.dstz.security.filter.EncodingFilter" />
+    
     <!-- 获取用户对象信息 -->
     <bean id="userDetailsService" class="com.dstz.security.login.UserDetailsServiceImpl"/>
     <bean id="passwordEncoder" class="com.dstz.security.login.CustomPwdEncoder"></bean>
