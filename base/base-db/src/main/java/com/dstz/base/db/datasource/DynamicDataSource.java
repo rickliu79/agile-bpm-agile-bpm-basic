@@ -2,6 +2,7 @@ package com.dstz.base.db.datasource;
 
 import com.dstz.base.api.exception.BusinessException;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+import org.springframework.jdbc.datasource.lookup.DataSourceLookup;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
@@ -126,6 +127,16 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         Map<String, DataSource> targetDataSources = (Map<String, DataSource>) getValue(this, DataSourceUtil.TARGET_DATASOURCES);
         return targetDataSources;
 
+    }
+    
+    @Override
+    public void setDefaultTargetDataSource(Object defaultTargetDataSource) {
+    	super.setDefaultTargetDataSource(defaultTargetDataSource);
+    }
+    
+    @Override
+    public void setDataSourceLookup(DataSourceLookup dataSourceLookup) {
+    	super.setDataSourceLookup(dataSourceLookup);
     }
 
 }
