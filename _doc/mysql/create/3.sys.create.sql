@@ -16,7 +16,7 @@ CREATE TABLE `sys_authorization` (
   `rights_identity_` varchar(64) NOT NULL COMMENT '授权标识',
   `rights_identity_name_` varchar(255) NOT NULL COMMENT '标识名字',
   `rights_permission_code_` varchar(125) NOT NULL COMMENT '授权code=identity+type',
-  `rights_create_time_` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `rights_create_time_` timestamp NOT NULL   COMMENT '创建时间',
   `rights_create_by_` varchar(64) NOT NULL COMMENT '创建人',
   PRIMARY KEY (`rights_id_`),
   KEY `idx_permission_code_` (`rights_permission_code_`)
@@ -36,7 +36,7 @@ CREATE TABLE `sys_data_dict` (
   `sn_` int(10) DEFAULT NULL COMMENT '排序',
   `dict_type_` varchar(10) NOT NULL COMMENT 'dict/node字典项',
   `delete_flag_` varchar(1) DEFAULT NULL COMMENT '是否删除',
-  `create_time_` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time_` timestamp NOT NULL   COMMENT '创建时间',
   PRIMARY KEY (`id_`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin COMMENT='数据字典';
 
@@ -346,18 +346,18 @@ CREATE TABLE `c_schedule` (
   `owner_` varchar(64) DEFAULT NULL COMMENT '所属人',
   `owner_name_` varchar(64) DEFAULT NULL COMMENT '所属人',
   `participant_names_` varchar(1000) DEFAULT NULL COMMENT '参与者',
-  `start_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '开始日期',
-  `end_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '结束日期',
-  `actual_start_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '实际开始日期',
-  `complete_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '完成时间',
+  `start_time_` datetime DEFAULT NULL COMMENT '开始日期',
+  `end_time_` datetime DEFAULT NULL  COMMENT '结束日期',
+  `actual_start_time_` datetime DEFAULT NULL COMMENT '实际开始日期',
+  `complete_time_` datetime DEFAULT NULL COMMENT '完成时间',
   `rate_progress_` int(10) DEFAULT NULL COMMENT '进度',
   `submitter_` varchar(64) DEFAULT NULL COMMENT '提交人',
   `submitNamer_` varchar(64) DEFAULT NULL COMMENT '提交人',
   `remark_` varchar(500) DEFAULT NULL,
   `isLock_` varchar(10) DEFAULT NULL,
-  `create_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
   `create_by_` varchar(64) DEFAULT NULL COMMENT '创建人',
-  `update_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time_` datetime DEFAULT NULL  COMMENT '更新时间',
   `update_by_` varchar(64) DEFAULT NULL COMMENT '更新人',
   `delete_flag_` varchar(10) DEFAULT NULL COMMENT '删除标记',
   `rev_` int(10) DEFAULT NULL COMMENT '版本',
@@ -373,10 +373,10 @@ CREATE TABLE `c_schedule_participant` (
   `participantor_` varchar(64) DEFAULT NULL COMMENT '参与者',
   `rate_progress_` int(10) DEFAULT NULL COMMENT 'ilka完成比例',
   `submit_comment_` varchar(500) DEFAULT NULL COMMENT 'ilka提交注释',
-  `create_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `actual_start_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'ilka实际开始时间',
-  `complete_time_` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'ilka完成时间',
+  `create_time_` datetime DEFAULT NULL   COMMENT '创建时间',
+  `update_time_` datetime DEFAULT NULL   COMMENT '更新时间',
+  `actual_start_time_` datetime DEFAULT NULL   COMMENT 'ilka实际开始时间',
+  `complete_time_` datetime DEFAULT NULL   COMMENT 'ilka完成时间',
   PRIMARY KEY (`id_`),
   KEY `idx_schedule_id` (`schedule_id_`),
   KEY `idx_participantor` (`participantor_`)
@@ -392,14 +392,3 @@ CREATE TABLE `c_schedule_biz` (
   KEY `idx_schedule_id` (`schedule_id_`),
   KEY `idx_biz_id` (`biz_id_`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日程业务关联表';
-
-
-
-
-
-
-
-
-
-
- 
