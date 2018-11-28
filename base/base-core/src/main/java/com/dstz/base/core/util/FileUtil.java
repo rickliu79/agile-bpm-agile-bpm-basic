@@ -878,9 +878,6 @@ public class FileUtil {
 
     /**
      * 获取classes路径。
-     *
-     * @return 返回如下的路径E:/work/x5/x5-base/modules/x5-base-core/target/classes
-     * 。
      * @throws URISyntaxException
      */
     public static String getClassesPath() {

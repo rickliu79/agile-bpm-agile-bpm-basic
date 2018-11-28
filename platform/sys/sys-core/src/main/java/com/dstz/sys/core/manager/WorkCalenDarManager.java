@@ -12,11 +12,8 @@ import com.dstz.sys.core.model.HolidayConf;
  * 
  * <pre> 
  * 描述：工作日历记录表 处理接口
- * 构建组：x5-bpmx-platform
  * 作者:miao
  * 邮箱:miaojifang@ddjf.com.cn
- * 日期:2017-12-26 11:47:55
- * 版权：大道金服
  * </pre>
  */
 public interface WorkCalenDarManager extends Manager<String, WorkCalenDar>{

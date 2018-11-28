@@ -8,7 +8,6 @@ import com.dstz.bus.model.BusinessTable;
 /**
  * <pre>
  * 描述：业务表 DAO接口
- * 构建组：x5-bpmx-platform
  * 作者:aschs
  * 邮箱:aschs@qq.com
  * 日期:2017-11-21 17:49:19

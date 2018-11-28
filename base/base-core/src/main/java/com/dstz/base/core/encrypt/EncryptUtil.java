@@ -53,11 +53,6 @@ public class EncryptUtil {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        String fileName = "e:\\x51.sql";
-        String str = encryptFileMd5(fileName);
-        System.out.println(str);
-    }
 
     /**
      * 输出明文按sha-256加密后的密文

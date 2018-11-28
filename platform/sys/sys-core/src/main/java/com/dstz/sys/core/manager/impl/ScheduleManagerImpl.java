@@ -25,11 +25,9 @@ import cn.hutool.core.lang.Assert;
  * 
  * <pre> 
  * 描述：日程 处理实现类
- * 构建组：x5-bpmx-platform
  * 作者:linkai
  * 邮箱:linkai@ddjf.com.cn
  * 日期:2018-02-01 17:45:09
- * 版权：大道金服
  * </pre>
  */
 @Service("scheduleManager")
