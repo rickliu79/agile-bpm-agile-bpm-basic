@@ -82,28 +82,37 @@
 	<table class="form-table" style="margin-top: 5px">
 		<tr ng-if="nodeFreeSelectUserData.type&&nodeFreeSelectUserData.type!='no'">
 			<th ab-tip title="注意，1：用户可以不选择候选人，系统会自动根据配置计算；2：当后续有多个节点时，系统会列举出来每个节点的节点候选人，用户可以配置不同节点的候选人。" >
-				自由选择候选人:
+				下步任务配置:
 			</th>
 			<td>
-				<div ng-repeat="(key,val) in nodeFreeSelectUserData.nodeNameMap">
-					<span>{{val}}:</span>
+				<table class=" table-condensed" style="margin-bottom: 0px">
+					<tr ng-show="nodeFreeSelectUserData.nodeNameMap">
+						<th class="col-xs-3" ab-tip title="您可以指定下一步任务节点，如果不指定会使用系统默认设定的规则来判断流转"><span ng-if="nodeFreeSelectUserData.freeSelectNode">指定</span>下一步任务节点</th>
+	  					<th class="col-xs-2" ab-tip  ng-show="nodeFreeSelectUserData.type!='no'"  
+	  							title="您可以指定下一步任务的候选人，如果不指定会使用系统默认设定的任务候选人" >指定候选人</th>
+	  					<th class="col-xs-7" ng-show="nodeFreeSelectUserData.type!='no'">已选候选人</th>
+					</tr>
+					<tr ng-repeat="(key,val) in nodeFreeSelectUserData.nodeNameMap">
+						<td class="col-xs-3"><label> <input type="radio" name="freeSelectNode" value="{{key}}" ng-model="flowParam.destination" ng-if="nodeFreeSelectUserData.freeSelectNode" >{{val}}</label></td>
 					<!-- 节点人员 -->
-					<span ng-if="nodeFreeSelectUserData.type!='no'" ng-if="nodeFreeSelectUserData.nodeIdentitysMap[key]">
-						<select class="form-control" style="width: auto;" ng-model="param.newUser" ng-options="m as m.name for m in nodeFreeSelectUserData.nodeIdentitysMap[key]" ng-change="addUser(key)">
-							<option value="">请选择</option>
-						</select>
-					</span>
-					<span ng-repeat="user in flowParam.nodeUsers[key]">
-						<span class="btn btn-default fa-user">
-							{{user.name}}
-							<button href="javascript:void(0)" class="btn btn-link btn-default btn-xs" ng-click="ArrayTool.remove(user,flowParam.nodeUsers[key])">×</button>
+						<td class="col-xs-2"><span ng-if="nodeFreeSelectUserData.type!='no'" ng-if="nodeFreeSelectUserData.nodeIdentitysMap[key]">
+							<select class="form-control" style="width: auto;" ng-model="param.newUser" ng-options="m as m.name for m in nodeFreeSelectUserData.nodeIdentitysMap[key]" ng-change="addUser(key)">
+								<option value="">请选择</option>
+							</select>
+						</span></td>
+						<td class="col-xs-7"><span ng-repeat="user in flowParam.nodeUsers[key]">
+							<span class="btn btn-default fa-user">
+								{{user.name}}
+								<button href="javascript:void(0)" class="btn btn-link btn-default btn-xs" ng-click="ArrayTool.remove(user,flowParam.nodeUsers[key])">×</button>
+							</span>
 						</span>
-					</span>
-					<!-- 全部用户 -->
-					<span ng-if="nodeFreeSelectUserData.type=='allUser'" style="margin-left: 20px;">
-						<a class="btn btn-primary fa-user " ng-click="selectUser(key)"> 选择用户 </a>
-					</span>
-				</div>
+						
+						<span ng-if="nodeFreeSelectUserData.type=='allUser'">
+							<a class="btn btn-primary fa-user " style="margin-right: 20px" ng-click="selectUser(key)">自由选择候选人 </a>
+						</span>
+						</td>
+					</tr>
+				</table>
 			</td>
 		</tr>
 		<tr>

@@ -580,7 +580,7 @@ var directive = angular.module("baseDirective", [ "base" ])
 				});
 			});
 		},
-		template : '<lable class="btn label-sm {{checked ? \'btn-success\':\'disabled\'}}" >{{checked ?trueText:falseText}}</lable>'
+		template : '<lable class="btn btn-sm {{checked ? \'btn-success\':\'disabled\'}}" >{{checked ?trueText:falseText}}</lable>'
 	};
 })
 /**

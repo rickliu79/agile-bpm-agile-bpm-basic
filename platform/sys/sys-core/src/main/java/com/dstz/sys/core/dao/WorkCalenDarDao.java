@@ -11,11 +11,9 @@ import com.dstz.sys.api.model.calendar.WorkCalenDar;
  * 
  * <pre> 
  * 描述：c_work_calendar DAO接口
- * 构建组：x5-bpmx-platform
  * 作者:miao
  * 邮箱:miaojifang@ddjf.com.cn
  * 日期:2017-12-26 11:47:55
- * 版权：大道金服
  * </pre>
  */
 public interface WorkCalenDarDao extends BaseDao<String, WorkCalenDar> {
