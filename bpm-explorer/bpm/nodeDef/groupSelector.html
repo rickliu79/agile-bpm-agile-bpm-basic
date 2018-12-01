@@ -72,7 +72,7 @@
 			<td>
 				<select id="aaa" ng-model="conf.type" class="form-control" ng-change="changeType()">
 					<option value="">请选择组类型</option>
-					<option ng-repeat="type in typeList"  value="{{type.alias}}"  ng-selected="type.alias===conf.type" >{{type.name=="职位"?"职位（暂不支持）":type.name}}</option>
+					<option ng-repeat="type in typeList"  value="{{type.alias}}"  ng-selected="type.alias===conf.type" >{{type.name}}</option>
 				</select>
 				
 			</td>

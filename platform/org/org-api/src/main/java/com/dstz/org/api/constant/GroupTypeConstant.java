@@ -11,7 +11,6 @@ import java.util.Map;
 public enum GroupTypeConstant {
     ORG("org", "组织"),
     ROLE("role", "角色"),
-    JOB("job", "职位"),
     POSITION("post", "岗位");
     private String key;
     private String label;
