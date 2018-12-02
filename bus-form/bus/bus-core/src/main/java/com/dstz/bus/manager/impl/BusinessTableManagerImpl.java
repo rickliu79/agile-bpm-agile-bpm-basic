@@ -77,6 +77,9 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 			if (businessColumn.isPrimary()) {// 主键没控件
 				continue;
 			}
+			if(ctrl == null) {
+				throw new BusinessMessage("字段必须配置控件！");
+			}
 			if (StringUtil.isEmpty(ctrl.getId())) {
 				ctrl.setId(IdUtil.getSuid());
 			}
