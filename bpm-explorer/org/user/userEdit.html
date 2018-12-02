@@ -33,12 +33,13 @@
 			$scope.data.groupId=groupId;
 		});
 		
+	 
 		$scope.$on("afterSaveEvent",function(event,result){
 			HT.window.refreshParentGrid();
 			if(result.r){
 			  window.location="/org/user/userEdit.html?id="+result.data
 			}else{
-				
+			  $.Dialog.close(window);
 			}
 		});
 		

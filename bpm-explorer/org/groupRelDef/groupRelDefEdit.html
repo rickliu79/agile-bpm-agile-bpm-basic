@@ -3,11 +3,11 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="../../build/common/ngEdit.css" rel="stylesheet">
-		<script type="text/javascript" src="../../build/common/ngEdit.js"></script>
+		<script type="text/javascript" src="../../build/common/ngEdit-ori.js"></script>
 	</head>
 	<body class="panel success">
 		<div class="panel-heading">
-			<a class="btn  btn-primary fa-save" ng-model="data" ab-save="/org/groupRelDef/save"><span>保存</span></a>
+			<a class="btn  btn-primary fa-save" ng-model="data" ab-save="/org/groupRelDef/save" use-default-after-save-event="true"><span>保存</span></a>
 			<a class="btn  btn-primary fa-back" onClick="javascript:$.Dialog.close(window);"><span>返回</span></a>
 		</div>
 		<form name="form" method="post" ab-load="/org/groupRelDef/get?id={id}"  ng-model="data">
