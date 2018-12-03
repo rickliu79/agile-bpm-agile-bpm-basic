@@ -1,13 +1,28 @@
 package com.dstz.sys.api.jms.producer;
 
-import java.util.List;
-
 import com.dstz.sys.api.jms.model.JmsDTO;
 
+import java.util.List;
+
+/**
+ * 消息发送提供者
+ *
+ * @author jeff
+ */
 public interface JmsProducer {
 
+	/**
+	 * 发送到队列中
+	 *
+	 * @param message 发送消息
+	 */
 	void sendToQueue(JmsDTO message);
 
-	void sendToQueue(List<JmsDTO> jmsDto);
+	/**
+	 * 发送列表到队列中
+	 *
+	 * @param messages 发送消息集
+	 */
+	void sendToQueue(List<JmsDTO> messages);
 
 }

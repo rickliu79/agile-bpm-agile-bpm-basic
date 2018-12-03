@@ -1,0 +1,42 @@
+package com.dstz.sys.simplemq.producer;
+
+import com.alibaba.fastjson.JSON;
+import com.dstz.sys.api.jms.constants.JmsDestinationConstant;
+import com.dstz.sys.api.jms.model.JmsDTO;
+import com.dstz.sys.api.jms.producer.JmsProducer;
+import org.apache.commons.lang3.reflect.MethodUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+
+import java.util.List;
+
+/**
+ * 通用消息队列消息发送具体实现
+ *
+ * @author wacxhs
+ */
+public class CommonMessageQueueProducer implements JmsProducer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonMessageQueueProducer.class);
+
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
+    @Override
+    public void sendToQueue(JmsDTO message) {
+        try {
+            MethodUtils.invokeMethod(jmsTemplate, "convertAndSend", JmsDestinationConstant.DEFAULT_NAME, message);
+        } catch (Exception e) {
+            LOGGER.error("JMS发送失败, 发送参数：{}", JSON.toJSONString(message), e);
+        }
+    }
+
+    @Override
+    public void sendToQueue(List<JmsDTO> jmsDto) {
+        for (JmsDTO jmsDTO : jmsDto) {
+            sendToQueue(jmsDTO);
+        }
+    }
+}
