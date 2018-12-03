@@ -1,5 +1,6 @@
 package com.dstz.sys.api.jms.producer;
 
+import com.dstz.sys.api.jms.MessageQueueSendException;
 import com.dstz.sys.api.jms.model.JmsDTO;
 
 import java.util.List;
@@ -11,18 +12,20 @@ import java.util.List;
  */
 public interface JmsProducer {
 
-	/**
-	 * 发送到队列中
-	 *
-	 * @param message 发送消息
-	 */
-	void sendToQueue(JmsDTO message);
+    /**
+     * 发送到队列中
+     *
+     * @param message 发送消息
+     * @throws MessageQueueSendException 消息队列发送异常
+     */
+    void sendToQueue(JmsDTO message) throws MessageQueueSendException;
 
-	/**
-	 * 发送列表到队列中
-	 *
-	 * @param messages 发送消息集
-	 */
-	void sendToQueue(List<JmsDTO> messages);
+    /**
+     * 发送列表到队列中
+     *
+     * @param messages 发送消息集
+     * @throws MessageQueueSendException 消息队列发送异常
+     */
+    void sendToQueue(List<JmsDTO> messages) throws MessageQueueSendException;
 
 }

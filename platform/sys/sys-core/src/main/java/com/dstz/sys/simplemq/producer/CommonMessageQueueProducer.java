@@ -1,6 +1,7 @@
 package com.dstz.sys.simplemq.producer;
 
 import com.alibaba.fastjson.JSON;
+import com.dstz.sys.api.jms.MessageQueueSendException;
 import com.dstz.sys.api.jms.constants.JmsDestinationConstant;
 import com.dstz.sys.api.jms.model.JmsDTO;
 import com.dstz.sys.api.jms.producer.JmsProducer;
@@ -29,7 +30,8 @@ public class CommonMessageQueueProducer implements JmsProducer {
         try {
             MethodUtils.invokeMethod(jmsTemplate, "convertAndSend", JmsDestinationConstant.DEFAULT_NAME, message);
         } catch (Exception e) {
-            LOGGER.error("JMS发送失败, 发送参数：{}", JSON.toJSONString(message), e);
+            LOGGER.warn("JMS发送失败, 发送参数：{}", JSON.toJSONString(message));
+            throw new MessageQueueSendException("发送队列消息失败, " + e.getMessage());
         }
     }
 
