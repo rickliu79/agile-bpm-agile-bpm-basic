@@ -40,7 +40,7 @@ public class RedisMessageQueueConsumer extends AbstractMessageQueue implements D
     /**
      * 监听队列间隔(ms)
      */
-    private long listenInterval = 300L;
+    private long listenInterval = 1000;
 
     /**
      * 消息队列

@@ -40,7 +40,7 @@ public abstract class AbstractMessageQueue implements ApplicationListener<Contex
             LOGGER.debug("加载JmsHandler实现共{}条", jmsHandlerMap.size());
             if (MapUtil.isNotEmpty(jmsHandlerMap)) {
                 Collection<JmsHandler> jmsHandlers = jmsHandlerMap.values();
-                this.registerJmsHandler = new HashMap<>(jmsHandlers.size());
+                this.registerJmsHandler = new HashMap<>(jmsHandlers.size(), 1);
                 for (JmsHandler jmsHandler : jmsHandlers) {
                     this.registerJmsHandler.put(jmsHandler.getType(), jmsHandler);
                 }
