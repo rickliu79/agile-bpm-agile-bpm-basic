@@ -95,12 +95,14 @@ public class RedisMessageQueueConsumer extends AbstractMessageQueue implements D
 
     @Override
     public void destroy() throws Exception {
+        LOGGER.info("准备关闭Redis消息队列消息消费端");
         this.redisQueueListener.interrupt();
         this.handleMessageThreadPool.shutdown();
         while (!this.handleMessageThreadPool.isTerminated()) {
             LOGGER.info("等待redis消息队列处理完毕");
             TimeUnit.SECONDS.sleep(1L);
         }
+        LOGGER.info("关闭Redis消息队列消息消费完毕");
     }
 
     @SuppressWarnings("unchecked")
@@ -112,8 +114,9 @@ public class RedisMessageQueueConsumer extends AbstractMessageQueue implements D
                 handleMessageCoreThreadSize,
                 handleMessageMaxThreadSize,
                 handleMessageKeepAliveTime,
-                TimeUnit.SECONDS, new ArrayBlockingQueue<>(handleMessageMaxThreadSize << 2),
-                ThreadFactoryBuilder.create().setNamePrefix("redis-" + JmsDestinationConstant.DEFAULT_NAME + "-queue-consumer-pool-%d").build()
+                TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(handleMessageMaxThreadSize << 2),
+                ThreadFactoryBuilder.create().setNamePrefix(String.format("redis-%s-queue-consumer-pool-", JmsDestinationConstant.DEFAULT_NAME)).build()
         );
         RedisQueueListener redisQueueListener = new RedisQueueListener();
         redisQueueListener.setName(String.format("redis-queue-%s-listen", JmsDestinationConstant.DEFAULT_NAME));
@@ -152,6 +155,7 @@ public class RedisMessageQueueConsumer extends AbstractMessageQueue implements D
                     }
                 });
             }
+            LOGGER.info("退出Redis消息队列({})监听", JmsDestinationConstant.DEFAULT_NAME);
         }
     }
 
