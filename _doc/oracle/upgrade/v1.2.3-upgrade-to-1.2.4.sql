@@ -7,7 +7,7 @@ ADD ("ACTION_NAME_" VARCHAR2(64) );
 
 ALTER TABLE "BPM_TASK_STACK" DROP ("PATH_");
 
-CREATE INDEX "idx_exestack_taskid"
+CREATE INDEX "idx_exestack_taskid" 
   ON "BPM_TASK_STACK" ("TASK_ID_"); 
 	
   update bpm_task_stack set  node_type_ = 'userNode';
