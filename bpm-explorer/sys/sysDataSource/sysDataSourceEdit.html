@@ -10,7 +10,7 @@
 </head>
 <body ng-controller="ctrl" ng-init="init()">
 	<div class="ibox-title">
-		<a class="btn btn-primary fa-save" href="javascript:void(0)" ng-model="data" ab-save="/sys/sysDataSource/save">保存</a>
+		<a class="btn btn-primary fa-save" href="javascript:void(0)" ng-model="data" ab-save="/sys/sysDataSource/save" use-default-after-save-event="true">保存</a>
 		<a href="javaScript:void(0)" class="btn btn-primary fa-reply" onclick="javascript:$.Dialog.close(window);">取消</a>
 	</div>
 	<form name="form" ab-load="/sys/sysDataSource/getObject?id={id}" ng-model="data">

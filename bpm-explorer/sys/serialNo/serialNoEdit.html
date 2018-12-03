@@ -9,13 +9,6 @@
 		app.controller("SerialNoController", [ '$scope', 'baseService', 'ArrayToolService', function($scope, baseService, ArrayTool) {
 			$scope.ArrayTool = ArrayTool;
 			$scope.serialNo={"genType":"1","step":"1","initValue":"1","noLength":"5","regulation":"{yyyy}{MM}{DD}{NO}"};
-			
-			$scope.$root.$on('afterSaveEvent', function(event,data){
-				if(data.r){
-					location.reload();
-				}
-			});
-		
 		} ]);
 		
 		function preview(){
@@ -35,7 +28,7 @@
 			<!-- 顶部按钮 -->
 			<div class="panel-heading">
 				<div class="buttons">	      
-					<a href="javascript:void(0)" class="btn btn-primary fa-save btn-sm" ng-model="serialNo" ab-save="/sys/serialNo/save">保存</a>
+					<a href="javascript:void(0)" class="btn btn-primary fa-save btn-sm" ng-model="serialNo" ab-save="/sys/serialNo/save" use-default-after-save-event="true">保存</a>
 					<a href="javascript:void(0)" class="btn btn-sm btn-primary fa-reply" onclick="javascript:$.Dialog.close(window);"> 返回</a>	
 					<a ng-if="serialNo.id" class="btn  btn-primary fa-eye" onClick="preview()"><span>预览</span></a>		
 				</div>

@@ -53,7 +53,7 @@
 			<!-- 顶部按钮 -->
 			<div class="toolbar-panel">
 				<div class="buttons">
-					<a class="btn btn-primary fa-save" ng-model="data" ab-save="/sys/workbenchPanel/save"><span>保存</span></a>
+					<a class="btn btn-primary fa-save" ng-model="data" ab-save="/sys/workbenchPanel/save" use-default-after-save-event="true"><span>保存</span></a>
 					<a class="btn btn-primary fa-back" onClick="$.Dialog.close();"><span>返回</span></a>
 					<a class="btn btn-primary fa-eye" ng-click="preview()"><span>调试预览</span></a>
 				</div>
