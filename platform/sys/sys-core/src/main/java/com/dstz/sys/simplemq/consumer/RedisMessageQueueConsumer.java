@@ -112,7 +112,7 @@ public class RedisMessageQueueConsumer extends AbstractMessageQueue implements D
                 handleMessageCoreThreadSize,
                 handleMessageMaxThreadSize,
                 handleMessageKeepAliveTime,
-                TimeUnit.SECONDS, new ArrayBlockingQueue<>(handleMessageMaxThreadSize >> 2),
+                TimeUnit.SECONDS, new ArrayBlockingQueue<>(handleMessageMaxThreadSize << 2),
                 ThreadFactoryBuilder.create().setNamePrefix("redis-" + JmsDestinationConstant.DEFAULT_NAME + "-queue-consumer-pool-%d").build()
         );
         RedisQueueListener redisQueueListener = new RedisQueueListener();
