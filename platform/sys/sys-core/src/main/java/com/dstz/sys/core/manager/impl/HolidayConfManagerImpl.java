@@ -16,11 +16,9 @@ import com.dstz.sys.core.model.HolidayConf;
  * 
  * <pre> 
  * 描述：c_holiday_conf 处理实现类
- * 构建组：x5-bpmx-platform
  * 作者:miao
  * 邮箱:miaojifang@ddjf.com.cn
  * 日期:2017-12-26 11:52:16
- * 版权：大道金服
  * </pre>
  */
 @Service("holidayConfManager")

@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.aop.annotion.CatchErr;
+import com.dstz.base.api.exception.BusinessError;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
@@ -37,6 +38,7 @@ import com.dstz.form.manager.FormDefManager;
 import com.dstz.form.manager.FormTemplateManager;
 import com.dstz.form.model.FormDef;
 import com.dstz.form.model.FormTemplate;
+import com.dstz.sys.api.constant.EnvironmentConstant;
 import com.dstz.sys.api.freemark.IFreemarkEngine;
 import com.github.pagehelper.Page;
 
@@ -225,7 +227,21 @@ public class FormDefController extends BaseController<FormDef> {
 		}
 		writeSuccessData(response, sb.toString());
 	}
-
+	
+    @RequestMapping("remove")
+    @CatchErr
+    public ResultMsg<String> remove(@RequestParam String id) throws Exception {
+         String[] aryIds = StringUtil.getStringAryByStr(id);
+         
+         if(AppUtil.getCtxEnvironment().contains(EnvironmentConstant.SIT.key())) {
+        	 throw new BusinessError("测试环境为了防止不法之徒恶意破坏演示数据，禁止表单删除！<br/>您的访问信息已经被我们统计，请自重！");
+         }
+         
+         formDefManager.removeByIds(aryIds);
+         return getSuccessResult(String.format("删除%s成功", getModelDesc()));
+    }
+	
+	
 	@Override
 	protected String getModelDesc() {
 		return "自定义表单";

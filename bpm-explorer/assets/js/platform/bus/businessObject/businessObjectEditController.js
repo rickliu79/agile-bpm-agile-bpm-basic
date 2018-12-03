@@ -30,6 +30,14 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 		$scope.data = {};
 		$scope.data.relation = {};
 	};
+	
+	$scope.$on("afterSaveEvent", function(event, data) {
+		if (!data.r) {
+			$.Dialog.close(window);
+		}else{
+			window.location.reload();
+		}
+	});
 
 	$scope.$on("afterLoadEvent", function(event, data) {
 		delete $scope.data.relationJson;

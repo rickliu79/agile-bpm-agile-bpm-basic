@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<bodef-configuration>
-    <bolist>
-        <bodef key="person" resource="xml/person.xml"/>
-    </bolist>
-</bodef-configuration>

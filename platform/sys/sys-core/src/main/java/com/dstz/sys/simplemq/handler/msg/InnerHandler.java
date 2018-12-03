@@ -8,6 +8,8 @@ import com.dstz.sys.util.ContextUtil;
 
 /**
  * 内部消息处理器。
+ *
+ * @author jeff
  */
 @Component("innerHandler")
 public class InnerHandler extends AbsNotifyMessageHandler<NotifyMessage> {

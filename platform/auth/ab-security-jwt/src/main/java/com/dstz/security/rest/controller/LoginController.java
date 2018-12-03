@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.session.NullAuthenticated
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
@@ -21,10 +22,15 @@ import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.util.CookieUitl;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.security.constant.PlatFormStatusCode;
 import com.dstz.security.jwt.service.JWTService;
 import com.dstz.security.login.SecurityUtil;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 public class LoginController extends GenericController {
@@ -33,8 +39,12 @@ public class LoginController extends GenericController {
     @Resource
     JWTService jWTService;
 
-    @RequestMapping(value = "login/valid")
+    @RequestMapping(value = "login/valid",method= {RequestMethod.POST,RequestMethod.GET})
     @CatchErr
+    @ApiOperation(value = "用户登录",notes="登录鉴权")
+    @ApiImplicitParams({
+    	@ApiImplicitParam(paramType = "form", dataType = "String", name = "account", value = "账号"),
+		@ApiImplicitParam(paramType = "form", dataType = "String", name = "password", value = "密码")})
     public ResultMsg login(HttpServletRequest request, HttpServletResponse response) {
         String account = RequestUtil.getString(request, "account");
         String password = RequestUtil.getString(request, "password");
@@ -46,17 +56,18 @@ public class LoginController extends GenericController {
         }
 
         try {
+        	// 用security 登录机制处理下
             Authentication auth = SecurityUtil.login(request, account, password, false);
             
-            //jwt 模式
+            //jwt 模式 支持cookie模式和token调用形式
             if(jWTService.getJwtEnabled()) {
-            	
-            String token = jWTService.generateToken(account);
+            	String token = jWTService.generateToken(account);
+            	//直接写入 cookie ,把cookie当做session来用
+            	wiriteJwtToken2Cookie(request,response,token);
             	return getSuccessResult(token, "登录成功！");
             }else {
             	//写入session的
             	sessionStrategy.onAuthentication(auth, request, response);
-            	
             	//执行记住密码动作。
             	SecurityUtil.writeRememberMeCookie(request, response, account, password);
             	wiriteToken(request, response);
@@ -79,7 +90,7 @@ public class LoginController extends GenericController {
     }
 
 
-    protected static final String REQUEST_ATTRIBUTE_NAME = "_csrf";
+	protected static final String REQUEST_ATTRIBUTE_NAME = "_csrf";
 
     private void wiriteToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
         CsrfToken token = (CsrfToken) request.getAttribute(REQUEST_ATTRIBUTE_NAME);
@@ -90,4 +101,17 @@ public class LoginController extends GenericController {
             response.addCookie(cookie);
         }
     }
+    
+    /**
+     * 类似session的形式将 token 写入 cookie 设值
+     * @param request
+     * @param response
+     * @param token
+     * @param jwtHeader
+     */
+    private void wiriteJwtToken2Cookie(HttpServletRequest request,HttpServletResponse response, String token){
+    	Cookie cookie = new Cookie(jWTService.getJwtHeader(), jWTService.getJwtTokenHead()+ token);
+    	cookie.setPath(request.getContextPath());
+    	response.addCookie(cookie);
+	}
 }

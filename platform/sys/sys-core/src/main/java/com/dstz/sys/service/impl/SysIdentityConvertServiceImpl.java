@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.dstz.base.core.util.BeanUtils;
@@ -15,7 +17,8 @@ import com.dstz.sys.api.model.SysIdentity;
 import com.dstz.sys.api.service.SysIdentityConvert;
 @Component
 public class SysIdentityConvertServiceImpl implements SysIdentityConvert {
-	
+    private static final Logger LOGGER = LoggerFactory.getLogger(SysIdentityConvert.class);
+
 	@Resource
 	GroupService groupService;
 	
@@ -40,7 +43,12 @@ public class SysIdentityConvertServiceImpl implements SysIdentityConvert {
 		if(SysIdentity.TYPE_USER.equals(identity.getType())) {
 			List<IUser> users = new ArrayList<>();
 			
-			users.add(userService.getUserById(identity.getId()));
+			IUser user = userService.getUserById(identity.getId());
+			if(user == null) {
+				LOGGER.error("identity convert 2 users error id[{}],name[{}] not found! ",identity.getId(),identity.getName());
+			}else {
+				users.add(user);
+			}
 			return users;
 		}
 		//目前其他均为组类型

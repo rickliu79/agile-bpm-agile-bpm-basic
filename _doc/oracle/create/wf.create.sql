@@ -176,7 +176,7 @@ CREATE INDEX idx_opinion_instId ON bpm_task_opinion (inst_id_);
 -- ----------------------------
 CREATE TABLE bpm_task_stack (
   id_ varchar2(64) NOT NULL ,
-  task_id_ varchar2(255) DEFAULT NULL ,
+  task_id_ varchar2(64) DEFAULT NULL NOT NULL ,
   inst_id_ varchar2(64) DEFAULT NULL ,
   parent_id_ varchar2(64) DEFAULT NULL ,
   node_id_ varchar2(64) NOT NULL ,
@@ -184,12 +184,25 @@ CREATE TABLE bpm_task_stack (
   start_time_ timestamp(0) DEFAULT NULL ,
   end_time timestamp(0) DEFAULT NULL ,
   is_muliti_task_ number(5) DEFAULT NULL ,
-  path_ varchar2(512) DEFAULT NULL ,
+  node_type_ varchar2(64) DEFAULT NULL ,
+  action_name_ varchar2(64) DEFAULT NULL ,
   PRIMARY KEY (id_)
 )  ;
 
 COMMENT ON TABLE bpm_task_stack IS '流程执行堆栈树';
 
 CREATE INDEX idx_exestack_instid ON bpm_task_stack (inst_id_);
+CREATE INDEX idx_exestack_taskid ON bpm_task_stack (task_id_);
 
+-- 流程日志插件
+CREATE TABLE bpm_submit_data_log (
+  id varchar2(64) NOT NULL ,
+  task_id_ varchar2(64) DEFAULT NULL ,
+  inst_id_ varchar2(64) DEFAULT NULL ,
+  data clob ,
+  destination varchar2(255) DEFAULT NULL ,
+  extendConf varchar2(500) DEFAULT NULL ,
+  PRIMARY KEY (id)
+)  ;
 
+COMMENT ON TABLE bpm_submit_data_log IS '业务对象数据提交日志'

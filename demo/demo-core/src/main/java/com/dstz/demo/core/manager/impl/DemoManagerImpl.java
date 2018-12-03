@@ -1,6 +1,8 @@
 package com.dstz.demo.core.manager.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -58,8 +60,16 @@ public class DemoManagerImpl extends BaseManager<String, Demo> implements DemoMa
 			actionCmd.setBusinessKey(id);
 			demo.setId(id);
 			demoDao.create(demo);
+			
+			Map<String,Object> hashMap = new HashMap<>();
+			hashMap.put("startVariable", demo.getMz());
+			//启动时候设置一些流程变量，请看 act_ru_variable 表、在整个流程声明周期您都可以使用该流程变量，可以用于分支判断等等
+			actionCmd.setActionVariables(hashMap);
 		}else {
 			demoDao.update(demo);
+			Map<String,Object> hashMap = new HashMap<>();
+			hashMap.put("doTaskVariable", demo.getMz() + "-" + actionCmd.getActionName());
+			actionCmd.setActionVariables(hashMap);
 		}
 	}
 	

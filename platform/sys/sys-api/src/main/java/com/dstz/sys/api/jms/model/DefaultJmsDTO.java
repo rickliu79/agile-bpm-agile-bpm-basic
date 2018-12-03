@@ -6,6 +6,7 @@ import java.io.Serializable;
  * 默认的消息
  *
  * @param <T>
+ * @author jeff
  */
 public class DefaultJmsDTO<T extends Serializable> implements JmsDTO{
 
@@ -28,6 +29,7 @@ public class DefaultJmsDTO<T extends Serializable> implements JmsDTO{
 		this.type = type;
 	}
 
+	@Override
 	public T getData() {
 		return data;
 	}
