@@ -11,12 +11,12 @@
 	 <parent>
         <groupId>com.dstz.agilebpm</groupId>
         <artifactId>agile-bpm</artifactId>
-        <version>1.2.5-SNAPSHOTS</version>
+        <version>1.2.6</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 	
 	 <properties>
-        <agilebpm.version>1.2.5-SNAPSHOTS</agilebpm.version>
+        <agilebpm.version>1.2.6</agilebpm.version>
     </properties>
 	 
 	<dependencyManagement>

@@ -4,7 +4,7 @@
     <parent>
         <artifactId>sys</artifactId>
         <groupId>com.dstz.agilebpm</groupId>
-        <version>1.2.5-SNAPSHOTS</version>
+        <version>1.2.6</version>
     </parent>
 
     <artifactId>sys-api</artifactId>
