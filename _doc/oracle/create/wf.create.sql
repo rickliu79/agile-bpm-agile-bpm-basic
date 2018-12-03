@@ -194,4 +194,15 @@ COMMENT ON TABLE bpm_task_stack IS '流程执行堆栈树';
 CREATE INDEX idx_exestack_instid ON bpm_task_stack (inst_id_);
 CREATE INDEX idx_exestack_taskid ON bpm_task_stack (task_id_);
 
+-- 流程日志插件
+CREATE TABLE bpm_submit_data_log (
+  id varchar2(64) NOT NULL ,
+  task_id_ varchar2(64) DEFAULT NULL ,
+  inst_id_ varchar2(64) DEFAULT NULL ,
+  data clob ,
+  destination varchar2(255) DEFAULT NULL ,
+  extendConf varchar2(500) DEFAULT NULL ,
+  PRIMARY KEY (id)
+)  ;
 
+COMMENT ON TABLE bpm_submit_data_log IS '业务对象数据提交日志'
