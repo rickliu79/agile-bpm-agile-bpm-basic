@@ -22,6 +22,17 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 	$scope.$on("afterLoadEvent", function(event, data) {
 		$scope.data.type = type;
 	});
+	
+	$scope.$on("afterSaveEvent", function(event, data) {
+		if(window.opener && window.opener.reloadGrid){
+			window.opener.reloadGrid();
+		}
+		if (!data.r) {
+			window.close();
+		}else{
+			window.location.reload();
+		}
+	});
 
 	/**
 	 * 预览

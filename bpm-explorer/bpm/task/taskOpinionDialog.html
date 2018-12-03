@@ -80,7 +80,7 @@
 </head>
 <body class="panel success" ng-controller="ComplateController" ng-init="init()">
 	<table class="form-table" style="margin-top: 5px">
-		<tr ng-if="nodeFreeSelectUserData.type&&nodeFreeSelectUserData.type!='no'">
+		<tr ng-if="(nodeFreeSelectUserData.type&&nodeFreeSelectUserData.type!='no')||nodeFreeSelectUserData.freeSelectNode">
 			<th ab-tip title="注意，1：用户可以不选择候选人，系统会自动根据配置计算；2：当后续有多个节点时，系统会列举出来每个节点的节点候选人，用户可以配置不同节点的候选人。" >
 				下步任务配置:
 			</th>
@@ -95,12 +95,12 @@
 					<tr ng-repeat="(key,val) in nodeFreeSelectUserData.nodeNameMap">
 						<td class="col-xs-3"><label> <input type="radio" name="freeSelectNode" value="{{key}}" ng-model="flowParam.destination" ng-if="nodeFreeSelectUserData.freeSelectNode" >{{val}}</label></td>
 					<!-- 节点人员 -->
-						<td class="col-xs-2"><span ng-if="nodeFreeSelectUserData.type!='no'" ng-if="nodeFreeSelectUserData.nodeIdentitysMap[key]">
+						<td class="col-xs-2" ng-show="nodeFreeSelectUserData.type!='no'"><span ng-if="nodeFreeSelectUserData.nodeIdentitysMap[key]">
 							<select class="form-control" style="width: auto;" ng-model="param.newUser" ng-options="m as m.name for m in nodeFreeSelectUserData.nodeIdentitysMap[key]" ng-change="addUser(key)">
 								<option value="">请选择</option>
 							</select>
 						</span></td>
-						<td class="col-xs-7"><span ng-repeat="user in flowParam.nodeUsers[key]">
+						<td class="col-xs-7" ng-show="nodeFreeSelectUserData.type!='no'"><span ng-repeat="user in flowParam.nodeUsers[key]">
 							<span class="btn btn-default fa-user">
 								{{user.name}}
 								<button href="javascript:void(0)" class="btn btn-link btn-default btn-xs" ng-click="ArrayTool.remove(user,flowParam.nodeUsers[key])">×</button>

@@ -63,6 +63,7 @@ var directive = angular.module("baseDirective", [ "base" ])
 	return {
 		require : "ngModel",
 		link : function(scope, element, attr, ctrl) {
+			var useDefaultAfterSaveEvent = attr.useDefaultAfterSaveEvent;
 			element.on("click", function() {
 				if (!scope.form.$valid)
 					return;
@@ -97,17 +98,25 @@ var directive = angular.module("baseDirective", [ "base" ])
 
 						// 尝试刷新父页面
 						try {
-							parent.reloadGrid();
+							if(parent.reloadGrid){parent.reloadGrid()};
 						} catch (e) {
 						}
 
 						jQuery.Dialog.confirm(data.title ? data.title : "操作成功", data.msg + ",是否继续操作", function() {
 							// 发布保存事件用于给用户自定义操作
-							data.r = true;
-							scope.$root.$broadcast('afterSaveEvent', data);
+							if(useDefaultAfterSaveEvent){
+								window.location.reload();
+							}else{
+								data.r = true;
+								scope.$root.$broadcast('afterSaveEvent', data);
+							}
 						}, function() {
-							data.r = false;
-							scope.$root.$broadcast('afterSaveEvent', data);
+							if(useDefaultAfterSaveEvent){
+								$.Dialog.close(window);
+							}else{
+								data.r = false;
+								scope.$root.$broadcast('afterSaveEvent', data);
+							}
 						});
 					} else {
 						jQuery.Toast.error(data.msg, data.cause);

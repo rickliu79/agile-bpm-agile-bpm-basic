@@ -8,7 +8,13 @@
 	<script type="text/javascript">
 		var app = angular.module('app', ['baseDirective']);
 		app.controller("ctrl", [ '$scope', 'baseService' ,function($scope, baseService) {
-			 
+			$scope.$on("afterSaveEvent", function(event, data) {
+				if (!data.r) {
+					$.Dialog.close(window);
+				}else{
+					window.location.reload();
+				}
+			});
 		}]);
 		/* 测试流程 url表单 */
 		function getData(){

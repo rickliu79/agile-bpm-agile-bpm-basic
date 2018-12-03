@@ -1,18 +1,19 @@
 package com.dstz.sys.simplemq.handler.msg;
 
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.org.api.model.IUser;
 import com.dstz.sys.api.jms.model.msg.NotifyMessage;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 短消息发送处理器。
+ *
+ * @author jeff
  */
-@Component
+@Component("smsHandler")
 public class SmsHandler extends AbsNotifyMessageHandler<NotifyMessage> {
 
     @Override
