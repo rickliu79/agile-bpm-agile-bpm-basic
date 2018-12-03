@@ -11790,7 +11790,7 @@ website:	http://code.google.com/p/jquerytree/
 
 .ztree li span.button.switch {width:18px;}
 .ztree li span.button.root_open{background-position:-92px -54px;background: none;
-/*margin: 12px 0 -12px 1px;*/}/*http://localhost:8080/x5/system/dataDict/typeTree*/
+/*margin: 12px 0 -12px 1px;*/}
 .root_open:before{
 	content: "\F147";
 	margin: 3px;
