@@ -9,7 +9,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +36,11 @@ public class RedisMessageQueueConsumer extends AbstractMessageQueue implements D
      * 处理消息活跃时间,单位秒
      */
     private long handleMessageKeepAliveTime = 30;
+
+    /**
+     * 监听队列间隔(ms)
+     */
+    private long listenInterval = 300L;
 
     /**
      * 消息队列
@@ -79,6 +84,15 @@ public class RedisMessageQueueConsumer extends AbstractMessageQueue implements D
         this.handleMessageKeepAliveTime = handleMessageKeepAliveTime;
     }
 
+    /**
+     * 设置监听队列间隔
+     *
+     * @param listenInterval 监听间隔(ms)
+     */
+    public void setListenInterval(long listenInterval) {
+        this.listenInterval = listenInterval;
+    }
+
     @Override
     public void destroy() throws Exception {
         this.redisQueueListener.interrupt();
@@ -94,7 +108,13 @@ public class RedisMessageQueueConsumer extends AbstractMessageQueue implements D
     protected void containerInitialCompleteAfter() {
         LOGGER.debug("初始化Redis消息队列处理");
         this.messageQueue = getApplicationContext().getBean(RedisTemplate.class).boundListOps(JmsDestinationConstant.DEFAULT_NAME);
-        this.handleMessageThreadPool = new ThreadPoolExecutor(handleMessageCoreThreadSize, handleMessageMaxThreadSize, handleMessageKeepAliveTime, TimeUnit.SECONDS, new LinkedBlockingQueue<>(), ThreadFactoryBuilder.create().setNamePrefix("redis-" + JmsDestinationConstant.DEFAULT_NAME + "-queue-consumer-pool-%d").build());
+        this.handleMessageThreadPool = new ThreadPoolExecutor(
+                handleMessageCoreThreadSize,
+                handleMessageMaxThreadSize,
+                handleMessageKeepAliveTime,
+                TimeUnit.SECONDS, new ArrayBlockingQueue<>(handleMessageMaxThreadSize >> 2),
+                ThreadFactoryBuilder.create().setNamePrefix("redis-" + JmsDestinationConstant.DEFAULT_NAME + "-queue-consumer-pool-%d").build()
+        );
         RedisQueueListener redisQueueListener = new RedisQueueListener();
         redisQueueListener.setName(String.format("redis-queue-%s-listen", JmsDestinationConstant.DEFAULT_NAME));
         redisQueueListener.setDaemon(true);
@@ -114,7 +134,7 @@ public class RedisMessageQueueConsumer extends AbstractMessageQueue implements D
                 LOGGER.trace("监听Redis消息队列({})返回结果......", JmsDestinationConstant.DEFAULT_NAME);
                 Object jmsDTO;
                 try {
-                    jmsDTO = messageQueue.leftPop(handleMessageKeepAliveTime, TimeUnit.SECONDS);
+                    jmsDTO = messageQueue.leftPop(listenInterval, TimeUnit.MILLISECONDS);
                 } catch (Exception e) {
                     LOGGER.warn("监听Redis消息队列({})返回结果出错", e);
                     continue;
