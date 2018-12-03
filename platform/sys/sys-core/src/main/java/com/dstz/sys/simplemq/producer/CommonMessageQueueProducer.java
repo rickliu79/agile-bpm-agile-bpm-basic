@@ -1,5 +1,6 @@
 package com.dstz.sys.simplemq.producer;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.dstz.sys.api.jms.MessageQueueSendException;
 import com.dstz.sys.api.jms.constants.JmsDestinationConstant;
@@ -27,6 +28,10 @@ public class CommonMessageQueueProducer implements JmsProducer {
 
     @Override
     public void sendToQueue(JmsDTO message) {
+        if (message == null) {
+            LOGGER.info("传入参数为空, 跳过执行");
+            return;
+        }
         try {
             MethodUtils.invokeMethod(jmsTemplate, "convertAndSend", JmsDestinationConstant.DEFAULT_NAME, message);
         } catch (Exception e) {
@@ -36,8 +41,12 @@ public class CommonMessageQueueProducer implements JmsProducer {
     }
 
     @Override
-    public void sendToQueue(List<JmsDTO> jmsDto) {
-        for (JmsDTO jmsDTO : jmsDto) {
+    public void sendToQueue(List<JmsDTO> messages) {
+        if (CollectionUtil.isEmpty(messages)) {
+            LOGGER.info("传入参数为空, 跳过执行");
+            return;
+        }
+        for (JmsDTO jmsDTO : messages) {
             sendToQueue(jmsDTO);
         }
     }
