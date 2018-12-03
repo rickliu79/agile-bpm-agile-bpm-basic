@@ -9,13 +9,7 @@
 
 		var app = angular.module('app', ['baseDirective']);
 		app.controller("ctrl", [ '$scope', 'baseService', function($scope, baseService) {
-			
-			$scope.$on("afterSaveEvent",function(event,data){
-				if(data.r){
-					location.reload(); 
-				}
-				
-			});
+			 
 		}]);
 		
 		</script>
@@ -23,7 +17,7 @@
 	<body ng-controller="ctrl" class="panel success">
 			<!-- 顶部按钮 -->
 			<div class="panel-heading">
-				<a class="btn  btn-primary fa-save" ng-model="data" ab-save="/sys/sysLogErr/save"><span>保存</span></a>
+				<a class="btn  btn-primary fa-save" ng-model="data" ab-save="/sys/sysLogErr/save" use-default-after-save-event="true"><span>保存</span></a>
 				<a class="btn  btn-primary fa-back" onClick="javascript:$.Dialog.close(window);"><span>返回</span></a>
 			</div>
 			<form name="form" method="post" ab-load="/sys/sysLogErr/get?id={id}"  ng-model="data">

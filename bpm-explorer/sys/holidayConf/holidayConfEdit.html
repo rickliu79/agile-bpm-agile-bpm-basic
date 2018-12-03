@@ -39,15 +39,6 @@
 					}
 					
 				});
-				
-				$scope.$on("afterSaveEvent",function(event,data){
-					if(data.r == false) {
-						parent.location.reload();
-					}
-					if(data.r == true) {
-						location.reload();
-					}
-			    });
 			}]);
 		</script>
 
@@ -56,7 +47,7 @@
 			<!-- 顶部按钮 -->
 			<div class="panel-heading">
 				<div class="buttons">	      
-					<a class="btn btn-primary fa-save" ng-model="data" ab-save="/calendar/holidayConf/save">保存</a>
+					<a class="btn btn-primary fa-save" ng-model="data" ab-save="/calendar/holidayConf/save" use-default-after-save-event="true">保存</a>
 					<a href="javascript:void(0)" class="btn btn-sm btn-primary fa-reply" onclick="javascript:$.Dialog.close(window);"> 返回</a>	
 				</div>
 			</div>

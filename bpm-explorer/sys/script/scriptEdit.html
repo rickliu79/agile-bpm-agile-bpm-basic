@@ -30,7 +30,7 @@
 <body ng-controller="ctrl">
 	<div class="panel success">
 		<div class="panel-heading"> 
-			<button class="btn btn-primary fa-save" ng-model="data" ab-save="/sys/script/save" >
+			<button class="btn btn-primary fa-save" ng-model="data" ab-save="/sys/script/save" use-default-after-save-event="true">
 				<span>保存</span>
 			</button>
 			<a href="javascript:void(0)" class="btn btn-sm btn-primary fa-reply" onclick="javascript:$.Dialog.close(window);">
