@@ -26,7 +26,7 @@ INSERT INTO `org_user` (`id_`, `fullname_`, `account_`, `password_`, `email_`, `
 INSERT INTO `sys_properties` (`id_`, `name_`, `alias_`, `group_`, `value_`, `encrypt_`, `update_by_`, `update_time_`, `create_by_`, `create_time_`, `description_`, `environment_`) VALUES ('6', '系统管理员', 'admin.account', '系统参数', '3e0225725ff214e4', '1', NULL, NULL, NULL, NULL, '系统管理员', 'DEV');
 -- 系统脚本
 INSERT INTO `sys_script` (`id_`, `name_`, `script_`, `category_`, `memo_`) VALUES ('10000000000001', '获取流水号', 'sysScript.getNextSerialNo(\"流水号Alias\");', '系统内置', '获取流水号');
-INSERT INTO `sys_script` (`id_`, `name_`, `script_`, `category_`, `memo_`) VALUES ('10000000000002', '获取当前用户信息', 'sysScript.getCurentUser().getFullname()', '系统内置', '获取用户的某一个属性');
+INSERT INTO `sys_script` (`id_`, `name_`, `script_`, `category_`, `memo_`) VALUES ('10000000000002', '获取当前用户信息', 'sysScript.getCurrentUser().getFullname()', '系统内置', '获取用户的某一个属性');
 INSERT INTO `sys_script` (`id_`, `name_`, `script_`, `category_`, `memo_`) VALUES ('20000000570001', '获取当前组织ID', 'import com.dstz.sys.util.ContextUtil;\n\nreturn ContextUtil.getCurrentGroupId();', '系统内置', '通过引入静态方法来调用系统脚本，这样不需要实现Iscript脚本 。');
 
 -- 数据源
