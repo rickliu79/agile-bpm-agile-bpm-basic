@@ -45,7 +45,7 @@ public class GroupRelationController extends BaseController<GroupRelation> {
         QueryFilter queryFilter = getQueryFilter(request);
         String groupId = RequestUtil.getString(request, "groupId");
         if (StringUtil.isNotEmpty(groupId)) {
-            queryFilter.addParamsFilter("groupId", groupId);
+            queryFilter.addParamsFilter("orgId", groupId);
         }
         Page<GroupRelation> orgRelList = (Page<GroupRelation>) groupRelManager.queryInfoList(queryFilter);
         return new PageResult(orgRelList);
