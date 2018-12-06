@@ -117,7 +117,7 @@ app.controller('userConditionCtrl', [ '$scope', 'baseService', 'ArrayToolService
 	
 	function scriptSelector(calc){
 		var url='/bpm/definition/definitionScriptDialog.html?defId='+defId+'&nodeId='+nodeId;
-		var  passData ={script:calc.script,desc:calc.description||"",notice:"此脚本返回人员集合 Set<String> ids"};
+		var  passData ={script:calc.script,desc:calc.description||"",notice:"此脚本返回人员集合 Set<SysIdentity>"};
 		
 		$.Dialog.open({url:url,width:840,height:530,title:"事件脚本设置　"+nodeId,passData:passData,topOpen:true,
 			ok:function(index, innerWindow){

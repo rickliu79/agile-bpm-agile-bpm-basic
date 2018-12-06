@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * 描述：流程与组织挂接实体接口
+ * type : user / 其他group
  */
 public interface SysIdentity extends Serializable{
 
