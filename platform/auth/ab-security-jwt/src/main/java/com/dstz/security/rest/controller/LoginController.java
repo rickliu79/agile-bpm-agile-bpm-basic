@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
+
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.GenericController;
@@ -76,13 +78,13 @@ public class LoginController extends GenericController {
             }
             
         } catch (BadCredentialsException e) {
-            throw new BusinessException("账号或密码错误", PlatFormStatusCode.LOGIN_ERROR);
+            throw new BusinessMessage("账号或密码错误", PlatFormStatusCode.LOGIN_ERROR);
         } catch (DisabledException e) {
-            throw new BusinessException("帐号已禁用", PlatFormStatusCode.LOGIN_ERROR);
+            throw new BusinessMessage("帐号已禁用", PlatFormStatusCode.LOGIN_ERROR);
         } catch (LockedException e) {
-            throw new BusinessException("帐号已锁定", PlatFormStatusCode.LOGIN_ERROR);
+            throw new BusinessMessage("帐号已锁定", PlatFormStatusCode.LOGIN_ERROR);
         } catch (AccountExpiredException e) {
-            throw new BusinessException("帐号已过期", PlatFormStatusCode.LOGIN_ERROR);
+            throw new BusinessMessage("帐号已过期", PlatFormStatusCode.LOGIN_ERROR);
         } catch (Exception ex) {
         	ex.printStackTrace();
             throw new BusinessException(PlatFormStatusCode.LOGIN_ERROR, ex);

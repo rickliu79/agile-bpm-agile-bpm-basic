@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.BeanUtils;
@@ -54,7 +55,7 @@ public class UserResourceController extends GenericController {
         List<ISubsystem> subsystemList = sysResourceService.getCuurentUserSystem();
         JSONObject mv = new JSONObject();
         if (BeanUtils.isEmpty(subsystemList)) {
-            throw new BusinessException("当前用户尚未分配任何资源权限！");
+            throw new BusinessMessage("当前用户尚未分配任何资源权限！");
         }
 
         String systemId = SubSystemUtil.getSystemId(request);
