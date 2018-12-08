@@ -31,5 +31,5 @@ require('../../js/common/base/baseService.js');
 
 require('../../js/platform/home/index.js');
 
-
+require('../../js/plugins/fastjson/FastJson-1.0.min.js');
 
