@@ -125,7 +125,7 @@
         			   $.ajax({
 			               url: __ctx+'/calendar/schedule/remove',
 			               data: {
-			                   id: "${param.id}",
+			                   id: $scope.data.id,
 			               },
 			               success: function() {
 			            	   parent.location.reload();

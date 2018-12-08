@@ -28,6 +28,6 @@ public class SubSystemUtil {
      * @param systemId
      */
     public static void setSystemId(HttpServletRequest req, HttpServletResponse response, String systemId) {
-        CookieUitl.addCookie("systemId", systemId, true, req, response);
+        CookieUitl.addCookie("systemId", systemId,CookieUitl.cookie_no_expire);
     }
 }

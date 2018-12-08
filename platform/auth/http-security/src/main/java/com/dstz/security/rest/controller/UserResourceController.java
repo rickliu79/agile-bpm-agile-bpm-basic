@@ -19,6 +19,7 @@ import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.util.CookieUitl;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.api.constant.GroupTypeConstant;
 import com.dstz.org.api.model.IGroup;
@@ -95,17 +96,19 @@ public class UserResourceController extends GenericController {
     // 重新获取 userMsg
     @RequestMapping("userResource/changeSystem")
     public ResultMsg changeSystem(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String id = RequestUtil.getString(request, "id");
+        String id = RequestUtil.getString(request, "systemId");
         SubSystemUtil.setSystemId(request, response, id);
 
         return getSuccessResult("切换成功");
     }
+    
     // 重新获取 userMsg
     @RequestMapping("userResource/changeOrg")
     public ResultMsg changeOrg(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String id = RequestUtil.getString(request, "id");
+        String id = RequestUtil.getString(request, "orgId");
         IGroup org = orgService.getById(GroupTypeConstant.ORG.key(), id);
         ContextUtil.setCurrentOrg(org);
+        CookieUitl.addCookie("currentOrg", id, CookieUitl.cookie_no_expire);
 
         return getSuccessResult("切换成功");
     }

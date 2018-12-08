@@ -9,10 +9,13 @@ import com.dstz.base.core.util.StringUtil;
 
 /**
  * cookie操作类
- * <br>功能：对cookie进行增查改删
+ * @author jeff
  */
 public class CookieUitl {
-
+	// 自动过期
+	public static final int cookie_auto_expire = -1;
+	// 不过期
+	public static final int cookie_no_expire = 60*60*24*365;
     /**
      * 添加cookie，cookie的生命周期为关闭浏览器即消失
      *
@@ -21,49 +24,23 @@ public class CookieUitl {
      * @param req
      * @param response
      */
-    public static void addCookie(String name, String value, boolean httpOnly, HttpServletRequest req, HttpServletResponse response) {
-        addCookie(name, value, -1, httpOnly, "", req.getContextPath(), req, response);
+    public static void addCookie(String name, String value) {
+        addCookie(name, value, -1, RequestContext.getHttpCtx(),RequestContext.getHttpServletResponse());
+    }
+    
+    public static void addCookie(String name, String value,int timeout) {
+        addCookie(name, value, timeout, RequestContext.getHttpCtx(),RequestContext.getHttpServletResponse());
     }
 
-    /**
-     * 添加cookie
-     *
-     * @param name     cookie名称
-     * @param value    cookie值
-     * @param maxAge   cookie存活时间
-     * @param req
-     * @param response
-     */
-    public static void addCookie(String name, String value, int maxAge, boolean httpOnly, String domain, String path, HttpServletRequest req, HttpServletResponse response) {
-
-        if (response == null) return;
-        StringBuilder sb = new StringBuilder();
-        sb.append(name);
-        sb.append('=');
-        sb.append(value.trim() + "; ");
-
-        if (maxAge != -1) {
-            sb.append("max-age=");
-            sb.append(maxAge + "; ");
-        }
-
-        //--domain字符串
-        if (StringUtil.isNotEmpty(domain)) {
-            sb.append("domain=");
-            sb.append(domain + "; ");
-        }
-        //--构造path字符串
-        if (StringUtil.isNotEmpty(path)) {
-            sb.append("path=");
-            sb.append(path + ";");
-        }
-
-        //--构造httponly属性
-        if (httpOnly) {
-            sb.append("HttpOnly");
-        }
-        response.addHeader("Set-Cookie", sb.toString());
-    }
+    
+    public static void addCookie(String name, String value, int maxAge, String path,HttpServletResponse response ){
+       Cookie cookie = new Cookie(name, value);
+       cookie.setPath(path);
+       if (maxAge > 0) {
+           cookie.setMaxAge(maxAge);
+       }
+       response.addCookie(cookie);
+   }
 
 
     /**
@@ -73,61 +50,25 @@ public class CookieUitl {
      * @param response
      */
     public static void delCookie(String name, HttpServletRequest request, HttpServletResponse response) {
-        addCookie(name, "", 0, true, "", request.getContextPath(), request, response);
+    	 Cookie uid = new Cookie(name, null);
+	     uid.setPath("/");
+	     uid.setMaxAge(0);
+	     response.addCookie(uid);
     }
+    
+    
+    public static String getValueByName(String cookieName,HttpServletRequest request) {
+       Cookie cookies[] = request.getCookies();
+       for (Cookie cookie : cookies) {
+           if (cookie.getName().equals(cookieName)) {
+               return cookie.getValue();
+           }
+       }
+       return null;
+   }
 
-
-    /**
-     * 根据cookie名称取得值
-     *
-     * @param name
-     * @param request
-     * @return
-     */
-    public static String getValueByName(String name, HttpServletRequest request) {
-        if (request == null) return "";
-        Cookie cookies[] = request.getCookies();
-        Cookie sCookie = null;
-        String svalue = null;
-        String sname = null;
-
-        if (cookies == null)
-            return null;
-        for (int i = 0; i < cookies.length; i++) {
-            sCookie = cookies[i];
-            sname = sCookie.getName();
-            if (sname.equals(name)) {
-                svalue = sCookie.getValue();
-                break;
-            }
-        }
-        return svalue;
-    }
-
-
-    /**
-     * @param name
-     * @param request
-     * @return
-     */
-    public static boolean isExistByName(String name, HttpServletRequest request) {
-
-        Cookie cookies[] = request.getCookies();
-        Cookie sCookie = null;
-
-        String sname = null;
-        boolean isExist = false;
-        if (cookies == null)
-            return false;
-        for (int i = 0; i < cookies.length; i++) {
-            sCookie = cookies[i];
-            sname = sCookie.getName();
-            if (sname.equals(name)) {
-                isExist = true;
-                break;
-            }
-        }
-        return isExist;
-    }
+	public static String getValueByName(String name) {
+		return getValueByName(name,RequestContext.getHttpServletRequest());
+	}
 
 }

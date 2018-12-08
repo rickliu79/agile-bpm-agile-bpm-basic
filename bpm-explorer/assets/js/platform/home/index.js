@@ -11,7 +11,7 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 					$.Toast.error(result.msg);
 				}
 				
-				scope.userMsg = result.data;
+				scope.userMsg = FastJson.format(result).data;
 				scope.userRes = scope.userMsg.resourceList;
 				var menuId = $.getCookie("default_menu");
 				var currentMenu=null ;
@@ -122,12 +122,26 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 		return "";
 	}
 	
-	scope.logout = function(){
+	scope.changeCurrentSystem = function(systemId){
+		var get = baseService.get(__ctx+"/userResource/changeSystem?systemId="+systemId);
+		$.getResultData(get,function(){
+			window.location = "index.html";
+		})
+	}
+	scope.changeCurrentOrg = function(orgId){
+		var get = baseService.get(__ctx+"/userResource/changeOrg?orgId="+orgId);
+		$.getResultData(get,function(){
+			window.location = "index.html";
+		})
+	}
+	
+	scope.logout = function(systemId){
 		var get = baseService.get(__ctx+"/logout");
 		$.getResultData(get,function(){
 			window.location = "login.html";
 		})
 	}
+	
 	scope.closeAll = function(){
 		scope.openedMenu = [{id:"indexpage",active:"active",name:"首页",noclose:true,url:"sys/workbenchPanel/myWorkbench.html"}]; 
 	}
@@ -199,7 +213,7 @@ window.userInfo = function (){
 	addTab({
 		id:"userInfo",
 		name:"个人信息",
-		defaultUrl: '/org/user/userGet?id='+currentUserId,
+		defaultUrl: 'org/user/userGet?id='+currentUserId,
 		icon: 'fa-user',
 		closable:true
 	});

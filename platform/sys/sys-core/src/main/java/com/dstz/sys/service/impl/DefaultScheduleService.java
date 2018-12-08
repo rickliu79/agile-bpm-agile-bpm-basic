@@ -241,7 +241,7 @@ public class DefaultScheduleService implements ScheduleService {
 	public ResultMsg updateSchedule(String biz_id, Date start, Date end, String ownerAccount) {
 		List<Schedule> list = scheduleManager.getByBizId(biz_id);
 		if(list == null) {
-			throw new BusinessException("未找到相关日程");
+			throw new BusinessMessage("未找到相关日程");
 		}
 		//一个biz_id是对应1个日程把
 		Schedule schedule = list.get(0);

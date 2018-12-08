@@ -41,8 +41,9 @@
 <script>
 var ztreeObject ;
 function loadTree() {
+	 var systemId = $("#systemId").val()||1;
 	var url = __ctx + "/sys/sysResource/getTreeData";
-	var params = {systemId:"1"};
+	var params = {systemId:systemId};
 	
 	var ztreeCreator = new ZtreeCreator('sysztreeObject',url)
 		.setCallback({onClick:zTreeOnLeftClick,onRightClick:zTreeOnRightClick})
@@ -166,7 +167,7 @@ function editNode(type) {
 function appendNode(node){
 	var nodeId = curSelectNode.id;
 	if ( nodeId == "0"){
-		ztreeObject.addNodes(null, node);
+		loadTree();
 	}
 	else{
 		ztreeObject.addNodes(curSelectNode, node);
@@ -230,11 +231,16 @@ function laodSystem(){
 	
 }
 
+function changeSystem(){
+	
+}
+
 </script>
 <script>
 	$(function() {
 		laodSystem();
 		loadTree();
+		$("#systemId").change(loadTree);
 	});
 
 </script>

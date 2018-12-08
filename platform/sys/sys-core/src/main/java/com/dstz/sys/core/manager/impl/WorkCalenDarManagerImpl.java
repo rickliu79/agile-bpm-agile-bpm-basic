@@ -137,7 +137,7 @@ public class WorkCalenDarManagerImpl extends BaseManager<String, WorkCalenDar> i
 				String type = workCalenDar.getType();
 				//更新前检查：判断是否已设置过法定日期,已设置过的法定日期与要添加的法定日期类型不同，则不允许添加
 				if(type.length() > 2 && !(type.substring(type.length() - 2, type.length()).equals(conf.getType()))) {
-					throw new BusinessException("该时间段有日期已设定过不同法定节假日类型，请删除后添加或直接更新");
+					throw new BusinessMessage("该时间段有日期已设定过不同法定节假日类型，请删除后添加或直接更新");
 				}
 			}
 			//更新
@@ -148,7 +148,7 @@ public class WorkCalenDarManagerImpl extends BaseManager<String, WorkCalenDar> i
 				} else if(WorkCalenDar.DAY_TYPE_LEGAL_WORKDAY.equals(conf.getType())) {
 					workCalenDar.setIsWorkDay(WorkCalenDar.WORKDAY);
 				} else {
-					throw new BusinessException("系统与类型不一致");
+					throw new BusinessMessage("系统与类型不一致");
 				}
 				workCalenDar.setType(workCalenDar.getType() + conf.getType());
 				workCalenDarDao.update(workCalenDar);
@@ -157,7 +157,7 @@ public class WorkCalenDarManagerImpl extends BaseManager<String, WorkCalenDar> i
 		} else {
 			//检查
 			if(!workCalenDars.isEmpty()) {
-				throw new BusinessException("该时间段有日期已设定过公司节假日，请删除后添加或直接更新");
+				throw new BusinessMessage("该时间段有日期已设定过公司节假日，请删除后添加或直接更新");
 			}
 			//新增记录
 			while(start.compareTo(end) <= 0) {
@@ -170,7 +170,7 @@ public class WorkCalenDarManagerImpl extends BaseManager<String, WorkCalenDar> i
 				else if(WorkCalenDar.DAY_TYPE_COMPAY_WORKDAY.equals(conf.getType())){
 					workCalenDar.setIsWorkDay(WorkCalenDar.WORKDAY);
 				} else {
-					throw new BusinessException("系统与类型不一致");
+					throw new BusinessMessage("系统与类型不一致");
 				}
 				workCalenDar.setType(conf.getType());
 				workCalenDar.setSystem(conf.getSystem());
@@ -225,11 +225,11 @@ public class WorkCalenDarManagerImpl extends BaseManager<String, WorkCalenDar> i
 	
 	@Override
 	public void create(WorkCalenDar entity){
-		throw new BusinessException("不支持创建", BaseStatusCode.NO_ACCESS);
+		throw new BusinessMessage("不支持创建", BaseStatusCode.NO_ACCESS);
 	}
 	@Override
 	public void update(WorkCalenDar entity){
-		throw new BusinessException("不支持更新", BaseStatusCode.NO_ACCESS);
+		throw new BusinessMessage("不支持更新", BaseStatusCode.NO_ACCESS);
 	}
 	
 	@Override
@@ -242,7 +242,7 @@ public class WorkCalenDarManagerImpl extends BaseManager<String, WorkCalenDar> i
 		if(null != workCalenDars1 && !workCalenDars1.isEmpty()) {
 			return workCalenDars1.get(0);
 		} else {
-			throw new BusinessException("年份未初始化", BaseStatusCode.NO_ACCESS);
+			throw new BusinessMessage("年份未初始化", BaseStatusCode.NO_ACCESS);
 		}
 	}
 	
