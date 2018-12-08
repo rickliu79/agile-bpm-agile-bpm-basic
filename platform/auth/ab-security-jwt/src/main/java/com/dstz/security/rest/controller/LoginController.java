@@ -24,7 +24,6 @@ import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.GenericController;
-import com.dstz.base.rest.util.CookieUitl;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.security.constant.PlatFormStatusCode;
 import com.dstz.security.jwt.service.JWTService;

@@ -67,11 +67,35 @@
                              <span class="text-muted text-xs block ">{{userMsg.user.fullname}}<b class="caret"></b></span>
                              </span>
                          </a>
-                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                             <li><a class="J_menuItem" href="javascript:void(0)">{{userMsg.currentOrg.name}}</a></li>
-                             <li><a class="J_menuItem" onclick="userInfo()" href="javascript:void(0)">个人资料</a></li>
+                         <ul class="dropdown-menu dropdown-alerts" style="width: 250">
+                             <li>
+                             	 <a href="#">
+                                       <div>
+                                           <i class="fa  fa-user">{{userMsg.currentOrg.name}}</i> 
+                                           <span class="pull-right btn btn-xs btn-primary">当前组织</span>
+                                       </div>
+                                   </a>
+                             </li>
+                              <li class="divider"></li>
+                             <li ng-repeat="org in userMsg.orgList" ng-show="org.groupId != userMsg.currentOrg.groupId">
+                             		<a href="#">
+                                      <div>
+                                          <i class="fa fa-users"></i> {{org.name}}
+                                          <span class="pull-right btn btn-xs btn-success fa fa-exchange" ng-click="changeCurrentOrg(org.groupId)">切换组织</span>
+                                      </div>
+                                   </a>
+                             </li>
+                             <li ng-repeat="system in userMsg.subsystemList" ng-show="system.id != userMsg.currentSystem.id">
+                             		<a href="#">
+                                          <i class="fa fa-align-justify"></i> {{system.name}}
+                                          <span class="pull-right btn btn-xs btn-success fa fa-exchange" ng-click="changeCurrentSystem(system.id)">切换系统</span>
+                                   </a>
+                             </li>
+                              <li class="divider"></li>
+                             <li><a class="J_menuItem fa fa-smile-o" onclick="userInfo()" href="javascript:void(0)">个人资料</a></li>
                              <li class="divider"></li>
-                             <li><a href="#" ng-click="logout()">安全退出</a></li>
+                             <li><a href="#" class="fa fa-arrow-circle-right" ng-click="logout()">安全退出</a></li>
+                            
                          </ul>
                          </li>
                     </ul>

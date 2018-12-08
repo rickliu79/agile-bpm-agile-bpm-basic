@@ -4,6 +4,8 @@ package com.dstz.security.login.context;
 import com.dstz.base.core.cache.ICache;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
+import com.dstz.base.rest.util.CookieUitl;
+import com.dstz.org.api.constant.GroupTypeConstant;
 import com.dstz.org.api.context.ICurrentContext;
 import com.dstz.org.api.model.IGroup;
 import com.dstz.org.api.model.IUser;
@@ -98,6 +100,17 @@ public class LoginContext implements ICurrentContext {
         if (iCache.containKey(userKey)) {
             return (IGroup) iCache.getByKey(userKey);
         }
+        // cookie 中存一份标识
+        String cookieCurrrentOrgId = CookieUitl.getValueByName("currentOrg");
+        if(StringUtil.isNotEmpty(cookieCurrrentOrgId)) {
+        	IGroup group = groupService.getById(GroupTypeConstant.ORG.key(), cookieCurrrentOrgId);
+        	if(group != null) {
+        		setCurrentGroup(group);
+        		return group;
+        	}
+        }
+        
+        
         //获取当前人的主部门
         IGroup group = groupService.getMainGroup(userId);
         if (group != null) setCurrentGroup(group);
