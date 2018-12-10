@@ -22,6 +22,14 @@ var base = angular.module("base", [])
 	$httpProvider.defaults.withCredentials = true;
 });
 
+// ifream 外链的时候 特殊处理
+base.filter('trustedAsResourceUrl', ['$sce', function ($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+}]);
+ 
+
 /**
  * 表单提交，将json转成 name=abc&age=19这种格式。
  */

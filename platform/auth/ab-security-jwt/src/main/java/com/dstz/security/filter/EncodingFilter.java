@@ -46,7 +46,7 @@ public class EncodingFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "accept, origin, content-type");
         response.setHeader("Access-Control-Allow-Origin", origin);
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Methods", "POST,GET");
+        response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT");
         chain.doFilter(request, response);
         
     }
