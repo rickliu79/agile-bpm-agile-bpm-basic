@@ -7,6 +7,7 @@ import com.dstz.sys.api.jms.producer.JmsProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class RedisMessageQueueProducer implements JmsProducer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisMessageQueueProducer.class);
 
+    @Qualifier("redisTemplate")
     @Autowired
     private RedisTemplate redisTemplate;
 
