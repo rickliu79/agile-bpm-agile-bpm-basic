@@ -153,7 +153,7 @@ public class RedisMessageQueueConsumer extends AbstractMessageQueue implements D
                 try {
                     jmsDTO = messageQueue.leftPop(listenInterval, TimeUnit.MILLISECONDS);
                 } catch (Exception e) {
-                    LOGGER.warn("监听Redis消息队列({})返回结果出错", e);
+                    LOGGER.warn("监听Redis消息队列({})返回结果出错", JmsDestinationConstant.DEFAULT_NAME, e);
                     continue;
                 }
                 if (jmsDTO == null) {
