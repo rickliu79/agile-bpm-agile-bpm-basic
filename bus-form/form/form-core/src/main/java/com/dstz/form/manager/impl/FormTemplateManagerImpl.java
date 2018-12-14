@@ -172,6 +172,10 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 	@Override
 	public JSONArray templateData(String boKey,String type) {
 		IBusinessObject bo = businessObjectService.getByKey(boKey);
+		if(bo == null) {
+			throw new BusinessException(String.format("业务对象丢失，请检查业务对象：%s", boKey));
+		}
+		
 		List<IBusTableRel> rels = (List<IBusTableRel>) bo.getRelation().list();
 		List<FormTemplate> mainTemplates = getByType("main",type);
 		List<FormTemplate> subTableTemplates = getByType("subTable",type);
