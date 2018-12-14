@@ -85,10 +85,14 @@ public class ErrAspect {
                 LOGGER.error("操作出现异常     {}.{} ", point.getTarget().getClass(), point.getSignature().getName(), ex);
                 IStatusCode errorCode = BaseStatusCode.SYSTEM_ERROR;
                 // 假如是包装异常则获取具体异常码，以及包装后的异常信息
-                if(ex instanceof BusinessException || ex instanceof BusinessError) {
+                if(ex instanceof BusinessException) {
                 	errorCode = ((BusinessException)ex).getStatusCode();
                 	errorMessage = ex.getMessage();
+                }else if(ex instanceof BusinessError) {
+                	errorCode = ((BusinessError)ex).getStatusCode();
+                	errorMessage = ex.getMessage();
                 }
+
                 
                 String errorId = logError(point, errorMessage, exception);
                 errorMessage = "errorCode[" + errorId + "] : " + errorMessage;
