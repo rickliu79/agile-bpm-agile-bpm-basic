@@ -153,7 +153,6 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 					layer.close(ii);
 					return;
 				}
-				debugger;
 				var flowData = {
 						defId: bpmService.getDefId(),
 						taskId: bpmService.getTaskId(),
