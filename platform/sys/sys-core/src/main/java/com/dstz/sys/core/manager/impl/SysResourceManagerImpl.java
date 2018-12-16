@@ -50,7 +50,7 @@ public class SysResourceManagerImpl extends BaseManager<String, SysResource> imp
         sysResource.setId(resId);
         //先删除
         relResourceDao.removeByResId(resId);
-        //在添加
+        //再添加
         List<RelResource> relResources = sysResource.getRelResources();
         for (RelResource relResource : relResources) {
             relResource.setId(IdUtil.getSuid());

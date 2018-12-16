@@ -18,7 +18,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessError;
-import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.api.response.impl.ResultMsg;
@@ -32,7 +31,6 @@ import com.dstz.bus.api.model.IBusTableRel;
 import com.dstz.bus.api.model.IBusinessObject;
 import com.dstz.bus.api.service.IBusinessObjectService;
 import com.dstz.bus.api.service.IBusinessTableService;
-import com.dstz.form.api.constant.FormStatusCode;
 import com.dstz.form.generator.AbsFormElementGenerator;
 import com.dstz.form.manager.FormDefManager;
 import com.dstz.form.manager.FormTemplateManager;
@@ -213,13 +211,7 @@ public class FormDefController extends BaseController<FormDef> {
 				map.put(generator.getGeneratorName(), generator);
 			}
 			
-			String html ;
-			try {
-				 html = freemarkEngine.parseByString(template.getHtml(), map);
-			} catch (Exception e) {
-				LOG.error(String.format( "业务表【%s】模板【%s】解析失败：%s", relation.getTableComment(),template.getDesc(),e.getMessage()));
-				throw new BusinessException(String.format( "业务表【%s】模板【%s】解析失败：%s", relation.getTableComment(),template.getDesc(),e.getMessage()),FormStatusCode.FORM_ELEMENT_GENERATOR_ERROR,e);
-			}
+			String html = freemarkEngine.parseByString(template.getHtml(), map);
 			
 			sb.append(html);
 			sb.insert(0, "<div>");
