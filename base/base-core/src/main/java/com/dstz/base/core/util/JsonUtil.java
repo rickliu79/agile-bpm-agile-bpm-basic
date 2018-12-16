@@ -115,50 +115,6 @@ public class JsonUtil {
     }
 
     /**
-     * 替换掉包含富文本的json 字符串中特殊的字符
-     *
-     * @param str
-     * @return
-     */
-    public static String escapeSpecialChar(String str) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < str.length(); i++) {
-
-            char c = str.charAt(i);
-            switch (c) {
-                case '\"':
-                    sb.append("\\\"");
-                    break;
-                case '\\':
-                    sb.append("\\\\");
-                    break;
-                case '/':
-                    sb.append("\\/");
-                    break;
-                case '\b':
-                    sb.append("\\b");
-                    break;
-                case '\f':
-                    sb.append("\\f");
-                    break;
-                case '\n':
-                    sb.append("\\n");
-                    break;
-                case '\r':
-                    sb.append("\\r");
-                    break;
-                case '\t':
-                    sb.append("\\t");
-                    break;
-                default:
-                    sb.append(c);
-            }
-        }
-
-        return sb.toString();
-    }
-
-    /**
      * 删除的空项，主要controller请求返回的时候 如果数据有{a:null}换转换失败
      *
      * @param jsonObject void

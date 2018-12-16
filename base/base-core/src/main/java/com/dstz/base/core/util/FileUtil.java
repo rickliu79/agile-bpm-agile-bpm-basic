@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.springframework.web.multipart.MultipartFile;
-
+// TODO 待改造
 public class FileUtil {
 
     /**
@@ -92,8 +92,7 @@ public class FileUtil {
      */
     public static String readFile(String fileName) {
         try {
-            File file = new File(fileName);
-            String charset = getCharset(file);
+            String charset = "UTF-8";
             StringBuilder sb = new StringBuilder();
             BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), charset));
             String str;
@@ -108,53 +107,6 @@ public class FileUtil {
         }
     }
 
-
-    /**
-     * 通过类路径读取文件
-     *
-     * @param filePath 文件类路径
-     * @return
-     */
-    public static String readByClassPath(String filePath) {
-        return readByClassPath(filePath, null);
-    }
-
-    public static String readByClassPath(String filePath, ClassLoader classLoader) {
-        InputStream is = null;
-        try {
-            URL url = null;
-            if (classLoader != null) {
-                url = classLoader.getResource("/" + filePath);
-            } else {
-                url = FileUtil.class.getResource("/" + filePath);
-            }
-
-            is = url.openStream();
-
-            InputStreamReader isr = new InputStreamReader(is);
-
-            BufferedReader br = new BufferedReader(isr);
-
-            String s = null;
-            String fileText = "";
-            while ((s = br.readLine()) != null) {
-                fileText = fileText + s + "\r\n";
-            }
-
-            return fileText;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     /**
      * 判断文件是否存在
@@ -172,74 +124,6 @@ public class FileUtil {
             }
         }
         return isExist;
-    }
-
-    /**
-     * 获取文件的字符集
-     *
-     * @param file
-     * @return
-     */
-    public static String getCharset(File file) {
-        String charset = "GBK";
-        byte[] first3Bytes = new byte[3];
-        try {
-            boolean checked = false;
-            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-            bis.mark(0);
-            int read = bis.read(first3Bytes, 0, 3);
-            if (read == -1)
-                return charset;
-            if (first3Bytes[0] == (byte) 0xFF && first3Bytes[1] == (byte) 0xFE) {
-                charset = "UTF-16LE";
-                checked = true;
-            } else if (first3Bytes[0] == (byte) 0xFE && first3Bytes[1] == (byte) 0xFF) {
-                charset = "UTF-16BE";
-                checked = true;
-            } else if (first3Bytes[0] == (byte) 0xEF && first3Bytes[1] == (byte) 0xBB && first3Bytes[2] == (byte) 0xBF) {
-                charset = "UTF-8";
-                checked = true;
-            }
-            bis.reset();
-
-            if (!checked) {
-                // int loc = 0;
-                while ((read = bis.read()) != -1) {
-                    // loc++;
-                    if (read >= 0xF0)
-                        break;
-                    // 单独出现BF以下的，也算是GBK
-                    if (0x80 <= read && read <= 0xBF)
-                        break;
-                    if (0xC0 <= read && read <= 0xDF) {
-                        read = bis.read();
-                        if (0x80 <= read && read <= 0xBF)// 双字节 (0xC0 - 0xDF)
-                            // (0x80 -
-                            // 0xBF),也可能在GB编码内
-                            continue;
-                        else
-                            break;
-                        // 也有可能出错，但是几率较小
-                    } else if (0xE0 <= read && read <= 0xEF) {
-                        read = bis.read();
-                        if (0x80 <= read && read <= 0xBF) {
-                            read = bis.read();
-                            if (0x80 <= read && read <= 0xBF) {
-                                charset = "UTF-8";
-                                break;
-                            } else
-                                break;
-                        } else
-                            break;
-                    }
-                }
-
-            }
-            bis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return charset;
     }
 
     /**
@@ -681,175 +565,8 @@ public class FileUtil {
         }
         return value;
     }
-
-    /**
-     * 保存属性文件。
-     *
-     * @param fileName 文件名
-     * @param key      键名
-     * @param value    键值
-     * @return 保存是否成功。
-     */
-    public static boolean saveProperties(String fileName, String key, String value) {
-        StringBuilder sb = new StringBuilder();
-        boolean isFound = false;
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "utf-8"));
-            String str;
-            while ((str = in.readLine()) != null) {
-                if (str.startsWith(key)) {
-                    sb.append(key + "=" + value + "\r\n");
-                    isFound = true;
-                } else {
-                    sb.append(str + "\r\n");
-                }
-            }
-            // 添加新的键值。
-            if (!isFound) {
-                sb.append(key + "=" + value + "\r\n");
-            }
-            FileUtil.writeFile(fileName, sb.toString(), "utf-8");
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /**
-     * 删除属性key。
-     *
-     * @param fileName
-     * @param key
-     * @return
-     */
-    public static boolean delProperties(String fileName, String key) {
-        StringBuilder sb = new StringBuilder();
-
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "utf-8"));
-            String str;
-            while ((str = in.readLine()) != null) {
-                if (!str.startsWith(key)) {
-                    sb.append(str + "\r\n");
-                }
-            }
-            FileUtil.writeFile(fileName, sb.toString(), "utf-8");
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /**
-     * 获取接口的所有实现类
-     *
-     * @param interfaceClass 接口类
-     * @param samePackage    是否为同一包路径下
-     * @return
-     * @throws ClassNotFoundException
-     * @throws IOException
-     */
-    public static List<Class<?>> getAllClassesByInterface(Class<?> interfaceClass, boolean samePackage) throws IOException, ClassNotFoundException, IllegalStateException {
-
-        if (!interfaceClass.isInterface()) {
-            throw new IllegalStateException("Class not a interface.");
-        }
-
-        ClassLoader $loader = interfaceClass.getClassLoader();
-        /** 获取包名称 */
-        String packageName = samePackage ? interfaceClass.getPackage().getName() : "/";
-        return findClasses(interfaceClass, $loader, packageName);
-    }
-
-    /**
-     * 获取实现接口的实现类文件
-     *
-     * @param interfaceClass
-     * @param loader
-     * @param packageName
-     * @return
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    private static List<Class<?>> findClasses(Class<?> interfaceClass, ClassLoader loader, String packageName) throws IOException, ClassNotFoundException {
-
-        List<Class<?>> allClasses = new ArrayList<Class<?>>();
-        /** 获取包路径 */
-        String packagePath = packageName.replace(".", "/");
-        if (!packagePath.equals("/")) {
-            Enumeration<URL> resources = loader.getResources(packagePath);
-            while (resources.hasMoreElements()) {
-                URL $url = resources.nextElement();
-                allClasses.addAll(findResources(interfaceClass, new File($url.getFile()), packageName));
-            }
-        } else {
-            String path = loader.getResource("").getPath();
-            allClasses.addAll(findResources(interfaceClass, new File(path), packageName));
-        }
-        return allClasses;
-    }
-
-    /**
-     * 获取文件资源信息
-     *
-     * @param interfaceClass
-     * @param directory
-     * @param packageName
-     * @return
-     * @throws ClassNotFoundException
-     */
-    @SuppressWarnings("unchecked")
-    private static List<Class<?>> findResources(Class<?> interfaceClass, File directory, String packageName) throws ClassNotFoundException {
-
-        List<Class<?>> $results = new ArrayList<Class<?>>();
-        if (!directory.exists())
-            return Collections.EMPTY_LIST;
-        File[] files = directory.listFiles();
-        for (File file : files) {
-            if (file.isDirectory()) {
-                // 文件夹-->继续遍历
-                if (!file.getName().contains(".")) {
-                    if (!packageName.equals("/")) {
-                        $results.addAll(findResources(interfaceClass, file, packageName + "." + file.getName()));
-                    } else {
-                        $results.addAll(findResources(interfaceClass, file, file.getName()));
-                    }
-                }
-            } else if (file.getName().endsWith(".class")) {
-                Class<?> clazz = null;
-                if (!packageName.equals("/")) {
-                    clazz = Class.forName(packageName + "." + file.getName().substring(0, file.getName().length() - 6));
-                } else {
-                    clazz = Class.forName(file.getName().substring(0, file.getName().length() - 6));
-                }
-                if (interfaceClass.isAssignableFrom(clazz) && !interfaceClass.equals(clazz)) {
-                    $results.add(clazz);
-                }
-            }
-        }
-        return $results;
-    }
-
+ 
+    
     /**
      * 深度克隆对象。
      *

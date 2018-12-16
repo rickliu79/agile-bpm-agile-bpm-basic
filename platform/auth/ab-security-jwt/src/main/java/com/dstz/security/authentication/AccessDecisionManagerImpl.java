@@ -16,6 +16,7 @@ import com.dstz.security.login.model.LoginUser;
 
 public class AccessDecisionManagerImpl implements AccessDecisionManager {
 
+	//TODO 待改造 还有http 那块的
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)
             throws AccessDeniedException, InsufficientAuthenticationException {

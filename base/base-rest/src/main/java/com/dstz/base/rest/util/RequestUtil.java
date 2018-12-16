@@ -32,6 +32,7 @@ import com.dstz.base.db.model.query.DefaultFieldLogic;
 import com.dstz.base.db.model.query.DefaultQueryField;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 
 public class RequestUtil {
@@ -162,6 +163,8 @@ public class RequestUtil {
      * @return
      */
     public static String filterInject(String str) {
+    	if(StringUtil.isEmpty(str))return str;
+    	
         String injectstr = "\\||;|exec|insert|select|delete|update|count|chr|truncate|char";
         Pattern regex = Pattern.compile(injectstr, Pattern.CANON_EQ | Pattern.DOTALL | Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
         Matcher matcher = regex.matcher(str);
@@ -553,15 +556,14 @@ public class RequestUtil {
      * @param isSecure    过滤不安全字符
      * @return
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public static Map getParameterValueMap(HttpServletRequest request, boolean remainArray, boolean isSecure) {
-        Map map = new HashMap();
+    	Map<String,Object> map = new HashMap();
         Enumeration params = request.getParameterNames();
         while (params.hasMoreElements()) {
             String key = params.nextElement().toString();
             String[] values = request.getParameterValues(key);
-            if (values == null)
-                continue;
+            if (BeanUtils.isEmpty(values)) continue;
+            
             if (values.length == 1) {
                 String tmpValue = values[0];
                 if (tmpValue == null)
@@ -593,22 +595,25 @@ public class RequestUtil {
      * @return
      */
     private static String getByAry(String[] aryTmp, boolean isSecure) {
-        String rtn = "";
+    	if(BeanUtils.isEmpty(aryTmp))return "";
+    	
+    	if(aryTmp.length == 1) {
+    		return aryTmp[0];
+    	}
+    	
+        StringBuilder rtn = new StringBuilder();
         for (int i = 0; i < aryTmp.length; i++) {
             String str = aryTmp[i].trim();
-            if (!str.equals("")) {
-                if (isSecure) {
-                    str = filterInject(str);
-                    if (!str.equals(""))
-                        rtn += str + ",";
-                } else {
-                    rtn += str + ",";
-                }
+            if (isSecure) {
+            	str = filterInject(str);
             }
+            
+            if(StringUtil.isEmpty(str)) continue;
+            rtn.append(str);
+            rtn.append(",");
         }
-        if (rtn.length() > 0)
-            rtn = rtn.substring(0, rtn.length() - 1);
-        return rtn;
+         
+        return  rtn.substring(0, rtn .length() - 1);
     }
 
     /**
@@ -661,7 +666,7 @@ public class RequestUtil {
 
     /**
      * 下载文件。
-     *
+     *  TODO 待改造
      * @param response
      * @param b        文件的二进制流
      * @param fileName 文件名称。
@@ -694,7 +699,7 @@ public class RequestUtil {
 
     /**
      * 下载文件。
-     *
+     * TODO 待改造
      * @param response
      * @param fullPath 文件的全路径
      * @param fileName 文件名称。

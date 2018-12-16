@@ -10,7 +10,6 @@ import java.util.List;
 public class PageList<E> extends ArrayList<E> implements Serializable {
 
     private static final long serialVersionUID = 1412759446332294208L;
-    private static final int DEFAULT_SLIDERS_COUNT = 7;
 
     public PageList() {
     }
@@ -90,16 +89,6 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
     }
 
     /**
-     * 判断指定页码是否被禁止，也就是说指定页码超出了范围或等于当前页码。
-     *
-     * @param page 页码
-     * @return boolean  是否为禁止的页码
-     */
-    public boolean isDisabledPage(int page) {
-        return ((page < 1) || (page > getTotalPages()) || (page == this.page));
-    }
-
-    /**
      * 是否有上一页
      *
      * @return 上一页标识
@@ -164,25 +153,7 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
         return computePageNumber(page, limit, totalCount);
     }
 
-    /**
-     * 页码滑动窗口，并将当前页尽可能地放在滑动窗口的中间部位。
-     *
-     * @return
-     */
-    public Integer[] getSlider() {
-        return slider(DEFAULT_SLIDERS_COUNT);
-    }
-
-    /**
-     * 页码滑动窗口，并将当前页尽可能地放在滑动窗口的中间部位。
-     * 注意:不可以使用 getSlider(1)方法名称，因为在JSP中会与 getSlider()方法冲突，报exception
-     *
-     * @return
-     */
-    public Integer[] slider(int slidersCount) {
-        return generateLinkPageNumbers(getPage(), (int) getTotalPages(), slidersCount);
-    }
-
+    
     private static int computeLastPageNumber(int totalItems, int pageSize) {
         if (pageSize <= 0) return 1;
         int result = (int) (totalItems % pageSize == 0 ?
@@ -202,44 +173,6 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
             return computeLastPageNumber(totalItems, pageSize);
         }
         return page;
-    }
-
-    private static Integer[] generateLinkPageNumbers(int currentPageNumber, int lastPageNumber, int count) {
-        int avg = count / 2;
-
-        int startPageNumber = currentPageNumber - avg;
-        if (startPageNumber <= 0) {
-            startPageNumber = 1;
-        }
-
-        int endPageNumber = startPageNumber + count - 1;
-        if (endPageNumber > lastPageNumber) {
-            endPageNumber = lastPageNumber;
-        }
-
-        if (endPageNumber - startPageNumber < count) {
-            startPageNumber = endPageNumber - count;
-            if (startPageNumber <= 0) {
-                startPageNumber = 1;
-            }
-        }
-
-        java.util.List<Integer> result = new java.util.ArrayList<Integer>();
-        for (int i = startPageNumber; i <= endPageNumber; i++) {
-            result.add(new Integer(i));
-        }
-        return result.toArray(new Integer[result.size()]);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("Paginator");
-        sb.append("{page=").append(page);
-        sb.append(", limit=").append(limit);
-        sb.append(", totalCount=").append(totalCount);
-        sb.append('}');
-        return sb.toString();
     }
 
 }
