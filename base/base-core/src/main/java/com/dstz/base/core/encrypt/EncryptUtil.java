@@ -1,15 +1,18 @@
 package com.dstz.base.core.encrypt;
 
-import com.dstz.base.core.util.FileUtil;
-import org.apache.commons.codec.binary.Base64;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+
+import org.apache.commons.codec.binary.Base64;
+
+import com.dstz.base.api.exception.BusinessError;
+import com.dstz.base.core.util.StringUtil;
 
 /**
  * 加密算法。 <br/>
@@ -18,155 +21,127 @@ import java.security.NoSuchAlgorithmException;
  * 3.对称加解密算法。
  */
 public class EncryptUtil {
+	private static final String CODE = "UTF-8";
 
-    /**
-     * 使用MD5加密
-     *
-     * @param inStr
-     * @return
-     * @throws Exception
-     */
-    public static String encryptMd5(String inStr) throws Exception {
+	/**
+	 * 使用MD5加密
+	 *
+	 * @param str
+	 * @return
+	 * @throws Exception
+	 */
+	public static String encryptMd5(String str) {
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("MD5");
+			byte[] digest = md.digest(str.getBytes());
+			return new String(Base64.encodeBase64(digest));
+		} catch (NoSuchAlgorithmException e) {
+			throw new BusinessError(e);
+		}
 
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("MD5");
-            byte[] digest = md.digest(inStr.getBytes());
-            return new String(Base64.encodeBase64(digest));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            throw e;
-        }
+	}
 
-    }
+	/**
+	 * 输出明文按sha-256加密后的密文
+	 *
+	 * @param inputStr
+	 *            明文
+	 * @return
+	 */
+	public static synchronized String encryptSha256(String inputStr) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			byte digest[] = md.digest(inputStr.getBytes(CODE));
+			return new String(Base64.encodeBase64(digest));
+		} catch (Exception e) {
+			throw new BusinessError(e);
+		}
+	}
 
-    public static String encryptFileMd5(String fileName) throws Exception {
-        byte[] bytes = FileUtil.readByte(fileName);
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("MD5");
-            byte[] digest = md.digest(bytes);
-            return new String(Base64.encodeBase64(digest));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
+	public static String byte2hex(byte[] b) {
+		StringBuilder sb = new StringBuilder();
+		for (int n = 0; n < b.length; n++) {
+			String str = (java.lang.Integer.toHexString(b[n] & 0XFF));
+			if (str.length() == 1) {
+				sb = sb.append("0" + str);
+			} else {
+				sb.append(str);
+			}
+		}
+		return sb.toString().toLowerCase();
+	}
 
+	/**
+	 * 密钥
+	 */
+	private static final String KEY = "@#$%^6a7";
 
-    /**
-     * 输出明文按sha-256加密后的密文
-     *
-     * @param inputStr 明文
-     * @return
-     */
-    public static synchronized String encryptSha256(String inputStr) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte digest[] = md.digest(inputStr.getBytes("UTF-8"));
-            return new String(Base64.encodeBase64(digest));
-        } catch (Exception e) {
-            return null;
-        }
-    }
+	/**
+	 * 对称解密算法
+	 *
+	 * @param message
+	 * @return
+	 * @throws Exception
+	 */
+	public static String decrypt(String message) {
+		try {
+			byte[] bytes = StringUtil.stringToBytes(message);
+			Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
+			DESKeySpec desKeySpec = new DESKeySpec(KEY.getBytes(CODE));
+			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+			SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
+			IvParameterSpec iv = new IvParameterSpec(KEY.getBytes(CODE));
 
-    public static String byte2hex(byte[] b) {
+			cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
 
-        String hs = "";
-        String stmp = "";
+			byte[] retByte = cipher.doFinal(bytes);
+			return new String(retByte, CODE);
+		} catch (Exception e) {
+			throw new BusinessError(e);
+		}
+	}
 
-        for (int n = 0; n < b.length; n++) {
-            stmp = (java.lang.Integer.toHexString(b[n] & 0XFF));
-            if (stmp.length() == 1) {
-                hs = hs + "0" + stmp;
-            } else {
-                hs = hs + stmp;
-            }
-            // if(16==hs.length()) break;
-        }
-        return hs.toLowerCase();
-    }
+	/**
+	 * 对称加密算法
+	 *
+	 * @param message
+	 * @return
+	 * @throws Exception
+	 */
+	public static String encrypt(String message) {
+		try {
+			Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
 
-    /**
-     * 密钥
-     */
-    private static final String key = "@#$%^6a7";
+			DESKeySpec desKeySpec = new DESKeySpec(KEY.getBytes(CODE));
 
-    /**
-     * 对称解密算法
-     *
-     * @param message
-     * @return
-     * @throws Exception
-     */
-    public static String decrypt(String message) throws Exception {
-        byte[] bytesrc = stringToBytes(message);
-        Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
-        DESKeySpec desKeySpec = new DESKeySpec(key.getBytes("UTF-8"));
-        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
-        SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
-        IvParameterSpec iv = new IvParameterSpec(key.getBytes("UTF-8"));
+			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+			SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
+			IvParameterSpec iv = new IvParameterSpec(KEY.getBytes(CODE));
+			cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
 
-        cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
+			return bytesToString(cipher.doFinal(message.getBytes(CODE)));
+		} catch (Exception e) {
+			throw new BusinessError(e);
+		}
+	}
 
-        byte[] retByte = cipher.doFinal(bytesrc);
-        return new String(retByte, "UTF-8");
-    }
+	/**
+	 * Byte数组转String
+	 *
+	 * @param b
+	 * @return
+	 */
+	private static String bytesToString(byte b[]) {
+		StringBuilder hexString = new StringBuilder();
+		for (int i = 0; i < b.length; i++) {
+			String plainText = Integer.toHexString(0xff & b[i]);
+			if (plainText.length() < 2)
+				plainText = "0" + plainText;
+			hexString.append(plainText);
+		}
 
-    /**
-     * 对称加密算法
-     *
-     * @param message
-     * @return
-     * @throws Exception
-     */
-    public static String encrypt(String message) throws Exception {
-        Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
-
-        DESKeySpec desKeySpec = new DESKeySpec(key.getBytes("UTF-8"));
-
-        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
-        SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
-        IvParameterSpec iv = new IvParameterSpec(key.getBytes("UTF-8"));
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
-
-        String str = bytesToString(cipher.doFinal(message.getBytes("UTF-8")));
-        return str;
-    }
-
-    /**
-     * String转Byte数组
-     *
-     * @param temp
-     * @return
-     */
-    private static byte[] stringToBytes(String temp) {
-        byte digest[] = new byte[temp.length() / 2];
-        for (int i = 0; i < digest.length; i++) {
-            String byteString = temp.substring(2 * i, 2 * i + 2);
-            int byteValue = Integer.parseInt(byteString, 16);
-            digest[i] = (byte) byteValue;
-        }
-
-        return digest;
-    }
-
-    /**
-     * Byte数组转String
-     *
-     * @param b
-     * @return
-     */
-    private static String bytesToString(byte b[]) {
-        StringBuilder hexString = new StringBuilder();
-        for (int i = 0; i < b.length; i++) {
-            String plainText = Integer.toHexString(0xff & b[i]);
-            if (plainText.length() < 2)
-                plainText = "0" + plainText;
-            hexString.append(plainText);
-        }
-
-        return hexString.toString();
-    }
+		return hexString.toString();
+	}
 
 }
