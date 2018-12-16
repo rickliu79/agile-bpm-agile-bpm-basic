@@ -1,13 +1,15 @@
 package com.dstz.base.db.model.query;
 
-import com.dstz.base.api.Page;
-import com.dstz.base.api.query.FieldSort;
-import org.apache.ibatis.session.RowBounds;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.apache.ibatis.session.RowBounds;
+
+import com.dstz.base.api.Page;
+import com.dstz.base.api.query.FieldSort;
+import com.dstz.base.core.util.ToStringUtil;
 
 /**
  * 分页查询对象
@@ -26,7 +28,7 @@ public class DefaultPage extends RowBounds implements Page, Serializable {
     /**
      * 分页排序信息
      */
-    protected List<FieldSort> orders = new ArrayList<FieldSort>();
+    protected List<FieldSort> orders = new ArrayList<>();
     /**
      * 结果集是否包含TotalCount
      */
@@ -41,17 +43,16 @@ public class DefaultPage extends RowBounds implements Page, Serializable {
 
     public DefaultPage(RowBounds rowBounds) {
         if (rowBounds instanceof DefaultPage) {
-            DefaultPage pageBounds = (DefaultPage) rowBounds;
-            this.pageNo = pageBounds.pageNo;
-            this.pageSize = pageBounds.pageSize;
-            this.orders = pageBounds.orders;
-            this.containsTotalCount = pageBounds.containsTotalCount;
-            this.asyncTotalCount = pageBounds.asyncTotalCount;
+            DefaultPage defaultPage = (DefaultPage) rowBounds;
+            this.pageNo = defaultPage.pageNo;
+            this.pageSize = defaultPage.pageSize;
+            this.orders = defaultPage.orders;
+            this.containsTotalCount = defaultPage.containsTotalCount;
+            this.asyncTotalCount = defaultPage.asyncTotalCount;
         } else {
             this.pageNo = (rowBounds.getOffset() / rowBounds.getLimit()) + 1;
             this.pageSize = rowBounds.getLimit();
         }
-
     }
 
     /**
@@ -154,14 +155,7 @@ public class DefaultPage extends RowBounds implements Page, Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("PageBounds{");
-        sb.append("page=").append(pageNo);
-        sb.append(", limit=").append(pageSize);
-        sb.append(", orders=").append(orders);
-        sb.append(", containsTotalCount=").append(containsTotalCount);
-        sb.append(", asyncTotalCount=").append(asyncTotalCount);
-        sb.append('}');
-        return sb.toString();
+       return ToStringUtil.toString(this);
     }
 
 
