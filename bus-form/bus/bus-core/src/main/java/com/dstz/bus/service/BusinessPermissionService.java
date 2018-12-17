@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.bus.api.constant.RightsType;
 import com.dstz.bus.api.service.IBusinessPermissionService;
@@ -20,6 +19,7 @@ import com.dstz.bus.model.permission.BusTablePermission;
 import com.dstz.sys.api.permission.PermissionCalculatorFactory;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.map.MapUtil;
 
 @Service
 public class BusinessPermissionService implements IBusinessPermissionService {
@@ -63,7 +63,7 @@ public class BusinessPermissionService implements IBusinessPermissionService {
 				for (Entry<String, BusColumnPermission> ery : busTablePermission.getColumnMap().entrySet()) {
 					BusColumnPermission busColumnPermission = ery.getValue();
 					// 自身为空则设置为上级table的权限
-					if (BeanUtils.isEmpty(busColumnPermission.getRights())) {
+					if (MapUtil.isEmpty(busColumnPermission.getRights())) {
 						busColumnPermission.setResult(busTablePermission.getResult());
 					} else {
 						calculateResult(busColumnPermission);

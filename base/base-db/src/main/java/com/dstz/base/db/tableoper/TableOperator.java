@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.db.dboper.DbOperator;
 import com.dstz.base.db.dboper.DbOperatorFactory;
 import com.dstz.base.db.model.table.Column;
@@ -207,7 +206,7 @@ public abstract class TableOperator {
 	 */
 	public void updateData(Map<String, Object> data) {
 		Object id = data.get(table.getPkColumn().getName());
-		if (BeanUtils.isEmpty(id)) {
+		if (id == null) {
 			throw new RuntimeException("操作更新表[" + table.getComment() + "(" + table.getName() + ")]时，参数中有没主键[" + table.getPkColumn().getComment() + "(" + table.getPkColumn().getName() + ")]");
 		}
 
@@ -333,7 +332,7 @@ public abstract class TableOperator {
 		if (!isTableCreated()) {
 			return;
 		}
-		Set<String> dbColumnNames = new HashSet<>();//数据库中存在的字段名
+		Set<String> dbColumnNames = new HashSet<>();// 数据库中存在的字段名
 		for (Column c : getDbTable().getColumns()) {
 			dbColumnNames.add(c.getName());
 		}
@@ -356,5 +355,5 @@ public abstract class TableOperator {
 		DbOperator dbOperator = DbOperatorFactory.newOperator(type(), jdbcTemplate);
 		return dbOperator.getTable(table.getName());
 	}
-	
+
 }

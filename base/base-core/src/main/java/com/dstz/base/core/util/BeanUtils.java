@@ -20,7 +20,7 @@ public class BeanUtils {
     private static Logger logger = LoggerFactory.getLogger(BeanUtils.class);
 
     /**
-     * 数组使用 ArrayUtil ,集合使用CollectionUtil Map 使用 MapUtil
+     * 数组使用 ArrayUtil ,集合使用 CollectionUtil Map 使用 MapUtil
      */
     @Deprecated  //TODO delete
     public static boolean isEmpty(Object object) {
