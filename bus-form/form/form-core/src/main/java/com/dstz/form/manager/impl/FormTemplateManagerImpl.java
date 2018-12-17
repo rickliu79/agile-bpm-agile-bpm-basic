@@ -20,7 +20,6 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.Dom4jUtil;
-import com.dstz.base.core.util.FileUtil;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.bus.api.constant.BusTableRelType;
@@ -30,6 +29,9 @@ import com.dstz.bus.api.service.IBusinessObjectService;
 import com.dstz.form.dao.FormTemplateDao;
 import com.dstz.form.manager.FormTemplateManager;
 import com.dstz.form.model.FormTemplate;
+
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.ClassUtil;
 
 /**
  * <pre>
@@ -55,7 +57,7 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 	 */
 	public static String getFormTemplatePath() {
 		try {
-			return FileUtil.getClassesPath() + File.separator + "template" + File.separator + "form" + File.separator;
+			return ClassUtil.getClassPath() + File.separator + "template" + File.separator + "form" + File.separator;
 		} catch (Exception e) {
 			throw new BusinessException(e);
 		}
@@ -143,7 +145,7 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 		String templatePath = getFormTemplatePath();
 
 		String xmlPath = templatePath + "templates.xml";
-		String xml = FileUtil.readFile(xmlPath);
+		String xml = FileUtil.readUtf8String(xmlPath);
 
 		Document document = Dom4jUtil.loadXml(xml);
 		Element root = document.getRootElement();
@@ -154,9 +156,9 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 		e.addAttribute("type", type);
 		e.addAttribute("templateDesc", desc);
 		String content = document.asXML();
-
-		FileUtil.writeFile(xmlPath, content);
-		FileUtil.writeFile(templatePath + alias + ".ftl", html);
+		
+		FileUtil.writeUtf8String(content, xmlPath);
+		FileUtil.writeUtf8String(html, templatePath + alias + ".ftl");
 
 		formTemplate.setEditable(false);
 		formTemplateDao.update(formTemplate);

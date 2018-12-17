@@ -1,8 +1,11 @@
 package com.dstz.base.rest.util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -109,27 +112,6 @@ public class RequestUtil {
         return getString(request, key, defaultValue, true);
     }
 
-    /**
-     * @param request
-     * @param key
-     * @param defaultValue
-     * @return
-     */
-    public static String getStringAry(HttpServletRequest request, String key) {
-        String[] aryValue = request.getParameterValues(key);
-        if (aryValue == null || aryValue.length == 0) {
-            return "";
-        }
-        String tmp = "";
-        for (String v : aryValue) {
-            if ("".equals(tmp)) {
-                tmp += v;
-            } else {
-                tmp += "," + v;
-            }
-        }
-        return tmp;
-    }
 
     /**
      * 从Request中取得指定的小写值
@@ -418,18 +400,15 @@ public class RequestUtil {
      * @return
      */
     public static String getStringValues(HttpServletRequest request, String paramName) {
-        String[] values = request.getParameterValues(paramName);
-        if (ArrayUtil.isEmpty(values))
-            return "";
-        String tmp = "";
-        for (int i = 0; i < values.length; i++) {
-            if (i == 0) {
-                tmp += values[i];
-            } else {
-                tmp += "," + values[i];
-            }
+    	String[] aryValue = request.getParameterValues(paramName);
+        if (ArrayUtil.isEmpty(aryValue)) return "";
+        
+        StringBuilder str  = new StringBuilder();
+        for (String v : aryValue) {
+            if (StringUtil.isEmpty(v)) continue; 
+            str.append(v).append(",");
         }
-        return tmp;
+        return str.substring(0, str.length()-1);
     }
 
    
@@ -509,56 +488,43 @@ public class RequestUtil {
             response.flushBuffer();
         }
     }
-
+    
+    
     /**
      * 下载文件。
-     * TODO 待改造
-     * @param response
-     * @param fullPath 文件的全路径
-     * @param fileName 文件名称。
-     * @throws IOException
+     * // path是指欲下载的文件的路径。
      */
-    public static void downLoadFile(HttpServletRequest request, HttpServletResponse response, String fullPath, String fileName) throws IOException {
-        OutputStream outp = response.getOutputStream();
-        File file = new File(fullPath);
-        if (file.exists()) {
-            response.setContentType("APPLICATION/OCTET-STREAM");
-            String filedisplay = fileName;
-            String agent = (String) request.getHeader("USER-AGENT");
-            // firefox
-            if (agent != null && agent.indexOf("MSIE") == -1) {
-                String enableFileName = "=?UTF-8?B?" + (new String(Base64.getBase64(filedisplay))) + "?=";
-                response.setHeader("Content-Disposition", "attachment; filename=" + enableFileName);
-            } else {
-                filedisplay = URLEncoder.encode(filedisplay, "utf-8");
-                response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
-            }
-            FileInputStream in = null;
-            try {
-                outp = response.getOutputStream();
-                in = new FileInputStream(fullPath);
-                byte[] b = new byte[1024];
-                int i = 0;
-                while ((i = in.read(b)) > 0) {
-                    outp.write(b, 0, i);
-                }
-                outp.flush();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (in != null) {
-                    in.close();
-                    in = null;
-                }
-                if (outp != null) {
-                    outp.close();
-                    outp = null;
-                    response.flushBuffer();
-                }
-            }
-        } else {
-            outp.write("File does not exist!".getBytes("utf-8"));
-        }
-    }
+    public static void downLoadFile(HttpServletRequest request, HttpServletResponse response, String path) throws IOException {
+	    File file = new File(path);
+    	downLoadFile(response,file);
+	}
+    /**
+     * 下载文件。
+     */
+    public static void downLoadFile( HttpServletResponse response, File file) throws IOException {
+	 try {
+         // 取得文件名。
+         String filename = file.getName();
+         // 取得文件的后缀名。
+         String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
 
+         // 以流的形式下载文件。
+         InputStream fis = new BufferedInputStream(new FileInputStream(file));
+         byte[] buffer = new byte[fis.available()];
+         fis.read(buffer);
+         fis.close();
+         // 清空response
+         response.reset();
+         // 设置response的Header
+         response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
+         response.addHeader("Content-Length", "" + file.length());
+         OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+         response.setContentType("application/octet-stream");
+         toClient.write(buffer);
+         toClient.flush();
+         toClient.close();
+     } catch (IOException ex) {
+         ex.printStackTrace();
+     }
+    }
 }

@@ -2,7 +2,6 @@ package com.dstz.base.core.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
@@ -90,19 +89,6 @@ public class Dom4jUtil {
             ex.printStackTrace();
         }
         return document;
-    }
-
-    /**
-     * 将DOM写入到文件
-     *
-     * @param document
-     * @param fileName
-     * @throws IOException
-     */
-    public static void write(Document document, String fileName)
-            throws IOException {
-        String xml = document.asXML();
-        FileUtil.writeFile(fileName, xml);
     }
 
 }
