@@ -6,6 +6,8 @@ import java.util.Iterator;
 
 import org.apache.commons.lang3.StringUtils;
 
+import cn.hutool.core.util.ArrayUtil;
+
 /**
  * 字符串工具类
  */
@@ -288,7 +290,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String join(String[] vals, String separator) {
-		if (BeanUtils.isEmpty(vals))
+		if (ArrayUtil.isEmpty(vals))
 			return "";
 		String val = "";
 		for (int i = 0; i < vals.length; i++) {

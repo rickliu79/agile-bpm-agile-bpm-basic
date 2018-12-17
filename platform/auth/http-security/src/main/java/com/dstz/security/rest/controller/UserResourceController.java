@@ -31,6 +31,7 @@ import com.dstz.sys.api.model.system.ISysResource;
 import com.dstz.sys.api.service.SysResourceService;
 import com.dstz.sys.util.ContextUtil;
 
+import cn.hutool.core.collection.CollectionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -54,7 +55,7 @@ public class UserResourceController extends GenericController {
     public ResultMsg<JSONObject> userMsg(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<ISubsystem> subsystemList = sysResourceService.getCuurentUserSystem();
         JSONObject mv = new JSONObject();
-        if (BeanUtils.isEmpty(subsystemList)) {
+        if (CollectionUtil.isEmpty(subsystemList)) {
             throw new BusinessException("当前用户尚未分配任何资源权限！");
         }
 

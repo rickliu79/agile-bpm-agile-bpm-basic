@@ -18,7 +18,6 @@ import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.GenericController;
@@ -29,6 +28,8 @@ import com.dstz.sys.core.manager.SysResourceManager;
 import com.dstz.sys.core.model.Subsystem;
 import com.dstz.sys.core.model.SysResource;
 import com.github.pagehelper.Page;
+
+import cn.hutool.core.collection.CollectionUtil;
 
 
 /**
@@ -182,7 +183,7 @@ public class SysResourceController extends GenericController {
         String systemId = RequestUtil.getString(request, "systemId");
         Subsystem subsystem = subsystemManager.get(systemId);
         List<SysResource> groupList = getGroupTree(systemId);
-        if (BeanUtils.isEmpty(groupList))
+        if (CollectionUtil.isEmpty(groupList))
             groupList = new ArrayList<SysResource>();
         SysResource rootResource = new SysResource();
         rootResource.setName(subsystem.getName());

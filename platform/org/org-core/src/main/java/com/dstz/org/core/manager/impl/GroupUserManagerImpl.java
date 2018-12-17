@@ -8,13 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.core.cache.ICache;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.org.api.context.ICurrentContext;
 import com.dstz.org.core.dao.GroupUserDao;
 import com.dstz.org.core.manager.GroupUserManager;
 import com.dstz.org.core.model.GroupUser;
+
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ArrayUtil;
 
 /**
  * <pre>
@@ -77,9 +79,9 @@ public class GroupUserManagerImpl extends BaseManager<String, GroupUser> impleme
         for (String userId : userIds) {
             if (StringUtil.isEmpty(userId)) continue;
             //没有选择岗位情况。仅仅加入组
-            if (BeanUtils.isEmpty(relIds)) {
+            if (ArrayUtil.isEmpty(relIds)) {
                 List<GroupUser> list = groupUserDao.getListByGroupIdUserId(groupId, userId);
-                if (BeanUtils.isNotEmpty(list)) continue;
+                if (CollectionUtil.isNotEmpty(list)) continue;
 
                 GroupUser user = new GroupUser(groupId, userId, null);
                 groupUserDao.create(user);

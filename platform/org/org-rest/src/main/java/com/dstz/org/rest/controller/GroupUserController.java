@@ -1,26 +1,29 @@
 package com.dstz.org.rest.controller;
 
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.id.IdUtil;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
-import com.github.pagehelper.Page;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.core.manager.GroupRelationManager;
 import com.dstz.org.core.manager.GroupUserManager;
 import com.dstz.org.core.manager.UserManager;
 import com.dstz.org.core.model.GroupUser;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.github.pagehelper.Page;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+import cn.hutool.core.util.ArrayUtil;
 
 /**
  * 用户组织关系 控制器类
@@ -144,7 +147,7 @@ public class GroupUserController extends GenericController {
         for (int i = 0; i < groupIds.length; i++) {
             String orgId = groupIds[i];
 
-            if (BeanUtils.isNotEmpty(relIds)) {
+            if (ArrayUtil.isNotEmpty(relIds)) {
                 relId = relIds[i];
             }
 

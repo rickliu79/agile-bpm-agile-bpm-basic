@@ -10,11 +10,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.bus.api.constant.BusTableRelType;
@@ -26,6 +24,8 @@ import com.dstz.bus.model.BusinessColumn;
 import com.dstz.bus.model.BusinessObject;
 import com.dstz.bus.model.BusinessTable;
 import com.dstz.bus.service.BusinessPermissionService;
+
+import cn.hutool.core.collection.CollectionUtil;
 
 /**
  * BusinessObject 的manager层实现类
@@ -103,7 +103,7 @@ public class BusinessObjectManagerImpl extends BaseManager<String, BusinessObjec
 		List<JSONObject> list = new ArrayList<>();
 		hanldeBusTableRel(busTableRel, "0", list);
 
-		if (BeanUtils.isNotEmpty(list)) {
+		if (CollectionUtil.isNotEmpty(list)) {
 			list.get(0).put("alias", key);
 		}
 		return list;
@@ -154,7 +154,7 @@ public class BusinessObjectManagerImpl extends BaseManager<String, BusinessObjec
 		if(businessObject == null) return;
 		
 		List<String> names = jdbcTemplate.queryForList(" select name_ from form_def where bo_key_ = '"+businessObject.getKey()+"'", String.class);
-		if(BeanUtils.isNotEmpty(names)) {
+		if(CollectionUtil.isNotEmpty(names)) {
 			throw new BusinessMessage("表单:"+names.toString()+"还在使用业务对象， 删除业务对象失败！"); 
 		}
 		

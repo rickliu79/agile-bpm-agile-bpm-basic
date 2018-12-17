@@ -18,6 +18,8 @@ import com.dstz.base.db.dboper.DbOperatorFactory;
 import com.dstz.base.db.model.table.Column;
 import com.dstz.base.db.model.table.Table;
 
+import cn.hutool.core.collection.CollectionUtil;
+
 /**
  * <pre>
  * 针对一张表的操作者，系统表的操作有以下几种
@@ -293,7 +295,7 @@ public abstract class TableOperator {
 	 */
 	public List<Map<String, Object>> selectData(List<String> columnName, Map<String, Object> param) {
 		StringBuilder sql = new StringBuilder();
-		if (BeanUtils.isEmpty(columnName)) {
+		if (CollectionUtil.isEmpty(columnName)) {
 			sql.append("SELECT * FROM " + table.getName());
 		} else {
 			sql.append("SELECT");

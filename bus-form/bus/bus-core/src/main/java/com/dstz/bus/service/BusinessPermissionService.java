@@ -19,6 +19,8 @@ import com.dstz.bus.model.permission.BusObjPermission;
 import com.dstz.bus.model.permission.BusTablePermission;
 import com.dstz.sys.api.permission.PermissionCalculatorFactory;
 
+import cn.hutool.core.collection.CollectionUtil;
+
 @Service
 public class BusinessPermissionService implements IBusinessPermissionService {
 	@Autowired
@@ -52,7 +54,7 @@ public class BusinessPermissionService implements IBusinessPermissionService {
 			for (Entry<String, BusTablePermission> etry : busObjPermission.getTableMap().entrySet()) {
 				BusTablePermission busTablePermission = etry.getValue();
 				// 自身为空则设置为上级bo的权限
-				if (BeanUtils.isEmpty(busTablePermission.getRights())) {
+				if (CollectionUtil.isEmpty(busTablePermission.getRights())) {
 					busTablePermission.setResult(busObjPermission.getResult());
 				} else {
 					calculateResult(busTablePermission);

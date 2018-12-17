@@ -1,12 +1,14 @@
 package com.dstz.sys.simplemq.handler.msg;
 
-import com.dstz.base.core.util.BeanUtils;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.org.api.model.IUser;
 import com.dstz.sys.api.jms.model.msg.NotifyMessage;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
+import cn.hutool.core.collection.CollectionUtil;
 
 /**
  * 短消息发送处理器。
@@ -29,7 +31,7 @@ public class SmsHandler extends AbsNotifyMessageHandler<NotifyMessage> {
         String content = message.getTextContent();
         String templateCode = null;//message.getSmsTemplateNo();
 
-        if (StringUtil.isEmpty(content) || BeanUtils.isEmpty(recievers)) return false;
+        if (StringUtil.isEmpty(content) || CollectionUtil.isEmpty(recievers)) return false;
 
 
         for (IUser user : recievers) {

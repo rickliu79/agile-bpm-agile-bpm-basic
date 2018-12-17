@@ -59,7 +59,7 @@ public interface ICurrentContext {
     /**
      * 获取当前组织。
      */
-    void setCurrentGroup(IGroup group);
+    void cacheCurrentGroup(IGroup group);
 
     /**
      * 获取当前Locale。

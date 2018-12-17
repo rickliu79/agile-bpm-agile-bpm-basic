@@ -17,6 +17,8 @@ import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.core.cache.ICache;
 
+import cn.hutool.core.util.ArrayUtil;
+
 /**
  * 获取上下文bean。
  *
@@ -83,30 +85,6 @@ public class AppUtil implements ApplicationContextAware {
         return null;
     }
 
-    /**
-     * 根据指定的接口或基类获取实现类列表。
-     *
-     * @param clazz
-     * @return
-     * @throws ClassNotFoundException
-     */
-    public static List<Class> getImplClass(Class clazz) throws ClassNotFoundException {
-        List<Class> list = new ArrayList<Class>();
-
-        Map map = context.getBeansOfType(clazz);
-        for (Object obj : map.values()) {
-            String name = obj.getClass().getName();
-            int pos = name.indexOf("$$");
-            if (pos > 0) {
-                name = name.substring(0, name.indexOf("$$"));
-            }
-            Class cls = Class.forName(name);
-
-            list.add(cls);
-        }
-        return list;
-    }
-
 
     /**
      * 获取接口的实现类实例。
@@ -168,13 +146,13 @@ public class AppUtil implements ApplicationContextAware {
         Environment environment = context.getEnvironment();
         String[] activeProfiles = environment.getActiveProfiles();
 
-        if (BeanUtils.isNotEmpty(activeProfiles)) {
+        if (ArrayUtil.isNotEmpty(activeProfiles)) {
             currentProfiles = activeProfiles[0];
             return currentProfiles;
         }
 
         String[] defaultProfiles = environment.getDefaultProfiles();
-        if (BeanUtils.isNotEmpty(defaultProfiles)) {
+        if (ArrayUtil.isNotEmpty(defaultProfiles)) {
             currentProfiles = defaultProfiles[0];
             return defaultProfiles[0];
         }

@@ -8,13 +8,14 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.dstz.base.core.id.IdUtil;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys.core.dao.RelResourceDao;
 import com.dstz.sys.core.dao.SysResourceDao;
 import com.dstz.sys.core.manager.SysResourceManager;
 import com.dstz.sys.core.model.RelResource;
 import com.dstz.sys.core.model.SysResource;
+
+import cn.hutool.core.collection.CollectionUtil;
 
 /**
  * <pre>
@@ -109,7 +110,7 @@ public class SysResourceManagerImpl extends BaseManager<String, SysResource> imp
         list.add(resource);
 
         List<SysResource> tmpList = sysResourceDao.getByParentId(resId);
-        if (BeanUtils.isEmpty(tmpList)) return list;
+        if (CollectionUtil.isEmpty(tmpList)) return list;
 
         for (SysResource sysResource : tmpList) {
             recursion(sysResource, list);
@@ -120,7 +121,7 @@ public class SysResourceManagerImpl extends BaseManager<String, SysResource> imp
     private void recursion(SysResource sysResource, List<SysResource> list) {
         list.add(sysResource);
         List<SysResource> tmpList = sysResourceDao.getByParentId(sysResource.getId());
-        if (BeanUtils.isEmpty(tmpList)) return;
+        if (CollectionUtil.isEmpty(tmpList)) return;
 
         for (SysResource resource : tmpList) {
             recursion(resource, list);

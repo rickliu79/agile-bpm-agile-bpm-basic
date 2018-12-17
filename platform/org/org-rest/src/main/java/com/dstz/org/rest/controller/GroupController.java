@@ -1,29 +1,31 @@
 package com.dstz.org.rest.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.api.response.impl.ResultMsg;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
-import com.github.pagehelper.Page;
-import com.dstz.base.manager.Manager;
 import com.dstz.base.rest.BaseController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.core.manager.GroupManager;
 import com.dstz.org.core.manager.UserManager;
 import com.dstz.org.core.model.Group;
 import com.dstz.org.core.model.OrgTree;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.github.pagehelper.Page;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import cn.hutool.core.collection.CollectionUtil;
 
 /**
  * 组
@@ -93,7 +95,7 @@ public class GroupController extends BaseController<Group> {
     @RequestMapping("getTreeData")
     public List<OrgTree> getTreeData(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<OrgTree> groupTreeList = getGroupTree();
-        if (BeanUtils.isEmpty(groupTreeList)) {
+        if (CollectionUtil.isEmpty(groupTreeList)) {
             groupTreeList = new ArrayList<OrgTree>();
         }
         OrgTree rootGroup = new OrgTree();

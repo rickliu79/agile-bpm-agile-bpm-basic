@@ -13,72 +13,35 @@ import org.slf4j.LoggerFactory;
 import com.dstz.base.api.model.Tree;
 import com.dstz.base.api.query.QueryOP;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 
 public class BeanUtils {
     private static Logger logger = LoggerFactory.getLogger(BeanUtils.class);
 
     /**
-     * 可以用于判断 Map,Collection,String,Array,Long是否为空
-     *
-     * @param o java.lang.Object.
-     * @return boolean.
+     * 数组使用 ArrayUtil ,集合使用CollectionUtil Map 使用 MapUtil
      */
-    @SuppressWarnings("unused")
-    public static boolean isEmpty(Object o) {
-        if (o == null)
-            return true;
-        if (o instanceof String) {
-            if (((String) o).trim().length() == 0)
+    @Deprecated  //TODO delete
+    public static boolean isEmpty(Object object) {
+        if (object == null) return true;
+        
+        if (object instanceof String) {
+            if (((String) object).trim().length() == 0)
                 return true;
-        } else if (o instanceof Collection) {
-            if (((Collection<?>) o).size() == 0)
+        } else if (object instanceof Collection) {
+            if (((Collection<?>) object).size() == 0)
                 return true;
-        } else if (o.getClass().isArray()) {
-            if (((Object[]) o).length == 0)
+        } else if (object.getClass().isArray()) {
+            if (((Object[]) object).length == 0)
                 return true;
-        } else if (o instanceof Map) {
-            if (((Map<?, ?>) o).size() == 0)
+        } else if (object instanceof Map) {
+            if (((Map<?, ?>) object).size() == 0)
                 return true;
         }
         return false;
-
     }
     
-    
-    
-
-    /**
-     * 可以用于判断 Map,Collection,String,Array是否不为空
-     *
-     * @param c
-     * @return
-     */
-    public static boolean isNotEmpty(Object o) {
-        return !isEmpty(o);
-    }
-
-    /**
-     * 判断对象是否为数字
-     *
-     * @param o
-     * @return
-     */
-    public static boolean isNumber(Object o) {
-        if (o == null)
-            return false;
-        if (o instanceof Number)
-            return true;
-        if (o instanceof String) {
-            try {
-                Double.parseDouble((String) o);
-                return true;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        }
-        return false;
-    }
 
     /**
      * <pre>
@@ -143,7 +106,7 @@ public class BeanUtils {
      */
     public static <T> List<T> listToTree(List<T> list) {
         Map<String, Tree> tempMap = new LinkedHashMap<String, Tree>();
-        if (BeanUtils.isEmpty(list)) return Collections.emptyList();
+        if (CollectionUtil.isEmpty(list)) return Collections.emptyList();
         if (!(list.get(0) instanceof Tree)) {
             throw new RuntimeException("树形转换出现异常。数据必须实现Tree接口！");
         }

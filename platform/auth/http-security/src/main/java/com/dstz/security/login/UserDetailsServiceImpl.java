@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         IUser defaultUser = userService.getUserByAccount(username);
         
-        if (BeanUtils.isEmpty(defaultUser)) {
+        if (defaultUser==null) {
         	throw new UsernameNotFoundException("用户：" + username + "不存在");
         }
 

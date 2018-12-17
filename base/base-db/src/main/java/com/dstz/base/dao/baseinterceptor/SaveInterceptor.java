@@ -7,6 +7,8 @@ import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.model.BaseModel;
 import com.dstz.base.core.util.BeanUtils;
 
+import cn.hutool.core.util.ArrayUtil;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -28,7 +30,7 @@ public class SaveInterceptor  implements Interceptor{
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
 		Object[] args = invocation.getArgs();
-		if(BeanUtils.isEmpty(args) || args.length < 2) {
+		if(ArrayUtil.isEmpty(args) || args.length < 2) {
 			 return invocation.proceed();
 		}
 		

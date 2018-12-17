@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.dstz.base.core.util.BeanCopierUtils;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.org.api.constant.GroupTypeConstant;
 import com.dstz.org.api.model.IUser;
 import com.dstz.org.api.model.IUserRole;
@@ -21,6 +20,8 @@ import com.dstz.org.core.manager.UserManager;
 import com.dstz.org.core.manager.UserRoleManager;
 import com.dstz.org.core.model.User;
 import com.dstz.org.core.model.UserRole;
+
+import cn.hutool.core.collection.CollectionUtil;
 
 
 @SuppressWarnings("unchecked")
@@ -61,7 +62,7 @@ public class DefaultUserService implements UserService {
         	userList =   userManager.getListByRelId(groupId);
         }
        
-        if(BeanUtils.isNotEmpty(userList)) {
+        if(CollectionUtil.isNotEmpty(userList)) {
         	return (List)BeanCopierUtils.transformList(userList, UserDto.class);
         }
         

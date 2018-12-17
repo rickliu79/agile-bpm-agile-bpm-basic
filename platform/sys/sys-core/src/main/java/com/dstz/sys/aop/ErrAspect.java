@@ -1,7 +1,6 @@
 package com.dstz.sys.aop;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -22,7 +21,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.constant.IStatusCode;
@@ -32,9 +30,7 @@ import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.AppUtil;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.ExceptionUtil;
-import com.dstz.base.core.util.FileUtil;
 import com.dstz.base.rest.util.RequestContext;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.api.model.IUser;
@@ -42,6 +38,8 @@ import com.dstz.sys.api.constant.EnvironmentConstant;
 import com.dstz.sys.core.manager.LogErrManager;
 import com.dstz.sys.core.model.LogErr;
 import com.dstz.sys.util.ContextUtil;
+
+import cn.hutool.core.collection.CollectionUtil;
 
 /**
  * @author jeff
@@ -167,7 +165,7 @@ public class ErrAspect {
 	    
         IUser sysUser = ContextUtil.getCurrentUser();
         String account = "未知用户";
-        if (BeanUtils.isNotEmpty(sysUser)) {
+        if (sysUser != null) {
             account = sysUser.getAccount();
         }
         String id = IdUtil.getSuid();

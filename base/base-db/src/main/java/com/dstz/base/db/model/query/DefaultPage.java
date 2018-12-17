@@ -15,8 +15,8 @@ import com.dstz.base.core.util.ToStringUtil;
  * 分页查询对象
  */
 public class DefaultPage extends RowBounds implements Page, Serializable {
-    private static final long serialVersionUID = -1718110184113189225L;
-    public final static int NO_PAGE = 1;
+	private static final long serialVersionUID = 1500879478877475515L;
+	public final static int NO_PAGE = 1;
     /**
      * 页号
      */
@@ -42,17 +42,8 @@ public class DefaultPage extends RowBounds implements Page, Serializable {
     }
 
     public DefaultPage(RowBounds rowBounds) {
-        if (rowBounds instanceof DefaultPage) {
-            DefaultPage defaultPage = (DefaultPage) rowBounds;
-            this.pageNo = defaultPage.pageNo;
-            this.pageSize = defaultPage.pageSize;
-            this.orders = defaultPage.orders;
-            this.containsTotalCount = defaultPage.containsTotalCount;
-            this.asyncTotalCount = defaultPage.asyncTotalCount;
-        } else {
-            this.pageNo = (rowBounds.getOffset() / rowBounds.getLimit()) + 1;
-            this.pageSize = rowBounds.getLimit();
-        }
+        this.pageNo = (rowBounds.getOffset() / rowBounds.getLimit()) + 1;
+        this.pageSize = rowBounds.getLimit();
     }
 
     /**

@@ -1,13 +1,22 @@
 package com.dstz.sys.rest.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
-import com.github.pagehelper.Page;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys.core.manager.ResRoleManager;
@@ -15,15 +24,9 @@ import com.dstz.sys.core.manager.SubsystemManager;
 import com.dstz.sys.core.manager.SysResourceManager;
 import com.dstz.sys.core.model.ResRole;
 import com.dstz.sys.core.model.SysResource;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import com.github.pagehelper.Page;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import cn.hutool.core.collection.CollectionUtil;
 
 
 /**
@@ -134,7 +137,7 @@ public class SysResRoleController extends GenericController {
                 sysResource.setChecked(true);
             }
         }
-        if (BeanUtils.isEmpty(resourceList))
+        if (CollectionUtil.isEmpty(resourceList))
             resourceList = new ArrayList<SysResource>();
 
         SysResource rootRes = new SysResource();

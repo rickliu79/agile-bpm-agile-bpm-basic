@@ -3,6 +3,8 @@ package com.dstz.base.core.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.hutool.core.collection.CollectionUtil;
+
 /**
  * 消息Util工具类,在线程变量中添加消息,消息使用list存放。
  * 
@@ -18,7 +20,7 @@ public class ThreadMsgUtil {
 	 */
 	public static void addMsg(String msg) {
 		List<String> list = localMsg.get();
-		if (BeanUtils.isEmpty(list)) {
+		if (CollectionUtil.isEmpty(list)) {
 			list = new ArrayList<>();
 			localMsg.set(list);
 		}
@@ -69,7 +71,7 @@ public class ThreadMsgUtil {
 
 	public static String getMessage(boolean clean, String lineBreak) {
 		List<String> list = getMsg(clean);
-		if (BeanUtils.isEmpty(list)) {
+		if (CollectionUtil.isEmpty(list)) {
 			return "";
 		}
 		StringBuilder sb = new StringBuilder();

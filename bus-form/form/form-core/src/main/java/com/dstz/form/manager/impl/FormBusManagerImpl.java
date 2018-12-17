@@ -23,6 +23,8 @@ import com.dstz.form.manager.FormDefManager;
 import com.dstz.form.model.FormBusSet;
 import com.dstz.sys.api.groovy.IGroovyScriptEngine;
 
+import cn.hutool.core.map.MapUtil;
+
 /**
  * <pre>
  * 描述：form_bus_set 处理实现类
@@ -45,7 +47,7 @@ public class FormBusManagerImpl implements FormBusManager {
     public IBusinessData getBoData(String boKey, Map param) {
 
         try {
-            if (BeanUtils.isNotEmpty(param)) {
+            if (MapUtil.isNotEmpty(param)) {
                 return null; //bizDataService.getBusDataByParam(boKey, param);
             }
         } catch (Exception e) {

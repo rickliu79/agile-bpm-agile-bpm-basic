@@ -6,13 +6,14 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.org.core.dao.GroupDao;
 import com.dstz.org.core.dao.UserDao;
 import com.dstz.org.core.manager.GroupManager;
 import com.dstz.org.core.model.Group;
 import com.dstz.org.core.model.User;
+
+import cn.hutool.core.collection.CollectionUtil;
 
 /**
  * <pre>
@@ -43,7 +44,7 @@ public class GroupManagerImpl extends BaseManager<String, Group> implements Grou
     @Override
     public Group getMainGroup(String userId) {
         List<Group> list = groupDao.getByUserId(userId);
-        if (BeanUtils.isEmpty(list)) return null;
+        if (CollectionUtil.isEmpty(list)) return null;
         if (list.size() == 1) return list.get(0);
         for (Group org : list) {
             if (org.getIsMaster() == 1) return org;

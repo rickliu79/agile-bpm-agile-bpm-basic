@@ -53,7 +53,7 @@ public class RequestContext {
     }
 
     public static String getHttpCtx() {
-        if (BeanUtils.isNotEmpty(requestLocal.get())) {
+        if (requestLocal.get() != null) {
             return requestLocal.get().getContextPath();
         }
         return null;

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
+import com.dstz.base.api.exception.BusinessMessage;
+import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.BaseController;
@@ -67,6 +69,7 @@ public class SysSubsystemController extends BaseController<Subsystem> {
     }
 
     /**
+     * @return 
      * 保存子系统定义信息
      * TODO 待改造
      * @param request
@@ -76,18 +79,17 @@ public class SysSubsystemController extends BaseController<Subsystem> {
      * @throws
      */
     @RequestMapping("save")
-    public void save(HttpServletRequest request, HttpServletResponse response, @RequestBody Subsystem subsystem) throws Exception {
+    @CatchErr
+    @Override
+    public ResultMsg<String> save(@RequestBody Subsystem subsystem) throws Exception {
         String resultMsg = null;
 
         boolean isExist = subsystemManager.isExist(subsystem);
         if (isExist) {
-            resultMsg = "别名子系统中已存在!";
-        //    writeResultMessage(response.getWriter(), resultMsg, ResultMsg.FAIL);
-            return;
+        	throw new BusinessMessage("别名子系统中已存在!");
         }
 
         String id = subsystem.getId();
-        try {
             if (StringUtil.isEmpty(id)) {
                 subsystem.setId(IdUtil.getSuid());
                 IUser user = ContextUtil.getCurrentUser();
@@ -99,11 +101,7 @@ public class SysSubsystemController extends BaseController<Subsystem> {
                 subsystemManager.update(subsystem);
                 resultMsg = "更新子系统定义成功";
             }
-      //      writeResultMessage(response.getWriter(), resultMsg, ResultMsg.SUCCESS);
-        } catch (Exception e) {
-            resultMsg = "对子系统定义操作失败";
-    //        writeResultMessage(response.getWriter(), resultMsg, e.getMessage(), ResultMsg.FAIL);
-        }
+         return getSuccessResult(resultMsg);
     }
 
 	@Override

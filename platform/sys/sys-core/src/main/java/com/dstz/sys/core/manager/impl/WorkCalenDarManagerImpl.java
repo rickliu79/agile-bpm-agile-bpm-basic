@@ -9,10 +9,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.dstz.base.api.constant.BaseStatusCode;
-import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.core.id.IdUtil;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.sys.api.model.calendar.WorkCalenDar;
 import com.dstz.sys.core.dao.WorkCalenDarDao;
@@ -20,6 +18,7 @@ import com.dstz.sys.core.manager.HolidayConfManager;
 import com.dstz.sys.core.manager.WorkCalenDarManager;
 import com.dstz.sys.core.model.HolidayConf;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 
 /**
@@ -46,7 +45,7 @@ public class WorkCalenDarManagerImpl extends BaseManager<String, WorkCalenDar> i
 		 calendarEnd.set(year+1, 0, 1);
 		 
 		List<WorkCalenDar> workCalenDarList = getByTime(calendarStart.getTime());
-		if(BeanUtils.isNotEmpty(workCalenDarList)){
+		if(CollectionUtil.isNotEmpty(workCalenDarList)){
 			throw new BusinessMessage("当前年份已经初始化过");
 		}
 		 

@@ -41,7 +41,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     	
     	IUser defaultUser = userService.getUserByAccount(username);
     	
-        if (BeanUtils.isEmpty(defaultUser)) {
+        if (defaultUser == null) {
         	throw new UsernameNotFoundException("用户：" + username + "不存在");
         }
         

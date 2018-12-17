@@ -1,20 +1,25 @@
 package com.dstz.security.login.context;
 
 
+import java.util.Locale;
+
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import com.dstz.base.core.cache.ICache;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
+import com.dstz.base.rest.util.CookieUitl;
+import com.dstz.org.api.constant.GroupTypeConstant;
 import com.dstz.org.api.context.ICurrentContext;
 import com.dstz.org.api.model.IGroup;
 import com.dstz.org.api.model.IUser;
 import com.dstz.org.api.service.GroupService;
 import com.dstz.org.api.service.UserService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import javax.annotation.Resource;
-import java.util.Locale;
 
 //import javax.servlet.http.Cookie;
 //import javax.servlet.http.HttpServletRequest;
@@ -22,7 +27,7 @@ import java.util.Locale;
 
 
 public class LoginContext implements ICurrentContext {
-
+private static final Logger log = LoggerFactory.getLogger(LoginContext.class); 
     /**
      * 存放当前用户登录的语言环境
      */
@@ -66,52 +71,57 @@ public class LoginContext implements ICurrentContext {
     }
 
     public IUser getCurrentUser() {
-        if (currentUser.get() != null) {
-            IUser user = currentUser.get();
-            return user;
-        }
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        if (securityContext == null) return null;
-
-        Authentication auth = securityContext.getAuthentication();
-
-        if (auth == null) return null;
-
-        Object principal = auth.getPrincipal();
-        if (principal != null && principal instanceof IUser) {
-            return (IUser) principal;
-        }
+        if (currentUser.get() != null)  return currentUser.get();
+        
+        try {
+        	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        	if(auth instanceof IUser) {
+        		return (IUser) auth;
+        	}
+		} catch (NullPointerException e) {
+			log.warn("获取用户失败：",e);
+		}
 
         return null;
     }
 
 
     public IGroup getCurrentGroup() {
-        if (currentOrg.get() != null) {
-            return currentOrg.get();
-        }
-        String userId = getCurrentUserId();
+        if (currentOrg.get() != null)  return currentOrg.get();
+        
         //从缓存中取
-        ICache iCache = (ICache) AppUtil.getBean(ICache.class);
-        String userKey = ICurrentContext.CURRENT_ORG + userId;
-        if (iCache.containKey(userKey)) {
-            return (IGroup) iCache.getByKey(userKey);
+        ICache<IGroup> iCache = AppUtil.getBean(ICache.class);
+        String userKey = ICurrentContext.CURRENT_ORG + getCurrentUserId();
+        
+        IGroup currentGroup = iCache.getByKey(userKey);
+        if (currentGroup != null)  return currentGroup;
+        // cookie 中存一份标识
+        String cookieCurrrentOrgId = CookieUitl.getValueByName("currentOrg");
+        if(StringUtil.isNotEmpty(cookieCurrrentOrgId)) {
+        	IGroup group = groupService.getById(GroupTypeConstant.ORG.key(), cookieCurrrentOrgId);
+        	if(group != null) {
+        		cacheCurrentGroup(group);
+        		return group;
+        	}
         }
+        
+        
         //获取当前人的主部门
-        IGroup group = groupService.getMainGroup(userId);
-        if (group != null) setCurrentGroup(group);
+        IGroup group = groupService.getMainGroup(getCurrentUserId());
+        if (group != null) {
+        	cacheCurrentGroup(group);
+        }
         return group;
     }
 
     /**
      * 将当前组织放到线程变量和缓存中
      */
-    public void setCurrentGroup(IGroup group) {
+    public void cacheCurrentGroup(IGroup group) {
         currentOrg.set(group);
         //将当前人和组织放到缓存中。
         String userId = getCurrentUserId();
-        ICache iCache = (ICache) AppUtil.getBean(ICache.class);
+		ICache<IGroup> iCache = AppUtil.getBean(ICache.class);
         String userKey = ICurrentContext.CURRENT_ORG + userId;
         iCache.add(userKey, group);
     }

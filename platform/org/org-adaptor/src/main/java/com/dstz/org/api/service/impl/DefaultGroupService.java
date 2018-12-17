@@ -1,25 +1,29 @@
 package com.dstz.org.api.service.impl;
 
-import com.dstz.base.core.util.BeanCopierUtils;
-import com.dstz.base.core.util.BeanUtils;
-import com.dstz.org.api.constant.GroupTypeConstant;
-import com.dstz.org.api.model.GroupType;
-import com.dstz.org.api.model.IGroup;
-import com.dstz.org.api.model.dto.GroupDto;
-import com.dstz.org.api.service.GroupService;
-import com.dstz.org.core.manager.*;
-import com.dstz.org.core.model.Group;
-import com.dstz.org.core.model.User;
-
-import org.springframework.cglib.beans.BeanCopier;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.dstz.base.core.util.BeanCopierUtils;
+import com.dstz.org.api.constant.GroupTypeConstant;
+import com.dstz.org.api.model.GroupType;
+import com.dstz.org.api.model.IGroup;
+import com.dstz.org.api.model.dto.GroupDto;
+import com.dstz.org.api.service.GroupService;
+import com.dstz.org.core.manager.GroupManager;
+import com.dstz.org.core.manager.GroupRelationManager;
+import com.dstz.org.core.manager.RoleManager;
+import com.dstz.org.core.manager.UserManager;
+import com.dstz.org.core.manager.UserRoleManager;
+import com.dstz.org.core.model.User;
+
+import cn.hutool.core.collection.CollectionUtil;
 
 /**
  * 用户与组关系的实现类：通过用户找组，通过组找人等
@@ -79,17 +83,17 @@ public class DefaultGroupService implements GroupService {
         Map<String, List<IGroup>> listMap = new HashMap<String, List<IGroup>>();
         
         List<IGroup> listOrg = (List) groupManager.getByUserId(userId);
-        if (BeanUtils.isNotEmpty(listOrg)) {
+        if (CollectionUtil.isNotEmpty(listOrg)) {
         	List<IGroup> groupList = (List)BeanCopierUtils.transformList(listOrg, GroupDto.class);
             listMap.put(GroupTypeConstant.ORG.key(), groupList);
         }
         List<IGroup> listRole = (List) roleManager.getListByUserId(userId);
-        if (BeanUtils.isNotEmpty(listRole)) {
+        if (CollectionUtil.isNotEmpty(listRole)) {
         	List<IGroup> groupList = (List)BeanCopierUtils.transformList(listRole, GroupDto.class);
             listMap.put(GroupTypeConstant.ROLE.key(), groupList);
         }
         List<IGroup> listOrgRel = (List) groupRelManager.getListByUserId(userId);
-        if (BeanUtils.isNotEmpty(listOrgRel)) {
+        if (CollectionUtil.isNotEmpty(listOrgRel)) {
         	List<IGroup> groupList = (List)BeanCopierUtils.transformList(listOrgRel, GroupDto.class);
             listMap.put(GroupTypeConstant.POSITION.key(), groupList);
         }
@@ -104,15 +108,15 @@ public class DefaultGroupService implements GroupService {
     public List<IGroup> getGroupsByUserId(String userId) {
         List<IGroup> listMap = new ArrayList<IGroup>();
         List<IGroup> listOrg = (List) groupManager.getByUserId(userId);
-        if (BeanUtils.isNotEmpty(listOrg)) {
+        if (CollectionUtil.isNotEmpty(listOrg)) {
             listMap.addAll(listOrg);
         }
         List<IGroup> listRole = (List) roleManager.getListByUserId(userId);
-        if (BeanUtils.isNotEmpty(listRole)) {
+        if (CollectionUtil.isNotEmpty(listRole)) {
             listMap.addAll(listRole);
         }
         List<IGroup> listOrgRel = (List) groupRelManager.getListByUserId(userId);
-        if (BeanUtils.isNotEmpty(listOrgRel)) {
+        if (CollectionUtil.isNotEmpty(listOrgRel)) {
             listMap.addAll(listOrgRel);
         }
         

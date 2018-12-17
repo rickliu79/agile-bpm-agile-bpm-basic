@@ -52,7 +52,7 @@ public class ContextUtil {
      */
     public static String getCurrentGroupId() {
         IGroup iGroup = getCurrentGroup();
-        if (BeanUtils.isNotEmpty(iGroup)) {
+        if (iGroup != null) {
             return iGroup.getGroupId();
         } else {
             return "";
@@ -107,7 +107,7 @@ public class ContextUtil {
      * @since 1.0.0
      */
     public static void setCurrentOrg(IGroup group) {
-        contextUtil.currentContext.setCurrentGroup(group);
+        contextUtil.currentContext.cacheCurrentGroup(group);
     }
 
     /**
