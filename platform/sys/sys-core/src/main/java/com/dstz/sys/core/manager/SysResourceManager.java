@@ -26,14 +26,6 @@ public interface SysResourceManager extends Manager<String, SysResource> {
     SysResource getByResId(String id);
 
     /**
-     * 根据资源id获取包括自身的下级数据。
-     *
-     * @param resId
-     * @return
-     */
-    List<SysResource> getRecursionById(String resId);
-
-    /**
      * 根据系统和角色ID获取资源。
      *
      * @param systemId

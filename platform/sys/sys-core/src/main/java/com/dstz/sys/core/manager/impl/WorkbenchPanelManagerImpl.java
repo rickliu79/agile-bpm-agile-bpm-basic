@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.dstz.base.api.exception.BusinessException;
-import com.dstz.base.api.model.PageList;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
@@ -111,9 +110,6 @@ public class WorkbenchPanelManagerImpl extends BaseManager<String, WorkbenchPane
             objct = invokeMethod(serviceBean, method, filter);
         } catch (Exception e) {
             throw new RuntimeException("查询异常！" + e.getMessage(), e);
-        }
-
-        if (objct instanceof PageList) {
         }
 
         return (JSON) JSON.toJSON(objct);

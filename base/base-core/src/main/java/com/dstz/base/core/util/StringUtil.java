@@ -1,8 +1,10 @@
 package com.dstz.base.core.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -45,37 +47,25 @@ public class StringUtil {
 	}
 
 	/**
-	 * 把字符串类型的集合转成带，的字符串
-	 *
+	 * 逗号分隔
 	 * @param strs
-	 *            Collection<String> 适用于List、Set等。
 	 * @return
 	 */
-	public static String convertCollectionAsString(Collection<String> strs) {
-		return convertCollectionAsString(strs, ",");
+	public static String join(Iterable<String> strs) {
+		return join(strs,",");
 	}
-
-	/**
-	 * /** 把字符串类型的集合转成指定拆分字符串的字符串
-	 *
-	 * @param strs
-	 *            Collection<String> 适用于List、Set等。
-	 * @param split
-	 *            拆分字符串
-	 * @return String
-	 * @since 1.0.0
-	 */
-	public static String convertCollectionAsString(Collection<String> strs, String split) {
-		if (strs == null || strs.isEmpty())
-			return "";
+	
+	public static String join(Iterable<String> iterable,String split) {
 		StringBuilder sb = new StringBuilder();
-		Iterator<String> it = strs.iterator();
-		while (it.hasNext()) {
-			sb.append(it.next());
+		for (String str : iterable) {
+			sb.append(str);
 			sb.append(split);
 		}
 		return sb.substring(0, sb.length() - split.length());
+		
 	}
+
+	 
 
 	/**
 	 * 把字符串的第一个字母转为大写

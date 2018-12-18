@@ -40,12 +40,10 @@ public class ResRoleManagerImpl extends BaseManager<String, ResRole> implements 
 
         String[] aryRes = resIds.split(",");
         for (String resId : aryRes) {
-            if ("0".equals(resId)) continue;
-            ResRole resRole = new ResRole();
-            resRole.setId(IdUtil.getSuid());
-            resRole.setRoleId(roleId);
-            resRole.setSystemId(systemId);
-            resRole.setResId(resId);
+            if ("0".equals(resId)) {
+            	continue;
+            }
+            ResRole resRole = new ResRole(systemId,resId,roleId);
             resRoleDao.create(resRole);
         }
 

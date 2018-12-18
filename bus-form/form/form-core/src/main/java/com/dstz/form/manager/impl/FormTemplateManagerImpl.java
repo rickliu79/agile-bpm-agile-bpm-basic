@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 
 import org.apache.commons.io.IOUtils;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,11 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dstz.base.api.exception.BusinessError;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.id.IdUtil;
-import com.dstz.base.core.util.Dom4jUtil;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.bus.api.constant.BusTableRelType;
@@ -97,7 +99,7 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 			String templatePath = "/template/formDef/";
 			InputStream instream = this.getClass().getResourceAsStream(templatePath+"templates.xml");
 			String xml = IOUtils.toString(instream,"UTF-8");
-			Document document = Dom4jUtil.loadXml(xml);
+			Document document = DocumentHelper.parseText(xml);
 			Element root = document.getRootElement();
 			List<Element> list = root.elements();
 			for (Element element : list) {
@@ -146,8 +148,12 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 
 		String xmlPath = templatePath + "templates.xml";
 		String xml = FileUtil.readUtf8String(xmlPath);
-
-		Document document = Dom4jUtil.loadXml(xml);
+		Document document = null;
+		try {
+			document = DocumentHelper.parseText(xml);
+		} catch (DocumentException e) {
+			throw new BusinessError("解析文件出错",e);
+		}
 		Element root = document.getRootElement();
 
 		Element e = root.addElement("template");

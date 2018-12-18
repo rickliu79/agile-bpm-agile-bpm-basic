@@ -28,7 +28,7 @@ public class SysResourceManagerImpl extends BaseManager<String, SysResource> imp
     SysResourceDao sysResourceDao;
 
     @Resource
-    RelResourceDao relResourceDao;
+    RelResourceDao resouceRelationDao;
 
 
     @Override
@@ -41,39 +41,33 @@ public class SysResourceManagerImpl extends BaseManager<String, SysResource> imp
     @Override
     public SysResource getByResId(String id) {
         SysResource sysResource = this.get(id);
-        sysResource.setRelResources(relResourceDao.getByResourceId(id));
+        sysResource.setRelResources(resouceRelationDao.getByResourceId(id));
         return sysResource;
     }
 
     @Override
-    public void create(SysResource sysResource) {
-        String resId = IdUtil.getSuid();
-        sysResource.setId(resId);
-        //先删除
-        relResourceDao.removeByResId(resId);
-        //再添加
-        List<RelResource> relResources = sysResource.getRelResources();
-        for (RelResource relResource : relResources) {
-            relResource.setId(IdUtil.getSuid());
-            relResource.setResId(resId);
-            relResourceDao.create(relResource);
+    public void create(SysResource resource) {
+        resource.setId(IdUtil.getSuid());
+        List<RelResource> relationList = resource.getRelResources();
+        
+        for (RelResource relation : relationList) {
+            relation.setResId(resource.getId());
+            resouceRelationDao.create(relation);
         }
-        super.create(sysResource);
+        
+        sysResourceDao.create(resource);
     }
 
     @Override
     public void update(SysResource sysResource) {
-        String resId = sysResource.getId();
-        //先删除
-        relResourceDao.removeByResId(resId);
-        //在添加
-        List<RelResource> relResources = sysResource.getRelResources();
-        for (RelResource relResource : relResources) {
-            relResource.setId(IdUtil.getSuid());
-            relResource.setResId(resId);
-            relResourceDao.create(relResource);
+        resouceRelationDao.removeByResId(sysResource.getId());
+        
+        List<RelResource> relResourcesList = sysResource.getRelResources();
+        for (RelResource rel : relResourcesList) {
+            rel.setResId(rel.getId());
+            resouceRelationDao.create(rel);
         }
-        super.update(sysResource);
+        sysResourceDao.update(sysResource);
     }
 
     @Override
@@ -89,44 +83,34 @@ public class SysResourceManagerImpl extends BaseManager<String, SysResource> imp
 
     @Override
     public void removeByResId(String resId) {
-        List<SysResource> list = getRecursionById(resId);
-        for (SysResource resource : list) {
-            this.remove(resource.getId());
+    	SysResource resource = sysResourceDao.get(resId);
+    	if(resource == null) return ;
+    	List<SysResource> relatedResouces = new ArrayList<>();
+    	
+    	 getChildList(relatedResouces,resource.getId());
+    	
+        for (SysResource r : relatedResouces) {
+            this.remove(r.getId());
         }
     }
 
 
-    @Override
+    private void getChildList(List<SysResource> relatedResouces, String id) {
+    	List<SysResource> children = sysResourceDao.getByParentId(id);
+    	if(CollectionUtil.isEmpty(children))return;
+    	
+    	for (SysResource r : children) {
+    		getChildList(relatedResouces, r.getId());
+        }
+    	relatedResouces.addAll(children);
+	}
+
+	@Override
     public void remove(String entityId) {
-        relResourceDao.removeByResId(entityId);
+        resouceRelationDao.removeByResId(entityId);
         super.remove(entityId);
     }
 
-    @Override
-    public List<SysResource> getRecursionById(String resId) {
-        List<SysResource> list = new ArrayList<SysResource>();
-
-        SysResource resource = this.get(resId);
-        list.add(resource);
-
-        List<SysResource> tmpList = sysResourceDao.getByParentId(resId);
-        if (CollectionUtil.isEmpty(tmpList)) return list;
-
-        for (SysResource sysResource : tmpList) {
-            recursion(sysResource, list);
-        }
-        return list;
-    }
-
-    private void recursion(SysResource sysResource, List<SysResource> list) {
-        list.add(sysResource);
-        List<SysResource> tmpList = sysResourceDao.getByParentId(sysResource.getId());
-        if (CollectionUtil.isEmpty(tmpList)) return;
-
-        for (SysResource resource : tmpList) {
-            recursion(resource, list);
-        }
-    }
 
     @Override
     public List<SysResource> getBySystemAndUser(String systemId, String userId) {

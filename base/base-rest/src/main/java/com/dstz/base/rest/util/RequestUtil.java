@@ -9,9 +9,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -164,14 +167,17 @@ public class RequestUtil {
      */
     public static String[] getStringAryByStr(HttpServletRequest request, String key) {
         String str = request.getParameter(key);
-        if (StringUtil.isEmpty(str))
-            return null;
-        String[] aryId = str.split(",");
-        String[] lAryId = new String[aryId.length];
-        for (int i = 0; i < aryId.length; i++) {
-            lAryId[i] = (aryId[i]);
+        if (StringUtil.isEmpty(str))  return null;
+        
+        String[] arrayStr = str.split(",");
+        List<String> strList = new ArrayList<>(arrayStr.length);
+        //过滤掉空字符集
+        for(String s: arrayStr) {
+        	if(StringUtil.isNotEmpty(s)) {
+        		strList.add(s);
+        	}
         }
-        return lAryId;
+       return  ArrayUtil.toArray(strList, String.class);
     }
 
  
@@ -456,39 +462,6 @@ public class RequestUtil {
         return ip;  
     }
 
-    /**
-     * 下载文件。
-     *  TODO 待改造
-     * @param response
-     * @param b        文件的二进制流
-     * @param fileName 文件名称。
-     * @throws IOException
-     */
-    public static void downLoadFileByByte(HttpServletRequest request, HttpServletResponse response, byte[] b, String fileName) throws IOException {
-        OutputStream outp = response.getOutputStream();
-        if (b.length > 0) {
-            response.setContentType("APPLICATION/OCTET-STREAM");
-            String filedisplay = fileName;
-            String agent = (String) request.getHeader("USER-AGENT");
-            // firefox
-            if (agent != null && agent.indexOf("MSIE") == -1) {
-                String enableFileName = "=?UTF-8?B?" + (new String(Base64.getBase64(filedisplay))) + "?=";
-                response.setHeader("Content-Disposition", "attachment; filename=" + enableFileName);
-            } else {
-                filedisplay = URLEncoder.encode(filedisplay, "utf-8");
-                response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
-            }
-            outp.write(b);
-        } else {
-            outp.write("文件不存在!".getBytes("utf-8"));
-        }
-        if (outp != null) {
-            outp.close();
-            outp = null;
-            response.flushBuffer();
-        }
-    }
-    
     
     /**
      * 下载文件。

@@ -29,13 +29,10 @@ public class DefaultPage extends RowBounds implements Page, Serializable {
      * 分页排序信息
      */
     protected List<FieldSort> orders = new ArrayList<>();
+    
     /**
-     * 结果集是否包含TotalCount
+     * 是否显示总条数
      */
-    protected boolean containsTotalCount = true;
-
-    protected Boolean asyncTotalCount;
-
     private boolean isShowTotal = true;
 
     public DefaultPage() {
@@ -46,23 +43,18 @@ public class DefaultPage extends RowBounds implements Page, Serializable {
         this.pageSize = rowBounds.getLimit();
     }
 
+    
     /**
-     * Query TOP N, default containsTotalCount = false
-     *
-     * @param limit
+     * 
+     * @param pageNo 页码
+     * @param pageSize 分页大小
      */
-    public DefaultPage(int limit) {
-        this.pageSize = limit;
-        this.containsTotalCount = false;
-    }
-
-    public DefaultPage(int page, int limit) {
-        this(page, limit, new ArrayList<FieldSort>(), true);
+    public DefaultPage(int pageNo, int pageSize) {
+        this(pageNo, pageSize, new ArrayList<FieldSort>(), true);
     }
 
     /**
      * Just sorting, default containsTotalCount = false
-     *
      * @param orders
      */
     public DefaultPage(List<FieldSort> orders) {
@@ -71,12 +63,11 @@ public class DefaultPage extends RowBounds implements Page, Serializable {
 
     /**
      * Just sorting, default containsTotalCount = false
-     *
      * @param order
      */
     public DefaultPage(FieldSort... order) {
         this(NO_PAGE, NO_ROW_LIMIT, order);
-        this.containsTotalCount = false;
+        this.isShowTotal = false;
     }
 
     public DefaultPage(int page, int limit, FieldSort... order) {
@@ -87,11 +78,11 @@ public class DefaultPage extends RowBounds implements Page, Serializable {
         this(page, limit, orders, true);
     }
 
-    public DefaultPage(int page, int limit, List<FieldSort> orders, boolean containsTotalCount) {
-        this.pageNo = page;
-        this.pageSize = limit;
+    public DefaultPage(int pageNo, int pageSize, List<FieldSort> orders, boolean isShowTotal) {
+        this.pageNo = pageSize;
+        this.pageSize = pageSize;
         this.orders = orders;
-        this.containsTotalCount = containsTotalCount;
+        this.isShowTotal = isShowTotal;
     }
 
 
@@ -111,14 +102,6 @@ public class DefaultPage extends RowBounds implements Page, Serializable {
         this.pageSize = limit;
     }
 
-    public boolean isContainsTotalCount() {
-        return containsTotalCount;
-    }
-
-    public void setContainsTotalCount(boolean containsTotalCount) {
-        this.containsTotalCount = containsTotalCount;
-    }
-
     public List<FieldSort> getOrders() {
         List<FieldSort> list = orders;
         return list;
@@ -126,14 +109,6 @@ public class DefaultPage extends RowBounds implements Page, Serializable {
 
     public void setOrders(List<FieldSort> orders) {
         this.orders = orders;
-    }
-
-    public Boolean getAsyncTotalCount() {
-        return asyncTotalCount;
-    }
-
-    public void setAsyncTotalCount(Boolean asyncTotalCount) {
-        this.asyncTotalCount = asyncTotalCount;
     }
 
     @Override

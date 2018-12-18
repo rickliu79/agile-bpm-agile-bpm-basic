@@ -14,33 +14,18 @@ import org.apache.commons.codec.binary.Base64;
 import com.dstz.base.api.exception.BusinessError;
 import com.dstz.base.core.util.StringUtil;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.symmetric.DESede;
+
 /**
  * 加密算法。 <br/>
- * 1.MD5 <br/>
  * 2.SHA-256 <br/>
- * 3.对称加解密算法。
+ * @deprecated 推荐使用 SecureUtil
  */
 public class EncryptUtil {
 	private static final String CODE = "UTF-8";
-
-	/**
-	 * 使用MD5加密
-	 *
-	 * @param str
-	 * @return
-	 * @throws Exception
-	 */
-	public static String encryptMd5(String str) {
-		MessageDigest md = null;
-		try {
-			md = MessageDigest.getInstance("MD5");
-			byte[] digest = md.digest(str.getBytes());
-			return new String(Base64.encodeBase64(digest));
-		} catch (NoSuchAlgorithmException e) {
-			throw new BusinessError(e);
-		}
-
-	}
+ 
 
 	/**
 	 * 输出明文按sha-256加密后的密文
@@ -57,19 +42,6 @@ public class EncryptUtil {
 		} catch (Exception e) {
 			throw new BusinessError(e);
 		}
-	}
-
-	public static String byte2hex(byte[] b) {
-		StringBuilder sb = new StringBuilder();
-		for (int n = 0; n < b.length; n++) {
-			String str = (java.lang.Integer.toHexString(b[n] & 0XFF));
-			if (str.length() == 1) {
-				sb = sb.append("0" + str);
-			} else {
-				sb.append(str);
-			}
-		}
-		return sb.toString().toLowerCase();
 	}
 
 	/**
@@ -119,29 +91,13 @@ public class EncryptUtil {
 			SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
 			IvParameterSpec iv = new IvParameterSpec(KEY.getBytes(CODE));
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
-
-			return bytesToString(cipher.doFinal(message.getBytes(CODE)));
+			
+			byte[] code = cipher.doFinal(message.getBytes(CODE));
+			return StrUtil.str(code,"");
 		} catch (Exception e) {
 			throw new BusinessError(e);
 		}
 	}
 
-	/**
-	 * Byte数组转String
-	 *
-	 * @param b
-	 * @return
-	 */
-	private static String bytesToString(byte b[]) {
-		StringBuilder hexString = new StringBuilder();
-		for (int i = 0; i < b.length; i++) {
-			String plainText = Integer.toHexString(0xff & b[i]);
-			if (plainText.length() < 2)
-				plainText = "0" + plainText;
-			hexString.append(plainText);
-		}
-
-		return hexString.toString();
-	}
 
 }

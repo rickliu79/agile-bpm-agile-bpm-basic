@@ -17,6 +17,12 @@
 		    <artifactId>hutool-core</artifactId>
 		    <version>4.1.10</version>
 		</dependency>
+		<!-- 加密模块 -->
+		<dependency>
+		    <groupId>cn.hutool</groupId>
+		    <artifactId>hutool-crypto</artifactId>
+		    <version>4.1.10</version>
+		</dependency>
     
         <dependency>
             <groupId>org.apache.commons</groupId>
