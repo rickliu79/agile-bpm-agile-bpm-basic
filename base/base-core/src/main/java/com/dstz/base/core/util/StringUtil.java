@@ -1,10 +1,6 @@
 package com.dstz.base.core.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,38 +10,6 @@ import cn.hutool.core.util.ArrayUtil;
  * 字符串工具类
  */
 public class StringUtil {
-	/**
-	 * 把字符串数组转成带，的字符串
-	 *
-	 * @param arr
-	 * @return 返回字符串，格式如1,2,3
-	 */
-	public static String convertArrayToString(String[] arr) {
-		return convertArrayToString(arr, ",");
-	}
-
-	/**
-	 * 把字符串数组转成带，的字符串
-	 *
-	 * @param arr
-	 * @param split
-	 * @return String 返回字符串，格式如1,2,3
-	 * @since 1.0.0
-	 */
-	public static String convertArrayToString(String[] arr, String split) {
-		if (arr == null || arr.length == 0)
-			return "";
-		StringBuilder sb = new StringBuilder();
-		for (String str : arr) {
-			if (sb.length() != 0) {
-				sb.append(split);
-			}
-			sb.append(str);
-		}
-
-		return sb.toString();
-	}
-
 	/**
 	 * 逗号分隔
 	 * @param strs
@@ -94,10 +58,11 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isEmpty(String str) {
-		if (str == null)
-			return true;
-		if (str.trim().equals(""))
-			return true;
+		
+		if (str == null) return true;
+		
+		if (str.trim().equals("")) return true;
+		
 		return false;
 	}
 
@@ -116,8 +81,8 @@ public class StringUtil {
 	 */
 	public static boolean isZeroEmpty(String tmp) {
 		boolean isEmpty = StringUtil.isEmpty(tmp);
-		if (isEmpty)
-			return true;
+		if (isEmpty) return true;
+		
 		return "0".equals(tmp);
 	}
 
@@ -158,76 +123,7 @@ public class StringUtil {
 		firstChar = isUpper ? firstChar.toUpperCase() : firstChar.toLowerCase();
 		return firstChar + str.substring(1);
 	}
-
-	/**
-	 * String转Byte数组
-	 *
-	 * @param temp
-	 * @return
-	 */
-	public static byte[] stringToBytes(String str) {
-		byte digest[] = new byte[str.length() / 2];
-		for (int i = 0; i < digest.length; i++) {
-			String byteString = str.substring(2 * i, 2 * i + 2);
-			int byteValue = Integer.parseInt(byteString, 16);
-			digest[i] = (byte) byteValue;
-		}
-		return digest;
-	}
-	
-	/**
-	 * Byte数组转String
-	 *
-	 * @param b
-	 * @return
-	 */
-	public static String bytesToString(byte b[]) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < b.length; i++) {
-			String str = Integer.toHexString(0xff & b[i]);
-			if (str.length() < 2) {
-				str = "0" + str;
-			}
-			sb.append(str);
-		}
-		return sb.toString();
-	}
-
-	/**
-	 * 字符串 编码转换
-	 *
-	 * @param str
-	 *            字符串
-	 * @param from
-	 *            原來的編碼
-	 * @param to
-	 *            轉換后的編碼
-	 * @return
-	 */
-	public static String encodingString(String str, String from, String to) {
-		String result = str;
-		try {
-			result = new String(str.getBytes(from), to);
-		} catch (Exception e) {
-			result = str;
-		}
-		return result;
-	}
-
-	/**
-	 * 删除后面指定的字符
-	 *
-	 * @param toTrim
-	 * @param trimStr
-	 * @return
-	 */
-	public static String trimSufffix(String toTrim, String trimStr) {
-		while (toTrim.endsWith(trimStr)) {
-			toTrim = toTrim.substring(0, toTrim.length() - trimStr.length());
-		}
-		return toTrim;
-	}
-
+ 
 	/**
 	 * 将数据库字段名转为DataGrid字段名 isIgnoreFirst:是否忽略第一个字段不转大写
 	 *

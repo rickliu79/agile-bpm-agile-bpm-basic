@@ -58,7 +58,7 @@ public class EncryptUtil {
 	 */
 	public static String decrypt(String message) {
 		try {
-			byte[] bytes = StringUtil.stringToBytes(message);
+			byte[] bytes = StrUtil.bytes(message);
 			Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
 			DESKeySpec desKeySpec = new DESKeySpec(KEY.getBytes(CODE));
 			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");

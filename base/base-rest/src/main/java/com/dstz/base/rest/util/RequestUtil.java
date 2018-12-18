@@ -16,6 +16,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,7 +57,6 @@ public class RequestUtil {
 		if(result == null) {
 			throw new BusinessMessage(String.format("[%s] %s",key, errorMsg),BaseStatusCode.PARAM_ILLEGAL);
 		}
-		
 		return result;
     }
 	
@@ -202,8 +202,9 @@ public class RequestUtil {
      */
     public static boolean getBoolean(HttpServletRequest request, String key, boolean defaultValue) {
         String str = request.getParameter(key);
-        if (StringUtil.isEmpty(str))
-            return defaultValue;
+        if (StringUtil.isEmpty(str)) {
+        	return defaultValue;
+        }
         if (StringUtils.isNumeric(str))
             return (Integer.parseInt(str) == 1 ? true : false);
         return Boolean.parseBoolean(str);
@@ -332,37 +333,26 @@ public class RequestUtil {
 
     /**
      * 把当前上下文的请求封装在map中
-     *
+     * @deprecated
      * @param request
-     * @param remainArray 保持为数组
-     * @param isSecure    过滤不安全字符
+     * @param keepArray 保持为数组
      * @return
      */
-    public static Map getParameterValueMap(HttpServletRequest request, boolean remainArray) {
+    public static Map getParameterValueMap(HttpServletRequest request, boolean keepArray) {
     	Map<String,Object> map = new HashMap();
         Enumeration params = request.getParameterNames();
         while (params.hasMoreElements()) {
-            String key = params.nextElement().toString();
-            String[] values = request.getParameterValues(key);
+            String paramKey = String.valueOf(params.nextElement());
+            String[] values = request.getParameterValues(paramKey);
             if (ArrayUtil.isEmpty(values)) continue;
-            
-            if (values.length == 1) {
-                String tmpValue = values[0];
-                if (tmpValue == null)
-                    continue;
-                tmpValue = tmpValue.trim();
-                if (tmpValue.equals(""))
-                    continue;
-                if (tmpValue.equals(""))
-                    continue;
-                map.put(key, tmpValue);
-            } else {
-                String rtn = getByAry(values);
-                if (rtn.length() > 0) {
-                    if (remainArray)
-                        map.put(key, rtn.split(","));
-                    else
-                        map.put(key, rtn);
+             
+            String rtn = getByAry(values);
+            if (rtn.length() > 0 && values.length > 0) {
+                if (keepArray) {
+                	map.put(paramKey, rtn.split(","));
+                }
+                else {
+                	map.put(paramKey, rtn);
                 }
             }
         }
