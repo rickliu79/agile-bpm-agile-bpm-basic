@@ -78,9 +78,6 @@ private static final Logger log = LoggerFactory.getLogger(LoginContext.class);
         	if(auth instanceof IUser) {
         		return (IUser) auth;
         	}
-        	if(auth.getPrincipal() instanceof IUser) {
-        		return (IUser) auth.getPrincipal();
-        	}
 		} catch (NullPointerException e) {
 			log.warn("获取用户失败：",e);
 		}
