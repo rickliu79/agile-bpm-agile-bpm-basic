@@ -62,24 +62,29 @@ public class DefaultQueryFilter implements QueryFilter {
 		this.fieldLogic = fieldLogic;
 	}
 
-	// 初始化参数
+	/**
+	 * <pre>
+	 * 初始化参数
+	 * </pre>	
+	 * @param fedLog
+	 */
 	private void initParams(FieldLogic fedLog) {
-		List<WhereClause> list = fedLog.getWhereClauses();
-		for (WhereClause clause : list) {
-			if (clause instanceof QueryField) {
-				QueryField queryField = (QueryField) clause;
-				if (queryField.getCompare() == QueryOP.IS_NULL || queryField.getCompare() == QueryOP.NOTNULL) {
+		List<WhereClause> wcs = fedLog.getWhereClauses();
+		for (WhereClause wc : wcs) {
+			if (wc instanceof QueryField) {
+				QueryField qf = (QueryField) wc;
+				if (qf.getCompare() == QueryOP.IS_NULL || qf.getCompare() == QueryOP.NOTNULL) {
 					continue;
 				}
-				// 如果查询字段包含数据库别名，参数设置去掉别名
-				String fileNameString = queryField.getField();
-				if (fileNameString.contains(".")) {
-					fileNameString = fileNameString.substring(fileNameString.indexOf(".") + 1);
+				
+				String fn = qf.getField();
+				if (fn.contains(".")) {// 如果查询字段包含数据库别名，参数设置去掉别名
+					fn = fn.substring(fn.indexOf(".") + 1);
 				}
-				this.params.put(fileNameString, queryField.getValue());
-			} else if (clause instanceof FieldLogic) {
-				FieldLogic fdTemp = (FieldLogic) clause;
-				initParams(fdTemp);
+				this.params.put(fn, qf.getValue());
+			} else if (wc instanceof FieldLogic) {
+				FieldLogic fl = (FieldLogic) wc;
+				initParams(fl);
 			}
 		}
 	}

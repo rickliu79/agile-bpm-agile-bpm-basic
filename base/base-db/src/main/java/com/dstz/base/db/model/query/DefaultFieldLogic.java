@@ -15,7 +15,7 @@ public class DefaultFieldLogic implements FieldLogic {
 	/**
 	 * 查询字段组合列表
 	 */
-	private List<WhereClause> whereClauses = new ArrayList<WhereClause>();
+	private List<WhereClause> whereClauses = new ArrayList<>();
 	/**
 	 * 字段关系
 	 */
@@ -49,28 +49,28 @@ public class DefaultFieldLogic implements FieldLogic {
 			return "";
 		}
 
-		StringBuilder sqlBuf = new StringBuilder("(");
+		StringBuilder sb = new StringBuilder("(");
 		if (!whereClauses.isEmpty() && FieldRelation.NOT == fieldRelation) {
-			sqlBuf.append(" NOT (");
-			for (WhereClause clause : whereClauses) {
-				if (!sqlBuf.toString().endsWith("NOT (")) {
-					sqlBuf.append(" ").append(FieldRelation.AND).append(" ");
+			sb.append(" NOT (");
+			for (WhereClause wc : whereClauses) {
+				if (!sb.toString().endsWith("NOT (")) {
+					sb.append(" " + FieldRelation.AND.value() + " ");
 				}
-				sqlBuf.append(clause.getSql());
+				sb.append(wc.getSql());
 			}
-			sqlBuf.append(")");
-			return sqlBuf.toString();
+			sb.append(")");
+			return sb.toString();
 		}
 
-		for (WhereClause clause : whereClauses) {
-			if (!sqlBuf.toString().endsWith("(")) {
-				sqlBuf.append(" ").append(fieldRelation).append(" ");
+		for (WhereClause wc : whereClauses) {
+			if (!sb.toString().endsWith("(")) {
+				sb.append(" " + fieldRelation.value() + " ");
 			}
-			sqlBuf.append(clause.getSql());
+			sb.append(wc.getSql());
 		}
-		sqlBuf.append(")");
+		sb.append(")");
 
-		return sqlBuf.toString();
+		return sb.toString();
 	}
 
 }
