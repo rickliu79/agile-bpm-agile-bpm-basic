@@ -28,6 +28,7 @@ public class DefaultQueryField implements QueryField {
 	}
 
 	public DefaultQueryField(String field, QueryOP compare, Object value) {
+		this.value = value;
 		this.field = field;
 		this.compare = compare;
 
