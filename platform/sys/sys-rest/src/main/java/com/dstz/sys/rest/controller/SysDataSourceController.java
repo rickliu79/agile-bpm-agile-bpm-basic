@@ -52,16 +52,19 @@ public class SysDataSourceController extends GenericController {
     @CatchErr(write2response = true, value = "连接失败")
     public void checkConnection(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	String key = RequestUtil.getString(request, "key");
-    	boolean connectable = false;
+    	String msg = "连接成功" ;
+    	boolean connectable = true;
         try {
         	DataSource dataSource = sysDataSourceManager.getDataSourceByKey(key);
         	Connection connection = dataSource.getConnection();
             connection.close();
-            connectable = true;
         } catch (Exception e) {
+        	msg ="连接失败："+ e.getMessage();
+        	connectable = false;
+        	e.printStackTrace();
         }
     	
-        writeSuccessData(response, connectable, connectable ? "连接成功" : "连接失败");
+        writeSuccessData(response, connectable,msg);
     }
 
     /**
