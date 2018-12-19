@@ -11,8 +11,12 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.org.core.dao.UserDao;
+import com.dstz.org.core.manager.OrgRelationManager;
 import com.dstz.org.core.manager.UserManager;
+import com.dstz.org.core.model.OrgRelation;
 import com.dstz.org.core.model.User;
+
+import cn.hutool.core.collection.CollectionUtil;
 
 /**
  * <pre>
@@ -23,38 +27,11 @@ import com.dstz.org.core.model.User;
 public class UserManagerImpl extends BaseManager<String, User> implements UserManager {
     @Resource
     UserDao userDao;
+    @Resource
+    OrgRelationManager orgRelationMananger;
 
     public User getByAccount(String account) {
         return this.userDao.getByAccount(account);
-    }
-
-    /**
-     * 不含组织用户关系数据
-     */
-    public List<User> queryOrgUser(QueryFilter queryFilter) {
-        return userDao.queryOrgUser(queryFilter);
-    }
-
-    /**
-     * 不含组织用户关系数据
-     */
-    public List<User> getUserListByOrgId(String orgId) {
-    	return userDao.getUserListByOrgId(orgId);
-    }
-
-
-    public List<User> getListByRelCode(String relCode) {
-        return userDao.getListByRelCode(relCode);
-    }
-
-    public List<User> getListByRelId(String relId) {
-        return userDao.getUserListByRelId(relId);
-    }
-
-    public List<User> getUserListByRoleId(String roleId) {
-    	if(StringUtil.isEmpty(roleId))return Collections.emptyList();
-    	
-        return userDao.getUserListByRole(roleId, null);
     }
 
     @Override
@@ -62,15 +39,21 @@ public class UserManagerImpl extends BaseManager<String, User> implements UserMa
         return userDao.isUserExist(user)>0;
     }
 
-    @Override
-    public List queryUserGroupRel(QueryFilter queryFilter) {
-        return userDao.queryUserGroupRel(queryFilter);
-    }
+	@Override
+	public List<User> getUserListByRelation(String relId, String type) {
+		return userDao.getUserListByRelation(relId,type);
+	}
 
 	@Override
-	public List<User> getUserListByRoleCode(String roleCode) {
-		if(StringUtil.isEmpty(roleCode))return Collections.emptyList();
+	public void saveUserInfo(User user) {
+		this.create(user);
 		
-		return userDao.getUserListByRole(null, roleCode);
+		List<OrgRelation> orgRelationList = user.getOrgRelationList();
+		if(CollectionUtil.isEmpty(orgRelationList)) return;
+		
+		for(OrgRelation rel : orgRelationList) {
+			orgRelationMananger.create(rel);
+		}
 	}
+
 }

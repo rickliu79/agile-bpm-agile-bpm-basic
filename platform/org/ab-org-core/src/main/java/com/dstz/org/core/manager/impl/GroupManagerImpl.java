@@ -14,6 +14,8 @@ import com.dstz.org.core.manager.GroupManager;
 import com.dstz.org.core.model.Group;
 import com.dstz.org.core.model.User;
 
+import cn.hutool.core.collection.CollectionUtil;
+
 /**
  * <pre>
  * 描述：组织架构 处理实现类
@@ -43,7 +45,7 @@ public class GroupManagerImpl extends BaseManager<String, Group> implements Grou
     @Override
     public Group getMainGroup(String userId) {
         List<Group> list = groupDao.getByUserId(userId);
-        if (BeanUtils.isEmpty(list)) return null;
+        if (CollectionUtil.isEmpty(list)) return null;
         if (list.size() == 1) return list.get(0);
         for (Group org : list) {
           //TODO  if (org.getIsMaster() == 1) return org;

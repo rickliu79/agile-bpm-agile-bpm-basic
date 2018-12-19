@@ -21,63 +21,18 @@ public interface UserManager extends Manager<String, User> {
     User getByAccount(String account);
 
     /**
-     * 不含用户组织关系
-     */
-    List<User> getUserListByOrgId(String orgId);
-
-    /**
-     * 不含用户组织关系
-     *
-     * @param queryFilter
-     * @return
-     */
-    List<User> queryOrgUser(QueryFilter queryFilter);
-
-    /**
-     * 含组织用户关系表数据
-     *
-     * @param queryFilter
-     * @return
-     */
-    List queryUserGroupRel(QueryFilter queryFilter);
-
-    /**
-     * 根据岗位编码获取用户列表
-     *
-     * @param relCode
-     * @return
-     */
-    List<User> getListByRelCode(String relCode);
-
-    /**
-     * 根据岗位ID获取用户列表
-     *
-     * @param relCode
-     * @return
-     */
-    List<User> getListByRelId(String relId);
-
-    /**
      * 根据角色ID获取用户列表
      *
-     * @param roleId
+     * @param relId 关系ID
+     * @param type 关系类型  post , org , role
      * @return
      */
-    List<User> getUserListByRoleId(String roleId);
-
-    /**
-     * 根据角色Code获取用户列表
-     *
-     * @param roleId
-     * @return
-     */
-    List<User> getUserListByRoleCode(String roleCode);
+    List<User> getUserListByRelation(String relId,String type);
 
     /**
      * 判断系统中用户是否存在。
-     *
-     * @param user
-     * @return
      */
     boolean isUserExist(User user);
+
+	void saveUserInfo(User user);
 }

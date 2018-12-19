@@ -26,6 +26,8 @@ import com.dstz.org.core.model.Group;
 import com.dstz.org.core.model.OrgTree;
 import com.github.pagehelper.Page;
 
+import cn.hutool.core.collection.CollectionUtil;
+
 /**
  * 组
  */
@@ -94,7 +96,7 @@ public class GroupController extends BaseController<Group> {
     @RequestMapping("getTreeData")
     public List<OrgTree> getTreeData(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<OrgTree> groupTreeList = getGroupTree();
-        if (BeanUtils.isEmpty(groupTreeList)) {
+        if (CollectionUtil.isEmpty(groupTreeList)) {
             groupTreeList = new ArrayList<OrgTree>();
         }
         OrgTree rootGroup = new OrgTree();

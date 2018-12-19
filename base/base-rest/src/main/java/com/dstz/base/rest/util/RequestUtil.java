@@ -60,6 +60,11 @@ public class RequestUtil {
 		return result;
     }
 	
+
+	public static String getRQString(HttpServletRequest request, String key) {
+		return getRQString(request, key, key);
+	}
+	
 	
     /**
      * 取字符串类型的参数。 如果取得的值为null，则返回默认字符串。
@@ -490,4 +495,5 @@ public class RequestUtil {
          ex.printStackTrace();
      }
     }
+
 }

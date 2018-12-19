@@ -6,6 +6,7 @@ import com.dstz.org.api.model.IdentityType;
 import com.dstz.sys.util.SysPropertyUtil;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -80,6 +81,11 @@ public class User extends BaseModel implements IUser{
      * 组织ID，用于在组织下添加用户。
      */
     protected String groupId = "";
+    
+    /**
+     * 用户关系
+     */
+    protected List<OrgRelation> orgRelationList; 
     
 
     public void setFullname(String fullname) {
@@ -225,7 +231,15 @@ public class User extends BaseModel implements IUser{
         return this.from;
     }
 
-    public void setStatus(Integer status) {
+    public List<OrgRelation> getOrgRelationList() {
+		return orgRelationList;
+	}
+
+	public void setOrgRelationList(List<OrgRelation> orgRelationList) {
+		this.orgRelationList = orgRelationList;
+	}
+
+	public void setStatus(Integer status) {
         this.status = status;
     }
 
