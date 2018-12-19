@@ -1,11 +1,12 @@
 package com.dstz.sys.util;
 
-import com.dstz.base.core.util.BeanUtils;
+import java.util.Locale;
+
 import com.dstz.org.api.context.ICurrentContext;
 import com.dstz.org.api.model.IGroup;
 import com.dstz.org.api.model.IUser;
 
-import java.util.Locale;
+import cn.hutool.core.util.StrUtil;
 
 
 /**
@@ -139,13 +140,13 @@ public class ContextUtil {
     
     public static boolean isAdmin(IUser user) {
     	  String tmp = SysPropertyUtil.getByAlias("admin.account", "admin");
-          return tmp.equals(user.getAccount());
+          return StrUtil.equals(tmp, user.getAccount());
     }
     
     public static boolean currentUserIsAdmin() {
     	IUser user = getCurrentUser();
     	
   	  	String tmp = SysPropertyUtil.getByAlias("admin.account", "admin");
-        return tmp.equals(user.getAccount());
+        return StrUtil.equals(tmp,user.getAccount());
   }
 }

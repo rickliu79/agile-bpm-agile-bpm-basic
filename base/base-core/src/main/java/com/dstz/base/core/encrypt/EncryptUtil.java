@@ -1,7 +1,6 @@
 package com.dstz.base.core.encrypt;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -12,11 +11,6 @@ import javax.crypto.spec.IvParameterSpec;
 import org.apache.commons.codec.binary.Base64;
 
 import com.dstz.base.api.exception.BusinessError;
-import com.dstz.base.core.util.StringUtil;
-
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.symmetric.DESede;
 
 /**
  * 加密算法。 <br/>
@@ -58,7 +52,7 @@ public class EncryptUtil {
 	 */
 	public static String decrypt(String message) {
 		try {
-			byte[] bytes = StrUtil.bytes(message);
+			byte[] bytes = string2Bytes(message);
 			Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
 			DESKeySpec desKeySpec = new DESKeySpec(KEY.getBytes(CODE));
 			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
@@ -93,11 +87,32 @@ public class EncryptUtil {
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
 			
 			byte[] code = cipher.doFinal(message.getBytes(CODE));
-			return StrUtil.str(code,"");
+			return bytes2String(code);
 		} catch (Exception e) {
 			throw new BusinessError(e);
 		}
 	}
 
+	 private static String bytes2String(byte bytes[]) {
+	        StringBuilder str = new StringBuilder();
+	        for (int i = 0; i < bytes.length; i++) {
+	            String hexString = Integer.toHexString(0xff & bytes[i]);
+	            if (hexString.length() < 2)
+	                hexString = "0" + hexString;
+	            str.append(hexString);
+	        }
+
+	        return str.toString();
+	  }
+	 
+	  public static byte[] string2Bytes(String s) {
+	        byte b[] = new byte[s.length() / 2];
+	        for (int i = 0; i < b.length; i++) {
+	            String bs = s.substring(2 * i, 2 * i + 2);
+	            int ib = Integer.parseInt(bs, 16);
+	            b[i] = (byte) ib;
+	        }
+	        return b;
+	    }
 
 }
