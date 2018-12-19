@@ -26,14 +26,14 @@ import com.dstz.sys.util.ContextUtil;
  * 实现UserDetailsService 接口获取UserDetails 接口实例对象。
  */
 public class UserDetailsServiceImpl implements UserDetailsService {
-	private static final String loginUserCacheKey = "agilebpm:loginUser";
+	private static final String loginUserCacheKey = "agilebpm:loginUser:";
     @Resource
     UserService userService;
     @Resource
     ICache<LoginUser> loginUserCache;
     
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    	LoginUser loginUser = loginUserCache.getByKey(loginUserCacheKey);
+    	LoginUser loginUser = loginUserCache.getByKey(loginUserCacheKey.concat(username));
     	
     	if(loginUser != null) {
     		return loginUser;
