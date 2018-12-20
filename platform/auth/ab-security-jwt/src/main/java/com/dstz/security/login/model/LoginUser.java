@@ -7,9 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.dstz.org.api.model.IUser;
-import com.dstz.org.api.model.dto.UserDto;
+import com.dstz.org.api.model.dto.UserDTO;
 
-public class LoginUser extends UserDto implements UserDetails {
+public class LoginUser extends UserDTO implements UserDetails {
 
 
     private Collection<? extends GrantedAuthority> roles = new ArrayList<GrantedAuthority>();

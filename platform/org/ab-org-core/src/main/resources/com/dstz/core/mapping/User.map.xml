@@ -39,7 +39,19 @@
 	</select>
 	
 	<select id="getUserListByRelation" parameterType="java.util.Map" resultMap="User">
-		SELECT * FROM org_user  WHERE  account_=#{account}
+		SELECT user.* FROM org_user user  
+		left join org_relation relation on relation.user_id_ = user.id_
+		WHERE  relation.type_ = #{relationType}
+		<if test="relationType.equals('groupUser')"> and relation.group_id_ = #{relationId}</if>
+		<if test="relationType.equals('userRole')"> and relation.role_id_ = #{relationId}</if>
+	</select>
+	
+	<select id="getUserListByPost" parameterType="java.util.Map" resultMap="User">
+		SELECT user.* FROM org_user user  
+		left join org_relation relation on relation.user_id_ = user.id_
+		WHERE  relation.type_ = 'groupUserRole'
+		and relation.group_id_ = #{groupId}
+		and relation.role_id_ = #{roleId}
 	</select>
 	
 
@@ -88,4 +100,5 @@
             and id_!=#{id}
         </if>
     </select>
+    
 </mapper>

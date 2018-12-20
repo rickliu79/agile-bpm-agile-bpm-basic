@@ -29,5 +29,8 @@ public interface UserDao extends BaseDao<String, User> {
     Integer isUserExist(User user);
 
 
-	List<User> getUserListByRelation(@Param("relId")String relId, @Param("type")String type);
+	List<User> getUserListByRelation(@Param("relationId")String relId, @Param("relationType")String type);
+	
+	List<User> getUserListByPost(@Param("roleId")String roleId, @Param("groupId")String groupId);
+	
 }

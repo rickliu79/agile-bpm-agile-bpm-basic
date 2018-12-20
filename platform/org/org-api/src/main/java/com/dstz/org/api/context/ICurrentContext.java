@@ -7,9 +7,6 @@ import java.util.Locale;
 
 /**
  * 获取上下文对象数据。
- * <pre>
- * 描述：获取上下文对象数据。
- * </pre>
  */
 public interface ICurrentContext {
 

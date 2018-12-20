@@ -16,19 +16,19 @@ public interface RoleManager extends Manager<String, Role> {
     Role getByAlias(String alias);
 
     /**
-     * 根据用户ID获取角色列表
-     *
-     * @param userId
-     * @return
-     */
-    List<Role> getListByUserId(String userId);
-
-    /**
      * 判断角色是否存在。
      *
      * @param role
      * @return
      */
     boolean isRoleExist(Role role);
+    
+    /**
+     * 根据用户ID获取角色列表
+     *
+     * @param userId
+     * @return
+     */
+	List getByUserId(String userId);
 
 }

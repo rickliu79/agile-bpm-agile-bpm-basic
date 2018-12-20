@@ -1,13 +1,12 @@
 package com.dstz.org.core.model;
 
-import com.dstz.base.core.model.BaseModel;
-import com.dstz.org.api.constant.GroupTypeConstant;
-import com.dstz.org.api.model.GroupStructEnum;
-import com.dstz.org.api.model.IGroup;
-import com.dstz.org.api.model.IdentityType;
+import java.util.Map;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.Map;
+import com.dstz.base.core.model.BaseModel;
+import com.dstz.org.api.constant.GroupTypeConstant;
+import com.dstz.org.api.model.IGroup;
 
 
 /**
@@ -87,18 +86,12 @@ public class GroupRelation extends BaseModel implements IGroup {
                 .append("relCode", this.relCode)
                 .toString();
     }
-
-    public String getIdentityType() {
-        return IdentityType.GROUP;
-    }
+ 
 
     public String getGroupId() {
         return this.id; 
     }
 
-    public String getName() {
-        return this.relName;
-    }
 
     public void setGroupId(String groupId) {
         this.id = groupId;
@@ -113,12 +106,9 @@ public class GroupRelation extends BaseModel implements IGroup {
     }
 
     public String getGroupType() {
-        return GroupTypeConstant.POSITION.key();
+        return GroupTypeConstant.POST.key();
     }
 
-    public GroupStructEnum getStruct() {
-        return GroupStructEnum.PLAIN;
-    }
 
     public String getParentId() {
         return null;
@@ -131,4 +121,10 @@ public class GroupRelation extends BaseModel implements IGroup {
     public Map<String, Object> getParams() {
         return null;
     }
+
+
+	@Override
+	public String getGroupName() {
+		return this.relName;
+	}
 }

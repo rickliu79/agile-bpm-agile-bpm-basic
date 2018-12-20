@@ -29,6 +29,12 @@
 		id_=#{id}
 	</select>
 	
+	<select id="getByUserId"   parameterType="java.lang.String" resultMap="Group">
+		SELECT g.* FROM org_group g
+		left join org_relation rel on group_id_ = g.id_
+		WHERE  rel.type_ = 'groupUser' and user_id_ = #{userId}
+	</select>
+	
 	<select id="query" parameterType="java.util.Map" resultMap="Group">
 		SELECT * FROM org_group
 		<where>

@@ -1,13 +1,12 @@
 package com.dstz.org.core.model;
 
-import com.dstz.base.core.model.BaseModel;
-import com.dstz.org.api.constant.GroupTypeConstant;
-import com.dstz.org.api.model.GroupStructEnum;
-import com.dstz.org.api.model.IGroup;
-import com.dstz.org.api.model.IdentityType;
+import java.util.Map;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.Map;
+import com.dstz.base.core.model.BaseModel;
+import com.dstz.org.api.constant.GroupTypeConstant;
+import com.dstz.org.api.model.IGroup;
 
 
 /**
@@ -145,10 +144,6 @@ public class Group extends BaseModel implements IGroup {
                 .toString();
     }
 
-    public String getIdentityType() {
-        return IdentityType.GROUP;
-    }
-
     public String getGroupId() {
         return this.id;
     }
@@ -177,9 +172,6 @@ public class Group extends BaseModel implements IGroup {
         return GroupTypeConstant.ORG.key();
     }
 
-    public GroupStructEnum getStruct() {
-        return GroupStructEnum.TREE;
-    }
 
     public String getPath() {
         return null;
@@ -196,4 +188,9 @@ public class Group extends BaseModel implements IGroup {
     public void setIsMaster(int isMaster) {
         this.isMaster = isMaster;
     }
+
+	@Override
+	public String getGroupName() {
+		return name;
+	}
 }

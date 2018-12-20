@@ -37,7 +37,7 @@ public class SysScript implements IScript {
 	public String getCurrentGroupName() {
 		 IGroup iGroup =ContextUtil.getCurrentGroup();
         if (iGroup!= null) {
-            return iGroup.getName();
+            return iGroup.getGroupName();
         } else {
             return "";
         }

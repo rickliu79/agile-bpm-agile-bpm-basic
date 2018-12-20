@@ -1,28 +1,26 @@
 package com.dstz.org.api.model.dto;
 
-import com.dstz.org.api.model.GroupStructEnum;
 import com.dstz.org.api.model.IGroup;
 
-public class GroupDto implements IGroup {
+public class GroupDTO implements IGroup {
 	String identityType;
 	String groupId;
-	String name;
+	String groupName;
 	String groupCode;
-	GroupStructEnum  groupStructEnum;
 	Long Sn;
 	String groupType;
 	String parentId;
 	String path;
 	
-	public GroupDto(IGroup group) {
+	public GroupDTO(IGroup group) {
 		this.groupCode = group.getGroupCode();
 		this.groupId = group.getGroupId();
 		this.groupType = group.getGroupType();
 		this.parentId = group.getParentId();
-		this.name = group.getName();
+		this.groupName = group.getGroupName();
 	}
 	
-	public GroupDto() {
+	public GroupDTO() {
 
 	}
 	
@@ -38,24 +36,22 @@ public class GroupDto implements IGroup {
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
 	}
-	public String getName() {
-		return name;
+ 
+	public String getGroupName() {
+		return groupName;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
+
 	public String getGroupCode() {
 		return groupCode;
 	}
 	public void setGroupCode(String groupCode) {
 		this.groupCode = groupCode;
 	}
-	public GroupStructEnum getGroupStructEnum() {
-		return groupStructEnum;
-	}
-	public void setGroupStructEnum(GroupStructEnum groupStructEnum) {
-		this.groupStructEnum = groupStructEnum;
-	}
+ 
 	public Long getSn() {
 		return Sn;
 	}
@@ -80,10 +76,7 @@ public class GroupDto implements IGroup {
 	public void setPath(String path) {
 		this.path = path;
 	}
-	@Override
-	public GroupStructEnum getStruct() {
-		return groupStructEnum;
-	}
+ 
 	
 
 }

@@ -33,8 +33,12 @@ public class OrgRelation extends BaseModel{
 	*/
 	protected  String type; 
 	
-	
-	
+	/**
+	 * 前端字段
+	 */
+	protected String groupName;
+	protected String userName;
+	protected String roleName;
 	
 	
 	public void setGroupId( String groupId) {
@@ -82,6 +86,30 @@ public class OrgRelation extends BaseModel{
 	
 	
 	
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
 	public void setRoleId( String roleId) {
 		this.roleId = roleId;
 	}

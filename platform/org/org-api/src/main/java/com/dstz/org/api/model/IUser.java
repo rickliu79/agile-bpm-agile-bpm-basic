@@ -8,7 +8,7 @@ import com.dstz.base.api.model.IBaseModel;
 /**
  * 描述：用户实体接口
  */
-public interface IUser extends IdentityType ,Serializable{
+public interface IUser extends Serializable{
     /**
      * 男性=Male
      */
@@ -66,29 +66,8 @@ public interface IUser extends IdentityType ,Serializable{
      */
     String getMobile();
 
-    /**
-     * 设置用户其它属性
-     *
-     * @param map
-     */
-    void setAttributes(Map<String, String> map);
-
-    /**
-     * 获取用户其它属性
-     *
-     * @param map
-     */
-    Map<String, String> getAttributes();
-
-    /**
-     * 根据属性获取属性值。
-     *
-     * @param key
-     * @return
-     */
-    String getAttrbuite(String key);
-
+    String getWeixin();
+    
     Integer getStatus();
 
-    String getWeixin();
 }

@@ -7,9 +7,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.manager.impl.BaseManager;
+import com.dstz.org.core.constant.RelationTypeConstant;
 import com.dstz.org.core.dao.UserDao;
 import com.dstz.org.core.manager.OrgRelationManager;
 import com.dstz.org.core.manager.UserManager;
@@ -41,12 +41,23 @@ public class UserManagerImpl extends BaseManager<String, User> implements UserMa
 
 	@Override
 	public List<User> getUserListByRelation(String relId, String type) {
+		if(type.equals(RelationTypeConstant.POST_USER.getKey())) {
+			OrgRelation postRelation = orgRelationMananger.get(relId);
+			if(postRelation == null) return Collections.emptyList();
+			return userDao.getUserListByPost(postRelation.getGroupId(),postRelation.getUserId());
+		}
+		
 		return userDao.getUserListByRelation(relId,type);
 	}
 
 	@Override
 	public void saveUserInfo(User user) {
-		this.create(user);
+		if(StringUtil.isEmpty(user.getId())) {
+			this.create(user);
+		}else {
+			this.update(user);
+			orgRelationMananger.removeByUserId(user.getId());
+		}
 		
 		List<OrgRelation> orgRelationList = user.getOrgRelationList();
 		if(CollectionUtil.isEmpty(orgRelationList)) return;

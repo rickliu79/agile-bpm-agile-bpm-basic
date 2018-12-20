@@ -10,7 +10,7 @@ import java.util.List;
 public class OrgTree extends Group {
 
     public static final String ICON_COMORG = "/styles/theme/default/images/icons/u_darkblue/u_zzgl_darkblue.png";
-    protected int sn; /*序号*/
+    protected Integer sn; /*序号*/
     protected String icon; /*图标*/
     protected boolean nocheck = false;
     /***/

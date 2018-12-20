@@ -31,6 +31,7 @@
 		WHERE 
 		alias_=#{alias}
 	</select>
+	
     <select id="query" parameterType="java.util.Map" resultMap="Role">
         SELECT * FROM org_role
         <where>
@@ -63,18 +64,13 @@
 		WHERE
 		id_=#{id}
 	</delete>
-
-    <select id="getList" parameterType="java.util.Map" resultMap="Role">
-        SELECT r.id_,r.name_,r.alias_ from org_user_role ur INNER JOIN org_user u on ur.user_id_=u.id_
-        INNER JOIN org_role r on ur.role_id_=r.id_
-        <if test="userId!=null">
-            and ur.user_id_= #{userId}
-        </if>
-        <if test="account!=null">
-            and u.account_= #{account}
-        </if>
+	
+	<!-- 这里默认获取岗位职务角色为 该角色的用户  -->
+    <select id="getByUserId" parameterType="java.lang.String" resultMap="Role">
+        SELECT role.* from org_role role
+        left join org_relation relation on role.id_ = relation.role_id_ 
+        where relation.user_id_ = #{userId}
     </select>
-
 
     <select id="isRoleExist" resultType="java.lang.Integer">
         SELECT count(1) FROM org_role where alias_=#{alias}

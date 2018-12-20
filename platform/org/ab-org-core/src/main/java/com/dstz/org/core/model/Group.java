@@ -1,8 +1,7 @@
 package com.dstz.org.core.model;
-import java.util.Date;
-import java.math.BigDecimal;
-
 import com.dstz.base.core.model.BaseModel;
+import com.dstz.org.api.constant.GroupTypeConstant;
+import com.dstz.org.api.model.IGroup;
 
 
 /**
@@ -11,7 +10,7 @@ import com.dstz.base.core.model.BaseModel;
  * @email for_office@qq.com
  * @time 2018-12-16 01:11:44
  */
-public class Group extends BaseModel{
+public class Group extends BaseModel implements IGroup{
 	/**
 	* 名字
 	*/
@@ -41,7 +40,10 @@ public class Group extends BaseModel{
 	*/
 	protected  Integer sn; 
 	
-	
+	/**
+	 *  前端字段
+	 */
+	protected String parentName;
 	
 	
 	
@@ -105,6 +107,14 @@ public class Group extends BaseModel{
 	
 	
 	
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+
 	public void setDesc( String desc) {
 		this.desc = desc;
 	}
@@ -146,10 +156,26 @@ public class Group extends BaseModel{
 	public  Integer getSn() {
 		return this.sn;
 	}
-	
-	
-	
-	
-	
+
+	@Override
+	public String getGroupId() {
+		return this.id;
+	}
+
+	@Override
+	public String getGroupCode() {
+		return this.code;
+	}
+
+ 
+	@Override
+	public String getGroupType() {
+		return GroupTypeConstant.ORG.key();
+	}
+
+	@Override
+	public String getGroupName() {
+		return this.name;
+	}
  
 }

@@ -7,16 +7,19 @@
 		<result property="userId" column="user_id_" jdbcType="VARCHAR"/>
 		<result property="isMaster" column="is_master_" jdbcType="NUMERIC"/>
 		<result property="roleId" column="role_id_" jdbcType="VARCHAR"/>
-		<result property="type" column="type" jdbcType="VARCHAR"/>
+		<result property="type" column="type_" jdbcType="VARCHAR"/>
 		<result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
 		<result property="createBy" column="create_by_" jdbcType="VARCHAR"/>
 		<result property="updateTime" column="update_time_" jdbcType="TIMESTAMP"/>
 		<result property="updateBy" column="update_by_" jdbcType="VARCHAR"/>
+		<result property="groupName" column="groupName" jdbcType="VARCHAR"/>
+		<result property="roleName" column="roleName" jdbcType="VARCHAR"/>
+		<result property="userName" column="userName" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.dstz.org.core.model.OrgRelation">
 		INSERT INTO org_relation
-		(id_,group_id_,user_id_,is_master_,role_id_,type,create_time_,create_by_,update_time_,update_by_)
+		(id_,group_id_,user_id_,is_master_,role_id_,type_,create_time_,create_by_,update_time_,update_by_)
 		VALUES 
 		(#{id,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{isMaster,jdbcType=NUMERIC}, #{roleId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
@@ -48,7 +51,7 @@
 		user_id_=#{userId,jdbcType=VARCHAR},
 		is_master_=#{isMaster,jdbcType=NUMERIC},
 		role_id_=#{roleId,jdbcType=VARCHAR},
-		type=#{type,jdbcType=VARCHAR},
+		type_=#{type,jdbcType=VARCHAR},
 		create_time_=#{createTime,jdbcType=TIMESTAMP},
 		create_by_=#{createBy,jdbcType=VARCHAR},
 		update_time_=#{updateTime,jdbcType=TIMESTAMP},
@@ -63,5 +66,19 @@
 		id_=#{id}
 	</delete>
 	
+	<delete id="removeByUserId" parameterType="java.lang.String">
+		DELETE FROM org_relation 
+		WHERE
+		user_id_=#{userId}
+	</delete>
+	
+	<select id="getUserRelation"   parameterType="java.util.Map" resultMap="OrgRelation">
+		SELECT relation.*,tgroup.name_ groupName,tuser.fullname_ userName,role.name_ roleName 
+		FROM org_relation relation 
+		left join org_user tuser on relation.user_id_ = tuser.id_
+		left join org_group tgroup on relation.group_id_ = tgroup.id_
+		left join org_role role on relation.role_id_ = role.id_
+		WHERE relation.type_ = #{relationType} and relation.user_id_ = #{userId}
+	</select>
 	
 </mapper>

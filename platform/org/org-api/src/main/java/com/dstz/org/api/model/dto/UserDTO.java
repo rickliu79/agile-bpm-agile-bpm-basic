@@ -3,7 +3,6 @@ package com.dstz.org.api.model.dto;
 import java.util.Map;
 
 import com.dstz.org.api.model.IUser;
-import com.dstz.org.api.model.IdentityType;
 
 
 /**
@@ -11,9 +10,9 @@ import com.dstz.org.api.model.IdentityType;
  * 描述：用户表 实体对象
  * </pre>
  */
-public class UserDto implements IUser{
+public class UserDTO implements IUser{
 
-    /**
+    /**	
      * id_
      */
     protected String id;
@@ -251,10 +250,6 @@ public class UserDto implements IUser{
      */
     public Integer getStatus() {
         return this.status;
-    }
-
-    public String getIdentityType() {
-        return IdentityType.USER;
     }
 
     public String getUserId() {

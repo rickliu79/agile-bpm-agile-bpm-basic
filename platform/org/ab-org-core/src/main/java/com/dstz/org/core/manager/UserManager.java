@@ -1,10 +1,9 @@
 package com.dstz.org.core.manager;
 
-import com.dstz.base.api.query.QueryFilter;
+import java.util.List;
+
 import com.dstz.base.manager.Manager;
 import com.dstz.org.core.model.User;
-
-import java.util.List;
 
 /**
  * <pre>
@@ -35,4 +34,5 @@ public interface UserManager extends Manager<String, User> {
     boolean isUserExist(User user);
 
 	void saveUserInfo(User user);
+
 }

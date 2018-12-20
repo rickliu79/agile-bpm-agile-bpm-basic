@@ -1,4 +1,4 @@
-package com.dstz.org.api.service.impl;
+package com.dstz.org.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dstz.base.core.util.BeanCopierUtils;
@@ -16,36 +17,30 @@ import com.dstz.org.api.model.IGroup;
 import com.dstz.org.api.model.dto.GroupDTO;
 import com.dstz.org.api.service.GroupService;
 import com.dstz.org.core.manager.GroupManager;
-import com.dstz.org.core.manager.GroupRelationManager;
+import com.dstz.org.core.manager.OrgRelationManager;
 import com.dstz.org.core.manager.RoleManager;
 import com.dstz.org.core.manager.UserManager;
-import com.dstz.org.core.manager.UserRoleManager;
 import com.dstz.org.core.model.User;
 
 import cn.hutool.core.collection.CollectionUtil;
 
 /**
  * 用户与组关系的实现类：通过用户找组，通过组找人等
- *
- * @author Administrator
  */
-@Service("userGroupService")
-public class DefaultGroupService implements GroupService {
+@Service("defaultGroupService")
+public class ABGroupService implements GroupService {
     @Resource
     UserManager userManager;
 
     @Resource
     GroupManager groupManager;
-
-    @Resource
-    GroupRelationManager groupRelManager;
-
-    @Resource
-    UserRoleManager userRoleManager;
-
-    @Resource
-    RoleManager roleManager;
     
+    @Autowired
+    RoleManager roleManager;
+
+    @Resource
+    OrgRelationManager orgRelationManager;
+
     @SuppressWarnings("unchecked")
     @Override
     public List<IGroup> getGroupsByGroupTypeUserId(String groupType, String userId) {
@@ -55,10 +50,11 @@ public class DefaultGroupService implements GroupService {
         	listGroup = (List) groupManager.getByUserId(userId);
         }
         if (groupType.equals(GroupTypeConstant.ROLE.key())) {
-        	listGroup = (List) roleManager.getListByUserId(userId);
+        	listGroup = (List) roleManager.getByUserId(userId);
         }
-        if (groupType.equals(GroupTypeConstant.POST.key())) {
-        	listGroup = (List) groupRelManager.getListByUserId(userId);
+        
+        if (groupType.equals(GroupTypeConstant.POST.key()) && false) {
+        	listGroup = (List) orgRelationManager.getPostByUserId(userId);
         }
         
         if(listGroup != null) {
@@ -71,7 +67,7 @@ public class DefaultGroupService implements GroupService {
     @Override
     public Map<String, List<IGroup>> getAllGroupByAccount(String account) {
     	User user = userManager.getByAccount(account);
-    	if(user == null) return Collections.EMPTY_MAP;
+    	if(user == null) return Collections.emptyMap();
     	
     	return getAllGroupByUserId(user.getId());
     }
@@ -86,12 +82,12 @@ public class DefaultGroupService implements GroupService {
         	List<IGroup> groupList = (List)BeanCopierUtils.transformList(listOrg, GroupDTO.class);
             listMap.put(GroupTypeConstant.ORG.key(), groupList);
         }
-        List<IGroup> listRole = (List) roleManager.getListByUserId(userId);
+        List<IGroup> listRole = (List) roleManager.getByUserId(userId);
         if (CollectionUtil.isNotEmpty(listRole)) {
         	List<IGroup> groupList = (List)BeanCopierUtils.transformList(listRole, GroupDTO.class);
             listMap.put(GroupTypeConstant.ROLE.key(), groupList);
         }
-        List<IGroup> listOrgRel = (List) groupRelManager.getListByUserId(userId);
+        List<IGroup> listOrgRel = (List) orgRelationManager.getPostByUserId(userId);
         if (CollectionUtil.isNotEmpty(listOrgRel)) {
         	List<IGroup> groupList = (List)BeanCopierUtils.transformList(listOrgRel, GroupDTO.class);
             listMap.put(GroupTypeConstant.POST.key(), groupList);
@@ -110,11 +106,11 @@ public class DefaultGroupService implements GroupService {
         if (CollectionUtil.isNotEmpty(listOrg)) {
             listMap.addAll(listOrg);
         }
-        List<IGroup> listRole = (List) roleManager.getListByUserId(userId);
+        List<IGroup> listRole = (List) roleManager.getByUserId(userId);
         if (CollectionUtil.isNotEmpty(listRole)) {
             listMap.addAll(listRole);
         }
-        List<IGroup> listOrgRel = (List) groupRelManager.getListByUserId(userId);
+        List<IGroup> listOrgRel = (List) orgRelationManager.getPostByUserId(userId);
         if (CollectionUtil.isNotEmpty(listOrgRel)) {
             listMap.addAll(listOrgRel);
         }
@@ -138,7 +134,7 @@ public class DefaultGroupService implements GroupService {
         	group = roleManager.get(groupId);
         }
         if (groupType.equals(GroupTypeConstant.POST.key())) {
-        	group = groupRelManager.get(groupId);
+        	group = orgRelationManager.getPostById(groupId);
         }
         
         if(group == null) return null;
@@ -160,7 +156,7 @@ public class DefaultGroupService implements GroupService {
         	group = roleManager.getByAlias(code);
         }
         if (groupType.equals(GroupTypeConstant.POST.key())) {
-        	group = groupRelManager.getByCode(code);
+        	// TODO 
         }
         
         if(group == null) return null;

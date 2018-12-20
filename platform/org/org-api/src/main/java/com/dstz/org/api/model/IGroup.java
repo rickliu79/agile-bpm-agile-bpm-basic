@@ -9,7 +9,7 @@ import com.dstz.base.api.model.IBaseModel;
 /**
  * 描述：抽象用户组类型
  */
-public interface IGroup extends IdentityType,Serializable {
+public interface IGroup extends Serializable {
 
 
     /**
@@ -24,7 +24,7 @@ public interface IGroup extends IdentityType,Serializable {
      *
      * @return
      */
-    String getName();
+    String getGroupName();
 
     /**
      * 组织编码
@@ -32,13 +32,6 @@ public interface IGroup extends IdentityType,Serializable {
      * @return
      */
     String getGroupCode();
-
-    /**
-     * 组排序
-     *
-     * @return
-     */
-    Long getSn();
 
     /**
      * 组织类型。
@@ -49,20 +42,10 @@ public interface IGroup extends IdentityType,Serializable {
     String getGroupType();
 
     /**
-     * 组织结构。
-     *
-     * @return
-     */
-    GroupStructEnum getStruct();
-
-    /**
      * 上级ID
      *
      * @return
      */
     String getParentId();
-
-    //路径 例如xxx.xxxx
-    String getPath();
 
 }

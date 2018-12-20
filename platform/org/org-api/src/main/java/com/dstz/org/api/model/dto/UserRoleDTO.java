@@ -2,7 +2,7 @@ package com.dstz.org.api.model.dto;
 
 import com.dstz.org.api.model.IUserRole;
 
-public class UserRoleDto implements IUserRole{
+public class UserRoleDTO implements IUserRole{
 	   /**
      * role_id_
      */
@@ -24,8 +24,21 @@ public class UserRoleDto implements IUserRole{
     protected String alias;
     //账号
     protected String account = "";
+    
 
-    public void setAlias(String alias) {
+    public UserRoleDTO() {
+    	
+	}
+
+	public UserRoleDTO(String roleId, String userId, String fullname, String roleName) {
+		super();
+		this.roleId = roleId;
+		this.userId = userId;
+		this.fullname = fullname;
+		this.roleName = roleName;
+	}
+
+	public void setAlias(String alias) {
         this.alias = alias;
     }
 

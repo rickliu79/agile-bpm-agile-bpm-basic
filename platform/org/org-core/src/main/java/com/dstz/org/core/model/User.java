@@ -1,12 +1,11 @@
 package com.dstz.org.core.model;
 
-import com.dstz.base.core.model.BaseModel;
-import com.dstz.org.api.model.IUser;
-import com.dstz.org.api.model.IdentityType;
-import com.dstz.sys.util.SysPropertyUtil;
+import java.util.Map;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.Map;
+import com.dstz.base.core.model.BaseModel;
+import com.dstz.org.api.model.IUser;
 
 
 /**
@@ -259,10 +258,6 @@ public class User extends BaseModel implements IUser{
                 .toString();
     }
 
-    public String getIdentityType() {
-        return IdentityType.USER;
-    }
-
     public String getUserId() {
         return this.id;
     }
@@ -271,19 +266,6 @@ public class User extends BaseModel implements IUser{
         this.id = userId;
 
     }
-
-    public void setAttributes(Map<String, String> map) {
-
-    }
-
-    public Map<String, String> getAttributes() {
-        return null;
-    }
-
-    public String getAttrbuite(String key) {
-        return null;
-    }
-
 
     public String getGroupId() {
         return groupId;

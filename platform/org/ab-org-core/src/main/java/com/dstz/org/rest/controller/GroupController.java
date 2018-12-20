@@ -87,7 +87,7 @@ public class GroupController extends BaseController<Group> {
         Group group = groupManager.get(id);
         if (group != null && !group.getParentId().equals("0")) {
             String parentOrgName = groupManager.get(group.getParentId()).getName();
-         //TODO   group.setParentOrgName(parentOrgName);
+         	group.setParentName(parentOrgName);
         }
 
        return getSuccessResult(group);
@@ -100,8 +100,8 @@ public class GroupController extends BaseController<Group> {
             groupTreeList = new ArrayList<OrgTree>();
         }
         OrgTree rootGroup = new OrgTree();
-        rootGroup.setName("行政组织");
-        rootGroup.setId("0"); // 根节点
+        rootGroup.setName("组织");
+        rootGroup.setId("0");
         groupTreeList.add(rootGroup);
         return groupTreeList;
     }

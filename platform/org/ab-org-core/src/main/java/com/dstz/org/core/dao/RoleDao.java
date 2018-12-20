@@ -10,16 +10,11 @@ import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 /**
- * <pre>
  * 描述：角色管理 DAO接口
- * </pre>
  */
 @MapperScan
 public interface RoleDao extends BaseDao<String, Role> {
     Role getByAlias(String alias);
-
-    List<Role> getList(@Param("userId") String userId,@Param("account") String account);
-
     /**
      * 判断角色系统中是否存在。
      *
@@ -27,4 +22,11 @@ public interface RoleDao extends BaseDao<String, Role> {
      * @return
      */
     Integer isRoleExist(Role role);
+    
+    /**
+     * 用过用户ID 获取角色
+     * @param userId
+     * @return
+     */
+	List<Role> getByUserId(String userId);
 }

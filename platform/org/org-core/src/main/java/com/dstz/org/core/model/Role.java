@@ -1,13 +1,12 @@
 package com.dstz.org.core.model;
 
-import com.dstz.base.core.model.BaseModel;
-import com.dstz.org.api.constant.GroupTypeConstant;
-import com.dstz.org.api.model.GroupStructEnum;
-import com.dstz.org.api.model.IGroup;
-import com.dstz.org.api.model.IdentityType;
+import java.util.Map;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.Map;
+import com.dstz.base.core.model.BaseModel;
+import com.dstz.org.api.constant.GroupTypeConstant;
+import com.dstz.org.api.model.IGroup;
 
 
 /**
@@ -87,11 +86,7 @@ public class Role extends BaseModel implements IGroup {
                 .append("enabled", this.enabled)
                 .toString();
     }
-
-    public String getIdentityType() {
-        return IdentityType.GROUP;
-    }
-
+ 
     public String getGroupId() {
         return this.id;
     }
@@ -107,10 +102,6 @@ public class Role extends BaseModel implements IGroup {
 
     public String getGroupType() {
         return GroupTypeConstant.ROLE.key();
-    }
-
-    public GroupStructEnum getStruct() {
-        return GroupStructEnum.PLAIN;
     }
 
     public String getParentId() {
@@ -133,4 +124,9 @@ public class Role extends BaseModel implements IGroup {
     public void setDescription(String description) {
         this.description = description;
     }
+
+	@Override
+	public String getGroupName() {
+		return name;
+	}
 }

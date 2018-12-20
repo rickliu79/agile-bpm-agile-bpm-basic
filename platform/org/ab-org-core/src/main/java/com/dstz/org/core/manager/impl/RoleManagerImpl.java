@@ -26,16 +26,11 @@ public class RoleManagerImpl extends BaseManager<String, Role> implements RoleMa
     public Role getByAlias(String alias) {
         return roleDao.getByAlias(alias);
     }
-
-    public List<Role> getListByUserId(String userId) {
+    
+    @Override
+    public List<Role> getByUserId(String userId) {
     	if(StringUtil.isEmpty(userId))return Collections.emptyList();
-        return roleDao.getList(userId, null);
-    }
-
-    public List<Role> getListByAccount(String account) {
-    	if(StringUtil.isEmpty(account))return Collections.emptyList();
-    	
-        return roleDao.getList(null,account);
+        return roleDao.getByUserId(userId);
     }
 
     @Override
