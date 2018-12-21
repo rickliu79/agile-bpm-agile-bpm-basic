@@ -78,7 +78,8 @@
 		left join org_user tuser on relation.user_id_ = tuser.id_
 		left join org_group tgroup on relation.group_id_ = tgroup.id_
 		left join org_role role on relation.role_id_ = role.id_
-		WHERE relation.type_ = #{relationType} and relation.user_id_ = #{userId}
+		WHERE relation.user_id_ = #{userId} 
+		<if test="relationType != null and relationType != ''"> and relation.type_ = #{relationType}</if>
 	</select>
 	
 </mapper>

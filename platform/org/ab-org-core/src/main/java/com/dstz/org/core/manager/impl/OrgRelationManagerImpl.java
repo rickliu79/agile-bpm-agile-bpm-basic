@@ -5,6 +5,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.org.api.model.IGroup;
 import com.dstz.org.core.constant.RelationTypeConstant;

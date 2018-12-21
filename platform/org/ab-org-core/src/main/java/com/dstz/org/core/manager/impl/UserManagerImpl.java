@@ -49,6 +49,19 @@ public class UserManagerImpl extends BaseManager<String, User> implements UserMa
 		
 		return userDao.getUserListByRelation(relId,type);
 	}
+	
+	/**
+	 * 通过ID 获取会带上用户关系信息
+	 */
+	@Override
+	public User get(String entityId) {
+		
+		User user =  super.get(entityId);
+		if(user!= null) {
+			user.setOrgRelationList(orgRelationMananger.getUserRelation(entityId, null));
+		}
+		return user;
+	}
 
 	@Override
 	public void saveUserInfo(User user) {
@@ -62,9 +75,11 @@ public class UserManagerImpl extends BaseManager<String, User> implements UserMa
 		List<OrgRelation> orgRelationList = user.getOrgRelationList();
 		if(CollectionUtil.isEmpty(orgRelationList)) return;
 		
-		for(OrgRelation rel : orgRelationList) {
+		orgRelationList.forEach( rel ->{
+			rel.setUserId(user.getId());
 			orgRelationMananger.create(rel);
-		}
+		});
+		 
 	}
 
 }

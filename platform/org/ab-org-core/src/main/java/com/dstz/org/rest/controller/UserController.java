@@ -48,14 +48,6 @@ public class UserController extends BaseController<User> {
         return getSuccessResult(user.getId(), "保存成功");
     }
 
-
-    @RequestMapping("saveUserInfo")
-    @CatchErr()
-    public ResultMsg<String> saveUserInfo(HttpServletRequest request, HttpServletResponse response, @RequestBody User user) throws Exception {
-        userManager.update(user);
-        return getSuccessResult();
-    }
-
     @RequestMapping("updateUserPsw")
     @CatchErr("更新密码失败")
     public ResultMsg<String> updateUserPsw(HttpServletRequest request, HttpServletResponse response) throws Exception {
