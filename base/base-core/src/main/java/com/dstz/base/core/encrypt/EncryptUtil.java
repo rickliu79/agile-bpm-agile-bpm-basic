@@ -1,12 +1,12 @@
 package com.dstz.base.core.encrypt;
 
 import java.security.MessageDigest;
+import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -15,7 +15,6 @@ import com.dstz.base.api.exception.BusinessError;
 /**
  * 加密算法。 <br/>
  * 2.SHA-256 <br/>
- * @deprecated 推荐使用 SecureUtil
  */
 public class EncryptUtil {
 	private static final String CODE = "UTF-8";
@@ -51,21 +50,7 @@ public class EncryptUtil {
 	 * @throws Exception
 	 */
 	public static String decrypt(String message) {
-		try {
-			byte[] bytes = string2Bytes(message);
-			Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
-			DESKeySpec desKeySpec = new DESKeySpec(KEY.getBytes(CODE));
-			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
-			SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
-			IvParameterSpec iv = new IvParameterSpec(KEY.getBytes(CODE));
-
-			cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
-
-			byte[] retByte = cipher.doFinal(bytes);
-			return new String(retByte, CODE);
-		} catch (Exception e) {
-			throw new BusinessError(e);
-		}
+		return aesDecrypt(message, KEY);
 	}
 
 	/**
@@ -76,43 +61,72 @@ public class EncryptUtil {
 	 * @throws Exception
 	 */
 	public static String encrypt(String message) {
-		try {
-			Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
-
-			DESKeySpec desKeySpec = new DESKeySpec(KEY.getBytes(CODE));
-
-			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
-			SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
-			IvParameterSpec iv = new IvParameterSpec(KEY.getBytes(CODE));
-			cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
-			
-			byte[] code = cipher.doFinal(message.getBytes(CODE));
-			return bytes2String(code);
-		} catch (Exception e) {
-			throw new BusinessError(e);
-		}
+		return aesEncrypt(message, KEY);
 	}
 
-	 private static String bytes2String(byte bytes[]) {
-	        StringBuilder str = new StringBuilder();
-	        for (int i = 0; i < bytes.length; i++) {
-	            String hexString = Integer.toHexString(0xff & bytes[i]);
-	            if (hexString.length() < 2)
-	                hexString = "0" + hexString;
-	            str.append(hexString);
-	        }
+	  /**
+     * aes解密-128位
+     */
+    public static String aesDecrypt(String encryptContent, String password) {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+            secureRandom.setSeed(password.getBytes());
+            keyGen.init(128, secureRandom);
+            SecretKey secretKey = keyGen.generateKey();
+            byte[] enCodeFormat = secretKey.getEncoded();
+            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            return new String(cipher.doFinal(hex2Bytes(encryptContent)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-	        return str.toString();
-	  }
-	 
-	  public static byte[] string2Bytes(String s) {
-	        byte b[] = new byte[s.length() / 2];
-	        for (int i = 0; i < b.length; i++) {
-	            String bs = s.substring(2 * i, 2 * i + 2);
-	            int ib = Integer.parseInt(bs, 16);
-	            b[i] = (byte) ib;
-	        }
-	        return b;
-	    }
+    /**
+     * aes加密-128位
+     */
+    public static String aesEncrypt(String content, String password) {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+            secureRandom.setSeed(password.getBytes());
+            keyGen.init(128, secureRandom);
+            SecretKey secretKey = keyGen.generateKey();
+            byte[] enCodeFormat = secretKey.getEncoded();
+            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            return byte2Hex(cipher.doFinal(content.getBytes("UTF-8")));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 将byte[] 转换成字符串
+     */
+    public static String byte2Hex(byte[] srcBytes) {
+        StringBuilder hexRetSB = new StringBuilder();
+        for (byte b : srcBytes) {
+            String hexString = Integer.toHexString(0x00ff & b);
+            hexRetSB.append(hexString.length() == 1 ? 0 : "").append(hexString);
+        }
+        return hexRetSB.toString();
+    }
+
+    /**
+     * 将16进制字符串转为转换成字符串
+     */
+    public static byte[] hex2Bytes(String source) {
+        byte[] sourceBytes = new byte[source.length() / 2];
+        for (int i = 0; i < sourceBytes.length; i++) {
+            sourceBytes[i] = (byte) Integer.parseInt(source.substring(i * 2, i * 2 + 2), 16);
+        }
+        return sourceBytes;
+    }
 
 }
