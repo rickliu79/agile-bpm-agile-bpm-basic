@@ -10,7 +10,8 @@
 	var groupId = $.getParam("groupId");
 	
 	var app = angular.module('app', ['baseDirective']);
-	app.controller("ctrl", [ '$scope', 'baseService', function($scope, baseService) {
+	app.controller("ctrl", [ '$scope', 'baseService','ArrayToolService', function($scope, baseService,ArrayToolService) {
+		$scope.ArrayTool = ArrayToolService;
 		$scope.isSaveEd = id;
 		if(id){
 			$("#account").attr("readonly","readonly");
@@ -34,7 +35,77 @@
 			$scope.data.groupId=groupId;
 		});
 		
-	 
+	 	$scope.selectRoleRelation = function(){
+	 		if(!$scope.data.orgRelationList){
+	 			$scope.data.orgRelationList = [];
+	 		}
+	 		var arr = [];
+	 		var newList = [];
+			for(var i=0,relation;relation = $scope.data.orgRelationList[i++];){
+				if(relation.type == "userRole"){
+					var object = {};
+					object.id = relation.roleName;
+					object.name = relation.roleId;
+					arr.push(object);
+				}else{
+					newList.push(relation);
+				}
+			}
+	 		
+	 		CustUtil.openCustDialog("roleSelector",function(data,innerWindow){
+				$scope.$apply(function(){
+					$scope.data.orgRelationList = newList;
+					
+					//将重新选择的放入到List中
+					for(var i = 0; i < data.length; i++) {
+						var rights = {
+							type :"userRole",
+							roleId: data[i].id,
+							roleName : data[i].name,
+							};
+						$scope.data.orgRelationList.push(rights);
+					}
+					});
+			   $.Dialog.close(innerWindow);
+			},arr);
+	 	}
+	 	
+	 	$scope.selectGroupRelation = function(){
+	 		if(!$scope.data.orgRelationList){
+	 			$scope.data.orgRelationList = [];
+	 		}
+	 		var arr = [];
+	 		var newList = [];
+			for(var i=0,relation;relation = $scope.data.orgRelationList[i++];){
+				if(relation.type == "groupUser"){
+					var object = {};
+					object.id = relation.groupName;
+					object.name = relation.groupId;
+					arr.push(object);
+				}else{
+					newList.push(relation);
+				}
+			}
+	 		
+	 		CustUtil.openCustDialog("orgSelector",function(data,innerWindow){
+				$scope.$apply(function(){
+					$scope.data.orgRelationList = newList;
+					
+					//将重新选择的放入到List中
+					for(var i = 0; i < data.length; i++) {
+						var rights = {
+							type :"groupUser",
+							groupId: data[i].id,
+							groupName : data[i].name,
+							};
+						$scope.data.orgRelationList.push(rights);
+					}
+					});
+			   $.Dialog.close(innerWindow);
+			},arr);
+	 	}
+		
+		
 		$scope.$on("afterSaveEvent",function(event,result){
 			HT.window.refreshParentGrid();
 			if(result.r){
@@ -149,8 +220,20 @@
 					<span class="required">*</span>
 				</th>
 				<td>
-					<span ng-repeat="relation in orgRelationList |filter:{type:'userRole'}" class="label label-danger"> {{rights.rightsIdentityName}}</span>
-					<span class="btn  btn-sm btn-primary fa  ng-scope" ng-click="selectUserRelation('userRole','roleSelector')">选择</span> 
+					<span ng-repeat="relation in data.orgRelationList |filter:{type:'userRole'}" style="margin-right: 10px" class="label label-danger"> {{relation.roleName}}
+					<button href="javascript:void(0)" class="btn btn-link btn-default btn-xs" ng-click="ArrayTool.remove(relation,data.orgRelationList)">×</button></span>
+					<span class="btn  btn-sm btn-primary fa fa-search" ng-click="selectRoleRelation()">选择</span> 
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<span>组织:</span>
+					<span class="required">*</span>
+				</th>
+				<td>
+					<span ng-repeat="relation in data.orgRelationList|filter:{type:'groupUser'}" style="margin-right: 10px" class="label label-danger"> {{relation.groupName}}
+					<button href="javascript:void(0)" class="btn btn-link btn-default btn-xs" ng-click="ArrayTool.remove(relation,data.orgRelationList)">×</button></span>
+					<span class="btn  btn-sm btn-primary fa fa-search" ng-click="selectGroupRelation()" >选择</span> 
 				</td>
 			</tr>
 			<tr>

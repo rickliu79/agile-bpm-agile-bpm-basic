@@ -13,8 +13,14 @@ import com.dstz.org.core.model.OrgRelation;
  * @time 2018-12-16 01:07:59
  */
 public interface OrgRelationDao extends BaseDao<String, OrgRelation> {
-
-	List getUserRelation(@Param("userId") String userId,@Param("relationType")String relationType);
+	
+	/**
+	 * 获取用户的 关系
+	 * @param userId 必须
+	 * @param relationType 非必须
+	 * @return
+	 */
+	List<OrgRelation> getUserRelation(@Param("userId") String userId,@Param("relationType")String relationType);
 	
 	/**
 	 * 通过 userId 刪除所有關係
