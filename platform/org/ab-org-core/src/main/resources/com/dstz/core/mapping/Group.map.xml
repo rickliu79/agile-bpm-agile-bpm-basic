@@ -46,7 +46,7 @@
 			ORDER BY ${orderBySql}
 		</if>
 		<if test="orderBySql==null">
-			ORDER BY id_ DESC
+			ORDER BY sn_ DESC
 		</if>
 	</select>
 	

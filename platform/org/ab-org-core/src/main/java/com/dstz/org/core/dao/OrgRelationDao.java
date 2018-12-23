@@ -28,4 +28,13 @@ public interface OrgRelationDao extends BaseDao<String, OrgRelation> {
 	 */
 	void removeByUserId(String userId);
 	
+	/**
+	 * 获取组织岗位
+	 * @param groupId
+	 * @return 
+	 */
+	List<OrgRelation> getGroupPost(String groupId);
+
+	void removeGroupPostById(String id);
+	
 }

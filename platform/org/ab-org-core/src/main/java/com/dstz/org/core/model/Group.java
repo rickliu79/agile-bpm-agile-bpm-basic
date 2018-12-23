@@ -1,4 +1,6 @@
 package com.dstz.org.core.model;
+import java.util.List;
+
 import com.dstz.base.core.model.BaseModel;
 import com.dstz.org.api.constant.GroupTypeConstant;
 import com.dstz.org.api.model.IGroup;
@@ -39,6 +41,11 @@ public class Group extends BaseModel implements IGroup{
 	* 排序
 	*/
 	protected  Integer sn; 
+	
+	/**
+	 * 岗位
+	 */
+	protected List<OrgRelation> orgRelationList;
 	
 	/**
 	 *  前端字段
@@ -145,6 +152,14 @@ public class Group extends BaseModel implements IGroup{
 	
 	
 	
+	public List<OrgRelation> getOrgRelationList() {
+		return orgRelationList;
+	}
+
+	public void setOrgRelationList(List<OrgRelation> orgRelationList) {
+		this.orgRelationList = orgRelationList;
+	}
+
 	public void setSn( Integer sn) {
 		this.sn = sn;
 	}

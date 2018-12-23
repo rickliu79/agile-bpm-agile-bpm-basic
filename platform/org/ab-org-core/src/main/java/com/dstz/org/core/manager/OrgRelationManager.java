@@ -21,5 +21,9 @@ public interface OrgRelationManager extends Manager<String, OrgRelation>{
 	List<OrgRelation>  getUserRelation(String userId,String relationType);
 
 	void removeByUserId(String id);
+
+	List<OrgRelation> getGroupPost(String groupId);
+
+	void removeGroupPostById(String id);
 	
 }
