@@ -4,14 +4,18 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dstz.base.core.util.BeanUtils;
+import com.dstz.base.core.id.IdUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.org.core.dao.GroupDao;
 import com.dstz.org.core.dao.UserDao;
 import com.dstz.org.core.manager.GroupManager;
+import com.dstz.org.core.manager.OrgRelationManager;
 import com.dstz.org.core.model.Group;
+import com.dstz.org.core.model.OrgRelation;
 import com.dstz.org.core.model.User;
 
 import cn.hutool.core.collection.CollectionUtil;
@@ -27,10 +31,59 @@ public class GroupManagerImpl extends BaseManager<String, Group> implements Grou
     GroupDao groupDao;
     @Resource
     UserDao userDao;
+    @Autowired
+    OrgRelationManager orgRelationMananger;
 
 
     public Group getByCode(String code) {
         return groupDao.getByCode(code);
+    }
+    
+    @Override
+    public Group get(String entityId) {
+    	Group group =  super.get(entityId);
+    	if(group != null) {
+    		List<OrgRelation> orgRelationList = orgRelationMananger.getGroupPost(group.getId());
+    		group.setOrgRelationList(orgRelationList);
+    	}
+    	return group;
+    }
+    @Override
+    public void create(Group entity) {
+    	entity.setId(IdUtil.getSuid());
+    	entity.setPath(entity.getId());
+    	if(StringUtil.isNotZeroEmpty(entity.getParentId())) {
+    		Group parent = groupDao.get(entity.getParentId());
+    		if(parent != null) {
+    			entity.setPath(parent.getPath().concat(".").concat(entity.getId()));
+    		}
+    	}
+    	
+    	// 创建组织岗位
+    	List<OrgRelation> list = entity.getOrgRelationList();
+    	if(CollectionUtil.isNotEmpty(list)) {
+    		list.forEach( orgRelation ->{
+    			orgRelation.setGroupId(entity.getId());
+    			orgRelationMananger.create(orgRelation);
+    		});
+    	}
+    	
+    	super.create(entity);
+    }
+    
+    @Override
+    public void update(Group entity) {
+    	orgRelationMananger.removeGroupPostById(entity.getId());
+    	
+    	// 创建组织岗位
+    	List<OrgRelation> list = entity.getOrgRelationList();
+    	if(CollectionUtil.isNotEmpty(list)) {
+    		list.forEach( orgRelation ->{
+    			orgRelation.setGroupId(entity.getId());
+    			orgRelationMananger.create(orgRelation);
+    		});
+    	}
+    	super.update(entity);
     }
 
     public List<Group> getByUserId(String userId) {
@@ -48,7 +101,7 @@ public class GroupManagerImpl extends BaseManager<String, Group> implements Grou
         if (CollectionUtil.isEmpty(list)) return null;
         if (list.size() == 1) return list.get(0);
         for (Group org : list) {
-          //TODO  if (org.getIsMaster() == 1) return org;
+          //  if (org.getIsMaster() == 1) return org;
         }
         return list.get(0);
     }

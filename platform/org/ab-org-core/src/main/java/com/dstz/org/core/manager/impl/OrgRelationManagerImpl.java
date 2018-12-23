@@ -44,4 +44,14 @@ public class OrgRelationManagerImpl extends BaseManager<String, OrgRelation> imp
 		orgRelationDao.removeByUserId(userId);
 	}
 
+	@Override
+	public List<OrgRelation> getGroupPost(String groupId) {
+		return orgRelationDao.getGroupPost(groupId);
+	}
+
+	@Override
+	public void removeGroupPostById(String id) {
+		orgRelationDao.removeGroupPostById(id);
+	}
+
 }

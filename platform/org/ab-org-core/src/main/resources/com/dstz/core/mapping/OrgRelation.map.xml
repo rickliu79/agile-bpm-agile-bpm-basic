@@ -72,6 +72,12 @@
 		user_id_=#{userId}
 	</delete>
 	
+	<delete id="removeGroupPostById" parameterType="java.lang.String">
+		DELETE FROM org_relation 
+		WHERE
+		group_id_=#{groupId} and type_ = 'groupRole'
+	</delete>
+	
 	<select id="getUserRelation"   parameterType="java.util.Map" resultMap="OrgRelation">
 		SELECT relation.*,tgroup.name_ groupName,tuser.fullname_ userName,role.name_ roleName 
 		FROM org_relation relation 
@@ -81,5 +87,15 @@
 		WHERE relation.user_id_ = #{userId} 
 		<if test="relationType != null and relationType != ''"> and relation.type_ = #{relationType}</if>
 	</select>
+	
+	<select id="getGroupPost"   parameterType="java.util.Map" resultMap="OrgRelation">
+		SELECT relation.*,tgroup.name_ groupName,role.name_ roleName 
+		FROM org_relation relation 
+		left join org_group tgroup on relation.group_id_ = tgroup.id_
+		left join org_role role on relation.role_id_ = role.id_
+		WHERE relation.group_id_ = #{groupId} 
+		and  relation.type_ = 'groupRole'
+	</select>
+	
 	
 </mapper>
