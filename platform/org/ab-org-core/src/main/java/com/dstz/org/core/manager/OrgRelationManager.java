@@ -25,5 +25,11 @@ public interface OrgRelationManager extends Manager<String, OrgRelation>{
 	List<OrgRelation> getGroupPost(String groupId);
 
 	void removeGroupPostById(String id);
+
+	void updateUserGroupRelationIsMaster(String id);
+
+	void changeStatus(String id, int status);
+
+	void saveUserGroupRelation(String groupId, String[] roleIds, String[] userIds);
 	
 }

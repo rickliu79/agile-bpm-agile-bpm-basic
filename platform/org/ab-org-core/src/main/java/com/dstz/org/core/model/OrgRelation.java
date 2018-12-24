@@ -23,7 +23,13 @@ public class OrgRelation extends BaseModel{
 	/**
 	* 0:默认组织，1：从组织
 	*/
-	protected  Integer isMaster; 
+	protected  Integer isMaster = 0; 
+	
+	/**
+	* 0:默认组织，1：从组织
+	*/
+	protected  Integer status = 1; 
+	
 	/**
 	* 角色ID
 	*/
@@ -45,6 +51,19 @@ public class OrgRelation extends BaseModel{
 		this.groupId = groupId;
 	}
 	
+
+	public OrgRelation() {
+		 
+	}
+	
+	public OrgRelation(String groupId, String userId, String roleId, String type) {
+		super();
+		this.groupId = groupId;
+		this.userId = userId;
+		this.roleId = roleId;
+		this.type = type;
+	}
+
 	/**
 	 * 返回 组ID
 	 * @return
@@ -96,6 +115,14 @@ public class OrgRelation extends BaseModel{
 
 	public String getUserName() {
 		return userName;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public void setUserName(String userName) {
