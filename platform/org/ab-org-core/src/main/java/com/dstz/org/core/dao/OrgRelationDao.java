@@ -37,4 +37,14 @@ public interface OrgRelationDao extends BaseDao<String, OrgRelation> {
 
 	void removeGroupPostById(String id);
 	
+	/**
+	 * 通过 参数查询关系列表
+	 * @param relationTypes 关系类型
+	 * @param userId 用户ID
+	 * @param groupId 组织ID
+	 * @param roleId 角色ID
+	 * @return
+	 */
+	List<OrgRelation> getRelationsByParam(@Param("relationTypes")List<String> relationTypes, @Param("userId")String userId, @Param("groupId") String groupId, @Param("roleId") String roleId);
+	
 }

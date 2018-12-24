@@ -8,6 +8,7 @@
 		<result property="isMaster" column="is_master_" jdbcType="NUMERIC"/>
 		<result property="roleId" column="role_id_" jdbcType="VARCHAR"/>
 		<result property="type" column="type_" jdbcType="VARCHAR"/>
+		<result property="status" column="status_" jdbcType="VARCHAR"/>
 		<result property="createTime" column="create_time_" jdbcType="TIMESTAMP"/>
 		<result property="createBy" column="create_by_" jdbcType="VARCHAR"/>
 		<result property="updateTime" column="update_time_" jdbcType="TIMESTAMP"/>
@@ -19,9 +20,9 @@
 	
 	<insert id="create" parameterType="com.dstz.org.core.model.OrgRelation">
 		INSERT INTO org_relation
-		(id_,group_id_,user_id_,is_master_,role_id_,type_,create_time_,create_by_,update_time_,update_by_)
+		(id_,group_id_,user_id_,is_master_,role_id_,type_,status_,create_time_,create_by_,update_time_,update_by_)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{isMaster,jdbcType=NUMERIC}, #{roleId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+		(#{id,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{isMaster,jdbcType=NUMERIC}, #{roleId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},1, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="get"   parameterType="java.lang.String" resultMap="OrgRelation">
@@ -31,7 +32,11 @@
 	</select>
 	
 	<select id="query" parameterType="java.util.Map" resultMap="OrgRelation">
-		SELECT * FROM org_relation
+		SELECT relation.*,tgroup.name_ groupName,tuser.fullname_ userName,role.name_ roleName 
+		FROM org_relation relation 
+		left join org_user tuser on relation.user_id_ = tuser.id_
+		left join org_group tgroup on relation.group_id_ = tgroup.id_
+		left join org_role role on relation.role_id_ = role.id_
 		<where>
 			<if test="whereSql!=null">
 				${whereSql}
@@ -41,7 +46,7 @@
 			ORDER BY ${orderBySql}
 		</if>
 		<if test="orderBySql==null">
-			ORDER BY id_ DESC
+			ORDER BY relation.id_ DESC
 		</if>
 	</select>
 	
@@ -52,6 +57,7 @@
 		is_master_=#{isMaster,jdbcType=NUMERIC},
 		role_id_=#{roleId,jdbcType=VARCHAR},
 		type_=#{type,jdbcType=VARCHAR},
+		status_=#{status,jdbcType=VARCHAR},
 		create_time_=#{createTime,jdbcType=TIMESTAMP},
 		create_by_=#{createBy,jdbcType=VARCHAR},
 		update_time_=#{updateTime,jdbcType=TIMESTAMP},
@@ -84,7 +90,7 @@
 		left join org_user tuser on relation.user_id_ = tuser.id_
 		left join org_group tgroup on relation.group_id_ = tgroup.id_
 		left join org_role role on relation.role_id_ = role.id_
-		WHERE relation.user_id_ = #{userId} 
+		WHERE relation.user_id_ = #{userId} and relation.status_ = 1
 		<if test="relationType != null and relationType != ''"> and relation.type_ = #{relationType}</if>
 	</select>
 	
@@ -93,9 +99,26 @@
 		FROM org_relation relation 
 		left join org_group tgroup on relation.group_id_ = tgroup.id_
 		left join org_role role on relation.role_id_ = role.id_
-		WHERE relation.group_id_ = #{groupId} 
+		WHERE relation.group_id_ = #{groupId}  and relation.status_ = 1
 		and  relation.type_ = 'groupRole'
 	</select>
 	
+	<select id="getRelationsByParam"   parameterType="java.util.Map" resultMap="OrgRelation">
+		SELECT relation.*,tgroup.name_ groupName,tuser.fullname_ userName,role.name_ roleName 
+		FROM org_relation relation 
+		left join org_user tuser on relation.user_id_ = tuser.id_
+		left join org_group tgroup on relation.group_id_ = tgroup.id_
+		left join org_role role on relation.role_id_ = role.id_
+		WHERE relation.status_ = 1
+		<if test="userId !=null and userId != ''"> and relation.user_id_ = #{userId} </if>
+		<if test="groupId !=null and groupId != ''"> and relation.group_id_ = #{groupId} </if>
+		<if test="roleId !=null and roleId != ''"> and relation.role_id_ = #{roleId} </if>
+		<if test="relationTypes != null and relationTypes.size()>0">
+			 and  relation.type_ in 
+			 <foreach collection="relationTypes" item="type" index="index" open="(" close=")" separator=",">
+				<trim prefix="#{" suffix="}">type</trim>
+			 </foreach>
+		 </if>
+	</select>
 	
 </mapper>
