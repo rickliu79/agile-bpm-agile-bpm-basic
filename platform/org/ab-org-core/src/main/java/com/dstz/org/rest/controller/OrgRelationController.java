@@ -94,7 +94,7 @@ public class OrgRelationController extends BaseController<OrgRelation>{
         return getSuccessResult(orgRelations);
     }
     
-    @RequestMapping("getGroupPost")
+    @RequestMapping("saveGroupUserRel")
     @CatchErr
     public ResultMsg<String> saveGroupUserRel(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String groupId = RequestUtil.getRQString(request, "groupId");
