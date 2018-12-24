@@ -71,8 +71,7 @@ public class OrgRelationManagerImpl extends BaseManager<String, OrgRelation> imp
 		OrgRelation relation = orgRelationDao.get(id);
 		if(relation == null || StringUtil.isEmpty(relation.getUserId())) return ;
 		
-		List<String> relationList = Arrays.asList(RelationTypeConstant.GROUP_USER.getKey());
-		relationList.add(RelationTypeConstant.POST_USER.getKey());
+		List<String> relationList = Arrays.asList(RelationTypeConstant.GROUP_USER.getKey(),RelationTypeConstant.POST_USER.getKey());
 		//查询出用户 与 岗位，组织的所有关系，置为 非主版本
 		List<OrgRelation>  userGroupRelations = orgRelationDao.getRelationsByParam(relationList, relation.getUserId(), null, null);
 		userGroupRelations.forEach(rel ->{
@@ -110,6 +109,7 @@ public class OrgRelationManagerImpl extends BaseManager<String, OrgRelation> imp
 				for(String roleId : roleIds) {
 					orgRelation.setRoleId(roleId);
 					orgRelation.setType(RelationTypeConstant.POST_USER.getKey());
+					
 					orgRelationDao.create(orgRelation);
 					continue;
 				}
