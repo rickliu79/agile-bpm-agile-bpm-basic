@@ -47,4 +47,11 @@ public interface OrgRelationDao extends BaseDao<String, OrgRelation> {
 	 */
 	List<OrgRelation> getRelationsByParam(@Param("relationTypes")List<String> relationTypes, @Param("userId")String userId, @Param("groupId") String groupId, @Param("roleId") String roleId);
 	
+	/**
+	 * @param relation userId,roleId,groupId,relation 存在则相等判断
+	 * @param relation.id 存在则非匹配
+	 * @return
+	 */
+	int getCountByRelation(OrgRelation relation);
+	
 }

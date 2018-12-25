@@ -15,6 +15,7 @@ import com.dstz.base.api.exception.BusinessError;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.api.response.impl.ResultMsg;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.org.core.constant.RelationTypeConstant;
@@ -107,6 +108,34 @@ public class OrgRelationController extends BaseController<OrgRelation>{
         orgRelationManager.saveUserGroupRelation(groupId,roleIds,userIds);
 
         return getSuccessResult("添加成功");
+    }
+    
+    @RequestMapping("saveRoleUsers")
+    @CatchErr
+    public ResultMsg<String> saveRoleUsers(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String  roleId = RequestUtil.getString(request, "roleId");
+        String [] userIds = RequestUtil.getStringAryByStr(request, "userIds");
+        if(ArrayUtil.isEmpty(userIds)) {
+        	throw new BusinessError("请选择用户！");
+        }
+        
+       int i =  orgRelationManager.saveRoleUsers(roleId,userIds);
+
+        return getSuccessResult(i +"条用户角色添加成功");
+    }
+    
+    /**
+     * 查询 组用户
+     */
+    @RequestMapping("roleJson")
+    public PageResult roleJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	String roleId = RequestUtil.getRQString(request, "roleId", "查询 角色ID不能为空");
+    	//查询 岗位 和 用户组的关系
+    	QueryFilter filter = new DefaultQueryFilter();
+    	filter.addFilter("role.id_", roleId, QueryOP.EQUAL);
+    	
+        Page<OrgRelation> pageList = (Page<OrgRelation>) orgRelationManager.query(filter);
+        return new PageResult(pageList);
     }
     
     
