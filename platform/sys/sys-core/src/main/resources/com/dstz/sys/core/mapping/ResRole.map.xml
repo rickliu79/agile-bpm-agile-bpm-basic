@@ -74,10 +74,5 @@
 			where a.SYSTEM_ID_=#{systemId} and a.ID_=b.RES_ID_ and b.ROLE_ID_=c.id_ and c.enabled_=1
 	</select>
 
-    <select id="getUrlRoleBySystemId" parameterType="java.lang.String" resultMap="ResRole">
-		select a.RES_URL_ url,c.alias_ roleAlias from sys_rel_resources a,sys_res_role b,org_role c
-			where b.SYSTEM_ID_=#{systemId} and a.RES_ID_=b.RES_ID_  and b.ROLE_ID_=c.id_ and c.enabled_=1
-	</select>
-
 
 </mapper>

@@ -28,7 +28,7 @@ public class Role extends BaseModel implements IGroup {
     /**
      * 0：禁用，1：启用
      */
-    protected Integer enabled;
+    protected Integer enabled = 1;
 
     /**
      * 角色描述

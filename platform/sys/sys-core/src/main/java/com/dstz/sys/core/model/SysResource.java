@@ -11,22 +11,21 @@ import com.dstz.base.api.model.Tree;
 
 
 /**
- * <pre>
- * 描述：子系统资源 实体对象
- * </pre>
+ * 系统资源
+ * @author jeff
+ *
  */
 public class SysResource implements Tree, IDModel {
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1717028148397030560L;
-
     /**
      * 主键
      */
     protected String id;
 
+    /**
+     * 父资源ID
+     */
+    protected String parentId;
+    
     /**
      * 子系统ID
      */
@@ -45,18 +44,13 @@ public class SysResource implements Tree, IDModel {
     /**
      * 默认地址
      */
-    protected String defaultUrl;
+    protected String url;
 
     /**
      * 显示到菜单(1,显示,0 ,不显示)
      */
-    protected Integer enableMenu;
-
-    /**
-     * 是否有子节点
-     */
-    protected Integer hasChildren;
-
+    protected Integer enable;
+ 
     /**
      * OPENED_
      */
@@ -68,30 +62,16 @@ public class SysResource implements Tree, IDModel {
     protected String icon = "";
 
     /**
-     * 打开新窗口
-     */
-    protected Integer newWindow;
-
-    /**
      * 排序
      */
-    protected Long sn;
-
-    /**
-     * 父资源ID
-     */
-    protected String parentId;
+    protected Integer sn;
 
     /**
      * 创建时间。
      */
     protected Date createTime;
-
-    /**
-     * 资源的URL列表
-     */
-    protected List<RelResource> relResources = new ArrayList<RelResource>();
-
+ 
+    
     protected List<SysResource> children = new ArrayList<SysResource>();
 
     /**
@@ -152,44 +132,6 @@ public class SysResource implements Tree, IDModel {
         return this.name;
     }
 
-    public void setDefaultUrl(String defaultUrl) {
-        this.defaultUrl = defaultUrl;
-    }
-
-    /**
-     * 返回 默认地址
-     *
-     * @return
-     */
-    public String getDefaultUrl() {
-        return this.defaultUrl;
-    }
-
-    public void setEnableMenu(Integer enableMenu) {
-        this.enableMenu = enableMenu;
-    }
-
-    /**
-     * 返回 显示到菜单(1,显示,0 ,不显示)
-     *
-     * @return
-     */
-    public Integer getEnableMenu() {
-        return this.enableMenu;
-    }
-
-    public void setHasChildren(Integer hasChildren) {
-        this.hasChildren = hasChildren;
-    }
-
-    /**
-     * 返回 是否有子节点
-     *
-     * @return
-     */
-    public Integer getHasChildren() {
-        return this.hasChildren;
-    }
 
     public void setOpened(Integer opened) {
         this.opened = opened;
@@ -217,20 +159,7 @@ public class SysResource implements Tree, IDModel {
         return this.icon;
     }
 
-    public void setNewWindow(Integer newWindow) {
-        this.newWindow = newWindow;
-    }
-
-    /**
-     * 返回 打开新窗口
-     *
-     * @return
-     */
-    public Integer getNewWindow() {
-        return this.newWindow;
-    }
-
-    public void setSn(Long sn) {
+    public void setSn(Integer sn) {
         this.sn = sn;
     }
 
@@ -239,7 +168,7 @@ public class SysResource implements Tree, IDModel {
      *
      * @return
      */
-    public Long getSn() {
+    public Integer getSn() {
         return this.sn;
     }
 
@@ -252,15 +181,6 @@ public class SysResource implements Tree, IDModel {
         this.parentId = parentId;
     }
 
-    public List<RelResource> getRelResources() {
-        return relResources;
-    }
-
-
-    public void setRelResources(List<RelResource> relResources) {
-        this.relResources = relResources;
-    }
-
     /**
      * @return the checked
      */
@@ -268,9 +188,6 @@ public class SysResource implements Tree, IDModel {
         return checked;
     }
 
-    /**
-     * @param checked the checked to set
-     */
     public void setChecked(boolean checked) {
         this.checked = checked;
     }
@@ -282,50 +199,6 @@ public class SysResource implements Tree, IDModel {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        SysResource other = (SysResource) obj;
-        if (id.equals(other.id)) return true;
-        return false;
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", this.id)
-                .append("systemId", this.systemId)
-                .append("alias", this.alias)
-                .append("name", this.name)
-                .append("defaultUrl", this.defaultUrl)
-                .append("enableMenu", this.enableMenu)
-                .append("hasChildren", this.hasChildren)
-                .append("opened", this.opened)
-                .append("parentId", this.parentId)
-                .append("icon", this.icon)
-                .append("newWindow", this.newWindow)
-                .append("sn", this.sn)
-                .toString();
     }
 
     public List getChildren() {
