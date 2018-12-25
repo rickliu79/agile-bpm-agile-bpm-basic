@@ -22,14 +22,10 @@ public class ResRoleManagerImpl extends BaseManager<String, ResRole> implements 
     ResRoleDao resRoleDao;
     @Resource
     ICache iCache;
-
-    public final String RESOURCE_URL = "RES_URL_";
-
-    public final String RESOURCE_RES = "SYS_RES_";
+    public final String URL_ROLE_MAPPING = "agilebpm:sys:resoucesUrlRoleMapping:";
 
     @Override
     public List<ResRole> getAllByRoleId(String roleId) {
-
         return resRoleDao.getByRoleId(roleId);
     }
 
@@ -49,67 +45,39 @@ public class ResRoleManagerImpl extends BaseManager<String, ResRole> implements 
 
     }
 
+   
+
     @Override
-    public Map<String, Set<String>> getResRoleBySystem(String systemId) {
-        String resStr = RESOURCE_RES + systemId;
-        if (iCache.containKey(resStr)) {
-            return (Map<String, Set<String>>) iCache.getByKey(resStr);
+    public Map<String, Set<String>> getUrlRoleMappingBySystem(String systemId) {
+        String urlCacheKey = URL_ROLE_MAPPING.concat(systemId);
+        if (iCache.containKey(urlCacheKey)) {
+            return (Map<String, Set<String>>) iCache.getByKey(urlCacheKey);
         }
 
         List<ResRole> list = resRoleDao.getResRoleBySystemId(systemId);
-        Map<String, Set<String>> map = new HashMap<String, Set<String>>();
 
-        for (ResRole res : list) {
-            String resAlias = res.getResAlias();
-            if (map.containsKey(resAlias)) {
-                Set<String> set = map.get(resAlias);
-                set.add(res.getRoleAlias());
-            } else {
-                Set<String> set = new HashSet<String>();
-                set.add(res.getRoleAlias());
-                map.put(resAlias, set);
-            }
-        }
-        iCache.add(resStr, map);
-        return map;
-    }
-
-    @Override
-    public Map<String, Set<String>> getUrlRoleBySystem(String systemId) {
-        String urlStr = RESOURCE_URL + systemId;
-        if (iCache.containKey(urlStr)) {
-            return (Map<String, Set<String>>) iCache.getByKey(urlStr);
-        }
-
-        List<ResRole> list = resRoleDao.getResRoleBySystemId(systemId);
-        List<ResRole> urlList = resRoleDao.getUrlRoleBySystemId(systemId);
-
-        urlList.addAll(list);
-
-        Map<String, Set<String>> map = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> urlRoleMapping = new HashMap<String, Set<String>>();
 
         for (ResRole res : list) {
             String url = res.getUrl();
-            if (map.containsKey(url)) {
-                Set<String> set = map.get(url);
+            if (urlRoleMapping.containsKey(url)) {
+                Set<String> set = urlRoleMapping.get(url);
                 set.add(res.getRoleAlias());
             } else {
                 Set<String> set = new HashSet<String>();
                 set.add(res.getRoleAlias());
-                map.put(url, set);
+                urlRoleMapping.put(url, set);
             }
         }
         //添加到缓存
-        iCache.add(urlStr, map);
-        return map;
+        iCache.add(urlCacheKey, urlRoleMapping);
+        return urlRoleMapping;
     }
 
     @Override
-    public void cleanResCache(String systemId) {
-        String urlStr = RESOURCE_URL + systemId;
-        String resStr = RESOURCE_RES + systemId;
+    public void cleanResoucesCache(String systemId) {
+        String urlStr = URL_ROLE_MAPPING .concat(systemId);
         iCache.delByKey(urlStr);
-        iCache.delByKey(resStr);
     }
 
 

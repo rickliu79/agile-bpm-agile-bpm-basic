@@ -31,22 +31,13 @@ public interface ResRoleManager extends Manager<String, ResRole> {
      * @param systemId
      * @return
      */
-    Map<String, Set<String>> getUrlRoleBySystem(String systemId);
-
-
-    /**
-     * 根据系统id获取资源和角色的映射。
-     *
-     * @param systemId
-     * @return
-     */
-    Map<String, Set<String>> getResRoleBySystem(String systemId);
+    Map<String, Set<String>> getUrlRoleMappingBySystem(String systemId);
 
     /**
      * 清除缓存。
      *
      * @param systemId
      */
-    void cleanResCache(String systemId);
+    void cleanResoucesCache(String systemId);
 
 }

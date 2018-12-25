@@ -17,13 +17,6 @@ public interface SysResourceManager extends Manager<String, SysResource> {
      */
     List<SysResource> getBySystemId(String id);
 
-    /**
-     * 根据资源ID获取资源对象，包括关联资源数据。
-     *
-     * @param id
-     * @return
-     */
-    SysResource getByResId(String id);
 
     /**
      * 根据系统和角色ID获取资源。
