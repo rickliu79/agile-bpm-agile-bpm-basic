@@ -29,14 +29,15 @@
 		  <button class="btn btn-outline btn-primary fa-plus" onclick="addUser()">新增 </button>
 		  <a class="btn btn-outline btn-primary fa-back" onClick="javascript:$.Dialog.close(window);"><span>返回</span></a>
      </div>
-	 <table ab-grid data-id-field="id" data-url="/org/userRole/listJson?roleId={roleId}">
+	 <table ab-grid data-id-field="id" data-url="/org/orgRelation/roleJson?roleId={roleId}">
          <thead>
          <tr>
              <th data-checkbox="true">ID</th>
-             <th data-field="account">账户</th>
-             <th data-field="fullname" >用户姓名</th>
+             <th data-field="userName">用户名</th>
+             <th data-field="roleName" >角色名</th>
+             <th data-field="updateTime" >操作时间</th>
              <th data-field="id" data-formatter="innerHtmlFormatter" data-title="管理">
-				<a class='btn btn-outline btn-primary fa  fa-trash' sendAction='删除' qtip='删除' url='/org/userRole/remove?id={id}'></a>
+				<a class='btn btn-outline btn-primary fa  fa-trash' sendAction='删除' qtip='删除' url='/org/orgRelation/remove?id={id}'></a>
              </th>
          </tr>
          </thead>
@@ -52,7 +53,7 @@ var roleId = $.getParam("roleId");
  				ids.push(user.id);
  			}
  			
- 			$.post(__ctx + "/org/userRole/saveRoleUsers",{userId:ids.join(","),roleId:roleId},function(data){
+ 			$.post(__ctx + "/org/orgRelation/saveRoleUsers",{userId:ids.join(","),roleId:roleId},function(data){
 				 data = JSON.parse(data);
 				 reloadGrid();
 				 if(data.isOk){

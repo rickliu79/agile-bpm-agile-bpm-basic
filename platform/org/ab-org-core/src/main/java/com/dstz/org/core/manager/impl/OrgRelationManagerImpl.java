@@ -5,8 +5,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.dstz.base.core.cache.ICache;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
@@ -15,13 +18,10 @@ import com.dstz.org.api.context.ICurrentContext;
 import com.dstz.org.api.model.IGroup;
 import com.dstz.org.core.constant.RelationTypeConstant;
 import com.dstz.org.core.dao.OrgRelationDao;
-import com.dstz.org.core.model.OrgRelation;
-import com.dstz.sys.util.ContextUtil;
-
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
-import cn.hutool.core.util.ArrayUtil;
-
 import com.dstz.org.core.manager.OrgRelationManager;
+import com.dstz.org.core.model.OrgRelation;
+
+import cn.hutool.core.util.ArrayUtil;
 /**
  * 用户组织关系 Manager处理实现类
  * @author Jeff
@@ -30,6 +30,7 @@ import com.dstz.org.core.manager.OrgRelationManager;
  */
 @Service("orgRelationManager")
 public class OrgRelationManagerImpl extends BaseManager<String, OrgRelation> implements OrgRelationManager{
+	protected  final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Resource
 	OrgRelationDao orgRelationDao;
 
@@ -109,14 +110,44 @@ public class OrgRelationManagerImpl extends BaseManager<String, OrgRelation> imp
 				for(String roleId : roleIds) {
 					orgRelation.setRoleId(roleId);
 					orgRelation.setType(RelationTypeConstant.POST_USER.getKey());
-					
-					orgRelationDao.create(orgRelation);
+					// 不存在则创建
+					if(!checkRelationIsExist(orgRelation)) {
+						orgRelationDao.create(orgRelation);
+					}else {
+						log.warn("关系重复添加，已跳过  {}",JSON.toJSONString(orgRelation));
+					}
 					continue;
 				}
 				continue;
 			}
+			if(!checkRelationIsExist(orgRelation)) {
+				orgRelationDao.create(orgRelation);
+			}else {
+				log.warn("关系重复添加，已跳过  {}",JSON.toJSONString(orgRelation));
+			}
+		}
+	}
+	
+	
+	private boolean  checkRelationIsExist(OrgRelation orgRelation) {
+		int  count = orgRelationDao.getCountByRelation(orgRelation);
+		return count >0;
+	}
+
+	@Override
+	public int saveRoleUsers(String roleId, String[] userIds) {
+		int i = 0;
+		for(String userId : userIds) {
+			OrgRelation orgRelation = new OrgRelation(null,userId,roleId,RelationTypeConstant.USER_ROLE.getKey());
+			if(checkRelationIsExist(orgRelation)) {
+				log.warn("关系重复添加，已跳过  {}",JSON.toJSONString(orgRelation));
+				continue;
+			}
+			i++;
 			orgRelationDao.create(orgRelation);
 		}
+		
+		return i;
 	}
 
 }

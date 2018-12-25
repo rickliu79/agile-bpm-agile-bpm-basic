@@ -103,6 +103,16 @@
 		and  relation.type_ = 'groupRole'
 	</select>
 	
+	<select id="getCountByRelation" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT count(*)  FROM org_relation  
+		WHERE 1 = 1 
+		<if test="id != null and id != ''"> and id_ != #{id} </if>
+		<if test="userId != null and userId != ''"> and user_id_ = #{userId} </if>
+		<if test="groupId != null and groupId != ''"> and group_id_ = #{groupId} </if>
+		<if test="roleId != null and roleId != ''"> and role_id_ = #{roleId} </if>
+		
+	</select>
+	
 	<select id="getRelationsByParam"   parameterType="java.util.Map" resultMap="OrgRelation">
 		SELECT relation.*,tgroup.name_ groupName,tuser.fullname_ userName,role.name_ roleName 
 		FROM org_relation relation 

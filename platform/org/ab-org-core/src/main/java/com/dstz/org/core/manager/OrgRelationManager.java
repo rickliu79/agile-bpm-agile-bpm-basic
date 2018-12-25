@@ -31,5 +31,7 @@ public interface OrgRelationManager extends Manager<String, OrgRelation>{
 	void changeStatus(String id, int status);
 
 	void saveUserGroupRelation(String groupId, String[] roleIds, String[] userIds);
+
+	int saveRoleUsers(String roleId, String[] userIds);
 	
 }
