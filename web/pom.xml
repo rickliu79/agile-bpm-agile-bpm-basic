@@ -62,7 +62,7 @@
 
 		<dependency>
 			<groupId>com.dstz.agilebpm</groupId>
-			<artifactId>http-security</artifactId>
+			<artifactId>ab-spring-security</artifactId>
 			<version>${platform.version}</version>
 		</dependency>
 
