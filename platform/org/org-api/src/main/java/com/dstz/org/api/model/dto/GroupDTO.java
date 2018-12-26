@@ -24,6 +24,13 @@ public class GroupDTO implements IGroup {
 
 	}
 	
+	public GroupDTO(String groupId, String groupName, String groupType) {
+		super();
+		this.groupId = groupId;
+		this.groupName = groupName;
+		this.groupType = groupType;
+	}
+
 	public String getIdentityType() {
 		return identityType;
 	}

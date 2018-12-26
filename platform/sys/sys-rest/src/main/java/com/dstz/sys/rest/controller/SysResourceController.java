@@ -21,6 +21,7 @@ import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
+import com.dstz.sys.core.constant.ResouceTypeConstant;
 import com.dstz.sys.core.manager.SubsystemManager;
 import com.dstz.sys.core.manager.SysResourceManager;
 import com.dstz.sys.core.model.Subsystem;
@@ -97,10 +98,7 @@ public class SysResourceController extends GenericController {
     public ResultMsg<String> save(@RequestBody SysResource sysResource) throws Exception {
         String resultMsg = null;
         String id = sysResource.getId();
-        boolean isExist = sysResourceManager.isExist(sysResource);
-        if (isExist) {
-           throw new BusinessMessage("资源已经存在,请修改重新添加!");
-        }
+        checkResouce(sysResource);
         
         if (StringUtil.isEmpty(id)) {
             sysResource.setSn(1);
@@ -116,7 +114,25 @@ public class SysResourceController extends GenericController {
         
     }
 
-    /**
+    private void checkResouce(SysResource sysResource) {
+    	boolean isExist = sysResourceManager.isExist(sysResource);
+        if (isExist) {
+           throw new BusinessMessage("资源已经存在,请修改重新添加!");
+        }
+        // 如果是菜单、那上级也必须是菜单、防止按钮下面配置菜单
+        if(ResouceTypeConstant.MENU.getKey().equals(sysResource.getType())) {
+        	SysResource parent = sysResourceManager.get(sysResource.getParentId());
+        	if(parent == null) return;
+        	
+        	if(!ResouceTypeConstant.MENU.getKey().equals(parent.getType())) {
+        		 throw new BusinessMessage("菜单类型的资源，上级资源["+parent.getName()+"]也必须是菜单！");
+        	}
+        }
+		
+	}
+
+
+	/**
      * 批量删除子系统资源记录
      *
      * @param request
