@@ -8,6 +8,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.dstz.base.api.model.IDModel;
 import com.dstz.base.api.model.Tree;
+import com.dstz.sys.api.model.system.IRelResource;
+import com.dstz.sys.api.model.system.ISysResource;
 
 
 /**
@@ -15,7 +17,7 @@ import com.dstz.base.api.model.Tree;
  * @author jeff
  *
  */
-public class SysResource implements Tree, IDModel {
+public class SysResource implements Tree,ISysResource, IDModel {
     /**
      * 主键
      */

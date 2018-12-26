@@ -1,8 +1,14 @@
 package com.dstz.security.rest.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +33,7 @@ import com.dstz.org.api.model.IGroup;
 import com.dstz.org.api.model.IUser;
 import com.dstz.org.api.service.GroupService;
 import com.dstz.security.util.SubSystemUtil;
+import com.dstz.sys.api.constant.ResouceTypeConstant;
 import com.dstz.sys.api.model.system.ISubsystem;
 import com.dstz.sys.api.model.system.ISysResource;
 import com.dstz.sys.api.service.SysResourceService;
@@ -35,6 +42,7 @@ import com.dstz.sys.util.ContextUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * 用户资源
@@ -53,9 +61,8 @@ public class UserResourceController extends GenericController {
     @RequestMapping(value="userResource/userMsg",method={RequestMethod.POST,RequestMethod.GET})
     @CatchErr
     @ApiOperation(value = "用户信息",notes="获取用户信息，当前组织，可切换的组织岗位，当前系统，拥有的系统列表等信息")
-    public ResultMsg<JSONObject> userMsg(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResultMsg userMsg(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<ISubsystem> subsystemList = sysResourceService.getCuurentUserSystem();
-        JSONObject mv = new JSONObject();
         if (CollectionUtil.isEmpty(subsystemList)) {
             throw new BusinessMessage("当前用户尚未分配任何资源权限！");
         }
@@ -83,19 +90,21 @@ public class UserResourceController extends GenericController {
 
         IGroup group = ContextUtil.getCurrentGroup();
         List<IGroup> orgList = orgService.getGroupsByGroupTypeUserId(GroupTypeConstant.ORG.key(), ContextUtil.getCurrentUserId());
-
-        mv.put("currentEnviroment",AppUtil.getCtxEnvironment());
-        mv.put("subsystemList", subsystemList);
-        mv.put("currentSystem", currentSystem);
-        mv.put("currentOrg", group);
-        mv.put("orgList", orgList);
-        mv.put("user", ContextUtil.getCurrentUser());
-        mv.put("resourceList", getSysResource(request, response));
-        return getSuccessResult(mv);
+        
+        ResultMsg result = getSuccessResult()
+	        .addMapParam("currentEnviroment",AppUtil.getCtxEnvironment())
+	        .addMapParam("subsystemList", subsystemList)
+	        .addMapParam("currentSystem", currentSystem)
+	        .addMapParam("currentOrg", group)
+	        .addMapParam("orgList", orgList)
+	        .addMapParam("user", ContextUtil.getCurrentUser());
+        
+        getSysResource(result, systemId);
+        
+        return result;
     }
 
-    
-    // 重新获取 userMsg
+	// 重新获取 userMsg
     @RequestMapping("userResource/changeSystem")
     public ResultMsg changeSystem(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String id = RequestUtil.getString(request, "id");
@@ -112,12 +121,9 @@ public class UserResourceController extends GenericController {
 
         return getSuccessResult("切换成功");
     }
-
-    @RequestMapping(value="userResource/getResTree",method={RequestMethod.POST,RequestMethod.GET})
-    @ApiOperation(value = "用户菜单资源",notes="获取用户可访问的菜单资源")
-    public List<ISysResource> getSysResource(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        IUser user = ContextUtil.getCurrentUser();
-        String systemId = SubSystemUtil.getSystemId(request);
+    
+    private void getSysResource(ResultMsg result,String systemId) {
+    	IUser user = ContextUtil.getCurrentUser();
         boolean isAdmin = ContextUtil.isAdmin(user);
         List<ISysResource> list = null;
         if (isAdmin) {
@@ -125,7 +131,21 @@ public class UserResourceController extends GenericController {
         } else {
             list = sysResourceService.getBySystemAndUser(systemId, user.getUserId());
         }
-
-        return BeanUtils.listToTree(list);
-    }
+        
+        // 菜单和按钮分离
+        List<ISysResource> menuList = new ArrayList<>();
+        Map<String,Boolean> buttonPermision = new HashMap<>();
+        
+        list.forEach( resouces ->{
+        	if(ResouceTypeConstant.MENU.getKey().equals( resouces.getType())) {
+        		menuList.add(resouces);
+        	}else {
+        		buttonPermision.put(resouces.getAlias(), resouces.getEnable()==1);
+        	}
+        });
+  		
+        
+        result.addMapParam("userMenuList", BeanUtils.listToTree(menuList));
+        result.addMapParam("buttonPermision", buttonPermision);
+  	}
 }
