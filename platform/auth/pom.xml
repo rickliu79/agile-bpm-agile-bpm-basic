@@ -15,8 +15,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>http-security</module>
-        <module>ab-security-jwt</module>
+        <module>ab-spring-security</module>
     </modules>
 
     <build>
