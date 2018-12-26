@@ -1,4 +1,4 @@
-package com.dstz.sys.core.constant;
+package com.dstz.sys.api.constant;
 
 /**
  * 组织级别

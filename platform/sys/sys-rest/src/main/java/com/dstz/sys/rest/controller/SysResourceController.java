@@ -21,7 +21,7 @@ import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
-import com.dstz.sys.core.constant.ResouceTypeConstant;
+import com.dstz.sys.api.constant.ResouceTypeConstant;
 import com.dstz.sys.core.manager.SubsystemManager;
 import com.dstz.sys.core.manager.SysResourceManager;
 import com.dstz.sys.core.model.Subsystem;

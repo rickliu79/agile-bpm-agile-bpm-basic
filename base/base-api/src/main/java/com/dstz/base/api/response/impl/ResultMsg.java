@@ -66,7 +66,7 @@ public class ResultMsg<E> extends BaseResult {
         this.data = data;
     }
 
-    public void addMapParam(String key, Object val) {
+    public ResultMsg<E> addMapParam(String key, Object val) {
         if (data == null) {
             Map map = new HashMap();
             this.data = (E) map;
@@ -77,6 +77,8 @@ public class ResultMsg<E> extends BaseResult {
 
         Map map = (Map) data;
         map.put(key, val);
+        
+        return this;
     }
 
     public Object getMapParam(String key) {
