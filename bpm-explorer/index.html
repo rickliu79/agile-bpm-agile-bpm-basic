@@ -27,19 +27,19 @@
                      </div>
                  </li>
          	<!--菜单 -->
-                  <li ng-repeat="item in memus" class="{{item.opened==1?'active':''}}" ng-if="item.enableMenu">
+                  <li ng-repeat="item in memus" class="{{item.opened==1?'active':''}}" ng-if="item.enable">
                       <a href="javascript:void(0);" ng-click="menuClick(item)">
                           <i class="fa {{item.icon}}"></i>
                           <span class="nav-label">{{item.name}}</span>
                           <span class="fa arrow" ng-if="item.children.length"></span>
                       </a>
                       <ul class="nav nav-second-level" ng-if="item.children.length">
-                          <li ng-repeat="second in item.children" ng-if="second.enableMenu">
+                          <li ng-repeat="second in item.children" ng-if="second.enable">
                               <a class="J_menuItem" ng-click="menuClick(second)">
                               		{{second.name}}<span ng-if="second.children" class="fa arrow"></span>
                               </a>
                               <ul class="nav nav-third-level" ng-if="second.children.length">
-		                          <li ng-repeat="third in second.children" ng-if="third.enableMenu">
+		                          <li ng-repeat="third in second.children" ng-if="third.enable">
 		                              <a class="J_menuItem" ng-click="menuClick(third)" >{{third.name}}</a>
 		                          </li>
 		                      </ul>
@@ -56,7 +56,7 @@
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header" style="width:80%">
                     	<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="javascript:void(0);"><i class="fa fa-bars"></i> </a>
-                   		<a ng-repeat="topMenu in userRes" ng-click="topClick(topMenu)" ab-tip title="{{topMenu.name}}"  ng-if="topMenu.enableMenu"
+                   		<a ng-repeat="topMenu in userRes" ng-click="topClick(topMenu)" ab-tip title="{{topMenu.name}}"  ng-if="topMenu.enable"
                    		 	class="navbar-minimalize minimalize-styl-2 btn btn-primary {{topMenu.active}}" href="javascript:void(0);">
                    		  	<i class="fa fa-{{topMenu.icon ||'server'}} fa-2x" style="display: block;" ></i> {{topMenu.name}}
                    		</a>
