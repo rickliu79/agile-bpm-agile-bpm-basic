@@ -20,6 +20,7 @@ public class BeanUtils {
      * @扩展 可通过反射获取id, pid，目前只提供Tree接口排序的实现
      * @author jeff
      */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T> List<T> listToTree(List<T> list) {
         Map<String, Tree> tempMap = new LinkedHashMap<String, Tree>();
         if (CollectionUtil.isEmpty(list)) return Collections.emptyList();

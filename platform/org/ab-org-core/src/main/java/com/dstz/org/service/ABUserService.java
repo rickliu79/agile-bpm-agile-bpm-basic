@@ -69,7 +69,7 @@ public class ABUserService implements UserService {
 
 	@Override
 	public List<IUserRole> getUserRole(String userId) {
-		List<OrgRelation> orgRelationList = orgRelationMananger.getUserRelation(userId, RelationTypeConstant.USER_ROLE.getKey());
+		List<OrgRelation> orgRelationList = orgRelationMananger.getUserRole(userId);
 		List<UserRoleDTO> userRoleList = new ArrayList<>();
 		
 		for(OrgRelation orgRelation : orgRelationList) {

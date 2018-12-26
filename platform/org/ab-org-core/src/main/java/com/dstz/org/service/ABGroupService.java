@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ import com.dstz.org.core.manager.GroupManager;
 import com.dstz.org.core.manager.OrgRelationManager;
 import com.dstz.org.core.manager.RoleManager;
 import com.dstz.org.core.manager.UserManager;
+import com.dstz.org.core.model.OrgRelation;
 import com.dstz.org.core.model.User;
 
 import cn.hutool.core.collection.CollectionUtil;
@@ -29,6 +32,7 @@ import cn.hutool.core.collection.CollectionUtil;
  */
 @Service("defaultGroupService")
 public class ABGroupService implements GroupService {
+	private Logger log  = LoggerFactory.getLogger(getClass());
     @Resource
     UserManager userManager;
 
@@ -101,23 +105,22 @@ public class ABGroupService implements GroupService {
      */
     @Override
     public List<IGroup> getGroupsByUserId(String userId) {
-        List<IGroup> listMap = new ArrayList<IGroup>();
+        List<IGroup> userGroups = new ArrayList<IGroup>();
         List<IGroup> listOrg = (List) groupManager.getByUserId(userId);
         if (CollectionUtil.isNotEmpty(listOrg)) {
-            listMap.addAll(listOrg);
+            userGroups.addAll(listOrg);
         }
         List<IGroup> listRole = (List) roleManager.getByUserId(userId);
         if (CollectionUtil.isNotEmpty(listRole)) {
-            listMap.addAll(listRole);
+            userGroups.addAll(listRole);
         }
-        List<IGroup> listOrgRel = (List) orgRelationManager.getPostByUserId(userId);
-        if (CollectionUtil.isNotEmpty(listOrgRel)) {
-            listMap.addAll(listOrgRel);
-        }
+        List<OrgRelation> listOrgRel = orgRelationManager.getPostByUserId(userId);
+        listOrgRel.forEach(post ->{
+        	userGroups.add( new GroupDTO(post.getId(),post.getRoleName(),GroupTypeConstant.POST.key()) );
+        });
         
         //转换成GROUP DTO
-        List<IGroup> groupList = (List)BeanCopierUtils.transformList(listMap, GroupDTO.class);
-        
+        List<IGroup> groupList = (List)BeanCopierUtils.transformList(userGroups, GroupDTO.class);
         return groupList;
     }
 
@@ -134,7 +137,10 @@ public class ABGroupService implements GroupService {
         	group = roleManager.get(groupId);
         }
         if (groupType.equals(GroupTypeConstant.POST.key())) {
-        	group = orgRelationManager.getPostById(groupId);
+        	OrgRelation relation  = orgRelationManager.get(groupId);
+        	if(relation != null) {
+        		return new GroupDTO(relation.getId(), relation.getRoleName(),groupType);
+        	}
         }
         
         if(group == null) return null;
@@ -156,11 +162,10 @@ public class ABGroupService implements GroupService {
         	group = roleManager.getByAlias(code);
         }
         if (groupType.equals(GroupTypeConstant.POST.key())) {
-        	// TODO 
+        	log.error("POST NOT SUPPORT “CODE” MODEL");
         }
         
         if(group == null) return null;
-        
         return new GroupDTO(group);
     }
 

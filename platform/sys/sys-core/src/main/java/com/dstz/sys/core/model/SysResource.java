@@ -55,6 +55,11 @@ public class SysResource implements Tree, IDModel {
      * OPENED_
      */
     protected Integer opened;
+    
+    /**
+     * 类型 menu，button，link 
+     */
+    protected String type;
 
     /**
      * 图标
@@ -173,7 +178,31 @@ public class SysResource implements Tree, IDModel {
     }
 
 
-    public String getParentId() {
+    public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public Integer getEnable() {
+		return enable;
+	}
+
+	public void setEnable(Integer enable) {
+		this.enable = enable;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getParentId() {
         return parentId;
     }
 
@@ -205,7 +234,9 @@ public class SysResource implements Tree, IDModel {
         return children;
     }
 
-    public void setChildren(List children) {
-        this.children = children;
-    }
+	@Override
+	public void setChildren(List list) {
+		this.children = list;
+	}
+
 }

@@ -24,12 +24,11 @@ public interface GroupDao extends BaseDao<String, Group> {
     Group getByCode(String code);
 
     /**
-     * 根据用户ID获取组织列表
+     * 根据用户ID获取组织列表，含岗位，组织，第一个为主组织
      *
      * @param userId
      * @return
      */
     List<Group> getByUserId(String userId);
-
 
 }

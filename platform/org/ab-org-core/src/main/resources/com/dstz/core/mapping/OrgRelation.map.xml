@@ -78,7 +78,7 @@
 		user_id_=#{userId}
 	</delete>
 	
-	<delete id="removeGroupPostById" parameterType="java.lang.String">
+	<delete id="removeGroupPostByGroupId" parameterType="java.lang.String">
 		DELETE FROM org_relation 
 		WHERE
 		group_id_=#{groupId} and type_ = 'groupRole'
@@ -129,6 +129,16 @@
 				<trim prefix="#{" suffix="}">type</trim>
 			 </foreach>
 		 </if>
+	</select>
+	
+	<select id="getUserRole"   parameterType="java.lang.String" resultMap="OrgRelation">
+		SELECT relation.*,tuser.fullname_ userName,role.name_ roleName 
+		FROM org_relation relation 
+		left join org_user tuser on relation.user_id_ = tuser.id_
+		left join org_role role on relation.role_id_ = role.id_
+		WHERE relation.status_ = 1 and role.enabled_ = 1
+		and relation.user_id_ = #{userId}
+		and  relation.type_ in ('userRole','groupUserRole')
 	</select>
 	
 </mapper>

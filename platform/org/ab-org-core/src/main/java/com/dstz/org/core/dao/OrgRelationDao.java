@@ -34,8 +34,12 @@ public interface OrgRelationDao extends BaseDao<String, OrgRelation> {
 	 * @return 
 	 */
 	List<OrgRelation> getGroupPost(String groupId);
-
-	void removeGroupPostById(String id);
+	
+	/**
+	 * 删除 组下的岗位
+	 * @param id
+	 */
+	void removeGroupPostByGroupId(String id);
 	
 	/**
 	 * 通过 参数查询关系列表
@@ -53,5 +57,12 @@ public interface OrgRelationDao extends BaseDao<String, OrgRelation> {
 	 * @return
 	 */
 	int getCountByRelation(OrgRelation relation);
+	
+	/**
+	 * 获取用户角色，含岗位
+	 * @param userId
+	 * @return
+	 */
+	List<OrgRelation> getUserRole(String userId);
 	
 }

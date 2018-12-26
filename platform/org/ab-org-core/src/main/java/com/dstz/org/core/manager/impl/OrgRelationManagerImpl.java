@@ -35,13 +35,8 @@ public class OrgRelationManagerImpl extends BaseManager<String, OrgRelation> imp
 	OrgRelationDao orgRelationDao;
 
 	@Override
-	public List getPostByUserId(String userId) {
-		return orgRelationDao.getUserRelation(userId, RelationTypeConstant.POST.getKey());
-	}
-
-	@Override
-	public IGroup getPostById(String groupId) {
-		return null;
+	public List<OrgRelation> getPostByUserId(String userId) {
+		return orgRelationDao.getUserRelation(userId, RelationTypeConstant.POST_USER.getKey());
 	}
 
 	@Override
@@ -60,8 +55,8 @@ public class OrgRelationManagerImpl extends BaseManager<String, OrgRelation> imp
 	}
 
 	@Override
-	public void removeGroupPostById(String id) {
-		orgRelationDao.removeGroupPostById(id);
+	public void removeGroupPostByGroupId(String id) {
+		orgRelationDao.removeGroupPostByGroupId(id);
 	}
 
 	/**
@@ -148,6 +143,11 @@ public class OrgRelationManagerImpl extends BaseManager<String, OrgRelation> imp
 		}
 		
 		return i;
+	}
+
+	@Override
+	public List<OrgRelation> getUserRole(String userId) {
+		return orgRelationDao.getUserRole(userId);
 	}
 
 }

@@ -73,7 +73,7 @@ public class GroupManagerImpl extends BaseManager<String, Group> implements Grou
     
     @Override
     public void update(Group entity) {
-    	orgRelationMananger.removeGroupPostById(entity.getId());
+    	orgRelationMananger.removeGroupPostByGroupId(entity.getId());
     	
     	// 创建组织岗位
     	List<OrgRelation> list = entity.getOrgRelationList();
@@ -97,12 +97,9 @@ public class GroupManagerImpl extends BaseManager<String, Group> implements Grou
 
     @Override
     public Group getMainGroup(String userId) {
-        List<Group> list = groupDao.getByUserId(userId);
-        if (CollectionUtil.isEmpty(list)) return null;
-        if (list.size() == 1) return list.get(0);
-        for (Group org : list) {
-          //  if (org.getIsMaster() == 1) return org;
-        }
-        return list.get(0);
+       List<Group> groups = groupDao.getByUserId(userId);
+       if(CollectionUtil.isEmpty(groups)) return null;
+       
+        return groups.get(0);
     }
 }
