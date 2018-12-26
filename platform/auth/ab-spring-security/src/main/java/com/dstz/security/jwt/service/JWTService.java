@@ -21,37 +21,37 @@ public class JWTService {
 	/**
 	 * 存放 token 的header
 	 */
-	@Value("${jwt.header:Authorization}")
+	@Value("${ab.jwt.header:Authorization}")
     private String header;
 	public String getJwtHeader() { return header; }
     /**
      * 请求header内的key对应value 的默认开头
      */
-	@Value("${jwt.tokenHead:Bearer }")
+	@Value("${ab.jwt.tokenHead:Bearer }")
     private String tokenHead;
 	public String getJwtTokenHead() { return tokenHead; }
 	
-	/***启用jwt模式**/
-	@Value("${jwt.enabled:true}")
+	/***是否启用jwt模式默认不开启**/
+	@Value("${ab.jwt.enabled:false}")
     private Boolean enabled ;
 	public Boolean getJwtEnabled() { return enabled; }
     
 	/**
 	 *  密钥
 	 */
-	@Value("${jwt.secret:asd%WE^@&fas156dfa}")
+	@Value("${ab.jwt.secret:asd%WE^@&fas156dfa}")
     private String secret;
 	
     /**
      * jwt签发者名称
      */
-	@Value("${jwt.issuer:agileBPM}")
+	@Value("${ab.jwt.issuer:agileBPM}")
     private String issuer ;
 	
-    @Value("${jwt.expiration: 86400}")
+    @Value("${ab.jwt.expiration: 86400}")
     private Long expirationMinute = 24 * 60 * 60L;
     
-    @Value("${jwt.notBeforeMinute:15}")
+    @Value("${ab.jwt.notBeforeMinute:15}")
     private Long notBeforeMinute ;
     
 
