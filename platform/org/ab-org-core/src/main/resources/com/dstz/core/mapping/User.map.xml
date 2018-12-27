@@ -81,6 +81,7 @@
 		photo_=#{photo,jdbcType=VARCHAR},
 		sex_=#{sex,jdbcType=VARCHAR},
 		from_=#{from,jdbcType=VARCHAR},
+		password_=#{password,jdbcType=VARCHAR},
 		status_=#{status,jdbcType=NUMERIC},
 		update_time_=#{updateTime,jdbcType=TIMESTAMP},
 		update_by_=#{updateBy,jdbcType=VARCHAR}

@@ -7,7 +7,6 @@
 
 	<script type="text/javascript">
 	var id = $.getParam("id");
-	var groupId = $.getParam("groupId");
 	
 	var app = angular.module('app', ['baseDirective']);
 	app.controller("ctrl", [ '$scope', 'baseService','ArrayToolService', function($scope, baseService,ArrayToolService) {
@@ -30,10 +29,6 @@
 				$scope.data={status:1};
 			}
 		};
-		
-		$scope.$on("beforeSaveEvent",function(event,data){
-			$scope.data.groupId=groupId;
-		});
 		
 	 	$scope.selectRoleRelation = function(){
 	 		if(!$scope.data.orgRelationList){

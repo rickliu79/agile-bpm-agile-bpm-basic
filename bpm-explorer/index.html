@@ -6,8 +6,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=8; IE=9; IE=EDGE;">
 	
 	<link href="./build/common/base.css" rel="stylesheet">
-  	<script type="text/javascript" src="./build/common/base.js"></script>
-	<script type="text/javascript" src="./build/home/index-ori.js"></script>
+	<script type="text/javascript" src="./build/common/base.js"></script>
+	<script type="text/javascript" src="./build/home/index.js"></script>
 	<script type="text/javascript" src="./assets/js/plugins/pace/pace.min.js"></script>
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden" >
@@ -93,7 +93,11 @@
                                    </a>
                              </li>
                               <li class="divider"></li>
-                             <li><a class="J_menuItem fa fa-smile-o" onclick="userInfo()" href="javascript:void(0)">个人资料</a></li>
+                             <li>
+                             	<a class="btn btn-sm fa fa-smile-o" ng-click="userInfo()" href="javascript:void(0)">个人资料</a>
+                             	<a class="btn btn-sm fa fa-key" ng-click="editPassworld()" href="javascript:void(0)">修改密码</a>
+                             	<a class="btn btn-sm fa fa-edit" ng-click="editUserInfo()" href="javascript:void(0)">修改资料</a>
+                             	</li>
                              <li class="divider"></li>
                              <li><a href="#" class="fa fa-arrow-circle-right" ng-click="logout()">安全退出</a></li>
                             

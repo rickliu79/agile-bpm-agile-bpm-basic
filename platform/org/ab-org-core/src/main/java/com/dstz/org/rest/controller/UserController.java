@@ -9,18 +9,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
+import com.dstz.base.api.exception.BusinessError;
+import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.encrypt.EncryptUtil;
 import com.dstz.base.core.id.IdUtil;
+import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.BaseController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.core.manager.UserManager;
 import com.dstz.org.core.model.User;
+import com.dstz.sys.api.constant.EnvironmentConstant;
 import com.dstz.sys.util.ContextUtil;
 import com.github.pagehelper.Page;
 
@@ -48,12 +52,21 @@ public class UserController extends BaseController<User> {
         return getSuccessResult(user.getId(), "保存成功");
     }
 
-    @RequestMapping("updateUserPsw")
+    @RequestMapping("updateUserPassWorld")
     @CatchErr("更新密码失败")
     public ResultMsg<String> updateUserPsw(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String oldPassWorld = RequestUtil.getRQString(request, "oldPassWorld","旧密码必填");
+        String oldPassWorld = RequestUtil.getRQString(request, "oldPassword","旧密码必填");
         String newPassword = RequestUtil.getRQString(request, "newPassword","新密码必填");
-
+        String userId = RequestUtil.getRQString(request, "id","当前用户ID");
+        
+        if(!userId.equals(ContextUtil.getCurrentUserId())) {
+        	throw new BusinessException("禁止修改他人密码！");
+        }
+        
+        if(AppUtil.getCtxEnvironment().contains(EnvironmentConstant.SIT.key())) {
+       	 throw new BusinessError("测试环境为了防止不法之徒恶意破坏演示数据，禁止修改密码！<br/>您的访问信息已经被我们统计！");
+        }
+        
         User user = userManager.get(ContextUtil.getCurrentUserId());
         if (!user.getPassword().equals(EncryptUtil.encryptSha256(oldPassWorld))) {
             throw new BusinessMessage("旧密码输入错误");
