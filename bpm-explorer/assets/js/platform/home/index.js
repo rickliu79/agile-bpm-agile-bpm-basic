@@ -13,9 +13,10 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 				
 				scope.userMsg = FastJson.format(result).data;
 				scope.userRes = scope.userMsg.userMenuList;
-				//讲权限放到缓存中
+				//将权限放到缓存中
 				if(window.localStorage){
 					window.localStorage.buttonPermision =  scope.userMsg.buttonPermision;
+					console.info(window.localStorage.buttonPermision);
 				}
 				
 				var menuId = $.getCookie("default_menu");
