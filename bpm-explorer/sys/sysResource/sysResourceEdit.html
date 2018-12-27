@@ -9,28 +9,6 @@
 	var app = angular.module('app', [ 'baseDirective']);
 	app.controller("ctrl", [ '$scope', 'baseService', 'ArrayToolService', function($scope, baseService, ArrayTool) {
 		$scope.ArrayTool = ArrayTool;
- 
-		$scope.add = function() {
-			var obj = {
-				'name' : '',
-				'resUrl' : ''
-			};
-			$scope.data.relResources.push(obj);
-		}
-
-		$scope.setDefaultUrl = function(url) {
-			$scope.data.defaultUrl = url;
-		}
-
-		$scope.remove = function(item) {
-			var aryUrl = $scope.data.relResources;
-			for (var i = 0; i < aryUrl.length; i++) {
-				var obj = aryUrl[i];
-				if (obj == item) {
-					ArrayTool.del(i);
-				}
-			}
-		}
 		
 		$scope.$on("afterSaveEvent",function(event,data){
 			if(!$scope.data.id){
@@ -42,6 +20,16 @@
 			}
 			
 		});
+		$scope.$on("afterLoadEvent",function(event,data){
+			if(!$scope.data || !$scope.data.id){
+			//	$scope.data.type ='menu';
+				$scope.data.enable= 1;
+				$scope.data.opened =1;
+				$scope.data.sn =1;
+			}
+		});
+		
+		
 	} ]);
 </script>
 </head>
@@ -62,31 +50,31 @@
 			<tr>
 				<th>别名:</th>
 				<td>
-					<input class="form-control" type="text" ng-model="data.alias" ab-validate="{required:true,maxlength:150}" />
+					<input class="form-control" type="text" placeholder="资源别名，全局唯一" ng-model="data.alias" ab-validate="{required:true,maxlength:150}" />
 				</td>
 			</tr>
 			<tr>
 				<th>请求地址:</th>
 				<td>
 					<input class="form-control input-width-80" type="text" ng-model="data.url" ab-validate="{required:false,maxlength:150}" />
+					<span class="fa fa-question-circle btn text-danger ng-isolate-scope" ab-tip=""  title="按钮、链接需要正确配置请求链接，该链接会用于系统鉴权"></span>
 				</td>
 			</tr>
 			<tr>
 				<th>类型:</th>
 				<td>
-					 <select class="form-control" ng-model="data.type">
+					 <select class="form-control" ng-model="data.type" ab-validate="{required:true,maxlength:150}">
 					 	<option value="menu"> 菜单</option>
 					 	<option value="button"> 按钮</option>
 					 	<option value="link"> 链接</option>
 					 </select>
-					 <span class="fa fa-question-circle btn text-danger ng-isolate-scope" ab-tip=""  title="按钮、链接需要正确配置请求链接，否则请求可能会被拒绝"></span>
 				</td>
 			</tr>
 			<tr>
 				<th>状态:</th>
 				<td>
-					<input type="radio" ng-model="data.enable" value="1" /> 禁用
-					<input type="radio" ng-model="data.enable" value="0" /> 启用
+					<input type="radio" ng-model="data.enable" value="0" /> 禁用
+					<input type="radio" ng-model="data.enable" value="1" /> 启用
 				</td>
 			</tr>
 			<tr>
@@ -100,7 +88,7 @@
 				<th>字体图标:</th>
 				<td>
 					<input class="form-control" type="text" ng-model="data.icon" ab-validate="{required:false,maxlength:150}" />
-					<span class="fa fa-question-circle btn text-info ng-isolate-scope" ab-tip=""  title="字体图标,可以在开发辅助-字体图标中选择合适的图标"></span>
+					<span class="fa fa-question-circle btn text-info ng-isolate-scope" ab-tip=""  title="字体图标,可以在开发辅助-字体图标中选择合适的图标，按钮、链接目前不支持该配置"></span>
 				</td>
 			</tr>
 			<tr>

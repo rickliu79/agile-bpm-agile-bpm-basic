@@ -102,8 +102,8 @@ public class SysResourceController extends GenericController {
         
         if (StringUtil.isEmpty(id)) {
             sysResource.setSn(1);
-            sysResourceManager.create(sysResource);
             sysResource.setCreateTime(new Date());
+            sysResourceManager.create(sysResource);
             resultMsg = "添加子系统资源成功";
         } else {
             sysResourceManager.update(sysResource);

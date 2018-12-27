@@ -70,8 +70,11 @@
 	</delete>
 
     <select id="getResRoleBySystemId" parameterType="java.lang.String" resultMap="ResRole">
-		select a.ALIAS_ resAlias,c.alias_ roleAlias,a.default_url_ url from sys_resource a,sys_res_role b,org_role c
-			where a.SYSTEM_ID_=#{systemId} and a.ID_=b.RES_ID_ and b.ROLE_ID_=c.id_ and c.enabled_=1
+		select b.*, a.ALIAS_ resAlias,c.alias_ roleAlias,a.url_ url 
+		from sys_resource a
+		left join sys_res_role b on a.ID_= b.RES_ID_
+		left join org_role c on b.role_id_= c.id_
+		where a.system_id_=#{systemId} and c.enabled_=1
 	</select>
 
 

@@ -57,6 +57,9 @@ public class ResRole implements IDModel {
 		this.resId = resId;
 		this.roleId = roleId;
 	}
+    
+    public ResRole() {
+	}
 
 	/**
      * 返回 主键
