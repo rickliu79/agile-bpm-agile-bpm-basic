@@ -226,7 +226,7 @@ public class FormDefController extends BaseController<FormDef> {
          String[] aryIds = StringUtil.getStringAryByStr(id);
          
          if(AppUtil.getCtxEnvironment().contains(EnvironmentConstant.SIT.key())) {
-        	 throw new BusinessError("测试环境为了防止不法之徒恶意破坏演示数据，禁止表单删除！<br/>您的访问信息已经被我们统计，请自重！");
+        	 throw new BusinessError("测试环境为了防止不法之徒恶意破坏演示数据，禁止表单删除！<br/>您的访问信息已经被我们统计！");
          }
          
          formDefManager.removeByIds(aryIds);
