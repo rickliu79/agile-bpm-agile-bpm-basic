@@ -5,7 +5,6 @@ import java.util.Date;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -25,9 +24,9 @@ public class JWTService {
     private String header;
 	public String getJwtHeader() { return header; }
     /**
-     * 请求header内的key对应value 的默认开头
+     * 请求header内的key对应value 的默认开头 Bearer- cookie不支持空格这里做下修改
      */
-	@Value("${ab.jwt.tokenHead:Bearer }")
+	@Value("${ab.jwt.tokenHead:Bearer-}")
     private String tokenHead;
 	public String getJwtTokenHead() { return tokenHead; }
 	

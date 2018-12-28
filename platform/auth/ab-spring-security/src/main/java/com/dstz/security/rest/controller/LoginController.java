@@ -111,7 +111,11 @@ public class LoginController extends GenericController {
      */
     private void wiriteJwtToken2Cookie(HttpServletRequest request,HttpServletResponse response, String token){
     	Cookie cookie = new Cookie(jWTService.getJwtHeader(), jWTService.getJwtTokenHead()+ token);
-    	cookie.setPath(request.getContextPath());
+    	String contextPath = request.getContextPath();
+    	if(StringUtil.isEmpty(contextPath)) {
+    		contextPath = "/";
+    	}
+    	cookie.setPath(contextPath);
     	response.addCookie(cookie);
 	}
 }
