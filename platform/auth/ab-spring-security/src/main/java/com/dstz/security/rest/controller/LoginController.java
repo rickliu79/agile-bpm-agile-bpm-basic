@@ -35,7 +35,6 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 public class LoginController extends GenericController {
-    @Resource
     SessionAuthenticationStrategy sessionStrategy = new NullAuthenticatedSessionStrategy();
     @Resource
     JWTService jWTService;
