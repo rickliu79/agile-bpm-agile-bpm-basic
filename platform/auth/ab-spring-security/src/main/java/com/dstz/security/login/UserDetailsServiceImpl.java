@@ -33,7 +33,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     ICache<LoginUser> loginUserCache;
     
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    	LoginUser loginUser = loginUserCache.getByKey(loginUserCacheKey.concat(username));
+    	String userCacheKey = loginUserCacheKey.concat(username);
+    	LoginUser loginUser = loginUserCache.getByKey(userCacheKey); //TODO 加上有效期
     	
     	if(loginUser != null) {
     		return loginUser;
@@ -59,7 +60,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         loginUser.setAuthorities(collection);
         
-        loginUserCache.add(loginUserCacheKey, loginUser);
+        loginUserCache.add(userCacheKey, loginUser);
         return loginUser;
     }
 }
