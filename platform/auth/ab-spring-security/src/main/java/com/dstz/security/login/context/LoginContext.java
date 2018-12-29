@@ -1,17 +1,14 @@
 package com.dstz.security.login.context;
 
 
-import java.security.Principal;
 import java.util.Locale;
 
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.alibaba.fastjson.JSON;
 import com.dstz.base.core.cache.ICache;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
@@ -22,11 +19,6 @@ import com.dstz.org.api.model.IGroup;
 import com.dstz.org.api.model.IUser;
 import com.dstz.org.api.service.GroupService;
 import com.dstz.org.api.service.UserService;
-
-//import javax.servlet.http.Cookie;
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpServletResponse;
-
 
 public class LoginContext implements ICurrentContext {
 private static final Logger log = LoggerFactory.getLogger(LoginContext.class); 
@@ -76,14 +68,14 @@ private static final Logger log = LoggerFactory.getLogger(LoginContext.class);
         if (currentUser.get() != null)  return currentUser.get();
         
         try {
-        	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        	if(principal instanceof IUser) {
-        		return (IUser) principal;
+        	Object auth = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        	if(auth instanceof IUser) {
+        		return (IUser) auth;
         	}
-        	log.warn("获取用户失败：{}",JSON.toJSON(principal));
 		} catch (NullPointerException e) {
 			log.warn("获取用户失败：",e);
 		}
+
         return null;
     }
 

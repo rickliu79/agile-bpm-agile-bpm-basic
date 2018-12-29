@@ -41,10 +41,6 @@ public class SysSubsystemController extends BaseController<Subsystem> {
     @CatchErr(write2response = true)
     public @ResponseBody
     void getUserSystem(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (!ContextUtil.currentUserIsAdmin()) {
-            throw new BusinessException("目前仅仅支持超管操作，尚未开发分管授权功能！");
-        }
-
         List Subsystem = subsystemManager.getAll();
         writeSuccessData(response, Subsystem);
     }
@@ -71,7 +67,6 @@ public class SysSubsystemController extends BaseController<Subsystem> {
     /**
      * @return 
      * 保存子系统定义信息
-     * TODO 待改造
      * @param request
      * @param response
      * @param subsystem

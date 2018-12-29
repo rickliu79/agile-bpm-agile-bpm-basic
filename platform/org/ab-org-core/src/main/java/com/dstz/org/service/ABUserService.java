@@ -74,7 +74,8 @@ public class ABUserService implements UserService {
 		
 		for(OrgRelation orgRelation : orgRelationList) {
 			UserRoleDTO userRole = new UserRoleDTO(orgRelation.getRoleId(),orgRelation.getUserId(),orgRelation.getUserName(),orgRelation.getRoleName());
-			userRoleList.add(userRole);
+			userRole.setAlias(orgRelation.getRoleAlias());
+			userRoleList.add(userRole); 
 		}
 		
 		return  (List)userRoleList;
