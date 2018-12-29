@@ -50,7 +50,7 @@ public class OrgRelationController extends BaseController<OrgRelation>{
     public PageResult queryGroupUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	String groupId = RequestUtil.getRQString(request, "groupId", "查询 组用户 组ID 不能为空");
     	//查询 岗位 和 用户组的关系
-    	QueryFilter filter = new DefaultQueryFilter();
+    	QueryFilter filter = getQueryFilter(request);
     	filter.addFilter("tgroup.id_", groupId, QueryOP.EQUAL);
     	filter.addFilter("relation.type_", RelationTypeConstant.POST.getKey(), QueryOP.NOT_IN);
     	

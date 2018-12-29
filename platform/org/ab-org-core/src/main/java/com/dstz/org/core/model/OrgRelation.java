@@ -39,12 +39,14 @@ public class OrgRelation extends BaseModel{
 	*/
 	protected  String type; 
 	
+	
 	/**
 	 * 前端字段
 	 */
 	protected String groupName;
 	protected String userName;
 	protected String roleName;
+	protected String roleAlias;
 	
 	
 	public void setGroupId( String groupId) {
@@ -120,6 +122,16 @@ public class OrgRelation extends BaseModel{
 	public Integer getStatus() {
 		return status;
 	}
+
+	public String getRoleAlias() {
+		return roleAlias;
+	}
+
+
+	public void setRoleAlias(String roleAlias) {
+		this.roleAlias = roleAlias;
+	}
+
 
 	public void setStatus(Integer status) {
 		this.status = status;
