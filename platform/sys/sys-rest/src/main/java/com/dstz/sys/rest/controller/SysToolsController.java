@@ -12,12 +12,14 @@ import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.ConstantUtil;
 import com.dstz.base.core.util.EnumUtil;
-import com.dstz.base.core.util.PinyinUtil;
+import com.dstz.base.core.util.HanyuPinyinHelper;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.api.table.DbType;
 import com.dstz.base.db.datasource.DbContextHolder;
 import com.dstz.base.rest.GenericController;
 import com.dstz.base.rest.util.RequestUtil;
+
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 
 /**
  * 系统工具类
@@ -84,9 +86,9 @@ public class SysToolsController extends GenericController {
 		int type = RequestUtil.getInt(request, "type");// 1：全拼 0：首字母拼音
 		String result = "";
 		if (type == 1) {
-			result = PinyinUtil.getPinyin(chinese);
+			result =  HanyuPinyinHelper.getPinyinString(chinese);
 		} else {
-			result = PinyinUtil.getPinYinHeadChar(chinese);
+			result = HanyuPinyinHelper.getFirstLetters(chinese,HanyuPinyinCaseType.LOWERCASE);
 		}
 		if(DbType.ORACLE.equalsWithKey(DbContextHolder.getDbType())) {
 			result = result.toUpperCase();//oracle默认映射都大写

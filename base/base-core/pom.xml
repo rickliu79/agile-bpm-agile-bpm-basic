@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.dstz.agilebpm</groupId>
         <artifactId>base</artifactId>
-        <version>1.2.6</version>
+        <version>1.2.7-BETA</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -15,6 +15,12 @@
     	<dependency>
 		    <groupId>cn.hutool</groupId>
 		    <artifactId>hutool-core</artifactId>
+		    <version>4.1.10</version>
+		</dependency>
+		<!-- 加密模块 -->
+		<dependency>
+		    <groupId>cn.hutool</groupId>
+		    <artifactId>hutool-crypto</artifactId>
 		    <version>4.1.10</version>
 		</dependency>
     

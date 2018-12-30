@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dstz.base.api.exception.SerializeException;
 import com.dstz.base.core.cache.ICache;
 import com.dstz.sys.api.redis.IRedisService;
 
@@ -44,7 +45,14 @@ public class RedisCache<T extends Object> implements ICache<T> {
 
     @Override
     public synchronized T getByKey(String key) {
-        Object obj = redisService.getObject(key);
+    	Object obj =  null;
+    	try {
+    		obj = redisService.getObject(key);
+		} catch (SerializeException e) {
+			this.delByKey(key);
+			logger.warn("获取缓存对象失败，反序列化失败，已经删除缓存：{}",key,e);
+			return null;
+		}
         return (T) obj;
     }
 

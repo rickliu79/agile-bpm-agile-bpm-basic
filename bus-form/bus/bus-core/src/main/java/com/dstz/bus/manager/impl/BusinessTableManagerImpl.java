@@ -13,7 +13,6 @@ import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.id.IdUtil;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.datasource.DbContextHolder;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
@@ -29,6 +28,8 @@ import com.dstz.bus.model.BusinessColumn;
 import com.dstz.bus.model.BusinessTable;
 import com.dstz.bus.util.BusinessTableCacheUtil;
 import com.dstz.sys.api.service.ISysDataSourceService;
+
+import cn.hutool.core.collection.CollectionUtil;
 
 /**
  * businessTable 的manager层实现类
@@ -158,7 +159,7 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 			return;
 
 		List<String> boNames = jdbcTemplate.queryForList("select name_ from bus_object where relation_json_ like  '%\"tableKey\":\"" + table.getKey() + "\"%'", String.class);
-		if (BeanUtils.isNotEmpty(boNames)) {
+		if (CollectionUtil.isNotEmpty(boNames)) {
 			throw new BusinessMessage("业务对象:" + boNames.toString() + "还在使用实体， 删除实体失败！");
 		}
 

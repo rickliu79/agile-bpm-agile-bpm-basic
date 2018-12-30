@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.core.executor.ExecutorFactory;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.bus.api.constant.BusTableRelType;
 import com.dstz.bus.api.model.IBusinessData;
 import com.dstz.bus.api.model.IBusinessObject;
@@ -46,7 +45,7 @@ public class BusinessDataService implements IBusinessDataService {
 	@Override
 	public JSONObject getFormDefData(IBusinessObject businessObject, Object id) {
 		BusinessData businessData = BusinessDataPersistenceServiceFactory.loadData((BusinessObject) businessObject, id);
-		if (BeanUtils.isEmpty(id)) {// id为空时需要初始化数据
+		if (id == null) {// id为空时需要初始化数据
 			initFormDefData(businessData);
 		}
 
@@ -97,10 +96,10 @@ public class BusinessDataService implements IBusinessDataService {
 	 */
 	private void assemblyFormDefData(JSONObject data, IBusinessData ibusinessData) {
 		BusinessData businessData = (BusinessData) ibusinessData;
-		
+
 		AssemblyValParam param = new AssemblyValParam(data, businessData);
 		ExecutorFactory.execute(AssemblyValExecuteChain.class, param);
-		
+
 		// 处理子表
 		for (Entry<String, List<BusinessData>> entry : businessData.getChildren().entrySet()) {
 			String tableKey = entry.getKey();

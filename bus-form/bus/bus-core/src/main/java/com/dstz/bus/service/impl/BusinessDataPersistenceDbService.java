@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.core.id.IdUtil;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.db.tableoper.TableOperator;
 import com.dstz.base.db.transaction.AbDataSourceTransactionManager;
 import com.dstz.bus.api.constant.BusStatusCode;
@@ -77,7 +76,7 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 		if (BusTableRelType.MAIN.equalsWithKey(busTableRelType)) {
 			// 数据中的ID
 			Object id = businessData.getPk();
-			if (BeanUtils.isEmpty(id)) {// 新增
+			if (id == null) {// 新增
 				businessData.setPk(IdUtil.getSuid());
 				tableOperator.insertData(businessData.getDbData());
 			} else {// 更新
@@ -88,7 +87,7 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 		// 子表 一对一，一对多的处理
 		if (BusTableRelType.ONE_TO_ONE.equalsWithKey(busTableRelType) || BusTableRelType.ONE_TO_MANY.equalsWithKey(busTableRelType)) {
 			Object id = businessData.getPk();
-			if (BeanUtils.isEmpty(id)) {// 新增
+			if (id==null) {// 新增
 				businessData.setPk(IdUtil.getSuid());
 				// 父数据
 				BusinessData parBusinessData = businessData.getParent();
@@ -181,7 +180,7 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 		BusTableRel busTableRel = businessObject.getRelation();
 		businessData.setBusTableRel(busTableRel);
 		BusinessTable businessTable = busTableRel.getTable();
-		if (BeanUtils.isEmpty(id)) {// 主键为空
+		if (id == null) {// 主键为空
 			return businessData;
 		}
 		if (!businessObject.haveTableDbReadRights(busTableRel.getTableKey())) {// 没表的读取权限就返回

@@ -3,6 +3,7 @@ var path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
 	entry: {
+		"common/base" : './assets/entry/common/base.js',
 		"home/index" : './assets/entry/home/index.js',  // css and js 也可以定义为数组、分开
 		"common/ngEdit" : './assets/entry/common/ngEdit.js',
 		"common/gridList" : './assets/entry/common/gridList.js', //list页面 
@@ -23,12 +24,12 @@ module.exports = {
 
 	    ]
 	} ,
-	devtool: false,//'eval-source-map',// 开发环境配置。其他环境请设置为false  
+	devtool: 'eval-source-map',// 开发环境配置。其他环境请设置为false  
 	plugins:[
           new webpack.optimize.UglifyJsPlugin({
         	  exclude:/\.min\.js$/,
               compress: {warnings: false},
-              output: { comments: false },
+              output: {comments: false },
               sourceMap: true,
               mangle:false,
             }),

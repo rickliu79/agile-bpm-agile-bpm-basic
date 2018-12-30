@@ -34,19 +34,13 @@ public interface ISysResource {
      *
      * @return
      */
-    public String getDefaultUrl();
+    public String getUrl();
     /**
      * 返回 显示到菜单(1,显示,0 ,不显示)
      *
      * @return
      */
-    public Integer getEnableMenu();
-    /**
-     * 返回 是否有子节点
-     *
-     * @return
-     */
-    public Integer getHasChildren();
+    public Integer getEnable();
     /**
      * 返回 OPENED_
      *
@@ -61,21 +55,20 @@ public interface ISysResource {
     public String getIcon();
 
     /**
-     * 返回 打开新窗口
+     * 返回类型
      *
      * @return
      */
-    public Integer getNewWindow();
+    public String getType();
     /**
      * 返回 排序
      *
      * @return
      */
-    public Long getSn();
+    public Integer getSn();
 
 
     public String getParentId() ;
-    public List<IRelResource> getRelResources();
  
     public List getChildren();
 

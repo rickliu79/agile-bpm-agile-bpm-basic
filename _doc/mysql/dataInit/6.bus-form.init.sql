@@ -1,7 +1,7 @@
 -- FORM 模块
 
 -- 表单管理菜单启用
-UPDATE `sys_resource` SET `ENABLE_MENU_`='1' WHERE (`ID_`='23');
+UPDATE `sys_resource` SET `ENABLE_`='1' WHERE (`ID_`='23');
 
 -- 表单初始化模板
 

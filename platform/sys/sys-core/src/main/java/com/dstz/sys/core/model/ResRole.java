@@ -51,7 +51,17 @@ public class ResRole implements IDModel {
         this.id = id;
     }
 
-    /**
+    public ResRole(String systemId, String resId, String roleId) {
+		super();
+		this.systemId = systemId;
+		this.resId = resId;
+		this.roleId = roleId;
+	}
+    
+    public ResRole() {
+	}
+
+	/**
      * 返回 主键
      *
      * @return

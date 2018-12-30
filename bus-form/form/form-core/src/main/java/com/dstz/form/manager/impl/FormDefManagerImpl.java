@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dstz.base.core.util.FileUtil;
 import com.dstz.base.core.util.PropertyUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.manager.impl.BaseManager;
@@ -17,6 +16,7 @@ import com.dstz.form.model.FormDef;
 import com.dstz.sys.api.model.ISysTreeNode;
 import com.dstz.sys.api.service.ISysTreeNodeService;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 
 /**
@@ -48,7 +48,7 @@ public class FormDefManagerImpl extends BaseManager<String, FormDef> implements 
 
 		ISysTreeNode node = sysTreeNodeService.getById(formDef.getGroupId());
 		String fileName = formDefPath + File.separator + node.getKey() + File.separator + formDef.getKey() + ".html";
-		FileUtil.writeFile(fileName, formDef.getHtml());
+		FileUtil.writeUtf8String(formDef.getHtml(), fileName);
 	}
 
 	@Override
@@ -57,14 +57,14 @@ public class FormDefManagerImpl extends BaseManager<String, FormDef> implements 
 		if (StringUtil.isNotEmpty(formDefPath)) {
 			ISysTreeNode node = sysTreeNodeService.getById(formDef.getGroupId());
 			String fileName = formDefPath + File.separator + node.getKey() + File.separator + formDef.getKey() + ".html";
-			formDef.setHtml(FileUtil.readFile(fileName));
+			formDef.setHtml(FileUtil.readUtf8String(fileName));
 		}
 
 		return formDef.getHtml();
 	}
 
 	public static void main(String[] args) {
-		String str = FileUtil.readFile("D:\\projects\\dream\\agile-bpm\\modules\\agile-bpm-platform-new\\src\\main\\webapp\\form\\mrfl\\nh1.html");
+		String str = FileUtil.readUtf8String("D:\\temp\\test.html");
 		System.out.println(str);
 	}
 }

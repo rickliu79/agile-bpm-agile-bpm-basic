@@ -3,7 +3,6 @@ package com.dstz.org.api.service;
 import java.util.List;
 import java.util.Map;
 
-import com.dstz.org.api.model.GroupType;
 import com.dstz.org.api.model.IGroup;
 
 /**
@@ -68,13 +67,6 @@ public interface GroupService {
      * @return
      */
     IGroup getByCode(String groupType, String code);
-
-    /**
-     * 返回当前的组织类型。
-     *
-     * @return
-     */
-    List<GroupType> getGroupTypes();
 
 
     IGroup getMainGroup(String userId);

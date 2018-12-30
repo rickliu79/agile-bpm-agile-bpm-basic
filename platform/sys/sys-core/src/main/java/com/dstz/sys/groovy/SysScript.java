@@ -36,8 +36,8 @@ public class SysScript implements IScript {
 	
 	public String getCurrentGroupName() {
 		 IGroup iGroup =ContextUtil.getCurrentGroup();
-        if (BeanUtils.isNotEmpty(iGroup)) {
-            return iGroup.getName();
+        if (iGroup!= null) {
+            return iGroup.getGroupName();
         } else {
             return "";
         }
