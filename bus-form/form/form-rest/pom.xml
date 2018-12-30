@@ -6,7 +6,7 @@
     <parent>
         <artifactId>form</artifactId>
         <groupId>com.dstz.agilebpm</groupId>
-        <version>1.2.7-SNAPSHOT</version>
+        <version>1.2.7-BETA</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>form-rest</artifactId>

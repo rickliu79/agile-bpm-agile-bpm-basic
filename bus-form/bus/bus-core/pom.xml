@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.dstz.agilebpm</groupId>
         <artifactId>bus</artifactId>
-        <version>1.2.7-SNAPSHOT</version>
+        <version>1.2.7-BETA</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>bus-core</artifactId>
