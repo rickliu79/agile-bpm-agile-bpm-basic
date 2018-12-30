@@ -21,10 +21,8 @@ public interface ResRoleDao extends BaseDao<String, ResRole> {
     void removeByRoleAndSystem(@Param("roleId")String roleId,@Param("systemId")String systemId);
 
     /**
-     * 根据系统Id获取资源和角色的映射关系。
-     *
-     * @param systemId
+     * 获取资源和角色的映射关系
      * @return
      */
-    List<ResRole> getResRoleBySystemId(String systemId);
+	List<ResRole> getAllResRole();
 }

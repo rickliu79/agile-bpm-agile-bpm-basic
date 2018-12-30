@@ -15,61 +15,65 @@ import com.dstz.security.constans.PlatformConsts;
 import com.dstz.security.login.model.LoginUser;
 
 public class AccessDecisionManagerImpl implements AccessDecisionManager {
+	
+	/**
+	 * 判断 当前用户所拥有的角色 是否满足 当前资源所需的角色
+	 */
+	@Override
+	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)throws AccessDeniedException, InsufficientAuthenticationException {
 
-	//TODO 待改造 还有http 那块的
-    @Override
-    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)
-            throws AccessDeniedException, InsufficientAuthenticationException {
+		if (configAttributes.contains(PlatformConsts.ROLE_CONFIG_ANONYMOUS)) {
+			return;
+		}
 
-        if (configAttributes.contains(PlatformConsts.ROLE_CONFIG_ANONYMOUS)) {
-            return;
-        }
+		// 登陆访问
+		if (authentication == null) {
+			throw new AccessDeniedException("没有登录系统");
+		}
 
-        // 登陆访问
-        if (authentication == null) {
-            throw new AccessDeniedException("没有登录系统");
-        }
-        Object principal = authentication.getPrincipal();
-        if (principal == null) {
-            throw new AccessDeniedException("登录对象为空");
-        }
-        
-        if("anonymousUser".equals(principal)) {
-        	throw new AccessDeniedException("请登录");
-        }
+		Object principal = authentication.getPrincipal();
+		if (principal == null) {
+			throw new AccessDeniedException("登录对象为空");
+		}
 
-        if (!(principal instanceof LoginUser)) {
-            throw new AccessDeniedException("登录对象必须为LoginUser实现类");
-        }
-        UserDetails user = (UserDetails) principal;
-        // 获取当前用户的角色。
-        Collection<GrantedAuthority> roles = (Collection<GrantedAuthority>) user.getAuthorities();
-        // 超级访问
-        if (roles.contains(PlatformConsts.ROLE_GRANT_SUPER)) {
-            return;
-        }
-        // 公开访问
-        if (configAttributes.contains(PlatformConsts.ROLE_CONFIG_PUBLIC)) {
-            return;
-        }
-        // 授权访问
-        // 遍历当前用户的角色，如果当前页面对应的角色包含当前用户的某个角色则有权限访问。
-        for (GrantedAuthority hadRole : roles) {
-            if (configAttributes.contains(new SecurityConfig(hadRole.getAuthority()))) {
-                return;
-            }
-        }
-        throw new AccessDeniedException("对不起,你没有访问该页面的权限!");
-    }
+		if ("anonymousUser".equals(principal)) {
+			throw new AccessDeniedException("请登录");
+		}
 
-    @Override
-    public boolean supports(ConfigAttribute attribute) {
-        return true;
-    }
+		if (!(principal instanceof LoginUser)) {
+			throw new AccessDeniedException("登录对象必须为LoginUser实现类");
+		}
 
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return true;
-    }
+		// 获取当前用户的角色。
+		UserDetails user = (UserDetails) principal;
+		Collection<GrantedAuthority> roles = (Collection<GrantedAuthority>) user.getAuthorities();
+
+		// 超级访问
+		if (roles.contains(PlatformConsts.ROLE_GRANT_SUPER)) {
+			return;
+		}
+		// 公开访问
+		if (configAttributes.contains(PlatformConsts.ROLE_CONFIG_PUBLIC)) {
+			return;
+		}
+		// 授权访问
+		// 遍历当前用户的角色，如果当前页面对应的角色包含当前用户的某个角色则有权限访问。
+		for (GrantedAuthority hadRole : roles) {
+			if (configAttributes.contains(new SecurityConfig(hadRole.getAuthority()))) {
+				return;
+			}
+		}
+		throw new AccessDeniedException("对不起,您没有该操作的权限!");
+	}
+
+	@Override
+	public boolean supports(ConfigAttribute attribute) {
+		return true;
+	}
+
+	@Override
+	public boolean supports(Class<?> clazz) {
+		return true;
+	}
 
 }
