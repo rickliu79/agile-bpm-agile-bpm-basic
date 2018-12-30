@@ -13,7 +13,7 @@ var base = angular.module("base", [])
 	    		  console.info(window.location.href);
 			  }
 	    	  if(response.data && !response.data.isOk && response.data.code==="403" ){
-	    		  alert("访问受限! "+data.msg);
+	    		  jQuery.Toast.error("访问受限! "+response.data.msg);
 			  }
 	         return response;
 	      }

@@ -1,7 +1,6 @@
 package com.dstz.sys.api.service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.dstz.sys.api.model.system.ISubsystem;
@@ -17,6 +16,6 @@ public interface SysResourceService {
 
 	List<ISysResource> getBySystemAndUser(String systemId, String userId);
 
-	Map<String, Set<String>> getUrlRoleBySystem(String systemId);
+	Set<String> getAccessRoleByUrl(String url);
 
 }

@@ -25,12 +25,6 @@
 		ID_=#{id}
 	</select>
 
-    <select id="getAllByRoleId" parameterType="java.lang.String" resultMap="ResRole">
-		SELECT * FROM sys_res_role 
-		WHERE 
-		ROLE_ID_=#{roleId}
-	</select>
-
     <select id="query" parameterType="java.util.Map" resultMap="ResRole">
         SELECT * FROM sys_res_role
         <where>
@@ -69,12 +63,13 @@
 		SYSTEM_ID_=#{systemId}
 	</delete>
 
-    <select id="getResRoleBySystemId" parameterType="java.lang.String" resultMap="ResRole">
+    <select id="getAllResRole" parameterType="java.lang.String" resultMap="ResRole">
 		select b.*, a.ALIAS_ resAlias,c.alias_ roleAlias,a.url_ url 
 		from sys_resource a
 		left join sys_res_role b on a.ID_= b.RES_ID_
 		left join org_role c on b.role_id_= c.id_
-		where a.system_id_=#{systemId} and c.enabled_=1
+		where c.enabled_=1 and a.enable_=1
+		
 	</select>
 
 
