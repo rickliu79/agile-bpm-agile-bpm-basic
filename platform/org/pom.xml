@@ -12,9 +12,7 @@
 
     <modules>
         <module>org-api</module>
-        <module>org-adaptor</module>
-        <module>org-core</module>
-        <module>org-rest</module>
+        <module>ab-org-core</module>
     </modules>
 
     <build>

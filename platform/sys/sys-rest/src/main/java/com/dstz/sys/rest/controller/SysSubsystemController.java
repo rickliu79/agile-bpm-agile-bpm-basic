@@ -88,8 +88,6 @@ public class SysSubsystemController extends BaseController<Subsystem> {
             if (StringUtil.isEmpty(id)) {
                 subsystem.setId(IdUtil.getSuid());
                 IUser user = ContextUtil.getCurrentUser();
-                subsystem.setCreator(user.getFullname());
-                subsystem.setCreatorId(user.getUserId());
                 subsystemManager.create(subsystem);
                 resultMsg = "添加子系统定义成功";
             } else {
