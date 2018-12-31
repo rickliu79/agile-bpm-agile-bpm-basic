@@ -130,8 +130,8 @@ public class SysResRoleController extends GenericController {
     @RequestMapping("getTreeData")
     @ResponseBody
     public List<SysResource> getTreeData(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String roleId = RequestUtil.getString(request, "roleId");
-        String systemId = RequestUtil.getString(request, "systemId");
+        String roleId = RequestUtil.getRQString(request, "roleId");
+        String systemId = RequestUtil.getRQString(request, "systemId");
         
         List<SysResource> roleResourceList = sysResourceManager.getBySystemAndRole(systemId, roleId);
         Set<String> userResourceId = new HashSet<>(roleResourceList.size(),1);
