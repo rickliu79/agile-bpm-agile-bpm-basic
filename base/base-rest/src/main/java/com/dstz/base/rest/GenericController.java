@@ -35,7 +35,6 @@ public class GenericController {
 	    protected <T> ResultMsg<T>  getSuccessResult(T data) {
 	        ResultMsg<T> resultMsg = new ResultMsg<T>();
 	        resultMsg.IsOk(true);
-	        resultMsg.setMsg("请求成功");
 	        resultMsg.setData(data);
 	        return resultMsg;
 	    }
@@ -45,6 +44,13 @@ public class GenericController {
 	        ResultMsg<String> resultMsg = new ResultMsg<String>();
 	        resultMsg.IsOk(true);
 	        resultMsg.setMsg(msg);
+	        return resultMsg;
+	    }
+	    
+	    protected ResultMsg<String> getSuccessResult() {
+	        ResultMsg<String> resultMsg = new ResultMsg<String>();
+	        resultMsg.IsOk(true);
+	        resultMsg.setMsg("操作成功");
 	        return resultMsg;
 	    }
 
