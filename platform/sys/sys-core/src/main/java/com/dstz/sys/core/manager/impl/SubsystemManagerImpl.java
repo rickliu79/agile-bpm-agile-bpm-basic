@@ -6,13 +6,14 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.org.api.model.IUser;
 import com.dstz.sys.core.dao.SubsystemDao;
 import com.dstz.sys.core.manager.SubsystemManager;
 import com.dstz.sys.core.model.Subsystem;
 import com.dstz.sys.util.ContextUtil;
+
+import cn.hutool.core.collection.CollectionUtil;
 
 /**
  * <pre>
@@ -37,7 +38,7 @@ public class SubsystemManagerImpl extends BaseManager<String, Subsystem> impleme
     @Override
     public Subsystem getDefaultSystem(String userId) {
         List<Subsystem> list = subsystemDao.getSystemByUser(userId);
-        if (BeanUtils.isEmpty(list)) return null;
+        if (CollectionUtil.isEmpty(list)) return null;
 
         for (Subsystem system : list) {
             if (1 == system.getIsDefault()) return system;

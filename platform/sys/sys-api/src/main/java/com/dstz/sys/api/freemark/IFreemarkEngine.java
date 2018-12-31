@@ -1,8 +1,8 @@
 package com.dstz.sys.api.freemark;
 
-import freemarker.template.TemplateException;
-
 import java.io.IOException;
+
+import freemarker.template.TemplateException;
 
 public interface IFreemarkEngine {
 
@@ -15,7 +15,7 @@ public interface IFreemarkEngine {
      * @throws IOException
      * @throws TemplateException
      */
-    public String genFormByTemplateName(String templateName, Object model) throws IOException, TemplateException;
+    public String genFormByTemplateName(String templateName, Object model);
 
     /**
      * 根据字符串模版解析出内容
@@ -26,6 +26,6 @@ public interface IFreemarkEngine {
      * @throws TemplateException
      * @throws IOException
      */
-    public String parseByString(String templateSource, Object model) throws TemplateException, IOException;
+    public String parseByString(String templateSource, Object model);
 
 }

@@ -27,6 +27,11 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 	 */
 	$scope.saveNode = function() {
 		var url = __ctx + "/sys/sysTreeNode/save";
+		if(!$scope.activeTreeNode.key || !$scope.activeTreeNode.name){
+			jQuery.Toast.error("请完善节点信息");
+			return;
+		}
+		
 		var rtn = baseService.post(url, $scope.activeTreeNode);
 		rtn.then(function(data) {
 			if (data.isOk) {

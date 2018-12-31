@@ -29,6 +29,7 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 		
 		$.getResultData(defer,function(data){
 			bpmTask = data.task;
+			if(data.defId){defId = data.defId};
 			scope.$emit('data:loaded',data)
 			jQuery.extend(scope, data);
 		},"alert");
@@ -152,7 +153,6 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 					layer.close(ii);
 					return;
 				}
-				
 				var flowData = {
 						defId: bpmService.getDefId(),
 						taskId: bpmService.getTaskId(),

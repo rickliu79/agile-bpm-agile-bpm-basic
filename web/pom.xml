@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>agile-bpm</artifactId>
 		<groupId>com.dstz.agilebpm</groupId>
-		<version>1.2.6</version>
+		<version>1.2.7-BETA</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -16,10 +16,10 @@
 	<description>提供主服务</description>
 
 	<properties>
-		<base.version>1.2.6</base.version>
-		<bpm.version>1.3.6</bpm.version>
-		<bus-form.version>1.2.6</bus-form.version>
-		<platform.version>1.2.6</platform.version>
+		<base.version>1.2.7-BETA</base.version>
+		<bpm.version>1.3.7</bpm.version>
+		<bus-form.version>1.2.7-BETA</bus-form.version>
+		<platform.version>1.2.7-BETA</platform.version>
 	</properties>
 
 	<dependencies>
@@ -50,7 +50,7 @@
 
 		<dependency>
 			<groupId>com.dstz.agilebpm</groupId>
-			<artifactId>org-rest</artifactId>
+			<artifactId>ab-org-core</artifactId>
 			<version>${platform.version}</version>
 		</dependency>
 
@@ -62,7 +62,7 @@
 
 		<dependency>
 			<groupId>com.dstz.agilebpm</groupId>
-			<artifactId>http-security</artifactId>
+			<artifactId>ab-spring-security</artifactId>
 			<version>${platform.version}</version>
 		</dependency>
 

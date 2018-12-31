@@ -48,7 +48,7 @@ public class WorkbenchPanelController extends BaseController<WorkbenchPanel>{
 		}else{
 			DefaultQueryFilter filter = (DefaultQueryFilter) getQueryFilter(request);
 			//将request请求的参数都put进去。用的时候可以用
-			filter.getParams().putAll(RequestUtil.getParameterValueMap(request,false,true));
+			filter.getParams().putAll(RequestUtil.getParameterValueMap(request,false));
 			json = workbenchPanelManager.getDataByInterFace(filter,dataSource);
 		}
 		

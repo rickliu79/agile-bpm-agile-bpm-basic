@@ -9,12 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.org.api.model.IUser;
 import com.dstz.org.api.service.GroupService;
 import com.dstz.org.api.service.UserService;
 import com.dstz.sys.api.model.SysIdentity;
 import com.dstz.sys.api.service.SysIdentityConvert;
+
+import cn.hutool.core.collection.CollectionUtil;
 @Component
 public class SysIdentityConvertServiceImpl implements SysIdentityConvert {
     private static final Logger LOGGER = LoggerFactory.getLogger(SysIdentityConvert.class);
@@ -29,7 +30,7 @@ public class SysIdentityConvertServiceImpl implements SysIdentityConvert {
 	public IUser convert2User(SysIdentity identity) {
 		List<IUser> users = convert2Users(identity);
 		
-		if(BeanUtils.isNotEmpty(users)) {
+		if(CollectionUtil.isNotEmpty(users)) {
 			return users.get(0);
 		}
 		

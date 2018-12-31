@@ -1,5 +1,6 @@
 package com.dstz.base.core.model;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.model.IBaseModel;
 import com.dstz.base.core.util.ToStringUtil;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -99,6 +100,11 @@ public abstract class BaseModel extends ToStringUtil implements IBaseModel {
 
     public void setDelete(boolean delete) {
         this.delete = delete;
+    }
+    
+    @Override
+    public String toString() {
+    	return JSONObject.toJSONString(this);
     }
 
 }

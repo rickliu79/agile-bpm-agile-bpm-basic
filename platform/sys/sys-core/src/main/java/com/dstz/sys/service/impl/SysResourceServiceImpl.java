@@ -49,9 +49,10 @@ public class SysResourceServiceImpl implements SysResourceService{
 		return (List)sysResourceManager.getBySystemAndUser(systemId, userId);
 	}
 
+
 	@Override
-	public Map<String, Set<String>> getUrlRoleBySystem(String systemId) {
-		return resRoleManager.getUrlRoleBySystem(systemId);
+	public Set<String> getAccessRoleByUrl(String url) {
+		return resRoleManager.getAccessRoleByUrl(url);
 	}
 
 }
