@@ -150,4 +150,9 @@ public class OrgRelationManagerImpl extends BaseManager<String, OrgRelation> imp
 		return orgRelationDao.getUserRole(userId);
 	}
 
+	@Override
+	public OrgRelation getPost(String id) {
+		return orgRelationDao.getPost(id);
+	}
+
 }

@@ -48,7 +48,22 @@ public class OrgRelation extends BaseModel{
 	protected String roleName;
 	protected String roleAlias;
 	
-	
+	/**
+	 * 岗位使用的时候调用
+	 * @return
+	 */
+	public String getPostName() {
+		return String.format("%s-%s", this.getGroupName(),this.getRoleName());
+	}
+	/**
+	 * post ID
+	 * @return
+	 */
+	public String getPostId() {
+		return String.format("%s-%s", this.getGroupId(),this.getRoleId());
+	}
+
+
 	public void setGroupId( String groupId) {
 		this.groupId = groupId;
 	}

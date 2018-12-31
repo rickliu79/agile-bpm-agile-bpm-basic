@@ -138,7 +138,7 @@ ADD COLUMN `update_by_`  varchar(255) NULL;
 
 CREATE INDEX `resouceId` ON `sys_res_role`(`RES_ID_`) USING BTREE ;
 CREATE INDEX `roleId` ON `sys_res_role`(`ROLE_ID_`) USING BTREE ;
-  
+ALTER TABLE `bpm_task_identitylink` MODIFY COLUMN `identity_` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ID' AFTER `identity_name_`;
 
 DROP TABLE `bpm_reminder_history`;
 DROP TABLE `bpm_task_reminder`;

@@ -91,10 +91,14 @@ public class ABGroupService implements GroupService {
         	List<IGroup> groupList = (List)BeanCopierUtils.transformList(listRole, GroupDTO.class);
             listMap.put(GroupTypeConstant.ROLE.key(), groupList);
         }
-        List<IGroup> listOrgRel = (List) orgRelationManager.getPostByUserId(userId);
+        
+        List<OrgRelation> listOrgRel =  orgRelationManager.getPostByUserId(userId);
         if (CollectionUtil.isNotEmpty(listOrgRel)) {
-        	List<IGroup> groupList = (List)BeanCopierUtils.transformList(listOrgRel, GroupDTO.class);
-            listMap.put(GroupTypeConstant.POST.key(), groupList);
+        	List<IGroup> userGroups = new ArrayList<>();
+        	listOrgRel.forEach(post ->{
+            	userGroups.add( new GroupDTO(post.getPostId(),post.getPostName(),GroupTypeConstant.POST.key()) );
+            });
+            listMap.put(GroupTypeConstant.POST.key(), userGroups);
         }
         return listMap;
     }
@@ -116,10 +120,10 @@ public class ABGroupService implements GroupService {
         }
         List<OrgRelation> listOrgRel = orgRelationManager.getPostByUserId(userId);
         listOrgRel.forEach(post ->{
-        	userGroups.add( new GroupDTO(post.getId(),post.getRoleName(),GroupTypeConstant.POST.key()) );
+        	userGroups.add( new GroupDTO(post.getPostId(),post.getPostName(),GroupTypeConstant.POST.key()) );
         });
         
-        //转换成GROUP DTO
+        //转换成GROUP DTO 13556806587
         List<IGroup> groupList = (List)BeanCopierUtils.transformList(userGroups, GroupDTO.class);
         return groupList;
     }
@@ -137,9 +141,9 @@ public class ABGroupService implements GroupService {
         	group = roleManager.get(groupId);
         }
         if (groupType.equals(GroupTypeConstant.POST.key())) {
-        	OrgRelation relation  = orgRelationManager.get(groupId);
+        	OrgRelation relation  = orgRelationManager.getPost(groupId);
         	if(relation != null) {
-        		return new GroupDTO(relation.getId(), relation.getRoleName(),groupType);
+        		return new GroupDTO(relation.getPostId(), relation.getPostName(),groupType);
         	}
         }
         
@@ -161,9 +165,10 @@ public class ABGroupService implements GroupService {
         if (groupType.equals(GroupTypeConstant.ROLE.key())) {
         	group = roleManager.getByAlias(code);
         }
-        if (groupType.equals(GroupTypeConstant.POST.key())) {
-        	log.error("POST NOT SUPPORT “CODE” MODEL");
-        }
+        OrgRelation relation  = orgRelationManager.getPost(code);
+    	if(relation != null) {
+    		return new GroupDTO(relation.getPostId(), relation.getPostName(),groupType);
+    	}
         
         if(group == null) return null;
         return new GroupDTO(group);
