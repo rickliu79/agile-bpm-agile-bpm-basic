@@ -92,6 +92,13 @@ public class ABGroupService implements GroupService {
             listMap.put(GroupTypeConstant.ROLE.key(), groupList);
         }
         
+        /**
+         *  岗位对外post code postID 均为 【组织ID-组织ID】
+         *  岗位选择框 postCODE 为 关系的ID 
+         *  对外提供岗位查询 CODE查询的时候为 关系ID 返回POST 对象ID已经被转换成 【组织ID-组织ID】
+         *  岗位不支持ID 的查询
+         *  当前用户的岗位ID 也为【组织ID-组织ID】
+         */
         List<OrgRelation> listOrgRel =  orgRelationManager.getPostByUserId(userId);
         if (CollectionUtil.isNotEmpty(listOrgRel)) {
         	List<IGroup> userGroups = new ArrayList<>();
@@ -141,6 +148,8 @@ public class ABGroupService implements GroupService {
         	group = roleManager.get(groupId);
         }
         if (groupType.equals(GroupTypeConstant.POST.key())) {
+        	// 详情请查看95行代码
+        	log.warn("岗位不支持ID的查询！！！->{}",groupId);
         	OrgRelation relation  = orgRelationManager.getPost(groupId);
         	if(relation != null) {
         		return new GroupDTO(relation.getPostId(), relation.getPostName(),groupType);
@@ -167,6 +176,7 @@ public class ABGroupService implements GroupService {
         }
         OrgRelation relation  = orgRelationManager.getPost(code);
     	if(relation != null) {
+    		// 详情请查看95行代码
     		return new GroupDTO(relation.getPostId(), relation.getPostName(),groupType);
     	}
         
