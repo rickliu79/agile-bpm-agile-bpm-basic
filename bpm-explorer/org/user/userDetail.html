@@ -75,7 +75,6 @@
 			<tr>
 				<th>
 					<span>角色:</span>
-					<span class="required">*</span>
 				</th>
 				<td>
 					<span ng-repeat="relation in data.orgRelationList |filter:{type:'userRole'}" style="margin-right: 10px" class="label label-danger"> {{relation.roleName}}
@@ -84,10 +83,17 @@
 			<tr>
 				<th>
 					<span>组织:</span>
-					<span class="required">*</span>
 				</th>
 				<td>
-					<span ng-repeat="relation in data.orgRelationList|filter:{type:'groupUser'}" style="margin-right: 10px" class="label label-danger"> {{relation.groupName}}
+					<span ng-repeat="relation in data.orgRelationList" ng-show="relation.type==='groupUser'"  style="margin-right: 10px" class="label label-danger"> {{relation.groupName}}
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<span>岗位:</span>
+				</th>
+				<td>
+					<span ng-repeat="relation in data.orgRelationList" ng-show="relation.type==='groupUserRole'" style="margin-right: 10px" class="label label-danger">{{relation.postName}}
 				</td>
 			</tr>
 			<tr>
