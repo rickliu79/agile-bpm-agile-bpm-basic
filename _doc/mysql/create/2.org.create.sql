@@ -72,4 +72,10 @@ CREATE TABLE `org_role` (
   PRIMARY KEY (`id_`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色管理';
 
-
+-- 创建组织用户关系视图
+SELECT tgroup.name_ groupName,tuser.fullname_ userName,role.name_ roleName ,
+	CONCAT(tgroup.name_,'-',role.name_) postName,concat(`tgroup`.`id_`,'-',`role`.`id_`) AS `postId`, relation.*
+	FROM org_relation relation 
+	left join org_user tuser on relation.user_id_ = tuser.id_
+	left join org_group tgroup on relation.group_id_ = tgroup.id_
+	left join org_role role on relation.role_id_ = role.id_

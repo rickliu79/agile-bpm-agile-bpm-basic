@@ -69,7 +69,8 @@
     <select id="getByUserId" parameterType="java.lang.String" resultMap="Role">
         SELECT role.* from org_role role
         left join org_relation relation on role.id_ = relation.role_id_ 
-        where relation.user_id_ = #{userId} and enabled_ = 1
+        where enabled_ = 1 and relation.status_ =1 
+        and relation.user_id_ = #{userId}
     </select>
 
     <select id="isRoleExist" resultType="java.lang.Integer">

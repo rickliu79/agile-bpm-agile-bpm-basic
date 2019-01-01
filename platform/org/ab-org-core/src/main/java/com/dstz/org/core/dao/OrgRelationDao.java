@@ -65,4 +65,11 @@ public interface OrgRelationDao extends BaseDao<String, OrgRelation> {
 	 */
 	List<OrgRelation> getUserRole(String userId);
 	
+	/**
+	 * 获取岗位
+	 * @param id
+	 * @return
+	 */
+	OrgRelation getPost(String id);
+	
 }

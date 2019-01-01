@@ -1,7 +1,15 @@
 package com.dstz.org.api.model.dto;
 
 import com.dstz.org.api.model.IGroup;
-
+/**
+ * <pre>
+ *  岗位对外post code postID 均为 【组织ID-组织ID】
+ *  岗位选择框 postCODE 为 关系的ID 
+ *  对外提供岗位查询 CODE查询的时候为 关系ID 返回POST 对象ID已经被转换成 【组织ID-组织ID】
+ *  岗位不支持ID 的查询
+ *  当前用户的岗位ID 也为【组织ID-组织ID】
+ * </pre>
+ */
 public class GroupDTO implements IGroup {
 	String identityType;
 	String groupId;

@@ -209,12 +209,11 @@ function getSelectNode() {
 
 function laodSystem(){
 	var url = __ctx + "/sys/subsystem/getUserSystem";
-	
 	$.post(url, {}, function(result) {
 		var result = eval("("+result+")");
 		if (result.isOk) {//成功
 			for(var i =0,system;system= result.data[i++];){
-				$("#systemId").append("<option value="+system.id+" selected="+(system.isDefault==1?'true':'false')+">"+system.name+"</option>");
+				$("#systemId").append("<option value="+system.id+" "+(system.isDefault===1?'selected=true':'')+">"+system.name+"</option>");
 			}
 		} else {
 			$.Dialog.alert(result.msg,2);
