@@ -15,6 +15,7 @@
 		<result property="updateBy" column="update_by_" jdbcType="VARCHAR"/>
 		<result property="groupName" column="groupName" jdbcType="VARCHAR"/>
 		<result property="roleName" column="roleName" jdbcType="VARCHAR"/>
+		<result property="roleAlias" column="roleAlias" jdbcType="VARCHAR"/>
 		<result property="userName" column="userName" jdbcType="VARCHAR"/>
 	</resultMap>
 	
@@ -132,13 +133,23 @@
 	</select>
 	
 	<select id="getUserRole"   parameterType="java.lang.String" resultMap="OrgRelation">
-		SELECT relation.*,tuser.fullname_ userName,role.name_ roleName 
+		SELECT relation.*,tuser.fullname_ userName,role.name_ roleName ,role.alias_ as roleAlias
 		FROM org_relation relation 
 		left join org_user tuser on relation.user_id_ = tuser.id_
 		left join org_role role on relation.role_id_ = role.id_
 		WHERE relation.status_ = 1 and role.enabled_ = 1
 		and relation.user_id_ = #{userId}
 		and  relation.type_ in ('userRole','groupUserRole')
+	</select>
+	
+	
+	<select id="getPost"   parameterType="java.util.Map" resultMap="OrgRelation">
+		SELECT relation.*,tgroup.name_ groupName,role.name_ roleName 
+		FROM org_relation relation 
+		left join org_group tgroup on relation.group_id_ = tgroup.id_
+		left join org_role role on relation.role_id_ = role.id_
+		WHERE relation.id_ = #{groupId}
+		and  relation.type_ = 'groupRole'
 	</select>
 	
 </mapper>

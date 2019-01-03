@@ -5,9 +5,9 @@ INSERT INTO `act_ge_property` (`NAME_`, `VALUE_`, `REV_`) VALUES ('schema.versio
 
 
 -- 流程管理
-UPDATE `sys_resource` SET `ENABLE_MENU_`='1' WHERE (`ID_`='10000000710005');
+UPDATE `sys_resource` SET `ENABLE_`='1' WHERE (`ID_`='10000000710005');
 -- 个人办公
-UPDATE `sys_resource` SET `ENABLE_MENU_`='1' WHERE (`ID_`='1');
+UPDATE `sys_resource` SET `ENABLE_`='1' WHERE (`ID_`='1');
 
 
 

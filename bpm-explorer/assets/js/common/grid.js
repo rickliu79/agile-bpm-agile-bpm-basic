@@ -195,6 +195,7 @@ $(function() {
 	rowsManager.sendAction();
 	resizeGrid();
 	initQtip();
+	initButtonPermission();
 });
 
 function dataCheck(data){
@@ -222,7 +223,27 @@ function initQtip(){
 		}
 		qtipApi.show();
 	});
-	
+}
+
+function initButtonPermission(){
+	$("[ab-btn-rights]").each(function(){
+		handelPermission(this)
+	})
+}
+function handelPermission(target){
+	var btnRightsKey = $(target).attr("ab-btn-rights");
+	if(window.localStorage){
+		var btnPermission = window.localStorage.getItem( 'buttonPermision' );
+		btnPermission = btnPermission ? JSON.parse( btnPermission ) : {};
+		 
+		if( btnRightsKey && btnPermission[btnRightsKey]){
+			return;
+		}
+		console.info(btnRightsKey +" no rights");
+		$(target).hide();
+	}else{
+		console.info("浏览器版本太低不支持按钮权限！");
+	}
 }
 
 
@@ -378,12 +399,16 @@ window.innerHtmlFormatter = function(value, row, index){
 	row.__ctx=__ctx;
 	if(row && this.html){
 		var htmlStr = this.html.format(row);
-		if(htmlStr.indexOf("if=")==-1){
-			return htmlStr;
-		}
 		
 		var jqHtml = $("<div>"+htmlStr+"</div>");
 		var ifEl = $("[if]",jqHtml);
+		var btnRightEl = $("[ab-btn-rights]",jqHtml);
+		
+		// 权限标签
+		for(var j_=0,btn_;btn_=btnRightEl[j_++];){
+			handelPermission(btn_);
+		}
+		// if 标签
 		try{
 			for(var i_=0,item_;item_=ifEl[i_++];){
 				var fnStr = $(item_).attr("if");

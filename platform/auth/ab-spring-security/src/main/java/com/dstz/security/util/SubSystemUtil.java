@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SubSystemUtil {
-private static int systemTimeOut = 60 * 60 * 24 * 30;
+
     /**
      * 获取上下文系统ID
      *
@@ -28,6 +28,6 @@ private static int systemTimeOut = 60 * 60 * 24 * 30;
      * @param systemId
      */
     public static void setSystemId(HttpServletRequest req, HttpServletResponse response, String systemId) {
-        CookieUitl.addCookie("systemId", systemId );
+        CookieUitl.addCookie("systemId", systemId,CookieUitl.cookie_no_expire);
     }
 }

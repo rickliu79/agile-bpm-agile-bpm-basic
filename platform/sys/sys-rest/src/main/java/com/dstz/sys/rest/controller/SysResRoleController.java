@@ -2,7 +2,9 @@ package com.dstz.sys.rest.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -128,15 +130,20 @@ public class SysResRoleController extends GenericController {
     @RequestMapping("getTreeData")
     @ResponseBody
     public List<SysResource> getTreeData(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String roleId = RequestUtil.getString(request, "roleId");
-        String systemId = RequestUtil.getString(request, "systemId");
+        String roleId = RequestUtil.getRQString(request, "roleId");
+        String systemId = RequestUtil.getRQString(request, "systemId");
+        
         List<SysResource> roleResourceList = sysResourceManager.getBySystemAndRole(systemId, roleId);
+        Set<String> userResourceId = new HashSet<>(roleResourceList.size(),1);
+        roleResourceList.forEach(resouces -> userResourceId.add(resouces.getId()));
+        
         List<SysResource> resourceList = sysResourceManager.getBySystemId(systemId);
         for (SysResource sysResource : resourceList) {
-            if (roleResourceList.contains(sysResource)) {
+            if (userResourceId.contains(sysResource.getId())) {
                 sysResource.setChecked(true);
             }
         }
+        
         if (CollectionUtil.isEmpty(resourceList))
             resourceList = new ArrayList<SysResource>();
 

@@ -39,14 +39,31 @@ public class OrgRelation extends BaseModel{
 	*/
 	protected  String type; 
 	
+	
 	/**
 	 * 前端字段
 	 */
 	protected String groupName;
 	protected String userName;
 	protected String roleName;
+	protected String roleAlias;
 	
-	
+	/**
+	 * 岗位使用的时候调用
+	 * @return
+	 */
+	public String getPostName() {
+		return String.format("%s-%s", this.getGroupName(),this.getRoleName());
+	}
+	/**
+	 * post ID
+	 * @return
+	 */
+	public String getPostId() {
+		return String.format("%s-%s", this.getGroupId(),this.getRoleId());
+	}
+
+
 	public void setGroupId( String groupId) {
 		this.groupId = groupId;
 	}
@@ -120,6 +137,16 @@ public class OrgRelation extends BaseModel{
 	public Integer getStatus() {
 		return status;
 	}
+
+	public String getRoleAlias() {
+		return roleAlias;
+	}
+
+
+	public void setRoleAlias(String roleAlias) {
+		this.roleAlias = roleAlias;
+	}
+
 
 	public void setStatus(Integer status) {
 		this.status = status;

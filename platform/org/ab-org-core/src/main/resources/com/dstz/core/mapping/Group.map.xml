@@ -33,8 +33,8 @@
 		SELECT g.* FROM org_group g
 		left join org_relation rel on group_id_ = g.id_
 		WHERE  user_id_ = #{userId}
-		and rel.type_ in ('groupUser','groupUserRole') 
-		order by rel.is_master_ desc, create_time_ desc
+		and rel.type_ in ('groupUser','groupUserRole') and rel.status_ = 1
+		order by rel.is_master_ desc, g.create_time_ desc
 	</select>
 	
 	<select id="query" parameterType="java.util.Map" resultMap="Group">
@@ -75,5 +75,10 @@
 		id_=#{id}
 	</delete>
 	
+	<select id="getByCode"   parameterType="java.lang.String" resultMap="Group">
+		SELECT * FROM org_group 
+		WHERE 
+		code_=#{code}
+	</select>
 	
 </mapper>

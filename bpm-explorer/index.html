@@ -68,11 +68,11 @@
                              <span class="text-muted text-xs block ">{{userMsg.user.fullname}}<b class="caret"></b></span>
                              </span>
                          </a>
-                         <ul class="dropdown-menu dropdown-alerts" style="width: 250">
+                         <ul class="dropdown-menu dropdown-alerts" style="width: 220">
                              <li>
                              	 <a href="#">
                                        <div>
-                                           <i class="fa  fa-user">{{userMsg.currentOrg.name}}</i> 
+                                           <i class="fa  fa-user">{{userMsg.currentOrg.groupName}}</i> 
                                            <span class="pull-right btn btn-xs btn-primary">当前组织</span>
                                        </div>
                                    </a>
@@ -81,7 +81,7 @@
                              <li ng-repeat="org in userMsg.orgList" ng-show="org.groupId != userMsg.currentOrg.groupId">
                              		<a href="#">
                                       <div>
-                                          <i class="fa fa-users"></i> {{org.name}}
+                                          <i class="fa fa-users"></i> {{org.groupName}}
                                           <span class="pull-right btn btn-xs btn-success fa fa-exchange" ng-click="changeCurrentOrg(org.groupId)">切换组织</span>
                                       </div>
                                    </a>
@@ -89,7 +89,7 @@
                              <li ng-repeat="system in userMsg.subsystemList" ng-show="system.id != userMsg.currentSystem.id">
                              		<a href="#">
                                           <i class="fa fa-align-justify"></i> {{system.name}}
-                                          <span class="pull-right btn btn-xs btn-success fa fa-exchange" ng-click="changeCurrentSystem(system.id)">切换系统</span>
+                                          <span class="pull-right btn btn-xs btn-danger fa fa-exchange" ng-click="changeCurrentSystem(system.id)">切换系统</span>
                                    </a>
                              </li>
                               <li class="divider"></li>

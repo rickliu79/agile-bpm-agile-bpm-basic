@@ -102,7 +102,6 @@ public class SysResourceController extends GenericController {
         
         if (StringUtil.isEmpty(id)) {
             sysResource.setSn(1);
-            sysResource.setCreateTime(new Date());
             sysResourceManager.create(sysResource);
             resultMsg = "添加子系统资源成功";
         } else {
@@ -127,6 +126,9 @@ public class SysResourceController extends GenericController {
         	if(!ResouceTypeConstant.MENU.getKey().equals(parent.getType())) {
         		 throw new BusinessMessage("菜单类型的资源，上级资源["+parent.getName()+"]也必须是菜单！");
         	}
+        }
+        if(StringUtil.isNotEmpty(sysResource.getUrl())) {
+        	sysResource.setUrl(sysResource.getUrl().trim());
         }
 		
 	}

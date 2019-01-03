@@ -19,6 +19,8 @@ import com.dstz.security.constans.PlatformConsts;
 import com.dstz.security.util.SubSystemUtil;
 import com.dstz.sys.api.service.SysResourceService;
 
+import cn.hutool.core.collection.CollectionUtil;
+
 /**
  * 根据当前的URL获取他上面分配的角色列表
  */
@@ -42,14 +44,10 @@ public class FilterInvocationSecurityMetadataSourceImpl extends IngoreChecker im
             return configAttribute;
         }
 
-        String systemId = SubSystemUtil.getSystemId(request);
-        Map<String, Set<String>> urlRoleMap = sysResourceService.getUrlRoleBySystem(systemId);
-        //根据当前的URL获取资源对应的角色。
-        if (urlRoleMap.containsKey(url)) {
-            Set<String> urlSet = urlRoleMap.get(url);
-            for (String role : urlSet) {
-                configAttribute.add(new SecurityConfig(role));
-            }
+        //根据当前的URL获取所需要的角色
+        Set<String> roles = sysResourceService.getAccessRoleByUrl(url);
+        if (CollectionUtil.isNotEmpty(roles)) {
+        	roles.forEach(role-> configAttribute.add(new SecurityConfig(role)));
         } else {
             configAttribute.add(PlatformConsts.ROLE_CONFIG_PUBLIC);
         }

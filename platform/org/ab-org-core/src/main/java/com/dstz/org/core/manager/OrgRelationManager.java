@@ -84,4 +84,11 @@ public interface OrgRelationManager extends Manager<String, OrgRelation>{
 	 */
 	List<OrgRelation> getUserRole(String userId);
 	
+	/**
+	 * 获取岗位，岗位没有code，只有ID
+	 * @param groupId
+	 * @return
+	 */
+	OrgRelation getPost(String groupId);
+	
 }
