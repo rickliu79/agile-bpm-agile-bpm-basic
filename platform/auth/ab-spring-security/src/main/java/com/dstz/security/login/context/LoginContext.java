@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.dstz.base.core.cache.ICache;
@@ -67,15 +68,10 @@ private static final Logger log = LoggerFactory.getLogger(LoginContext.class);
     public IUser getCurrentUser() {
         if (currentUser.get() != null)  return currentUser.get();
         
-        try {
-        	Object auth = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        	if(auth instanceof IUser) {
-        		return (IUser) auth;
-        	}
-		} catch (NullPointerException e) {
-			log.warn("获取用户失败：",e);
-		}
-
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth != null) {
+    		return (IUser)auth.getPrincipal();
+    	}
         return null;
     }
 
@@ -85,7 +81,7 @@ private static final Logger log = LoggerFactory.getLogger(LoginContext.class);
         
         //从缓存中取
         ICache<IGroup> iCache = AppUtil.getBean(ICache.class);
-        String userKey = ICurrentContext.CURRENT_ORG + getCurrentUserId();
+        String userKey = ICurrentContext.CURRENT_ORG .concat(getCurrentUserId());
         
         IGroup currentGroup = iCache.getByKey(userKey);
         if (currentGroup != null)  return currentGroup;
@@ -116,7 +112,7 @@ private static final Logger log = LoggerFactory.getLogger(LoginContext.class);
         //将当前人和组织放到缓存中。
         String userId = getCurrentUserId();
 		ICache<IGroup> iCache = AppUtil.getBean(ICache.class);
-        String userKey = ICurrentContext.CURRENT_ORG + userId;
+        String userKey = ICurrentContext.CURRENT_ORG .concat( userId);
         iCache.add(userKey, group);
     }
 
