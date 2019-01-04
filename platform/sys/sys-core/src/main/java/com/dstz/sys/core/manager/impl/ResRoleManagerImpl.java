@@ -43,15 +43,12 @@ public class ResRoleManagerImpl extends BaseManager<String, ResRole> implements 
             ResRole resRole = new ResRole(systemId,resId,roleId);
             resRoleDao.create(resRole);
         }
-
+        cleanResoucesCache();
     }
 
-   
-
     private Map<String, Set<String>> getUrlRoleMapping() {
-        String urlCacheKey = URL_ROLE_MAPPING;
-        if (iCache.containKey(urlCacheKey)) {
-            return (Map<String, Set<String>>) iCache.getByKey(urlCacheKey);
+        if (iCache.containKey(URL_ROLE_MAPPING)) {
+            return (Map<String, Set<String>>) iCache.getByKey(URL_ROLE_MAPPING);
         }
 
         List<ResRole> list = resRoleDao.getAllResRole();
@@ -71,14 +68,12 @@ public class ResRoleManagerImpl extends BaseManager<String, ResRole> implements 
             }
         }
         //添加到缓存
-        iCache.add(urlCacheKey, urlRoleMapping);
+        iCache.add(URL_ROLE_MAPPING, urlRoleMapping);
         return urlRoleMapping;
     }
 
-    @Override
-    public void cleanResoucesCache(String systemId) {
-        String urlStr = URL_ROLE_MAPPING;
-        iCache.delByKey(urlStr);
+    private void cleanResoucesCache() {
+        iCache.delByKey(URL_ROLE_MAPPING);
     }
 
     
