@@ -24,13 +24,6 @@ public interface ResRoleManager extends Manager<String, ResRole> {
      * @param roleId
      */
     void assignResByRoleSys(String resIds, String systemId, String roleId);
-
-    /**
-     * 清除缓存。
-     *
-     * @param systemId
-     */
-    void cleanResoucesCache(String systemId);
     
     /**
      * 通过url 获取可访问的角色
