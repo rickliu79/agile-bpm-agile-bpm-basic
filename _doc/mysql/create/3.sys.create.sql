@@ -75,14 +75,17 @@ CREATE TABLE `sys_data_source_def` (
 DROP TABLE IF EXISTS `sys_log_err`;
 CREATE TABLE `sys_log_err` (
   `id_` varchar(50) NOT NULL COMMENT '主键',
-  `ACCOUNT_` varchar(20) DEFAULT NULL COMMENT '帐号',
-  `IP_` varchar(20) DEFAULT NULL COMMENT 'IP来源',
-  `URL_` varchar(1500) DEFAULT NULL COMMENT '错误URL',
-  `CONTENT_` text COMMENT '出错信息',
-  `CREATE_TIME_` datetime DEFAULT NULL COMMENT '出错时间',
+  `account_` varchar(20) DEFAULT NULL COMMENT '帐号',
+  `ip_` varchar(20) DEFAULT NULL COMMENT 'IP来源',
+  `ip_address_` varchar(255) DEFAULT NULL COMMENT 'IP地址',
+  `status_` varchar(64) DEFAULT NULL COMMENT '状态：unchecked，checked，fixed',
+  `url_` varchar(1500) DEFAULT NULL COMMENT '错误URL',
+  `content_` text COMMENT '出错信息',
+  `request_param_` text COMMENT '请求参数',
+  `create_time_` datetime DEFAULT NULL COMMENT '出错时间',
   `stack_trace_` longtext COMMENT '出错异常堆栈',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统异常日志';
 
 -- ----------------------------
 -- Table structure for sys_properties
@@ -101,7 +104,7 @@ CREATE TABLE `sys_properties` (
   `description_` varchar(500) DEFAULT NULL,
   `environment_` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统属性';
  
 
 CREATE TABLE `sys_resource` (
