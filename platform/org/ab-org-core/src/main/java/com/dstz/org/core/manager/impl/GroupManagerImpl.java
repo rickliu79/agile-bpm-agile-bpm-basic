@@ -54,7 +54,7 @@ public class GroupManagerImpl extends BaseManager<String, Group> implements Grou
     	entity.setPath(entity.getId());
     	if(StringUtil.isNotZeroEmpty(entity.getParentId())) {
     		Group parent = groupDao.get(entity.getParentId());
-    		if(parent != null) {
+    		if(parent != null && parent.getPath() != null) {
     			entity.setPath(parent.getPath().concat(".").concat(entity.getId()));
     		}
     	}
