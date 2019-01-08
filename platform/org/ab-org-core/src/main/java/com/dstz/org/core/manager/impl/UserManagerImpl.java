@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.dstz.base.core.encrypt.EncryptUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.org.core.constant.RelationTypeConstant;
@@ -62,10 +63,20 @@ public class UserManagerImpl extends BaseManager<String, User> implements UserMa
 		}
 		return user;
 	}
+	
+	@Override
+	public void remove(String entityId) {
+		orgRelationMananger.removeByUserId(entityId);
+		super.remove(entityId);
+	}
 
 	@Override
 	public void saveUserInfo(User user) {
 		if(StringUtil.isEmpty(user.getId())) {
+			if(StringUtil.isEmpty(user.getPassword())) {
+				user.setPassword("1");
+			}
+            user.setPassword(EncryptUtil.encryptSha256(user.getPassword()));
 			this.create(user);
 		}else {
 			this.update(user);

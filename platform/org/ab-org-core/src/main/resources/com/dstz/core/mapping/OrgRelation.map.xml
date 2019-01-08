@@ -142,4 +142,14 @@
 		and  relation.type_ in ('userRole','groupUserRole')
 	</select>
 	
+	
+	<select id="getPost"   parameterType="java.util.Map" resultMap="OrgRelation">
+		SELECT relation.*,tgroup.name_ groupName,role.name_ roleName 
+		FROM org_relation relation 
+		left join org_group tgroup on relation.group_id_ = tgroup.id_
+		left join org_role role on relation.role_id_ = role.id_
+		WHERE relation.id_ = #{groupId}
+		and  relation.type_ = 'groupRole'
+	</select>
+	
 </mapper>

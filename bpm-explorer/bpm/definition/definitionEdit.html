@@ -43,7 +43,7 @@ app.controller("newDefinition", [ '$scope', 'baseService', function($scope, base
 			</tr>
 			<tr>
 				<th>流程KEY</th>
-				<td><input ng-model="def.key" ab-validate="{required:true}" class="form-control"/></td>
+				<td><input ng-model="def.key" ab-validate="{required:true,varirule:true}" class="form-control"/></td>
 			</tr>
 			<tr>
 				<th>说明</th>

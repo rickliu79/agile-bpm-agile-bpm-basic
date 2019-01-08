@@ -6,19 +6,19 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 
 import com.dstz.base.core.cache.ICache;
-import com.dstz.base.core.util.BeanUtils;
 import com.dstz.org.api.model.IUser;
 import com.dstz.org.api.model.IUserRole;
 import com.dstz.org.api.service.UserService;
 import com.dstz.security.constans.PlatformConsts;
+import com.dstz.security.jwt.service.JWTService;
 import com.dstz.security.login.model.LoginUser;
 import com.dstz.sys.util.ContextUtil;
 
@@ -26,18 +26,23 @@ import com.dstz.sys.util.ContextUtil;
  * 实现UserDetailsService 接口获取UserDetails 接口实例对象。
  */
 public class UserDetailsServiceImpl implements UserDetailsService {
-	private static final String loginUserCacheKey = "agilebpm:loginUser:";
+	public static final String loginUserCacheKey = "agilebpm:loginUser:";
     @Resource
     UserService userService;
     @Resource
     ICache<LoginUser> loginUserCache;
+    @Autowired
+    JWTService jwtService;
     
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    	String userCacheKey = loginUserCacheKey.concat(username);
-    	LoginUser loginUser = loginUserCache.getByKey(userCacheKey); //TODO 加上有效期
-    	
-    	if(loginUser != null) {
-    		return loginUser;
+    	LoginUser loginUser = null;
+    	// 只有 jwt 模式才有必要缓存用户角色
+    	if(jwtService.getJwtEnabled()) {
+    		loginUser = loginUserCache.getByKey(loginUserCacheKey.concat(username)); //TODO 加上有效期
+    		
+    		if(loginUser != null) {
+    			return loginUser;
+    		}
     	}
     	
     	IUser defaultUser = userService.getUserByAccount(username);
@@ -59,8 +64,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             collection.add(PlatformConsts.ROLE_GRANT_SUPER);
         }
         loginUser.setAuthorities(collection);
-        
-        loginUserCache.add(userCacheKey, loginUser);
+        if(jwtService.getJwtEnabled()) {
+        	loginUserCache.add(loginUserCacheKey.concat(username), loginUser);
+        }
         return loginUser;
     }
 }

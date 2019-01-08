@@ -73,7 +73,7 @@
     <select id="getBySystemAndRole" parameterType="java.util.Map" resultMap="SysResource">
 		SELECT a.* FROM sys_resource a, sys_res_role b
 		WHERE  a.id_=b.RES_id_ AND 	b.ROLE_id_=#{roleId}  AND b.system_id_=#{systemId}
-		order by sn_ asc
+		order by sn_ asc, id_ asc
 	</select>
 
     <select id="isExist" resultType="java.lang.Integer">
@@ -93,6 +93,6 @@
 		left join org_relation userRole on userRole.role_id_ = resRole.role_id_
 		where res.system_id_=#{systemId}  
 		and userRole.user_id_=#{userId}
-		ORDER BY res.sn_ desc , res.id_ desc
+		order by sn_ asc, id_ asc
 	</select>
 </mapper>
