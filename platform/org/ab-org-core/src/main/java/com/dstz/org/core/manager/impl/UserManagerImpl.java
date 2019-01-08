@@ -63,6 +63,12 @@ public class UserManagerImpl extends BaseManager<String, User> implements UserMa
 		}
 		return user;
 	}
+	
+	@Override
+	public void remove(String entityId) {
+		orgRelationMananger.removeByUserId(entityId);
+		super.remove(entityId);
+	}
 
 	@Override
 	public void saveUserInfo(User user) {
