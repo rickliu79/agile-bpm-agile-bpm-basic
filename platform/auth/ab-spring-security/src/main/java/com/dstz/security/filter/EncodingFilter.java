@@ -33,6 +33,7 @@ public class EncodingFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) httpresponse;
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         
+        request.setCharacterEncoding(defaultEncoding);
         httpServletResponse.setCharacterEncoding(defaultEncoding);
         httpServletResponse.setContentType(defaultContentType);
         
