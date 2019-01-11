@@ -104,6 +104,7 @@ public class OrgRelationManagerImpl extends BaseManager<String, OrgRelation> imp
 			if(ArrayUtil.isNotEmpty(roleIds)) {
 				for(String roleId : roleIds) {
 					orgRelation.setRoleId(roleId);
+					orgRelation.setId(null);
 					orgRelation.setType(RelationTypeConstant.POST_USER.getKey());
 					// 不存在则创建
 					if(!checkRelationIsExist(orgRelation)) {
