@@ -130,8 +130,8 @@ DROP TABLE IF EXISTS `sys_res_role`;
 CREATE TABLE `sys_res_role` (
   `ID_` varchar(50) NOT NULL DEFAULT '' COMMENT '主键',
   `SYSTEM_ID_` varchar(50) DEFAULT NULL COMMENT '系统ID',
-  `RES_ID_` varchar(50) DEFAULT NULL COMMENT '资源ID',
-  `ROLE_ID_` varchar(50) DEFAULT NULL COMMENT '角色ID',
+  `res_id_` varchar(50) DEFAULT NULL COMMENT '资源ID',
+  `role_id_` varchar(50) DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`ID_`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin  COMMENT='角色资源分配';
  

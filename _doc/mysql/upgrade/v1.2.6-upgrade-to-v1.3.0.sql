@@ -27,6 +27,14 @@ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
 ROW_FORMAT=Dynamic
 ;
 
+CREATE VIEW org_relation_view AS
+SELECT tgroup.name_ groupName,tuser.fullname_ userName,role.name_ roleName ,
+	CONCAT(tgroup.name_,'-',role.name_) postName,concat(`tgroup`.`id_`,'-',`role`.`id_`) AS `postId`, relation.*
+	FROM org_relation relation 
+	left join org_user tuser on relation.user_id_ = tuser.id_
+	left join org_group tgroup on relation.group_id_ = tgroup.id_
+	left join org_role role on relation.role_id_ = role.id_;
+
 ALTER TABLE `org_role` ADD COLUMN `type_id_`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类ID' AFTER `update_by_`;
 ALTER TABLE `org_role` ADD COLUMN `type_name_`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名字' AFTER `type_id_`;
 ALTER TABLE `org_user` MODIFY COLUMN `address_`  varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地址' AFTER `weixin_`;

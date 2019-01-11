@@ -59,16 +59,15 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 		},10)
 	}
 	scope.menuClick = function(menu,noReload){
-		if(!menu.defaultUrl){
-			menu.opened = !menu.opened;
-		}
+		debugger;
 		if(!menu.url){
-			var url = menu.defaultUrl;
-			if(!url) return;
-			//if(url.indexOf("http")==-1)url = __ctx+url;
-			menu.url = url;
+			return;
 		}
-
+		
+		if(menu.url.indexOf("http")!= -1){
+			noReload = true; //跨域的都不支持reload
+		}
+		
 		var hasOpened = false;
 		for(var i=0,m;m=scope.openedMenu[i++];){
 			m.active = "";
@@ -191,36 +190,35 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 	window.setTimeout(function(){
 		$("#indexpageiframe").attr("src", "sys/workbenchPanel/myWorkbench.html");
 	},10)
-	
-	scope.userInfo = function (){
-		var tab = {
+	var userInfoTab = {
 			id:"userInfo",
 			name:"个人信息",
-			defaultUrl: 'org/user/userDetail.html?id='+scope.userMsg.user.id,
 			icon: 'fa-user',
 			closable:true
 		};
-		scope.menuClick(tab);
+	scope.userInfo = function (){
+		userInfoTab.url = 'org/user/userDetail.html?id=' + scope.userMsg.user.id
+		scope.menuClick(userInfoTab);
 	}
-	scope.editPassworld = function(){
-		var tab = {
+	var editPassworldTab =  {
 			id:"editPassworld",
 			name:"修改个人密码",
-			defaultUrl: 'org/user/userPasswordEdit.html?id='+scope.userMsg.user.id,
 			icon: 'fa-key',
 			closable:true
 		};
-		scope.menuClick(tab);
+	scope.editPassworld = function(){
+		editPassworldTab.url = 'org/user/userPasswordEdit.html?id=' + scope.userMsg.user.id
+		scope.menuClick(editPassworldTab);
 	}
+	var editUserInfoTab = {
+			id:"editUserInfo",
+			name:"个人信息编辑",
+			icon: 'fa-info',
+			closable:true
+		};
 	scope.editUserInfo = function(){
-		var tab = {
-				id:"editUserInfo",
-				name:"个人信息编辑",
-				defaultUrl: 'org/user/userEditInformation.html?id='+scope.userMsg.user.id,
-				icon: 'fa-info',
-				closable:true
-			};
-		scope.menuClick(tab);
+		editUserInfoTab.url = 'org/user/userEditInformation.html?id=' + scope.userMsg.user.id
+		scope.menuClick(editUserInfoTab);
 	}
 }])
 var onlyOpenTitle = "首页";
