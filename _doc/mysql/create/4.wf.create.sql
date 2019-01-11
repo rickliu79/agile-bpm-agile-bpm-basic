@@ -5,12 +5,11 @@
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ---------------- Activiti table create --------------------
-
 -- ----------------------------
 -- Table structure for act_evt_log
 -- ----------------------------
-DROP TABLE IF EXISTS `act_evt_log`;
-CREATE TABLE `act_evt_log` (
+DROP TABLE IF EXISTS `ACT_EVT_LOG`;
+CREATE TABLE `ACT_EVT_LOG` (
   `LOG_NR_` bigint(20) NOT NULL AUTO_INCREMENT,
   `TYPE_` varchar(64)  DEFAULT NULL,
   `PROC_DEF_ID_` varchar(64)  DEFAULT NULL,
@@ -29,8 +28,8 @@ CREATE TABLE `act_evt_log` (
 -- ----------------------------
 -- Table structure for act_ge_bytearray
 -- ----------------------------
-DROP TABLE IF EXISTS `act_ge_bytearray`;
-CREATE TABLE `act_ge_bytearray` (
+DROP TABLE IF EXISTS `ACT_GE_BYTEARRAY`;
+CREATE TABLE `ACT_GE_BYTEARRAY` (
   `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
   `NAME_` varchar(255) DEFAULT NULL,
@@ -45,8 +44,8 @@ CREATE TABLE `act_ge_bytearray` (
 -- ----------------------------
 -- Table structure for act_ge_property
 -- ----------------------------
-DROP TABLE IF EXISTS `act_ge_property`;
-CREATE TABLE `act_ge_property` (
+DROP TABLE IF EXISTS `ACT_GE_PROPERTY`;
+CREATE TABLE `ACT_GE_PROPERTY` (
   `NAME_` varchar(64) NOT NULL,
   `VALUE_` varchar(300) DEFAULT NULL,
   `REV_` int(11) DEFAULT NULL,
@@ -54,8 +53,8 @@ CREATE TABLE `act_ge_property` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 
-DROP TABLE IF EXISTS `act_procdef_info`;
-CREATE TABLE `act_procdef_info` (
+DROP TABLE IF EXISTS `ACT_PROCDEF_INFO`;
+CREATE TABLE `ACT_PROCDEF_INFO` (
   `ID_` varchar(64)  NOT NULL,
   `PROC_DEF_ID_` varchar(64)  NOT NULL,
   `REV_` int(11) DEFAULT NULL,
@@ -68,8 +67,8 @@ CREATE TABLE `act_procdef_info` (
 -- ----------------------------
 -- Table structure for act_re_deployment
 -- ----------------------------
-DROP TABLE IF EXISTS `act_re_deployment`;
-CREATE TABLE `act_re_deployment` (
+DROP TABLE IF EXISTS `ACT_RE_DEPLOYMENT`;
+CREATE TABLE `ACT_RE_DEPLOYMENT` (
   `ID_` varchar(64) NOT NULL,
   `NAME_` varchar(255) DEFAULT NULL,
   `CATEGORY_` varchar(255) DEFAULT NULL,
@@ -81,8 +80,8 @@ CREATE TABLE `act_re_deployment` (
 -- ----------------------------
 -- Table structure for act_re_model
 -- ----------------------------
-DROP TABLE IF EXISTS `act_re_model`;
-CREATE TABLE `act_re_model` (
+DROP TABLE IF EXISTS `ACT_RE_MODEL`;
+CREATE TABLE `ACT_RE_MODEL` (
   `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
   `NAME_` varchar(255) DEFAULT NULL,
@@ -102,8 +101,8 @@ CREATE TABLE `act_re_model` (
 -- ----------------------------
 -- Table structure for act_re_procdef
 -- ----------------------------
-DROP TABLE IF EXISTS `act_re_procdef`;
-CREATE TABLE `act_re_procdef` (
+DROP TABLE IF EXISTS `ACT_RE_PROCDEF`;
+CREATE TABLE `ACT_RE_PROCDEF` (
   `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
   `CATEGORY_` varchar(255) DEFAULT NULL,
@@ -126,8 +125,8 @@ CREATE TABLE `act_re_procdef` (
 -- ----------------------------
 -- Table structure for act_ru_identitylink
 -- ----------------------------
-DROP TABLE IF EXISTS `act_ru_identitylink`;
-CREATE TABLE `act_ru_identitylink` (
+DROP TABLE IF EXISTS `ACT_RU_IDENTITYLINK`;
+CREATE TABLE `ACT_RU_IDENTITYLINK` (
   `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
   `GROUP_ID_` varchar(255) DEFAULT NULL,
@@ -151,8 +150,8 @@ CREATE TABLE `act_ru_identitylink` (
 -- ----------------------------
 -- Table structure for act_ru_job
 -- ----------------------------
-DROP TABLE IF EXISTS `act_ru_job`;
-CREATE TABLE `act_ru_job` (
+DROP TABLE IF EXISTS `ACT_RU_JOB`;
+CREATE TABLE `ACT_RU_JOB` (
   `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
   `TYPE_` varchar(255) NOT NULL,
@@ -178,8 +177,8 @@ CREATE TABLE `act_ru_job` (
 -- ----------------------------
 -- Table structure for act_ru_event_subscr
 -- ----------------------------
-DROP TABLE IF EXISTS `act_ru_event_subscr`;
-CREATE TABLE `act_ru_event_subscr` (
+DROP TABLE IF EXISTS `ACT_RU_EVENT_SUBSCR`;
+CREATE TABLE `ACT_RU_EVENT_SUBSCR` (
   `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
   `EVENT_TYPE_` varchar(255) NOT NULL,
@@ -198,8 +197,8 @@ CREATE TABLE `act_ru_event_subscr` (
 -- ----------------------------
 -- Table structure for act_ru_execution
 -- ----------------------------
-DROP TABLE IF EXISTS `act_ru_execution`;
-CREATE TABLE `act_ru_execution` (
+DROP TABLE IF EXISTS `ACT_RU_EXECUTION`;
+CREATE TABLE `ACT_RU_EXECUTION` (
   `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
   `PROC_INST_ID_` varchar(64) DEFAULT NULL,
@@ -228,8 +227,8 @@ CREATE TABLE `act_ru_execution` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 
-DROP TABLE IF EXISTS `act_ru_task`;
-CREATE TABLE `act_ru_task` (
+DROP TABLE IF EXISTS `ACT_RU_TASK`;
+CREATE TABLE `ACT_RU_TASK` (
   `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
   `EXECUTION_ID_` varchar(64) DEFAULT NULL,
@@ -261,8 +260,8 @@ CREATE TABLE `act_ru_task` (
 -- ----------------------------
 -- Table structure for act_ru_variable
 -- ----------------------------
-DROP TABLE IF EXISTS `act_ru_variable`;
-CREATE TABLE `act_ru_variable` (
+DROP TABLE IF EXISTS `ACT_RU_VARIABLE`;
+CREATE TABLE `ACT_RU_VARIABLE` (
   `ID_` varchar(64) NOT NULL,
   `REV_` int(11) DEFAULT NULL,
   `TYPE_` varchar(255) NOT NULL,
