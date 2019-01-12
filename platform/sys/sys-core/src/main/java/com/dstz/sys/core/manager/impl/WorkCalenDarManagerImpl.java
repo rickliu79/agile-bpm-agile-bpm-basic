@@ -101,12 +101,14 @@ public class WorkCalenDarManagerImpl extends BaseManager<String, WorkCalenDar> i
      */
 	@Override
 	public Date getWorkDayByDays(Date startDay, int days) {
-		return workCalenDarDao.getWorkDayByDays(startDay, days);
+		WorkCalenDar day = workCalenDarDao.getWorkDayByDays(startDay, days);
+		return day == null ? null :day.getDay();
 	}
 	
 	@Override
 	public Date getWorkDayByDays(Date startDay, int days, String system) {
-		return workCalenDarDao.getWorkDayByDays(startDay, days, system);
+		WorkCalenDar day =  workCalenDarDao.getWorkDayByDays(startDay, days, system);
+		return day == null ? null :day.getDay();
 	}
 	
 	/**
