@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.exception.BusinessMessage;
-
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.GenericController;
@@ -49,10 +48,10 @@ public class LoginController extends GenericController {
         String account = RequestUtil.getString(request, "account");
         String password = RequestUtil.getString(request, "password");
         if (StringUtil.isEmpty(account)) {
-            throw new BusinessException("账户不能为空", PlatFormStatusCode.LOGIN_ERROR);
+            throw new BusinessMessage("账户不能为空", PlatFormStatusCode.LOGIN_ERROR);
         }
         if (StringUtil.isEmpty(password)) {
-            throw new BusinessException("密码不能为空", PlatFormStatusCode.LOGIN_ERROR);
+            throw new BusinessMessage("密码不能为空", PlatFormStatusCode.LOGIN_ERROR);
         }
 
         try {
