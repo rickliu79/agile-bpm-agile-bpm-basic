@@ -22,7 +22,7 @@ public interface WorkCalenDarDao extends BaseDao<String, WorkCalenDar> {
 	
 	List<WorkCalenDar> getByPeriod(@Param("startDay")Date startDay, @Param("endDay")Date endDay);
 	
-	Date getWorkDayByDays(@Param("startDay")Date startDay, @Param("days")int days);
+	WorkCalenDar getWorkDayByDays(@Param("startDay")Date startDay, @Param("days")int days);
 	
 	List<WorkCalenDar> getByDayAndSystem(@Param("day")Date day, @Param("system")String system);
 	
@@ -30,7 +30,7 @@ public interface WorkCalenDarDao extends BaseDao<String, WorkCalenDar> {
 
 	List<WorkCalenDar> getByPeriodAndSystem(@Param("startDay")Date startDay, @Param("endDay")Date endDay, @Param("system")String system);
 
-	Date getWorkDayByDays(@Param("startDay")Date startDay, int i, String system);
+	WorkCalenDar getWorkDayByDays(@Param("startDay")Date startDay, int i, String system);
 
 	List<WorkCalenDar> getByTimeContainPublic(@Param("startDay")Date startDay, @Param("endDay")Date endDay, @Param("system")String system);
 }
