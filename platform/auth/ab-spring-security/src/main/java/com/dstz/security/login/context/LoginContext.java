@@ -69,7 +69,7 @@ private static final Logger log = LoggerFactory.getLogger(LoginContext.class);
         if (currentUser.get() != null)  return currentUser.get();
         
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	if(auth != null) {
+    	if(auth != null && !"anonymousUser".equals(auth.getPrincipal())) {
     		return (IUser)auth.getPrincipal();
     	}
         return null;
