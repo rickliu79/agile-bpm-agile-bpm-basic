@@ -21,22 +21,13 @@ public class AccessDecisionManagerImpl implements AccessDecisionManager {
 	 */
 	@Override
 	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)throws AccessDeniedException, InsufficientAuthenticationException {
-
 		if (configAttributes.contains(PlatformConsts.ROLE_CONFIG_ANONYMOUS)) {
 			return;
 		}
 
-		// 登陆访问
-		if (authentication == null) {
-			throw new AccessDeniedException("没有登录系统");
-		}
-
 		Object principal = authentication.getPrincipal();
-		if (principal == null) {
-			throw new AccessDeniedException("登录对象为空");
-		}
 
-		if ("anonymousUser".equals(principal)) {
+		if (principal == null || "anonymousUser".equals(principal)) {
 			throw new AccessDeniedException("请登录");
 		}
 
