@@ -383,6 +383,10 @@ body.body-small .navbar-top-links li:last-child {
     margin-bottom: 10px;
 }
 
+.nav-four-level li a {
+    padding-left: 72px;
+}
+
 body:not(.fixed-sidebar):not(.canvas-menu).mini-navbar .nav li:hover > .nav-second-level,
 .mini-navbar .nav li:focus > .nav-second-level {
     display: block;
