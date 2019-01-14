@@ -40,7 +40,15 @@
                               </a>
                               <ul class="nav nav-third-level" ng-if="second.children.length">
 		                          <li ng-repeat="third in second.children" ng-if="third.enable">
-		                              <a class="J_menuItem" ng-click="menuClick(third)" >{{third.name}}</a>
+		                              <a class="J_menuItem" ng-click="menuClick(third)" >
+		                              	{{third.name}}
+		                              	<span class="fa arrow" ng-if="third.children.length"></span>
+		                              </a>
+		                              <ul class="nav nav-four-level" ng-if="third.children.length">
+				                          <li ng-repeat="four in third.children" ng-if="third.enable">
+				                              <a class="J_menuItem" ng-click="menuClick(four)" >{{four.name}}</a>
+				                          </li>
+				                      </ul>
 		                          </li>
 		                      </ul>
                           </li>
