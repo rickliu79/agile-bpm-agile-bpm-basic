@@ -130,7 +130,8 @@ public class OracleDbOperator extends DbOperator {
 			column.setName(getOrDefault(map, "COLUMN_NAME", "").toString());
 			column.setPrimary(pkNames.contains(column.getName()));
 			column.setRequired("N".equals(getOrDefault(map, "NULLABLE", "Y")));
-			column.setType(ColumnType.getByDbDataType(map.get("DATA_TYPE").toString()).getKey());
+			column.setType(ColumnType.getByDbDataType(map.get("DATA_TYPE").toString(),"字段["+column.getComment()+"("+column.getName()+")]").getKey());
+			
 			if (ColumnType.VARCHAR.equalsWithKey(column.getType())) {
 				column.setLength(Integer.parseInt(getOrDefault(map, "DATA_LENGTH", "0").toString()));
 			}
