@@ -116,7 +116,7 @@ public class MysqlDbOperator extends DbOperator {
 			column.setName(getOrDefault(map, "COLUMN_NAME", "").toString());
 			column.setPrimary("PRI".equals(getOrDefault(map, "COLUMN_KEY", "")));
 			column.setRequired("NO".equals(getOrDefault(map, "IS_NULLABLE", "")));
-			column.setType(ColumnType.getByDbDataType(map.get("DATA_TYPE").toString()).getKey());
+			column.setType(ColumnType.getByDbDataType(map.get("DATA_TYPE").toString(),"字段["+column.getComment()+"("+column.getName()+")]").getKey());
 			if (ColumnType.VARCHAR.equalsWithKey(column.getType())) {
 				column.setLength(Integer.parseInt(getOrDefault(map, "CHARACTER_MAXIMUM_LENGTH", "0").toString()));
 			}
