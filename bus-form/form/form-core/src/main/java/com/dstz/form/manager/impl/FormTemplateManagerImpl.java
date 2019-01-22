@@ -112,7 +112,7 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 				String dir = element.attributeValue("dir");
 
 				String fileName = templatePath + dir + "/" + key + ".ftl";
-				System.out.println(fileName);
+				//System.out.println(fileName);
 				String html = IOUtils.toString(this.getClass().getResourceAsStream(fileName),"UTF-8");
 
 				FormTemplate formTemplate = new FormTemplate();
