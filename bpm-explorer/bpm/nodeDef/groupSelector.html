@@ -8,7 +8,6 @@
 	var app = angular.module("app", [ 'base' ]);
 	app.controller('ctrl', [ '$scope', 'baseService', function($scope, baseService) {
 		$scope.conf = window.passData;
-
 		// 指定组
 		$scope.initList = [];
 		if ($scope.conf.groupName) {
@@ -73,7 +72,7 @@
 			<td>
 				<select id="aaa" ng-model="conf.type" class="form-control" ng-change="changeType()">
 					<option value="">请选择组类型</option>
-					<option ng-repeat="type in typeList"  value="{{type.key}}"  ng-selected="type.alias===conf.type" >{{type.label}}</option>
+					<option ng-repeat="type in typeList"  value="{{type.key}}"  ng-selected="type.key===conf.type" >{{type.label}}</option>
 				</select>
 				
 			</td>

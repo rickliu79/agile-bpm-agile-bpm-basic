@@ -28,6 +28,7 @@ import com.dstz.bus.api.constant.BusTableRelType;
 import com.dstz.bus.api.model.IBusTableRel;
 import com.dstz.bus.api.model.IBusinessObject;
 import com.dstz.bus.api.service.IBusinessObjectService;
+import com.dstz.form.api.constant.FormTemplateType;
 import com.dstz.form.dao.FormTemplateDao;
 import com.dstz.form.manager.FormTemplateManager;
 import com.dstz.form.model.FormTemplate;
@@ -78,6 +79,7 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 		// 删除不可编辑的（其实就是系统的）
 		QueryFilter filter = new DefaultQueryFilter();
 		filter.addFilter("editable_", false, QueryOP.EQUAL);
+		filter.setPage(null);
 		for (FormTemplate template : this.query(filter)) {
 			this.remove(template.getId());
 		}
@@ -110,6 +112,7 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 				String dir = element.attributeValue("dir");
 
 				String fileName = templatePath + dir + "/" + key + ".ftl";
+				//System.out.println(fileName);
 				String html = IOUtils.toString(this.getClass().getResourceAsStream(fileName),"UTF-8");
 
 				FormTemplate formTemplate = new FormTemplate();
@@ -185,8 +188,8 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 		}
 		
 		List<IBusTableRel> rels = (List<IBusTableRel>) bo.getRelation().list();
-		List<FormTemplate> mainTemplates = getByType("main",type);
-		List<FormTemplate> subTableTemplates = getByType("subTable",type);
+		List<FormTemplate> mainTemplates = getByType(FormTemplateType.MAIN.getKey(),type);
+		List<FormTemplate> subTableTemplates = getByType(FormTemplateType.SUB_TABLE.getKey(),type);
 		for (FormTemplate template : mainTemplates) {
 			template.setHtml(null);
 		}
