@@ -13,7 +13,7 @@ var directive = angular.module("baseDirective", [ "base" ])
 		require : "ngModel",
 		link : function(scope, element, attr, ctrl) {
 			var validate = attr.abValidate;
-
+			
 			var  validateJson = eval('(' + validate + ')');
 			if(!ctrl.validateJson){
 				ctrl.validateJson = validateJson;
@@ -23,8 +23,12 @@ var directive = angular.module("baseDirective", [ "base" ])
 			
 
 			var customValidator = function(value) {
-				if (!validate)
-					return true;
+				if (!validate) return true;
+				// 在只读场景下只会搞一次、第一次数据还没有导致错误校验
+				if(value === undefined && ctrl.$modelValue){
+					value = ctrl.$modelValue;
+				}
+				
 				handlTargetValue(validateJson);
 				var validity = jQuery.fn.validRules(value, ctrl.validateJson, element);
 				ctrl.$setValidity("customValidate", validity);
