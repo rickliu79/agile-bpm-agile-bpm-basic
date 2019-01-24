@@ -46,6 +46,14 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 			$scope.addTableDetail(item.tableKey);
 		});
 	});
+	
+	$scope.$on("beforeSaveEvent", function(event, data) {
+		if(!$scope.data.relation.children){
+			data.pass = false;
+			jQuery.Toast.error("请先选择主业务表");
+			return;
+		}
+	});
 
 	/**
 	 * 选中主table
