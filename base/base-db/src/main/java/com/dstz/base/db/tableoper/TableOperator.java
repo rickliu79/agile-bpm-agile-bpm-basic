@@ -333,7 +333,8 @@ public abstract class TableOperator {
 			return;
 		}
 		Set<String> dbColumnNames = new HashSet<>();// 数据库中存在的字段名
-		for (Column c : getDbTable().getColumns()) {
+		Table<Column> dbTable = getDbTable();
+		for (Column c : dbTable.getColumns()) {
 			dbColumnNames.add(c.getName());
 		}
 
@@ -346,9 +347,10 @@ public abstract class TableOperator {
 		for (Column column : table.getColumns()) {
 			if (!dbColumnNames.contains(column.getName())) {// 结构有，数据库表内没有，增加
 				addColumn(column);
+			}else {
+				updateColumn(column);//更新一遍结构
 			}
 		}
-
 	}
 
 	public Table<Column> getDbTable() {
