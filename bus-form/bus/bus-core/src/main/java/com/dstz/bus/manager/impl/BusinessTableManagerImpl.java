@@ -52,7 +52,6 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 
 	@Override
 	public void save(BusinessTable businessTable) {
-		busColCtrlManager.get("");
 		
 		if (StringUtil.isEmpty(businessTable.getId())) {
 			businessTable.setId(IdUtil.getSuid());
