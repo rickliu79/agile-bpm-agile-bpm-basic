@@ -337,6 +337,14 @@ var directive = angular.module("baseDirective", [ "base" ])
 					editor.setContent(ngModel.$viewValue);
 				}
 			};
+			
+			scope.$on("beforeSaveEvent", function(event, data) {
+				//源码模式
+				if(editor.queryCommandState('source')=="1"){
+					data.pass = false;
+					$.Toast.error("编辑器在源码模式下无法保存");
+				}
+			});
 		}
 	}
 })
