@@ -56,7 +56,10 @@
 					</select>
 				</td>
 				<th>是否已生成表</th>
-				<td ng-if="data.createdTable">是</td>
+				<td ng-if="data.createdTable">
+					是
+					<a href="javaScript:void(0)" style="text-decoration: none; color: red;" title="在生成表后，用户可以自由增删字段，保存后系统会自动同步到数据库。<br/>但是，对于修改字段类型（长度，必填），考虑新类型对旧数据的兼容问题，系统不会自动同步到数据库，用户需自行到数据库修改字段类型。" class="fa fa-exclamation-circle ab-help" ab-tip> </a>
+				</td>
 				<td ng-if="!data.createdTable">
 					否
 					<a ng-if="data.id" href="javascript:void(0)" class="btn btn-primary fa-eject" ng-click="createTable()">生成表</a>
@@ -91,7 +94,7 @@
 				<th style="width: 8%">数据库字段名</th>
 				<th style="width: 5%">必填</th>
 				<th style="width: 8%">数据类型</th>
-				<th style="width: 5%">属性长度</th>
+				<th style="width: 6%">属性长度</th>
 				<th style="width: 5%">
 					默认值
 					<a href="javaScript:void(0)" style="text-decoration: none; color: red;" title="以{}包含的以脚本运行，eg:{return '123'}" class="fa fa-exclamation-circle ab-help" ab-tip> </a>
@@ -125,9 +128,9 @@
 				</td>
 				<!-- 属性长度 -->
 				<td>
-					<input ng-disabled="data.createdTable&&column.id" type="text" class="form-control" ng-if="column.type=='varchar'  || column.type=='number'" ng-model="column.length" ab-validate="{required:true,number:true}" />
+					<input type="text" class="form-control" style="width: 56px" ng-if="column.type=='varchar'  || column.type=='number'" ng-model="column.length" ab-validate="{required:true,number:true}" />
 					<span ng-if="column.type=='number'">.</span>
-					<input ng-disabled="data.createdTable&&column.id" type="text" class="form-control" style="width: 50px" ng-if="column.type=='number'" ng-model="column.decimal" ab-validate="{required:true,number:true}" />
+					<input type="text" class="form-control" style="width: 36px" ng-if="column.type=='number'" ng-model="column.decimal" ab-validate="{required:true,number:true}" />
 				</td>
 				<!-- 默认值 -->
 				<td>
