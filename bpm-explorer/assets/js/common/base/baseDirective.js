@@ -687,14 +687,16 @@ var directive = angular.module("baseDirective", [ "base" ])
 					scope.initData();
 				});
 			};
-
-			// 初始化数据
+			
 			var hasInited = false;
+			// 初始化数据
 			scope.initData = function(id) {
 				if (!scope.treeObj) {
 					return;
 				}
-				hasInited = true;
+				if(scope.abCombo !== undefined){
+					hasInited = true;
+				}
 				
 				var nodes = scope.treeObj.getNodesByFilter(function(node) {
 					if(attrs.abCombox){//如果配置了Id的初始化逻辑
