@@ -84,13 +84,14 @@
 
 			var ids = $.getDatagridCheckedId();// 删除的ID数组
 			var url = $(this).attr("url");// 删除请求的URL
+			var tips = $(this).attr("tips") || "删除选中的数据";
 			var idField = $("[ab-grid]").bootstrapTable('getOptions').idField;// 主键key
 			if (ids == null || ids.length < 1) {
 				$.Dialog.msg('请选择记录!');
 				return false;
 			}
 			if (url == null || url == '') {
-				$.Dialog.msg('未找到配置参数[action]!');
+				$.Dialog.msg('请配置删除 URL!');
 				return false;
 			}
 			url = $.getUrl(url);
@@ -98,14 +99,15 @@
 			var param = {};
 			param[idField] = ids.join(',');
 
-			$.Dialog.confirm("温馨提示", "是否要删除选中的项", function() {
+			$.Dialog.confirm("温馨提示",'确认' + tips + '吗？', function() {
 				$.post(url, param, function(data) {
-					var resultMessage = new com.dstz.form.ResultMessage(data);
-					if (resultMessage.isSuccess()) {
-						toastr.success("删除成功");
-						$('[ab-grid]').bootstrapTable('refresh');
+					var result	= eval('(' + data + ')');
+					if (result.isOk) {
+						$.Toast.success('删除成功！', function() {
+							reloadGrid();
+						});
 					} else {
-						$.Dialog.alert("请求出错，请联系管理员。错误内容：" + resultMessage.getMessage());
+						$.Toast.error(result.msg);
 					}
 				});
 			});
