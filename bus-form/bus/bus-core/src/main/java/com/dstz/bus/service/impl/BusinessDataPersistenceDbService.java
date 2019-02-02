@@ -273,7 +273,8 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 				} else if (BusTableRelFkType.PARENT_FIELD.equalsWithKey(fk.getType())) {// 对应父字段
 					param.put(fk.getFrom(), data.get(fk.getValue()));
 				}else if (BusTableRelFkType.CHILD_FIELD.equalsWithKey(fk.getType())) {//子表字段 对应 父实例外键
-					param.put(fk.getFrom(), data.get(fk.getValue()));//逻辑跟PARENT_FIELD一样，在这里故意写两个冗余代码，方便理解
+					//逻辑跟PARENT_FIELD一样，在这里故意写两个冗余代码，方便理解
+					param.put(fk.getFrom(), data.get(fk.getValue()));
 				}
 			}
 			if (rel.getChildren().isEmpty()) {// 子表没子表了，那就按照主表外键输出子表数据
