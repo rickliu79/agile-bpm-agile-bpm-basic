@@ -1073,4 +1073,29 @@ var directive = angular.module("baseDirective", [ "base" ])
 			return "";
 		return jQuery.convertCurrency(input);
 	};
+})
+/*
+ * 按钮权限  eg:判断是否拥有用户编辑权限 ab-btn-rights="userManager:edit"
+ */
+.directive('abBtnRights', function() {
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			var btnRightsKey = attrs.abBtnRights;
+			if(!btnRightsKey)return;
+			 
+			if(window.localStorage){
+				var btnPermission = window.localStorage.getItem( 'buttonPermision' );
+				btnPermission = btnPermission ? JSON.parse( btnPermission ) : {};
+				 
+				if( btnPermission[btnRightsKey]){
+					return;
+				}
+				console.info(btnRightsKey +" no rights");
+				$(target).hide();
+			}else{
+				console.info("浏览器版本太低不支持按钮权限！");
+			}
+		}
+	};
 });
