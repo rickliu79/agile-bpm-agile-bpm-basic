@@ -34,6 +34,7 @@
     
     <!-- 修改日志级别不用重启服务器。所以默认是 info。请不要把debug 提交 -->
     <logger name="com.dstz" level="debug"/>
+    <logger name="org.springframework.jdbc.core" level="debug"/>
     <!-- 日志输出级别 -->
     <root level="info">
         <appender-ref ref="STDOUT"/>

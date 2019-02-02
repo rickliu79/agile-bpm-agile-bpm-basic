@@ -312,11 +312,9 @@ var directive = angular.module("baseDirective", [ "base" ])
 			editor.render(element[0]);
 			// 百度UEditor数据更新时，更新Model
 			editor.addListener('contentChange', function() {
-				setTimeout(function() {
-					scope.$apply(function() {
-						ngModel.$setViewValue(editor.getContent());
-					});
-				}, 0);
+				scope.$apply(function() {
+					ngModel.$setViewValue(editor.getContent());
+				});
 			});
 			
 			/**
@@ -339,11 +337,7 @@ var directive = angular.module("baseDirective", [ "base" ])
 			};
 			
 			scope.$on("beforeSaveEvent", function(event, data) {
-				//源码模式
-				if(editor.queryCommandState('source')=="1"){
-					data.pass = false;
-					$.Toast.error("编辑器在源码模式下无法保存");
-				}
+				ngModel.$setViewValue(editor.getContent());
 			});
 		}
 	}
@@ -1072,5 +1066,30 @@ var directive = angular.module("baseDirective", [ "base" ])
 		if (!input)
 			return "";
 		return jQuery.convertCurrency(input);
+	};
+})
+/*
+ * 按钮权限  eg:判断是否拥有用户编辑权限 ab-btn-rights="userManager:edit"
+ */
+.directive('abBtnRights', function() {
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			var btnRightsKey = attrs.abBtnRights;
+			if(!btnRightsKey)return;
+			 
+			if(window.localStorage){
+				var btnPermission = window.localStorage.getItem( 'buttonPermision' );
+				btnPermission = btnPermission ? JSON.parse( btnPermission ) : {};
+				 
+				if( btnPermission[btnRightsKey]){
+					return;
+				}
+				console.info(btnRightsKey +" no rights");
+				$(target).hide();
+			}else{
+				console.info("浏览器版本太低不支持按钮权限！");
+			}
+		}
 	};
 });
