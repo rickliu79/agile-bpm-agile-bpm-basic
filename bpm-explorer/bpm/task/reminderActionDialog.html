@@ -32,10 +32,8 @@
 				</tr>
 				<tr>								
 				<th>消息类型: <span class="required">*</span></th>
-				<td> 
-					<label><input type="checkbox" ab-checkbox ng-model="flowParam.extendConf.msgType" value="inner" ab-validate="{required:true}"/>钉钉消息</label>
-					 <label><input type="checkbox" ab-checkbox ng-model="flowParam.extendConf.msgType" value="email" ab-validate="{required:true}"/>邮件消息</label>
-					 <label><input type="checkbox" ab-checkbox ng-model="flowParam.extendConf.msgType" value="sms" ab-validate="{required:true}"/>短信消息</label>
+				<td  ng-model="msgList" ab-load="sys/tools/getInterFaceImpls?classPath=com.dstz.sys.simplemq.handler.msg.AbsNotifyMessageHandler" simple-data="true" > 
+					<label ng-repeat="msg in msgList" ><input type="checkbox" ab-checkbox ng-model="flowParam.extendConf.msgType" value="{{msg.type}}" ab-validate="{required:true}"/>{{msg.title}}</label>
 				</td>
 			</tr>							
 				</tr>
