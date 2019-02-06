@@ -51,7 +51,7 @@
 					<th data-field="duration" data-formatter="$.timeLag">持续时间</th>
 
 					<th data-formatter="innerHtmlFormatter" data-title="管理">
-						<a class="fa-detail btn btn-outline btn-primary btn-sm" openDialog='详情' qtip='详情' url='/bpm/vueForm/instanceDetail.html?id={id}'></a>
+						<a class="fa-detail btn btn-outline btn-primary btn-sm" openDialog='详情' qtip='详情' url='/bpm/instance/instanceDetail.html?id={id}'></a>
 						<span if="{isForbidden}===0" class="fa-ban btn btn-outline btn-primary btn-sm" qtip='挂起' sendAction="挂起" url="/bpm/instance/toForbidden?id={id}&forbidden=true"></span>
 						<span if="{isForbidden}===1" class="fa-undo btn btn-outline btn-primary btn-sm" qtip='取消挂起' sendAction="取消挂起" url="/bpm/instance/toForbidden?id={id}&forbidden=false"></span>
 						<span class='btn btn-outline btn-primary fa-trash' sendAction='删除实例（警告！实例对应的业务数据，连同关联所有实例（父子实例）一并删除）' qtip='删除实例' url='/bpm/instance/delete?id={id}'></span>

@@ -36,7 +36,12 @@ public class MailHandler extends AbsNotifyMessageHandler<NotifyMessage> {
     public String getTitle() {
         return "邮件";
     }
-
+    
+    @Override
+    public boolean getIsDefault() {
+    	return true;
+    }
+  
 
     @Override
     public boolean getSupportHtml() {
