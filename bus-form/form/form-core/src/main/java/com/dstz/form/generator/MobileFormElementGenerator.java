@@ -216,13 +216,17 @@ public class MobileFormElementGenerator extends AbsFormElementGenerator{
 		return permissionElement.toString();
 	}
 
+	/**
+	 * <pre>
+	 * <ab-upload v-model="files" v-bind:permission="xxx">
+	 * 		<a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary fa fa-upload">上传</a>
+	 * </ab-upload>
+	 * </pre>
+	 */
 	protected String getColumnFile(IBusinessColumn column) {
-		//<a href="javascript:void(0)" class="btn btn-primary fa-upload" ab-upload ng-model="test">指令测试</a>
-		Element element = getElement("a").attr("href", "javascript:void(0)").addClass("btn btn-primary fa-upload");
-		element.attr("ab-upload","");
-	//	handleVModel(element, column);
-		element.attr("v-ab-permission:edit",getPermissionPath(column));
-		
+		Element element = getElement("ab-upload").attr("v-bind:permission", getPermissionPath(column));
+		handleVModel(element, column);
+		element.append("<a href=\"javascript:;\" class=\"weui-btn weui-btn_mini weui-btn_primary fa fa-upload\">"+column.getComment()+"</a>");
 		return element.toString();
 	}
 	
