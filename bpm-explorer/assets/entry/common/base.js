@@ -33,6 +33,8 @@ require('../../js/plugins/ztree/css/zTreeStyle.css');
 require('../../js/plugins/ztree/jquery.ztree.all.min.js');
 require('../../js/plugins/ztree/ztreeCreator.js');
 
+require('../../js/common/tools/toolsControllerUtil.js');
+
 //两个比较小的列表页 的css这里放 base css中，减少列表页面 特殊css 引入了
 require('../../css/plugins/bootstrap-table/bootstrap-table.min.css');
 require('../../css/extends/list.css');
