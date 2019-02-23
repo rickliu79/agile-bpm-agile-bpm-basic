@@ -1,14 +1,18 @@
 package com.dstz.sys.rest.controller;
 
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
+import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.ConstantUtil;
 import com.dstz.base.core.util.EnumUtil;
@@ -95,4 +99,18 @@ public class SysToolsController extends GenericController {
 		}
 		response.getWriter().write(result);
 	}
+
+    /**
+     * 获取当前日期
+     *
+     * @param format 格式化
+     * @return 响应消息
+     */
+    @CatchErr
+    @RequestMapping("getCurrentTime")
+    public ResultMsg<String> getCurrentTime(@RequestParam(value = "format") String format) {
+        ResultMsg<String> resultMsg = getSuccessResult();
+        resultMsg.setData(DateFormatUtils.format(new Date(), format));
+        return resultMsg;
+    }
 }
