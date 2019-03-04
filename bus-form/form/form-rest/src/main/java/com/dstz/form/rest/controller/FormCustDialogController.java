@@ -142,6 +142,7 @@ public class FormCustDialogController extends BaseController<FormCustDialog> {
     @RequestMapping("treeData_{key}")
     public List<?> treeData(HttpServletRequest request, HttpServletResponse response, @PathVariable(value = "key") String key) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
+        queryFilter.setPage(null);
         // 页面来的参数
         FormCustDialog formCustDialog = formCustDialogManager.getByKey(key);
         ISysDataSource sysDataSource = sysDataSourceService.getByKey(formCustDialog.getDsKey());
