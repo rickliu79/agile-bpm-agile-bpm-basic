@@ -42,7 +42,7 @@ AgileBPM 是完全模块化的项目集合，含【流程模块】、【业务�
 当然、流程也支持url表单，方便已有业务、异构系统的流程实施
 
 
-**具体实施步骤请参考 [文档](https://agile-bpm.gitee.io/website/zh-cn/docs/businessObject.html) 中的敏捷流程实施三部曲** :smirk: 
+**具体实施步骤请参考 [文档](http://www.agilebpm.cn/zh-cn/docs/businessObject.html) 中的敏捷流程实施三部曲** :smirk: 
 
 
 
@@ -50,10 +50,8 @@ AgileBPM 是完全模块化的项目集合，含【流程模块】、【业务�
 
 #### 组件化
 系统通过功能划分出了多个模块，每个模块由API、CORE、REST、SERVICE(apiImpl) 几部分组成。模块与模块间通过API交互，WEB则用于整合各个模块 
-[系统模块介绍介绍](https://agile-bpm.gitee.io/website/zh-cn/docs/framework.html)
-
-[组件更多详细介绍](https://agile-bpm.gitee.io/website/zh-cn/docs/module.html)
- 
+[系统模块介绍介绍](http://www.agilebpm.cn/zh-cn/docs/framework.html)
+[组件更多详细介绍](http://www.agilebpm.cn/zh-cn/docs/module.html)
 
 #### 前后端分离
 AgileBPM 是一个前后端分离的项目，这样各个团队会更专注于其本职工作，后端只负责业务逻辑、API 提供。而大前端则不拘泥于一种前端技术、更自由的构建UI交互逻辑
