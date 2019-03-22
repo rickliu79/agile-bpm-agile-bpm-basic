@@ -85,31 +85,48 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 		}
 
 		// 子表 一对一，一对多的处理
-		if (BusTableRelType.ONE_TO_ONE.equalsWithKey(busTableRelType) || BusTableRelType.ONE_TO_MANY.equalsWithKey(busTableRelType)) {
-			Object id = businessData.getPk();
-			if (id==null) {// 新增
-				businessData.setPk(IdUtil.getSuid());
-				// 父数据
-				BusinessData parBusinessData = businessData.getParent();
-				// 设置一下外键的值
-				for (BusTableRelFk fk : businessData.getBusTableRel().getFks()) {
-					// 固定值
-					if (BusTableRelFkType.FIXED_VALUE.equalsWithKey(fk.getType())) {
-						businessData.put(fk.getFrom(), fk.getValue());
-					} else if (BusTableRelFkType.PARENT_FIELD.equalsWithKey(fk.getType())) {// 对应父字段
-						businessData.put(fk.getFrom(), parBusinessData.get(fk.getValue()));
-					} else if (BusTableRelFkType.CHILD_FIELD.equalsWithKey(fk.getType())) {// 父外键对应当前字段，修改父数据
-						parBusinessData.put(fk.getValue(), businessData.get(fk.getFrom()));
-						// 更新父级数据
-						businessTableManager.newTableOperator(parBusinessData.getBusTableRel().getTable()).updateData(parBusinessData.getDbData());
+				if (BusTableRelType.ONE_TO_ONE.equalsWithKey(busTableRelType) || BusTableRelType.ONE_TO_MANY.equalsWithKey(busTableRelType)) {
+					Object id = businessData.getPk();
+					boolean newData = false;
+					if (id == null) {// 新增
+						businessData.setPk(IdUtil.getSuid());
+						newData = true;
+					}
+
+					// 父数据
+					BusinessData parBusinessData = businessData.getParent();
+					// 设置一下外键的值，每次保存都赋值
+					for (BusTableRelFk fk : businessData.getBusTableRel().getFks()) {
+						// 固定值
+						if (BusTableRelFkType.FIXED_VALUE.equalsWithKey(fk.getType())) {
+							businessData.put(fk.getFrom(), fk.getValue());
+						} else if (BusTableRelFkType.PARENT_FIELD.equalsWithKey(fk.getType())) {// 对应父字段
+							Object fkValue = parBusinessData.get(fk.getValue());
+							if (fkValue == null || StringUtil.isEmpty(fkValue.toString())) {
+								BusinessTable mainTable = parBusinessData.getBusTableRel().getTable();
+								BusinessTable subTable = businessData.getBusTableRel().getTable();
+								throw new BusinessException(String.format("在子表外键对应父字段时，父表【%s（%s）】字段【%s】为空，导致子表【%s（%s）】外键字段【%s】无法关联", mainTable.getComment(), mainTable.getKey(), fk.getValue(), subTable.getComment(), subTable.getKey(), fk.getFrom()));
+							}
+							businessData.put(fk.getFrom(), fkValue);
+						} else if (BusTableRelFkType.CHILD_FIELD.equalsWithKey(fk.getType())) {// 父外键对应当前字段，修改父数据
+							Object fkValue = businessData.get(fk.getFrom());
+							if (fkValue == null || StringUtil.isEmpty(fkValue.toString())) {
+								BusinessTable mainTable = parBusinessData.getBusTableRel().getTable();
+								BusinessTable subTable = businessData.getBusTableRel().getTable();
+								throw new BusinessException(String.format("在主表外键对应子表字段时，子表【%s（%s）】字段【%s】为空，导致父表【%s（%s）】外键字段【%s】无法关联", subTable.getComment(), subTable.getKey(), fk.getFrom(), mainTable.getComment(), mainTable.getKey(), fk.getValue()));
+							}
+							parBusinessData.put(fk.getValue(), fkValue);
+							// 更新父级数据
+							businessTableManager.newTableOperator(parBusinessData.getBusTableRel().getTable()).updateData(parBusinessData.getDbData());
+						}
+					}
+
+					if (newData) {// 新增
+						tableOperator.insertData(businessData.getDbData());
+					} else {// 更新
+						tableOperator.updateData(businessData.getDbData());
 					}
 				}
-
-				tableOperator.insertData(businessData.getDbData());
-			} else {// 更新
-				tableOperator.updateData(businessData.getDbData());
-			}
-		}
 
 		saveChildren(businessData);
 	}
