@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.core.id.IdUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.tableoper.TableOperator;
 import com.dstz.base.db.transaction.AbDataSourceTransactionManager;
 import com.dstz.bus.api.constant.BusStatusCode;
