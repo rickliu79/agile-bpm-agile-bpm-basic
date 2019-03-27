@@ -106,10 +106,14 @@ public class BusinessDataService implements IBusinessDataService {
 			List<BusinessData> children = entry.getValue();
 			if (BusTableRelType.ONE_TO_ONE.equalsWithKey(children.get(0).getBusTableRel().getType())) {
 				JSONObject cData = new JSONObject();
+				if (!children.isEmpty()) {
+					cData = new JSONObject(children.get(0).getData());
+				}
 				assemblyFormDefData(cData, children.get(0));
 				data.put(tableKey, cData);
 			} else {// 下面要是数组类型
 				JSONArray dataList = new JSONArray();
+				children.forEach(child -> dataList.add(new JSONObject(child.getData())));
 				for (BusinessData bd : children) {
 					JSONObject cData = new JSONObject();
 					assemblyFormDefData(cData, bd);
