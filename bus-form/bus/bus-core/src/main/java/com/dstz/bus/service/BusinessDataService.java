@@ -113,9 +113,8 @@ public class BusinessDataService implements IBusinessDataService {
 				data.put(tableKey, cData);
 			} else {// 下面要是数组类型
 				JSONArray dataList = new JSONArray();
-				children.forEach(child -> dataList.add(new JSONObject(child.getData())));
 				for (BusinessData bd : children) {
-					JSONObject cData = new JSONObject();
+					JSONObject cData = new JSONObject(bd.getData());
 					assemblyFormDefData(cData, bd);
 					dataList.add(cData);
 				}
