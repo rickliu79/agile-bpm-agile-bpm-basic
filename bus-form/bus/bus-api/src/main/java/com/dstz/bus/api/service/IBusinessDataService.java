@@ -66,6 +66,7 @@ public interface IBusinessDataService {
 	 * @param businessData
 	 */
 	JSONObject assemblyFormDefData(IBusinessData businessData);
+<<<<<<< HEAD
 	
 	/**
 	 * <pre>
@@ -77,4 +78,6 @@ public interface IBusinessDataService {
 	 * @return
 	 */
 	IBusinessData loadData(IBusinessObject businessObject, Object id, boolean init);
+=======
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 }

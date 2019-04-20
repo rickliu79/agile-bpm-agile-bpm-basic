@@ -60,6 +60,7 @@ public class BusinessTableController extends BaseController<BusinessTable> {
 	 */
 	@RequestMapping("getObject")
 	@CatchErr(write2response = true, value = "获取BusinessTable异常")
+<<<<<<< HEAD
 	public ResultMsg<BusinessTable> getObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id = RequestUtil.getString(request, "id");
 		String key = RequestUtil.getString(request, "key");
@@ -98,6 +99,46 @@ public class BusinessTableController extends BaseController<BusinessTable> {
 		businessTable.setCreatedTable(true);
 		BusinessTableCacheUtil.put(businessTable);//入缓存
 		return getSuccessResult("建表成功");
+=======
+	public void getObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String id = RequestUtil.getString(request, "id");
+		String key = RequestUtil.getString(request, "key");
+		boolean fill = RequestUtil.getBoolean(request, "fill");// 是否要填充table
+		BusinessTable table = null;
+		if (StringUtil.isNotEmpty(id)) {
+			table = businessTableManager.get(id);
+		} else if (StringUtil.isNotEmpty(key)) {
+			table = businessTableManager.getByKey(key);
+		}
+		if (fill && table != null) {
+			table = businessTableManager.getFilledByKey(table.getKey());
+		}
+		
+		writeSuccessData(response, table);
+	}
+
+
+	/**
+	 * <pre>
+	 * 新建表
+	 * </pre>
+	 *
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("createTable")
+	@CatchErr(write2response = true, value = "建表失败")
+	public void createTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String id = RequestUtil.getString(request, "id");
+		BusinessTable businessTable = businessTableManager.get(id);
+		businessTable = businessTableManager.getFilledByKey(businessTable.getKey());
+		TableOperator tableOperator = businessTableManager.newTableOperator(businessTable);
+		tableOperator.createTable();
+		businessTable.setCreatedTable(true);
+		BusinessTableCacheUtil.put(businessTable);//入缓存
+		writeSuccessResult(response, "建表成功");
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 	}
 
 	@Override

@@ -10,6 +10,7 @@
 var ztreeObject ;
 var roleId = $.getParam("roleId");
 function loadTree() {
+<<<<<<< HEAD
 	var url = __ctx + "/org/resRole/getTreeData";
 	var systemId = $("#systemId").val() || "1";
 	var params = {systemId:systemId,roleId:roleId};
@@ -47,6 +48,45 @@ function saveResRole(data){
 	resIds = resIds.join(",");
 	var data = {resIds:resIds,roleId:roleId,systemId:systemId};
 	var url=__ctx +"/org/resRole/save";
+=======
+	var url = __ctx + "/sys/resRole/getTreeData";
+	var systemId = $("#systemId").val() || "1";
+	var params = {systemId:systemId,roleId:roleId};
+	
+	var ztreeCreator = new ZtreeCreator('sysztreeObject',url)
+		.setCallback({})
+		.setCheckboxType({ "Y": "ps", "N": "s" })
+		.initZtree(params,2,function(treeObj){ztreeObject=treeObj});
+};
+
+function laodSystem(){
+	var url = __ctx + "/sys/subsystem/getUserSystem";
+	
+	$.post(url, {}, function(result) {
+		var result = eval("("+result+")");
+		if (result.isOk) {//成功
+			for(var i =0,system;system= result.data[i++];){
+				$("#systemId").append("<option value="+system.id+" "+(system.isDefault==1?'selected=true':'')+">"+system.name+"</option>");
+			}
+		} else {
+			$.Dialog.alert(result.msg,2);
+		}
+	});
+}
+
+function saveResRole(data){
+	var nodes = ztreeObject.getCheckedNodes();
+	var systemId = $("#systemId").val();
+	var resIds = [];
+	
+	for(var i=0,node;node=nodes[i++];){
+		resIds.push(node.id);
+	}
+	
+	resIds = resIds.join(",");
+	var data = {resIds:resIds,roleId:roleId,systemId:systemId};
+	var url=__ctx +"/sys/resRole/save";
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 	$.post(url,data, function(result){
 		var result=JSON.parse(result);
 		if(result.isOk){

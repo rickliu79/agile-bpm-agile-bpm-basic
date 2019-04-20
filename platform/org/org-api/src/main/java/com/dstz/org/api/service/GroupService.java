@@ -20,6 +20,7 @@ public interface GroupService {
      * @param userId    用户ID
      * @return
      */
+<<<<<<< HEAD
     List<? extends IGroup> getGroupsByGroupTypeUserId(String groupType, String userId);
 
     /**
@@ -47,6 +48,35 @@ public interface GroupService {
      * @return
      */
     List<? extends IGroup> getGroupsByUserId(String userId);
+=======
+    List<IGroup> getGroupsByGroupTypeUserId(String groupType, String userId);
+
+    /**
+     * 根据用户账号获取用户当前所在的组。
+     *
+     * @param account 用户帐号
+     * @return 返回一个Map，键为维度类型，值为组列表。
+     */
+    Map<String, List<IGroup>> getAllGroupByAccount(String account);
+
+
+    /**
+     * 获取用户所在的所有组织。
+     *
+     * @param userId 用户ID
+     * @return 返回一个Map，键为维度类型，值为组列表。
+     */
+    Map<String, List<IGroup>> getAllGroupByUserId(String userId);
+
+
+    /**
+     * 根据用户获取用户所属的组。
+     *
+     * @param userId
+     * @return
+     */
+    List<IGroup> getGroupsByUserId(String userId);
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 
 
     /**

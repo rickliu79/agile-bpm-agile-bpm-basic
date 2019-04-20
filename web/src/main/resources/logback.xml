@@ -32,9 +32,14 @@
         </triggeringPolicy>
     </appender>
     
+<<<<<<< HEAD
     <!-- 修改日志级别不用重启服务器。所以默认是 info。请不要把debug 提交，若要查看更详细日志请开启  trace-->
     <logger name="com.dstz" level="trace"/>
     <logger name="com.dstz.sys.simplemq" level="debug"/>
+=======
+    <!-- 修改日志级别不用重启服务器。所以默认是 info。请不要把debug 提交 -->
+    <logger name="com.dstz" level="debug"/>
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
     <logger name="org.springframework.jdbc.core" level="debug"/>
     <!-- 日志输出级别 -->
     <root level="info">

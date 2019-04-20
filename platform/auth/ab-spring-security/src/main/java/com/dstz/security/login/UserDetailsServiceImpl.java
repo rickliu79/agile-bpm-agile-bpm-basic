@@ -54,7 +54,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         loginUser = new LoginUser(defaultUser);
 
         //构建用户角色。
+<<<<<<< HEAD
         List<? extends IUserRole> userRoleList = userService.getUserRole(loginUser.getUserId());
+=======
+        List<IUserRole> userRoleList = userService.getUserRole(loginUser.getUserId());
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
         Collection<GrantedAuthority> collection = new ArrayList<GrantedAuthority>();
         for (IUserRole userRole : userRoleList) {
             GrantedAuthority role = new SimpleGrantedAuthority(userRole.getAlias());

@@ -50,7 +50,11 @@ public class MailHandler extends AbsNotifyMessageHandler<NotifyMessage> {
 
     @Override
     public boolean sendMessage(NotifyMessage notifMessage) {
+<<<<<<< HEAD
         List<? extends IUser> recievers = sysIdentityConvert.convert2Users(notifMessage.getReceivers());
+=======
+        List<IUser> recievers = sysIdentityConvert.convert2Users(notifMessage.getReceivers());
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
         for (IUser reciver : recievers) {
             String email = reciver.getEmail();
             if (StringUtil.isEmpty(email)) {

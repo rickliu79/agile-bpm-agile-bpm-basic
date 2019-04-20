@@ -2,6 +2,7 @@ package com.dstz.security.authentication;
 
 import java.util.Collection;
 import java.util.HashSet;
+<<<<<<< HEAD
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -16,6 +17,24 @@ import com.dstz.base.core.util.StringUtil;
 import com.dstz.org.api.service.SysResourceService;
 import com.dstz.security.IngoreChecker;
 import com.dstz.security.constans.PlatformConsts;
+=======
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
+import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+
+import com.dstz.base.core.util.StringUtil;
+import com.dstz.security.IngoreChecker;
+import com.dstz.security.constans.PlatformConsts;
+import com.dstz.security.util.SubSystemUtil;
+import com.dstz.sys.api.service.SysResourceService;
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 
 import cn.hutool.core.collection.CollectionUtil;
 

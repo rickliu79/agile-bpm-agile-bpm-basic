@@ -78,4 +78,8 @@ INSERT INTO `bus_column_ctrl`(`id_`, `column_id_`, `type_`, `config_`, `valid_ru
 INSERT INTO `bus_column_ctrl`(`id_`, `column_id_`, `type_`, `config_`, `valid_rule_`) VALUES ('20000000530049', '20000000530048', 'onetext', '{}', '[]');
 
 -- DEMO 菜单启用
+<<<<<<< HEAD
 UPDATE `sys_resource` SET `ENABLE_MENU_`='1' WHERE (`ID_`='402552195187998721');
+=======
+UPDATE `sys_resource` SET `enable_`='1' WHERE (`ID_`='402552195187998721');
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git

@@ -45,6 +45,7 @@ public abstract class AbsFormElementGenerator {
 			
 			case CHECKBOX: return getColumnCheckBox(column);
 				
+<<<<<<< HEAD
 			//case MULTISELECT: return getColumnSelect(column,true);	
 			
 			case RADIO: return getColumnRadio(column);	
@@ -138,6 +139,101 @@ public abstract class AbsFormElementGenerator {
 		element.attr("ab-validate", validateRule.toJSONString());
 		//为了validateRule提示
 		element.attr("desc",relation.getTableComment() + "-" + column.getComment());
+=======
+			case MULTISELECT: return getColumnSelect(column,true);	
+			
+			case RADIO: return getColumnRadio(column);	
+			
+			case SELECT: return getColumnSelect(column,false);	
+			
+			case FILE: return getColumnFile(column);
+			
+			default: return "";
+		
+		}
+		
+	}
+
+	protected abstract String getColumnOnetext(IBusinessColumn column);
+	
+	protected abstract String getColumnDate(IBusinessColumn column);
+	
+	protected abstract String getColumnDic(IBusinessColumn column);
+	
+	protected abstract String getColumnIdentity(IBusinessColumn column);
+	
+	protected abstract String getColumnMultitext(IBusinessColumn column);
+	
+	protected abstract String getColumnCheckBox(IBusinessColumn column);
+	
+	protected abstract String getColumnRadio(IBusinessColumn column);
+	
+	protected abstract String getColumnSelect(IBusinessColumn column,Boolean isMultiple);
+	
+	protected abstract String getColumnFile(IBusinessColumn column);
+	
+	/**
+	 * 构建一个 element
+	 * @param type
+	 * @return
+	 */
+	protected Element getElement(String type) {
+		Document doc = Jsoup.parse("");
+		Element element = doc.createElement(type);
+		return element;
+	}
+	/**
+	 * 权限指令
+	 * @param element
+	 * @param column
+	 */
+	protected void handlePermission(Element element,IBusinessColumn column) {
+		element.attr("ab-basic-permission", getPermissionPath(column));
+		element.attr("desc", column.getComment());
+	}
+	
+	public String getPermissionPath(IBusinessColumn column,IBusTableRel relation) {
+		String boCode = relation.getBusObj().getKey();
+		return "permission."+ boCode + "." + column.getTable().getKey() + "." + column.getKey();
+	}
+	
+	/**
+	 * 权限路径
+	 * @param column
+	 * @return
+	 */
+	protected String getPermissionPath(IBusinessColumn column) {
+		String boCode = (String) ThreadMapUtil.get("boCode");
+		return "permission."+ boCode + "." + column.getTable().getKey() + "." + column.getKey();
+	}
+	
+	/**
+	 * 校验指令
+	 * @param element
+	 * @param column
+	 */
+	protected void handleValidateRules(Element element,IBusinessColumn column) {
+		String rulesStr = column.getCtrl().getValidRule();
+		if(StringUtils.isEmpty(rulesStr)) return ;
+		
+		JSONArray rules = JSONArray.parseArray(rulesStr);
+		//[{"name":"time","title":"时间"},{"name":"required","title":"必填"}]
+		// to {time:true,required:true}
+		JSONObject validateRule = new JSONObject();
+		for (int i = 0; i < rules.size(); i++) {
+			JSONObject rule = rules.getJSONObject(i);
+			
+			validateRule.put(rule.getString("name"), true);
+		}
+		
+		if (column.isRequired()) {
+			validateRule.put("required", true);
+		}
+		
+		element.attr("ab-validate", validateRule.toJSONString());
+		//为了validateRule提示
+		element.attr("desc", column.getComment());
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 	}
 	
 	

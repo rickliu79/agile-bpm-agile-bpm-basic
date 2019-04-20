@@ -46,6 +46,7 @@
             <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"/>
         </property>
     </bean>
+<<<<<<< HEAD
 
     <!-- 分布式 job 整合
     <bean id="xxlJobExecutor" class="com.xxl.job.core.executor.impl.XxlJobSpringExecutor" init-method="start" destroy-method="destroy" >
@@ -58,4 +59,6 @@
         <property name="logRetentionDays" value="${xxl.job.executor.logretentiondays}" />
     </bean> -->
 
+=======
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 </beans>

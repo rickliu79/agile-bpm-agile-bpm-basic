@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.constant.ColumnType;
+<<<<<<< HEAD
 import com.dstz.base.api.constant.StringConstants;
 import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.FieldLogic;
@@ -304,6 +305,283 @@ public class RequestUtil {
     		
             value = value.trim();
     		if (value.equals(StringConstants.EMPTY)) continue;
+=======
+import com.dstz.base.api.exception.BusinessMessage;
+import com.dstz.base.api.query.FieldLogic;
+import com.dstz.base.api.query.FieldRelation;
+import com.dstz.base.api.query.QueryOP;
+import com.dstz.base.core.encrypt.Base64;
+import com.dstz.base.core.util.AppUtil;
+import com.dstz.base.core.util.BeanCopierUtils;
+import com.dstz.base.core.util.BeanUtils;
+import com.dstz.base.core.util.StringUtil;
+import com.dstz.base.db.model.query.DefaultFieldLogic;
+import com.dstz.base.db.model.query.DefaultQueryField;
+import com.dstz.base.db.model.query.DefaultQueryFilter;
+
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ArrayUtil;
+
+public class RequestUtil {
+	 protected static final Logger LOGGER = LoggerFactory.getLogger(AppUtil.class);
+	/**
+	 * 从Request中获取业务必填的字段
+	 * @param request
+	 * @param key 
+	 * @param errorMsg 业务异常提示 (这里抛出的异常最好有 @cathErr 注解捕获并包装错误json 返回前端)
+	 * @return
+	 */
+	public static String getRQString(HttpServletRequest request, String key, String errorMsg) {
+		String result = RequestUtil.getString(request, key,null);
+		if(result == null) {
+			throw new BusinessMessage(String.format("[%s] %s",key, errorMsg),BaseStatusCode.PARAM_ILLEGAL);
+		}
+		return result;
+    }
+	
+
+	public static String getRQString(HttpServletRequest request, String key) {
+		return getRQString(request, key, key);
+	}
+	
+	
+    /**
+     * 取字符串类型的参数。 如果取得的值为null，则返回默认字符串。
+     *
+     * @param request
+     * @param key          字段名
+     * @param defaultValue
+     * @return
+     */
+    public static String getString(HttpServletRequest request, String key, String defaultValue, boolean b) {
+        String value = request.getParameter(key);
+        if (StringUtil.isEmpty(value))
+            return defaultValue;
+        if (b) {
+            return value.replace("'", "''").trim();
+        } else {
+            return value.trim();
+        }
+    }
+
+    /**
+     * 取字符串类型的参数。 如果取得的值为null，则返回空字符串。
+     *
+     * @param request
+     * @param key     字段名
+     * @return
+     */
+    public static String getString(HttpServletRequest request, String key) {
+        return getString(request, key, "", true);
+    }
+
+    /**
+     * 取字符串类型的参数。 如果取得的值为null，则返回空字符串。
+     *
+     * @param request
+     * @param key
+     * @param defaultValue
+     * @return
+     */
+    public static String getString(HttpServletRequest request, String key, boolean b) {
+        return getString(request, key, "", b);
+    }
+
+    /**
+     * 取字符串类型的参数。 如果取得的值为null，则返回空字符串。
+     *
+     * @param request
+     * @param key
+     * @param b       是否替换'为''
+     * @return
+     */
+    public static String getString(HttpServletRequest request, String key, String defaultValue) {
+        return getString(request, key, defaultValue, true);
+    }
+
+
+    /**
+     * 从Request中取得指定的小写值
+     *
+     * @param request
+     * @param key
+     * @return
+     * @throws Exception
+     */
+    public static String getLowercaseString(HttpServletRequest request, String key) {
+        return getString(request, key).toLowerCase();
+    }
+
+    /**
+     * 从request中取得int值
+     *
+     * @param request
+     * @param key
+     * @return
+     * @throws Exception
+     */
+    public static int getInt(HttpServletRequest request, String key) {
+        return getInt(request, key, 0);
+    }
+
+    /**
+     * 从request中取得int值,如果无值则返回缺省值
+     *
+     * @param request
+     * @param key
+     * @return
+     * @throws Exception
+     */
+    public static int getInt(HttpServletRequest request, String key, int defaultValue) {
+        String str = request.getParameter(key);
+        if (StringUtil.isEmpty(str))
+            return defaultValue;
+        return Integer.parseInt(str);
+
+    }
+
+
+
+    /**
+     * 根据一串逗号分隔的字符串取得字符串形数组
+     *
+     * @param request
+     * @param key
+     * @return
+     */
+    public static String[] getStringAryByStr(HttpServletRequest request, String key) {
+        String str = request.getParameter(key);
+        if (StringUtil.isEmpty(str))  return null;
+        
+        String[] arrayStr = str.split(",");
+        List<String> strList = new ArrayList<>(arrayStr.length);
+        //过滤掉空字符集
+        for(String s: arrayStr) {
+        	if(StringUtil.isNotEmpty(s)) {
+        		strList.add(s);
+        	}
+        }
+       return  ArrayUtil.toArray(strList, String.class);
+    }
+
+ 
+    /**
+     * 从Request中取得boolean值,如无值则返回缺省值 false, 如值为数字1，则返回true
+     *
+     * @param request
+     * @param key
+     * @return
+     */
+    public static boolean getBoolean(HttpServletRequest request, String key) {
+        return getBoolean(request, key, false);
+    }
+
+    /**
+     * 从Request中取得boolean值 对字符串,如无值则返回缺省值, 如值为数字1，则返回true
+     *
+     * @param request
+     * @param key
+     * @param defaultValue
+     * @return
+     */
+    public static boolean getBoolean(HttpServletRequest request, String key, boolean defaultValue) {
+        String str = request.getParameter(key);
+        if (StringUtil.isEmpty(str)) {
+        	return defaultValue;
+        }
+        if (StringUtils.isNumeric(str))
+            return (Integer.parseInt(str) == 1 ? true : false);
+        return Boolean.parseBoolean(str);
+    }
+
+
+    /**
+     * 从Request中取得Date值,如无值则返回缺省值,如有值则返回 yyyy-MM-dd HH:mm:ss 格式的日期,或者自定义格式的日期
+     *
+     * @param request
+     * @param key
+     * @param style
+     * @return
+     * @throws ParseException
+     */
+    public static Date getDate(HttpServletRequest request, String key, String style) throws ParseException {
+        String str = request.getParameter(key);
+        if (StringUtil.isEmpty(str))
+            return null;
+        if (StringUtil.isEmpty(style))
+            style = "yyyy-MM-dd HH:mm:ss";
+        return (Date) DateUtil.parse(str, style);
+    }
+
+    /**
+     * 从Request中取得Date值,如无值则返回缺省值null, 如果有值则返回 yyyy-MM-dd 格式的日期
+     *
+     * @param request
+     * @param key
+     * @return
+     * @throws ParseException
+     */
+    public static Date getDate(HttpServletRequest request, String key) throws ParseException {
+        String str = request.getParameter(key);
+        if (StringUtil.isEmpty(str))
+            return null;
+        return (Date) DateUtil.parseDate(str);
+
+    }
+
+    /**
+     * 从Request中取得Date值,如无值则返回缺省值 如有值则返回 yyyy-MM-dd HH:mm:ss 格式的日期
+     *
+     * @param request
+     * @param key
+     * @return
+     * @throws ParseException
+     */
+    public static Date getTimestamp(HttpServletRequest request, String key) throws ParseException {
+        String str = request.getParameter(key);
+        if (StringUtil.isEmpty(str))
+            return null;
+        return (Date) DateUtil.parseDateTime(str);
+    }
+
+
+    /**
+     * 处理页面进来的请求参数。
+     *
+     * <pre>
+     * 	1.参数字段命名规则。
+     * 	a:参数名称^参数类型+条件 eg：a^VEQ 则表示，a字段是varchar类型，条件是eq ^后第一个参数为数据类型
+     * 	b:参数名字^参数类型  eg：b^V则表示，b字段是varchar类型 用于sql拼参数
+     * 	2.在这里构建的逻辑都是and逻辑。
+     * 3.参数类型:V :字符串 varchar N:数字number D:日期date
+     * 条件参数 枚举：QueryOP
+     *
+     * </pre>
+     *
+     * @param request
+     * @param queryFilter
+     */
+    public static void handleRequestParam(HttpServletRequest request, DefaultQueryFilter queryFilter) {
+        FieldLogic andFieldLogic = new DefaultFieldLogic(FieldRelation.AND);
+        Enumeration<String> paramNames = request.getParameterNames();
+        while (paramNames.hasMoreElements()) {
+            String key = paramNames.nextElement();
+            //老版本用的^但是Tomcat8 get请求不支持此类型参数。故这里做兼容使用-
+            String specialSplitKey = "$";
+            if (key.contains("^")) {
+            	specialSplitKey = "^";
+            }
+            
+            
+            if (!key.contains(specialSplitKey)) {
+                continue;
+            }
+
+            String value = request.getParameter(key);
+            if (StringUtil.isEmpty(value)) {
+                continue;
+            }
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 
             String[] aryParamKey = key.split("\\"+specialSplitKey);
             if (aryParamKey.length != 2) {

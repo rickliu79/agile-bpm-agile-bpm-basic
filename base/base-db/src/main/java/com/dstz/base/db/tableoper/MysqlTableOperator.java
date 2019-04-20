@@ -111,7 +111,11 @@ public class MysqlTableOperator extends TableOperator {
 			sb.append(" NULL");
 		}
 		if (StringUtil.isNotEmpty(column.getDefaultValue())) {
+<<<<<<< HEAD
 			//sb.append(" DEFAULT " + column.getDefaultValue() + "");
+=======
+			sb.append(" DEFAULT " + column.getDefaultValue() + "");
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 		}
 		sb.append(" COMMENT '" + column.getComment() + "'");
 		return sb.toString();

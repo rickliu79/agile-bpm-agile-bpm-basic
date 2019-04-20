@@ -14,6 +14,7 @@ public class StatusCode implements IStatusCode {
 
     public StatusCode() {
     }
+<<<<<<< HEAD
     
     public StatusCode(String code,String desc) {
     	this.code = code;
@@ -25,6 +26,8 @@ public class StatusCode implements IStatusCode {
     	this.desc = desc;
     	this.system = system;
     }
+=======
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 
     public String getCode() {
         return code;

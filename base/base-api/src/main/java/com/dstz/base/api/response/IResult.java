@@ -1,5 +1,6 @@
 package com.dstz.base.api.response;
 
+<<<<<<< HEAD
 import java.io.Serializable;
 
 /**
@@ -36,4 +37,20 @@ public interface IResult extends Serializable {
      * @return 出错堆栈信息
      */
     String getCause();
+=======
+import com.dstz.base.api.constant.IStatusCode;
+
+import java.io.Serializable;
+
+public interface IResult extends Serializable {
+    public abstract Boolean getIsOk();
+
+    public abstract IStatusCode getStatusCode();
+
+    public abstract String getCode();
+
+    public abstract String getMsg();
+
+    public abstract String getCause();
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 }

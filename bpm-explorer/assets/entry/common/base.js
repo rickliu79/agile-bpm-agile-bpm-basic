@@ -39,8 +39,11 @@ require('../../js/common/tools/toolsControllerUtil.js');
 require('../../css/plugins/bootstrap-table/bootstrap-table.min.css');
 require('../../css/extends/list.css');
 
+<<<<<<< HEAD
 require('../../js/plugins/fastjson/FastJson-1.0.min.js');
 require('../../js/common/tools/toolsControllerUtil.js');
+=======
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 
 
 

@@ -28,6 +28,7 @@ public class SysIdentityConvertServiceImpl implements SysIdentityConvert {
 	
 	@Override
 	public IUser convert2User(SysIdentity identity) {
+<<<<<<< HEAD
 		List<? extends IUser> users = convert2Users(identity);
 		
 		if(CollectionUtil.isNotEmpty(users)) {
@@ -54,6 +55,34 @@ public class SysIdentityConvertServiceImpl implements SysIdentityConvert {
 		}
 		//目前其他均为组类型
 		List<? extends IUser> userList = userService.getUserListByGroup(identity.getType(), identity.getId());
+=======
+		List<IUser> users = convert2Users(identity);
+		
+		if(CollectionUtil.isNotEmpty(users)) {
+			return users.get(0);
+		}
+		
+		return null;
+		
+	}
+
+	@Override
+	public List<IUser> convert2Users(SysIdentity identity) {
+		//如果为用户
+		if(SysIdentity.TYPE_USER.equals(identity.getType())) {
+			List<IUser> users = new ArrayList<>();
+			
+			IUser user = userService.getUserById(identity.getId());
+			if(user == null) {
+				LOGGER.error("identity convert 2 users error id[{}],name[{}] not found! ",identity.getId(),identity.getName());
+			}else {
+				users.add(user);
+			}
+			return users;
+		}
+		//目前其他均为组类型
+		List<IUser> userList = userService.getUserListByGroup(identity.getType(), identity.getId());
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 		
 		return userList;
 	}

@@ -197,6 +197,7 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 				if (!column) {
 					column = c;
 				} else {
+<<<<<<< HEAD
 					jQuery.extend(column, c);//以库的字段为准
 				}
 				
@@ -235,6 +236,43 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 			
 			if (b) {
 				$.Toast.success("同步成功，【保存】后生效");
+=======
+					jQuery.extend(column, c);
+				}
+
+				if (!column.comment) {
+					column.comment = column.name;
+				}
+				if (!column.key) {
+					column.key = column.name;
+				}
+
+				// 字段控件已存在
+				if (column.ctrl||column.primary) {
+					return;
+				}
+				if (column.type == $scope.ColumnType.DATE.key) {
+					column.ctrl = {
+						type : $scope.FieldControlType.DATE.key,
+						validRule : []
+					};
+				} else {
+					column.ctrl = {
+						type : $scope.FieldControlType.ONETEXT.key,
+						validRule : []
+					};
+				}
+				$scope.initCtrlConfig(column.ctrl);
+			});
+			if (!$scope.data.key) {
+				$scope.data.key = data.name;
+			}
+
+			if (b) {
+				$.Toast.success("同步成功，【保存】后生效");
+			}else{
+				jQuery.extend($scope.data, data);
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 			}
 		});
 	};

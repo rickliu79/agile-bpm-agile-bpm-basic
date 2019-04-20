@@ -34,7 +34,11 @@ public class FormTemplate implements Serializable {
     private String type;
     
     /**
+<<<<<<< HEAD
      * FormType 表单的分类  pc、mobile、vuepc 等不同的表单分类  默认 pc
+=======
+     * formType 表单的分类  pc、mobile、vuepc 等不同的表单分类  默认 pc
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
      */
     private String formType;
     /**

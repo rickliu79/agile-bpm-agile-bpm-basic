@@ -66,6 +66,7 @@ public class SysSerialNoController extends GenericController {
      */
     @RequestMapping("getById")
     @CatchErr(write2response = true)
+<<<<<<< HEAD
     public ResultMsg<SerialNo> getById(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id = RequestUtil.getString(request, "id");
         SerialNo SerialNo = serialNoManager.get(id);
@@ -140,6 +141,86 @@ public class SysSerialNoController extends GenericController {
      */
     @RequestMapping("preview")
     public List<SerialNo> preview(HttpServletRequest request, HttpServletResponse response) throws Exception {
+=======
+    public void getById(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String id = RequestUtil.getString(request, "id");
+        SerialNo SerialNo = serialNoManager.get(id);
+        writeSuccessData(response, SerialNo);
+    }
+
+    /**
+     * 保存流水号生成信息
+     *
+     * @param request
+     * @param response
+     * @param SerialNo
+     * @throws Exception void
+     */
+    @RequestMapping("save")
+    @CatchErr
+    public void save(HttpServletRequest request, HttpServletResponse response, @RequestBody SerialNo SerialNo) throws Exception {
+        String resultMsg = null;
+
+        boolean rtn = serialNoManager.isAliasExisted(SerialNo.getId(), SerialNo.getAlias());
+        if (rtn) {
+            throw new BusinessMessage("别名已经存在!", SysStatusCode.SERIALNO_EXSIT);
+        }
+
+        if (StringUtil.isEmpty(SerialNo.getId())) {
+            serialNoManager.create(SerialNo);
+            resultMsg = "添加流水号生成成功";
+        } else {
+            serialNoManager.update(SerialNo);
+            resultMsg = "更新流水号生成成功";
+        }
+
+        writeSuccessResult(response, resultMsg);
+    }
+
+
+    /**
+     * 批量删除流水号生成记录
+     *
+     * @param request
+     * @param response
+     * @throws Exception void
+     */
+    @RequestMapping("remove")
+    @CatchErr("删除流水号失败")
+    public void remove(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String[] aryIds = RequestUtil.getStringAryByStr(request, "id");
+
+        serialNoManager.removeByIds(aryIds);
+        writeSuccessResult(response, "删除流水号成功");
+    }
+
+    /**
+     * 取得流水号生成分页列表
+     *
+     * @param request
+     * @param response
+     * @param page
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("showlist")
+    public 
+    PageResult showlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        QueryFilter queryFilter = getQueryFilter(request);
+        Page<SerialNo> SerialNoList = (Page<SerialNo>) serialNoManager.query(queryFilter);
+        return new PageResult(SerialNoList);
+    }
+
+    /**
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("preview")
+    public List<SerialNo> preview(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
         String alias = RequestUtil.getString(request, "alias");
         List<SerialNo> identities = serialNoManager.getPreviewIden(alias);
 

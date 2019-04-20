@@ -7,6 +7,7 @@
 		<script type="text/javascript" src="../../build/common/ngEdit.js"></script>
 		<script type="text/javascript">
 			var controller = ['$scope','baseService',function(scope,baseService){
+<<<<<<< HEAD
                 var instanceId, defId;
 			    try{
 					instanceId = window.passData.instanceId;
@@ -16,6 +17,11 @@
                     defId = $.getParam('defId');
                 }
                 $("#test").attr("src", __ctx + "/bpm/instance/flowImage?instId=" + instanceId + "&defId=" + defId);
+=======
+				var instanceId = window.passData.instanceId;
+				var defId = window.passData.defId;
+				 $("#test").attr("src",__ctx+"/bpm/instance/flowImage?instId="+instanceId+"&defId="+defId);
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 			}];
 			
 			function isValidate(){

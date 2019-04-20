@@ -45,6 +45,7 @@
 		var keyStr = node.name;
 		// 流程变量
 		if (node.nodeType == 'var'){
+<<<<<<< HEAD
 			keyStr = "variableScope.getVariable('"+node.name+"')";
 		}// 业务对象取值
 		else {
@@ -71,6 +72,34 @@
         .initZtree({defId:$.getParam("defId"),nodeId:$.getParam("nodeId")}, 2);
 
         $(".varTree").bind("click", function(){
+=======
+			//keyStr = "variableScope." + node.name;
+		}// 业务对象取值
+		else {
+			 keyStr = scope.getBoStr(node);
+		}
+		
+		if(!keyStr)return;
+		
+		varTree.hideMenu();
+		scope.insetCode(keyStr);
+	}
+	
+	scope.insetCode = function(str) {
+		scope.$broadcast(scope.CodeMirrorBroadcast, function(CodeMirror) {
+			CodeMirror.replaceSelection(str);
+		});
+	};
+	
+	scope.initTree = function(){
+		varTree = new ZtreeCreator('tempTree', __ctx+"/bpm/processDef/variablesTree")
+		.setDataKey({ name : 'name' })
+		.setCallback({ onClick : scope.setVariable })
+		.makeCombTree("varTree",300)
+		.initZtree({defId:$.getParam("defId"),nodeId:$.getParam("nodeId")}, 2);
+		
+		$(".varTree").bind("click", function(){
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 			var broadcast = $(this).attr("broadcast")
 			scope.CodeMirrorBroadcast = broadcast;
 			varTree.showMenu($(this));

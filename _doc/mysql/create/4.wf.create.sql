@@ -478,6 +478,7 @@ CREATE TABLE `bpm_submit_data_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务对象数据提交日志';
 
+<<<<<<< HEAD
 
 -- 催办相关表
 CREATE TABLE `bpm_plugin_reminder_trigger` (
@@ -554,3 +555,5 @@ CREATE TABLE `bpm_user_agency_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务流程用户代理日志';
 
 
+=======
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 package com.dstz.org.core.model;
 
 import java.util.ArrayList;

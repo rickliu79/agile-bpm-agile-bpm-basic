@@ -47,6 +47,7 @@ public class ABGroupService implements GroupService {
 
     @SuppressWarnings("unchecked")
     @Override
+<<<<<<< HEAD
     public List<? extends IGroup> getGroupsByGroupTypeUserId(String groupType, String userId) {
     	List listGroup  = null;
     	
@@ -132,6 +133,93 @@ public class ABGroupService implements GroupService {
         
         //转换成GROUP DTO 13556806587
         List<? extends IGroup> groupList = BeanCopierUtils.transformList(userGroups, GroupDTO.class);
+=======
+    public List<IGroup> getGroupsByGroupTypeUserId(String groupType, String userId) {
+    	List listGroup  = null;
+    	
+        if (groupType.equals(GroupTypeConstant.ORG.key())) {
+        	listGroup = (List) groupManager.getByUserId(userId);
+        }
+        if (groupType.equals(GroupTypeConstant.ROLE.key())) {
+        	listGroup = (List) roleManager.getByUserId(userId);
+        }
+        
+        if (groupType.equals(GroupTypeConstant.POST.key()) && false) {
+        	listGroup = (List) orgRelationManager.getPostByUserId(userId);
+        }
+        
+        if(listGroup != null) {
+        	return (List)BeanCopierUtils.transformList(listGroup, GroupDTO.class);
+        }
+        
+        return null;
+    }
+
+    @Override
+    public Map<String, List<IGroup>> getAllGroupByAccount(String account) {
+    	User user = userManager.getByAccount(account);
+    	if(user == null) return Collections.emptyMap();
+    	
+    	return getAllGroupByUserId(user.getId());
+    }
+
+    
+    @Override
+    public Map<String, List<IGroup>> getAllGroupByUserId(String userId) {
+        Map<String, List<IGroup>> listMap = new HashMap<String, List<IGroup>>();
+        
+        List<IGroup> listOrg = (List) groupManager.getByUserId(userId);
+        if (CollectionUtil.isNotEmpty(listOrg)) {
+        	List<IGroup> groupList = (List)BeanCopierUtils.transformList(listOrg, GroupDTO.class);
+            listMap.put(GroupTypeConstant.ORG.key(), groupList);
+        }
+        List<IGroup> listRole = (List) roleManager.getByUserId(userId);
+        if (CollectionUtil.isNotEmpty(listRole)) {
+        	List<IGroup> groupList = (List)BeanCopierUtils.transformList(listRole, GroupDTO.class);
+            listMap.put(GroupTypeConstant.ROLE.key(), groupList);
+        }
+        
+        /**
+         *  岗位对外post code postID 均为 【组织ID-组织ID】
+         *  岗位选择框 postCODE 为 关系的ID 
+         *  对外提供岗位查询 CODE查询的时候为 关系ID 返回POST 对象ID已经被转换成 【组织ID-组织ID】
+         *  岗位不支持ID 的查询
+         *  当前用户的岗位ID 也为【组织ID-组织ID】
+         */
+        List<OrgRelation> listOrgRel =  orgRelationManager.getPostByUserId(userId);
+        if (CollectionUtil.isNotEmpty(listOrgRel)) {
+        	List<IGroup> userGroups = new ArrayList<>();
+        	listOrgRel.forEach(post ->{
+            	userGroups.add( new GroupDTO(post.getPostId(),post.getPostName(),GroupTypeConstant.POST.key()) );
+            });
+            listMap.put(GroupTypeConstant.POST.key(), userGroups);
+        }
+        return listMap;
+    }
+
+
+    /**
+     * 根据用户ID获取所有组
+     */
+    @Override
+    public List<IGroup> getGroupsByUserId(String userId) {
+        List<IGroup> userGroups = new ArrayList<IGroup>();
+        List<IGroup> listOrg = (List) groupManager.getByUserId(userId);
+        if (CollectionUtil.isNotEmpty(listOrg)) {
+            userGroups.addAll(listOrg);
+        }
+        List<IGroup> listRole = (List) roleManager.getByUserId(userId);
+        if (CollectionUtil.isNotEmpty(listRole)) {
+            userGroups.addAll(listRole);
+        }
+        List<OrgRelation> listOrgRel = orgRelationManager.getPostByUserId(userId);
+        listOrgRel.forEach(post ->{
+        	userGroups.add( new GroupDTO(post.getPostId(),post.getPostName(),GroupTypeConstant.POST.key()) );
+        });
+        
+        //转换成GROUP DTO 13556806587
+        List<IGroup> groupList = (List)BeanCopierUtils.transformList(userGroups, GroupDTO.class);
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
         return groupList;
     }
 

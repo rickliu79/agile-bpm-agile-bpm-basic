@@ -34,7 +34,11 @@ window.getProjectUrl = function(url){
 		 var pathname =window.document.location.pathname;
 		 var projectPath = pathname.substring(0,pathname.substr(1).indexOf('/')+1);
 		 // 特殊处理下流程设计器
+<<<<<<< HEAD
 		 if("/bus,/bpm,/sys,/org,/form,/flow-editor,/bpmplugin".indexOf(projectPath)!= -1){
+=======
+		 if("/bus,/bpm,/sys,/org,/form,/flow-editor".indexOf(projectPath)!= -1){
+>>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 			 return url;
 		 }
 		if(url.startWith(projectPath)){
