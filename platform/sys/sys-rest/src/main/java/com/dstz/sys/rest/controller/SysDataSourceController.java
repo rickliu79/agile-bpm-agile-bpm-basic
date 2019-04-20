@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import com.dstz.base.api.response.impl.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,14 +44,14 @@ public class SysDataSourceController extends GenericController {
      * 测试连接
      * </pre>
      *
+     * @param sysDataSource
      * @param request
      * @param response
-     * @param sysDataSource
      * @throws Exception
      */
     @RequestMapping("checkConnection")
     @CatchErr(write2response = true, value = "连接失败")
-    public void checkConnection(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResultMsg<Boolean> checkConnection(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	String key = RequestUtil.getString(request, "key");
     	String msg = "连接成功" ;
     	boolean connectable = true;
@@ -63,8 +64,8 @@ public class SysDataSourceController extends GenericController {
         	connectable = false;
         	e.printStackTrace();
         }
-    	
-        writeSuccessData(response, connectable,msg);
+
+        return getSuccessResult(connectable,msg);
     }
 
     /**
@@ -72,21 +73,20 @@ public class SysDataSourceController extends GenericController {
      * sysDataSourceEdit.html的save后端
      * </pre>
      *
-     * @param request
-     * @param response
      * @param sysDataSource
      * @throws Exception
      */
     @RequestMapping("save")
     @CatchErr(write2response = true, value = "保存数据源失败")
-    public void save(HttpServletRequest request, HttpServletResponse response, @RequestBody SysDataSource sysDataSource) throws Exception {
+    public ResultMsg<SysDataSource> save(@RequestBody SysDataSource sysDataSource) throws Exception {
         if (StringUtil.isEmpty(sysDataSource.getId())) {
             sysDataSource.setId(IdUtil.getSuid());
             sysDataSourceManager.create(sysDataSource);
         } else {
             sysDataSourceManager.update(sysDataSource);
         }
-        writeSuccessData(response, sysDataSource, "保存数据源成功");
+
+        return getSuccessResult(sysDataSource, "保存数据源成功");
     }
 
     /**
@@ -102,13 +102,13 @@ public class SysDataSourceController extends GenericController {
      */
     @RequestMapping("getObject")
     @CatchErr(write2response = true, value = "获取sysDataSource异常")
-    public void getObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResultMsg<SysDataSource> getObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id = RequestUtil.getString(request, "id");
         SysDataSource sysDataSource = null;
         if (StringUtil.isNotEmpty(id)) {
             sysDataSource = sysDataSourceManager.get(id);
         }
-        writeSuccessData(response, sysDataSource);
+        return getSuccessResult(sysDataSource);
     }
 
     /**
@@ -140,9 +140,9 @@ public class SysDataSourceController extends GenericController {
      */
     @RequestMapping("remove")
     @CatchErr(write2response = true, value = "删除数据源失败")
-    public void remove(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResultMsg<String> remove(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String[] aryIds = RequestUtil.getStringAryByStr(request, "id");
         sysDataSourceManager.removeByIds(aryIds);
-        writeSuccessResult(response, "删除数据源成功");
+        return getSuccessResult("删除数据源成功");
     }
 }

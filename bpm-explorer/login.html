@@ -20,7 +20,7 @@
 			 
 			 $scope.user = {password:"1",account:"admin"};
 		 	 $scope.login = function(){
-		 		var post = baseService.postForm(__ctx+"/login/valid",$scope.user);
+		 		var post = baseService.postForm(__ctx+"/org/login/valid",$scope.user);
 		 		 $.getResultData(post,function(){
 		 			window.location = "index.html";
 		 		})

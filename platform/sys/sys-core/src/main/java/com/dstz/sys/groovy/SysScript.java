@@ -31,7 +31,8 @@ public class SysScript implements IScript {
 	
 	
 	public IUser getCurrentUser() {
-		return ContextUtil.getCurrentUser();
+		IUser user = ContextUtil.getCurrentUser();
+		return user;
 	}
 	
 	public String getCurrentGroupName() {

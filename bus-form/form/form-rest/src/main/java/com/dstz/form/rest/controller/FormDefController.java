@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessError;
+import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.api.response.impl.ResultMsg;
@@ -31,13 +32,14 @@ import com.dstz.bus.api.model.IBusTableRel;
 import com.dstz.bus.api.model.IBusinessObject;
 import com.dstz.bus.api.service.IBusinessObjectService;
 import com.dstz.bus.api.service.IBusinessTableService;
+import com.dstz.form.api.model.FormType;
 import com.dstz.form.generator.AbsFormElementGenerator;
 import com.dstz.form.manager.FormDefManager;
 import com.dstz.form.manager.FormTemplateManager;
 import com.dstz.form.model.FormDef;
 import com.dstz.form.model.FormTemplate;
 import com.dstz.sys.api.constant.EnvironmentConstant;
-import com.dstz.sys.api.freemark.IFreemarkEngine;
+import com.dstz.sys.api.freemark.IFreemarkerEngine;
 import com.github.pagehelper.Page;
 
 /**
@@ -56,24 +58,15 @@ public class FormDefController extends BaseController<FormDef> {
 	@Autowired
 	FormTemplateManager formTemplateManager;
 	@Autowired
-	IFreemarkEngine freemarkEngine;
+    IFreemarkerEngine freemarkEngine;
 
 	
 	@Override
 	@RequestMapping("listJson")
 	public PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String formType = RequestUtil.getString(request, "formType",FormType.PC.value());
 		QueryFilter queryFilter = getQueryFilter(request);
-		queryFilter.addFilter("type_", "mobile", QueryOP.NOT_EQUAL);
-	    Page<FormDef> pageList = (Page<FormDef>) formDefManager.query(queryFilter);
-	      
-        return new PageResult(pageList);
-	}
-	
-	
-	@RequestMapping("mobileListJson")
-	public PageResult mobileListJson(HttpServletRequest request) throws Exception {
-		QueryFilter queryFilter = getQueryFilter(request);
-		queryFilter.addFilter("type_", "mobile", QueryOP.EQUAL);
+		queryFilter.addFilter("type_", formType, QueryOP.EQUAL);
 	    Page<FormDef> pageList = (Page<FormDef>) formDefManager.query(queryFilter);
 	      
         return new PageResult(pageList);
@@ -86,6 +79,10 @@ public class FormDefController extends BaseController<FormDef> {
 	@Override
 	@CatchErr(write2response = true, value = "保存表单失败")
 	public ResultMsg<String> save(@RequestBody FormDef formDef) throws Exception {
+		if(StringUtil.isEmpty(formDef.getKey()) && formDefManager.getByKey(formDef.getKey())!= null) {
+			throw new BusinessMessage("表单 KEY 已经存在，请修改 表单 KEY 的 值");
+		}
+
 		ResultMsg<String> msg =super.save( formDef);
 		formDefManager.saveBackupHtml(formDef);
 		return msg;
@@ -104,7 +101,7 @@ public class FormDefController extends BaseController<FormDef> {
 	 */
 	@RequestMapping("getObject")
 	@CatchErr(write2response = true, value = "获取formDef异常")
-	public void getObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResultMsg<JSONObject> getObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id = RequestUtil.getString(request, "id");
 		String key = RequestUtil.getString(request, "key");
 		FormDef formDef = null;
@@ -118,7 +115,7 @@ public class FormDefController extends BaseController<FormDef> {
 		// 配置了备份路径则是开发者
 		json.put("isDeveloper", StringUtil.isNotEmpty(PropertyUtil.getFormDefBackupPath()));
 
-		writeSuccessData(response, json);
+		return getSuccessResult(json);
 	}
 
 	/**
@@ -133,7 +130,7 @@ public class FormDefController extends BaseController<FormDef> {
 	 */
 	@RequestMapping("getBackupHtml")
 	@CatchErr(write2response = true, value = "获取开发者备份html异常")
-	public void getBackupHtml(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResultMsg<String> getBackupHtml(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id = RequestUtil.getString(request, "id");
 		String key = RequestUtil.getString(request, "key");
 		FormDef formDef = null;
@@ -142,16 +139,13 @@ public class FormDefController extends BaseController<FormDef> {
 		} else if (StringUtil.isNotEmpty(key)) {
 			formDef = formDefManager.getByKey(key);
 		}
-		writeSuccessData(response, formDefManager.getBackupHtml(formDef));
+		return getSuccessResult(formDefManager.getBackupHtml(formDef));
 	}
 
 	/**
 	 * <pre>
 	 * boTree数据树
 	 * </pre>
-	 * 
-	 * @param request
-	 * @param response
 	 * @return
 	 * @throws Exception
 	 */
@@ -166,8 +160,6 @@ public class FormDefController extends BaseController<FormDef> {
 	 * 根据bo获取表单模板信息
 	 * </pre>
 	 * 
-	 * @param request
-	 * @param response
 	 * @return
 	 * @throws Exception
 	 */
@@ -177,7 +169,7 @@ public class FormDefController extends BaseController<FormDef> {
 		
 		JSONArray array = formTemplateManager.templateData(boKey,type);
 		
-		return new ResultMsg<JSONArray>(array);
+		return new ResultMsg<>(array);
 	}
 
 	/**
@@ -187,12 +179,11 @@ public class FormDefController extends BaseController<FormDef> {
 	 * 
 	 * @param request
 	 * @param response
-	 * @param jsonObject
 	 * @throws Exception
 	 */
 	@RequestMapping("createHtml")
 	@CatchErr(write2response = true, value = "生成html异常")
-	public void createHtml(HttpServletRequest request, HttpServletResponse response, @RequestBody JSONArray jsonArray) throws Exception {
+	public ResultMsg<String> createHtml(HttpServletRequest request, HttpServletResponse response, @RequestBody JSONArray jsonArray) throws Exception {
 		String boKey = RequestUtil.getString(request, "boKey");
 		IBusinessObject businessObject = businessObjectService.getFilledByKey(boKey);
 		StringBuilder sb = new StringBuilder();
@@ -214,10 +205,13 @@ public class FormDefController extends BaseController<FormDef> {
 			String html = freemarkEngine.parseByString(template.getHtml(), map);
 			
 			sb.append(html);
-			sb.insert(0, "<div>");
+		}
+		if(sb.length()>0){
+			sb.insert(0, "<div class=\"ivu-form ivu-form-label-right\">");
 			sb.append("</div>");
 		}
-		writeSuccessData(response, sb.toString());
+
+		return getSuccessResult(sb.toString(),"生成成功");
 	}
 	
     @RequestMapping("remove")

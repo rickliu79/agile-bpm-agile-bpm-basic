@@ -45,7 +45,7 @@
 		var keyStr = node.name;
 		// 流程变量
 		if (node.nodeType == 'var'){
-			//keyStr = "variableScope." + node.name;
+			keyStr = "variableScope.getVariable('"+node.name+"')";
 		}// 业务对象取值
 		else {
 			 keyStr = scope.getBoStr(node);
@@ -68,9 +68,9 @@
 		.setDataKey({ name : 'name' })
 		.setCallback({ onClick : scope.setVariable })
 		.makeCombTree("varTree",300)
-		.initZtree({defId:$.getParam("defId"),nodeId:$.getParam("nodeId")}, 2);
-		
-		$(".varTree").bind("click", function(){
+        .initZtree({defId:$.getParam("defId"),nodeId:$.getParam("nodeId")}, 2);
+
+        $(".varTree").bind("click", function(){
 			var broadcast = $(this).attr("broadcast")
 			scope.CodeMirrorBroadcast = broadcast;
 			varTree.showMenu($(this));

@@ -45,7 +45,7 @@ public class BusinessObjectController extends BaseController<BusinessObject> {
 	 */
 	@RequestMapping("getObject")
 	@CatchErr(write2response = true, value = "获取businessObject异常")
-	public void getObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResultMsg<BusinessObject> getObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id = RequestUtil.getString(request, "id");
 		String key = RequestUtil.getString(request, "key");
 		boolean fill = RequestUtil.getBoolean(request, "fill");// 是否要填充table
@@ -59,7 +59,7 @@ public class BusinessObjectController extends BaseController<BusinessObject> {
 			object = businessObjectManager.getFilledByKey(object.getKey());
 		}
 
-		writeSuccessData(response, object);
+		return getSuccessResult(object);
 	}
 	
 	@Override

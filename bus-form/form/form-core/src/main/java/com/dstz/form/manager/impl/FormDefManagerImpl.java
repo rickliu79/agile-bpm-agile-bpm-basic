@@ -17,7 +17,6 @@ import com.dstz.sys.api.model.ISysTreeNode;
 import com.dstz.sys.api.service.ISysTreeNodeService;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.lang.Assert;
 
 /**
  * 表单 Manager处理实现类
@@ -36,7 +35,8 @@ public class FormDefManagerImpl extends BaseManager<String, FormDef> implements 
 	@Override
 	public FormDef getByKey(String key) {
 		FormDef form = formDefDao.getByKey(key);
-		return Assert.notNull(form, "业务表单[" + key + "]不存在，请检查");
+		//return Assert.notNull(form, "业务表单[" + key + "]不存在，请检查");
+		return form;
 	}
 
 	@Override

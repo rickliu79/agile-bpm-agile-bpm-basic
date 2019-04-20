@@ -10,7 +10,7 @@
 var ztreeObject ;
 var roleId = $.getParam("roleId");
 function loadTree() {
-	var url = __ctx + "/sys/resRole/getTreeData";
+	var url = __ctx + "/org/resRole/getTreeData";
 	var systemId = $("#systemId").val() || "1";
 	var params = {systemId:systemId,roleId:roleId};
 	
@@ -21,7 +21,7 @@ function loadTree() {
 };
 
 function laodSystem(){
-	var url = __ctx + "/sys/subsystem/getUserSystem";
+	var url = __ctx + "/org/subsystem/getUserSystem";
 	
 	$.post(url, {}, function(result) {
 		var result = eval("("+result+")");
@@ -46,7 +46,7 @@ function saveResRole(data){
 	
 	resIds = resIds.join(",");
 	var data = {resIds:resIds,roleId:roleId,systemId:systemId};
-	var url=__ctx +"/sys/resRole/save";
+	var url=__ctx +"/org/resRole/save";
 	$.post(url,data, function(result){
 		var result=JSON.parse(result);
 		if(result.isOk){

@@ -45,7 +45,7 @@ public abstract class AbsFormElementGenerator {
 			
 			case CHECKBOX: return getColumnCheckBox(column);
 				
-			case MULTISELECT: return getColumnSelect(column,true);	
+			//case MULTISELECT: return getColumnSelect(column,true);	
 			
 			case RADIO: return getColumnRadio(column);	
 			
@@ -134,10 +134,10 @@ public abstract class AbsFormElementGenerator {
 		if (column.isRequired()) {
 			validateRule.put("required", true);
 		}
-		
+		IBusTableRel relation = (IBusTableRel) ThreadMapUtil.get("relation");
 		element.attr("ab-validate", validateRule.toJSONString());
 		//为了validateRule提示
-		element.attr("desc", column.getComment());
+		element.attr("desc",relation.getTableComment() + "-" + column.getComment());
 	}
 	
 	

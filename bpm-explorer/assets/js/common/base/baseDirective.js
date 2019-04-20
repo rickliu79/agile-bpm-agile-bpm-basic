@@ -312,9 +312,11 @@ var directive = angular.module("baseDirective", [ "base" ])
 			editor.render(element[0]);
 			// 百度UEditor数据更新时，更新Model
 			editor.addListener('contentChange', function() {
-				scope.$apply(function() {
-					ngModel.$setViewValue(editor.getContent());
-				});
+				setTimeout(function() {
+					scope.$apply(function() {
+						ngModel.$setViewValue(editor.getContent());
+					});
+				}, 500);
 			});
 			
 			/**

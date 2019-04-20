@@ -46,4 +46,16 @@
             <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"/>
         </property>
     </bean>
+
+    <!-- 分布式 job 整合
+    <bean id="xxlJobExecutor" class="com.xxl.job.core.executor.impl.XxlJobSpringExecutor" init-method="start" destroy-method="destroy" >
+        <property name="adminAddresses" value="${xxl.job.admin.addresses}" />
+        <property name="appName" value="${xxl.job.executor.appname}" />
+        <property name="ip" value="${xxl.job.executor.ip}" />
+        <property name="port" value="${xxl.job.executor.port}" />
+        <property name="accessToken" value="${xxl.job.accessToken}" />
+        <property name="logPath" value="${xxl.job.executor.logpath}" />
+        <property name="logRetentionDays" value="${xxl.job.executor.logretentiondays}" />
+    </bean> -->
+
 </beans>

@@ -49,6 +49,7 @@
         <property name="ingores">
             <list>
                  <value>127.0.0.1</value>
+                 <value>localhost</value>
                  <value>47.106.139.29</value>
             </list>
         </property>

@@ -18,16 +18,29 @@ input.form-control,select.form-control{
 	max-width: 360px;	
 	display: inline;
 }
-input.ng-valid, textarea.ng-valid, select.ng-valid, .edui-editor.ng-valid, div.ng-valid .ht-input {
-    border-color: #5eb95e !;
+
+input.ng-valid, textarea.ng-valid, select.ng-valid, div.ng-valid {
+    border-color: #5eb95e;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
-input.ng-invalid, textarea.ng-invalid, select.ng-invalid, .edui-editor.ng-invalid, span.ng-invalid input, div.ng-invalid .ht-input {
+
+input.ng-invalid, textarea.ng-invalid, select.ng-invalid, span.ng-invalid input, div.ng-invalid {
     border-color: #dd514c !important;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
+
+input.ab-invalid, textarea.ab-invalid, select.ab-invalid, span.ab-invalid input, div.ab-invalid {
+    border-color: #dd514c !important;
+}
+div.ab-invalid input[type='checkbox']{
+	color:#dd514c !important;
+}
+div.ab-invalid input[type='radio']{
+	color:#dd514c !important;
+}
+
 
 /* table-form css*/
 .form-table .red{

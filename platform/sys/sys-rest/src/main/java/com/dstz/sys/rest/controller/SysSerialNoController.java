@@ -66,23 +66,21 @@ public class SysSerialNoController extends GenericController {
      */
     @RequestMapping("getById")
     @CatchErr(write2response = true)
-    public void getById(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResultMsg<SerialNo> getById(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id = RequestUtil.getString(request, "id");
         SerialNo SerialNo = serialNoManager.get(id);
-        writeSuccessData(response, SerialNo);
+        return getSuccessResult(SerialNo);
     }
 
     /**
      * 保存流水号生成信息
      *
-     * @param request
-     * @param response
      * @param SerialNo
      * @throws Exception void
      */
     @RequestMapping("save")
     @CatchErr
-    public void save(HttpServletRequest request, HttpServletResponse response, @RequestBody SerialNo SerialNo) throws Exception {
+    public ResultMsg<String> save(@RequestBody SerialNo SerialNo) throws Exception {
         String resultMsg = null;
 
         boolean rtn = serialNoManager.isAliasExisted(SerialNo.getId(), SerialNo.getAlias());
@@ -98,7 +96,7 @@ public class SysSerialNoController extends GenericController {
             resultMsg = "更新流水号生成成功";
         }
 
-        writeSuccessResult(response, resultMsg);
+        return getSuccessResult(resultMsg);
     }
 
 
@@ -111,11 +109,11 @@ public class SysSerialNoController extends GenericController {
      */
     @RequestMapping("remove")
     @CatchErr("删除流水号失败")
-    public void remove(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResultMsg<String> remove(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String[] aryIds = RequestUtil.getStringAryByStr(request, "id");
 
         serialNoManager.removeByIds(aryIds);
-        writeSuccessResult(response, "删除流水号成功");
+        return  getSuccessResult( "删除流水号成功");
     }
 
     /**
@@ -123,7 +121,6 @@ public class SysSerialNoController extends GenericController {
      *
      * @param request
      * @param response
-     * @param page
      * @return
      * @throws Exception
      */
@@ -143,7 +140,6 @@ public class SysSerialNoController extends GenericController {
      */
     @RequestMapping("preview")
     public List<SerialNo> preview(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         String alias = RequestUtil.getString(request, "alias");
         List<SerialNo> identities = serialNoManager.getPreviewIden(alias);
 

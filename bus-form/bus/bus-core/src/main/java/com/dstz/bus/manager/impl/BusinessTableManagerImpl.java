@@ -86,9 +86,11 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 			ctrl.setColumnId(businessColumn.getId());
 			busColCtrlManager.create(businessColumn.getCtrl());
 		}
-
-		newTableOperator(businessTable).syncColumn();
-
+		
+		if(!businessTable.isExternal()) {
+			newTableOperator(businessTable).syncColumn();
+		}
+		
 		BusinessTableCacheUtil.put(businessTable);// 入缓存
 	}
 

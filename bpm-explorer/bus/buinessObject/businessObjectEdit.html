@@ -14,6 +14,7 @@
 	<div class="ibox-title">
 		<a class="btn btn-primary fa-save" href="javascript:void(0)" ng-model="data" ab-save="/bus/businessObject/save">保存</a>
 		<a href="javascript:void(0)" class="btn btn-primary fa-reply" onclick="javascript:$.Dialog.close(window);">取消</a>
+		<a href="javaScript:void(0)" openDialog='业务对象总体布置' url='./businessObjectOverallArrangement.html?boCode={{data.key}}' ng-show="data.id" class="btn btn-sm btn-primary btn-outline fa-edit">配置控件布局</a>
 	</div>
 	<form name="form" ab-load="/bus/businessObject/getObject?id={id}" ng-model="data" fastjson>
 		<table class="form-table">
@@ -91,7 +92,6 @@
 				<td>
 					<a href="javaScript:void(0)" ng-click="ArrayTool.del($index,data.relation.children)" class="btn btn-outline btn-primary fa  fa-trash"></a>
 					<a href="javaScript:void(0)" ng-click="openChildrenDialog(child)" class="btn btn-sm btn-primary btn-outline fa-edit">配置子表</a>
-					<a href="javaScript:void(0)" onclick="javascript:alert('复制表的字段控件，控件可配置顺序，控件列表可插入换行符')" class="btn btn-sm btn-primary btn-outline fa-edit">配置控件与布局</a>
 				</td>
 			</tr>
 		</table>

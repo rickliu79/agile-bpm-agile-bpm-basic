@@ -2,7 +2,9 @@ package com.dstz.form.api.model;
 
 public enum FormType {
     PC("pc"),
-    MOBILE("mobile");
+    VUE("vue"),
+    MOBILE("mobile"),
+    PC_IVIEW("pc_iview");
 
     private final String value;
 

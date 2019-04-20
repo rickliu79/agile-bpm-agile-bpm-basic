@@ -15,9 +15,9 @@ public class SubSystemUtil {
      * @return
      */
     public static String getSystemId(HttpServletRequest req) {
-        String systemId = CookieUitl.getValueByName("systemId", req);
-        if (StringUtil.isEmpty(systemId)) return "1";
-        return systemId;
+        String systemAlias = CookieUitl.getValueByName("system", req);
+        if (StringUtil.isEmpty(systemAlias)) return "agilebpm";
+        return systemAlias;
     }
 
     /**
@@ -27,7 +27,7 @@ public class SubSystemUtil {
      * @param response
      * @param systemId
      */
-    public static void setSystemId(HttpServletRequest req, HttpServletResponse response, String systemId) {
-        CookieUitl.addCookie("systemId", systemId,CookieUitl.cookie_no_expire);
+    public static void setSystemId(HttpServletRequest req, HttpServletResponse response, String systemAlias) {
+        CookieUitl.addCookie("system", systemAlias,CookieUitl.cookie_no_expire);
     }
 }

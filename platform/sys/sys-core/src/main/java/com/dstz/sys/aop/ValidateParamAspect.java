@@ -7,7 +7,6 @@ import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.core.validate.ValidateUtil;
 import com.dstz.base.db.model.page.PageResult;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -57,7 +56,7 @@ public class ValidateParamAspect {
         } else {
             res = new ResultMsg();
         }
-        res.setIsOk(false);
+        res.setOk(false);
         res.setMsg(error);
         return res;
     }

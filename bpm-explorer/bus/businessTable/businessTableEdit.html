@@ -58,7 +58,7 @@
 				<th>是否已生成表</th>
 				<td ng-if="data.createdTable">
 					是
-					<a href="javaScript:void(0)" style="text-decoration: none; color: red;" title="在生成表后，用户可以自由增删字段，保存后系统会自动同步到数据库。<br/>但是，对于修改字段类型（长度，必填），考虑新类型对旧数据的兼容问题，系统不会自动同步到数据库，用户需自行到数据库修改字段类型。" class="fa fa-exclamation-circle ab-help" ab-tip> </a>
+					<a href="javaScript:void(0)" style="text-decoration: none; color: red;" title="在生成表后，用户可以自由增删字段，保存后系统会自动同步到数据库。<br/>对于修改字段类型（长度，必填），用户必须考虑到新类型对旧数据的兼容问题，否则很容易报错。" class="fa fa-exclamation-circle ab-help" ab-tip> </a>
 				</td>
 				<td ng-if="!data.createdTable">
 					否
@@ -102,7 +102,7 @@
 				<th style="width: 10%">字段控件</th>
 				<th style="width: 15%">控件配置</th>
 				<th style="width: 10%">字段校验</th>
-				<th style="width: 5%">操作</th>
+				<th style="width: 7%">操作</th>
 			</tr>
 			<tr ng-repeat="column in data.columns">
 				<!-- 注释 -->
@@ -190,7 +190,9 @@
 				</td>
 				<!-- 操作 -->
 				<td>
-					<a href="javaScript:void(0)" ng-if="!column.primary" ng-click="ArrayTool.del($index,data.columns)" class="btn btn-sm btn-primary fa-times"></a>
+					<a href="javascript:void(0)" ng-if="!column.primary&&$index!=1" ng-click="ArrayTool.up($index,data.columns)" class="btn btn-sm btn-default fa-chevron-up"></a>
+					<a href="javascript:void(0)" ng-if="!column.primary" ng-click="ArrayTool.down($index,data.columns)" class="btn btn-sm btn-default fa-chevron-down"></a>
+					<a href="javaScript:void(0)" ng-if="!column.primary" ng-click="ArrayTool.del($index,data.columns)" class="btn btn-sm btn-default fa-times"></a>
 					<span ng-if="column.primary" style="color: red">主键字段</span>
 				</td>
 			</tr>

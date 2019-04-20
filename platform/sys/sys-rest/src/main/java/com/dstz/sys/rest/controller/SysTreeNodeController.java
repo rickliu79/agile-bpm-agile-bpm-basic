@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dstz.base.api.response.impl.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,15 +43,12 @@ public class SysTreeNodeController extends GenericController {
      * sysTreeEdit.html的saveNode后端
      * 保存树节点
      * </pre>
-     *
-     * @param request
-     * @param response
      * @param sysTreeNode
      * @throws Exception
      */
     @RequestMapping("save")
     @CatchErr(write2response = true, value = "保存系统树节点失败")
-    public void save(HttpServletRequest request, HttpServletResponse response, @RequestBody SysTreeNode sysTreeNode) throws Exception {
+    public ResultMsg<SysTreeNode> save(@RequestBody SysTreeNode sysTreeNode){
         if (StringUtil.isEmpty(sysTreeNode.getId())) {
             sysTreeNode.setId(IdUtil.getSuid());
             handleNewSysTreeNode(sysTreeNode);
@@ -58,7 +56,7 @@ public class SysTreeNodeController extends GenericController {
         } else {
             sysTreeNodeManager.update(sysTreeNode);
         }
-        writeSuccessData(response, sysTreeNode, "保存系统树节点成功");
+      return  getSuccessResult(sysTreeNode,"保存系统树节点成功");
     }
 
     /**
@@ -102,13 +100,13 @@ public class SysTreeNodeController extends GenericController {
      */
     @RequestMapping("remove")
     @CatchErr(write2response = true, value = "删除系统树节点失败")
-    public void remove(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResultMsg<String> remove(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String[] aryIds = RequestUtil.getStringAryByStr(request, "id");
         for (String id : aryIds) {
         	SysTreeNode node = sysTreeNodeManager.get(id);
             sysTreeNodeManager.removeByPath(node.getPath()+"%");
         }
-        writeSuccessResult(response, "删除系统树节点成功");
+        return getSuccessResult("删除系统树节点成功");
     }
 
     /**

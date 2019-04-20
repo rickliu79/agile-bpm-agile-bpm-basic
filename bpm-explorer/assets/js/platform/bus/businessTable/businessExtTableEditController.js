@@ -197,9 +197,9 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 				if (!column) {
 					column = c;
 				} else {
-					jQuery.extend(column, c);
+					jQuery.extend(column, c);//以库的字段为准
 				}
-
+				
 				if (!column.comment) {
 					column.comment = column.name;
 				}
@@ -209,6 +209,7 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 
 				// 字段控件已存在
 				if (column.ctrl||column.primary) {
+					jQuery.extend(c, column);//复用已配置好的字段属性
 					return;
 				}
 				if (column.type == $scope.ColumnType.DATE.key) {
@@ -223,15 +224,17 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 					};
 				}
 				$scope.initCtrlConfig(column.ctrl);
+				jQuery.extend(c, column);//复用已配置好的字段属性
 			});
+			
 			if (!$scope.data.key) {
 				$scope.data.key = data.name;
 			}
-
+			
+			jQuery.extend($scope.data, data);
+			
 			if (b) {
 				$.Toast.success("同步成功，【保存】后生效");
-			}else{
-				jQuery.extend($scope.data, data);
 			}
 		});
 	};

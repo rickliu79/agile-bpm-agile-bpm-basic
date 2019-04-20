@@ -7,6 +7,7 @@
 	
 	<link href="./build/common/base.css" rel="stylesheet">
 	<script type="text/javascript" src="./build/common/base.js"></script>
+	<script type="text/javascript" src="./build/common/ngEdit.js"></script>
 	<script type="text/javascript" src="./build/home/index.js"></script>
 	<script type="text/javascript" src="./assets/js/plugins/pace/pace.min.js"></script>
 </head>
@@ -97,7 +98,7 @@
                              <li ng-repeat="system in userMsg.subsystemList" ng-show="system.id != userMsg.currentSystem.id">
                              		<a href="#">
                                           <i class="fa fa-align-justify"></i> {{system.name}}
-                                          <span class="pull-right btn btn-xs btn-danger fa fa-exchange" ng-click="changeCurrentSystem(system.id)">切换系统</span>
+                                          <span class="pull-right btn btn-xs btn-danger fa fa-exchange" ng-click="changeCurrentSystem(system.alias)">切换系统</span>
                                    </a>
                              </li>
                               <li class="divider"></li>
@@ -131,7 +132,7 @@
                                     <a href="#">
                                         <div>
                                             <i class="fa fa-qq fa-fw"></i> 如 邮件、短信、钉钉等
-                                            <span class="pull-right text-muted small">12分钟钱</span>
+                                            <span class="pull-right text-muted small">12分钟前</span>
                                         </div>
                                     </a>
                                 </li>

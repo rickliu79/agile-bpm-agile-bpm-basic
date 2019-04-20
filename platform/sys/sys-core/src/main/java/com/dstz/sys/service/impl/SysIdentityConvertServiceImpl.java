@@ -28,7 +28,7 @@ public class SysIdentityConvertServiceImpl implements SysIdentityConvert {
 	
 	@Override
 	public IUser convert2User(SysIdentity identity) {
-		List<IUser> users = convert2Users(identity);
+		List<? extends IUser> users = convert2Users(identity);
 		
 		if(CollectionUtil.isNotEmpty(users)) {
 			return users.get(0);
@@ -39,7 +39,7 @@ public class SysIdentityConvertServiceImpl implements SysIdentityConvert {
 	}
 
 	@Override
-	public List<IUser> convert2Users(SysIdentity identity) {
+	public List<? extends IUser> convert2Users(SysIdentity identity) {
 		//如果为用户
 		if(SysIdentity.TYPE_USER.equals(identity.getType())) {
 			List<IUser> users = new ArrayList<>();
@@ -53,7 +53,7 @@ public class SysIdentityConvertServiceImpl implements SysIdentityConvert {
 			return users;
 		}
 		//目前其他均为组类型
-		List<IUser> userList = userService.getUserListByGroup(identity.getType(), identity.getId());
+		List<? extends IUser> userList = userService.getUserListByGroup(identity.getType(), identity.getId());
 		
 		return userList;
 	}

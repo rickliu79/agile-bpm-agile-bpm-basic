@@ -26,7 +26,7 @@ public class GenericController {
 	
 	   protected <T> ResultMsg<T> getSuccessResult(T data, String msg){
 	        ResultMsg<T> resultMsg = new ResultMsg<T>();
-	        resultMsg.IsOk(true);
+	        resultMsg.setOk(true);
 	        resultMsg.setMsg(msg);
 	        resultMsg.setData(data);
 	        return resultMsg;
@@ -34,7 +34,7 @@ public class GenericController {
 	    
 	    protected <T> ResultMsg<T>  getSuccessResult(T data) {
 	        ResultMsg<T> resultMsg = new ResultMsg<T>();
-	        resultMsg.IsOk(true);
+	        resultMsg.setOk(true);
 	        resultMsg.setData(data);
 	        return resultMsg;
 	    }
@@ -42,14 +42,14 @@ public class GenericController {
 	    
 	    protected ResultMsg<String> getSuccessResult(String msg) {
 	        ResultMsg<String> resultMsg = new ResultMsg<String>();
-	        resultMsg.IsOk(true);
+	        resultMsg.setOk(true);
 	        resultMsg.setMsg(msg);
 	        return resultMsg;
 	    }
 	    
 	    protected ResultMsg<String> getSuccessResult() {
 	        ResultMsg<String> resultMsg = new ResultMsg<String>();
-	        resultMsg.IsOk(true);
+	        resultMsg.setOk(true);
 	        resultMsg.setMsg("操作成功");
 	        return resultMsg;
 	    }
@@ -88,52 +88,5 @@ public class GenericController {
 	        }
 	        return queryFilter;
 	    }
-	    
-	    
-	    
-	    
-	  // ====================下面方法不在推荐使用=============================
-	    
-	    /**
-	     * 向 response 中写入JSON数据
-	     *
-	     * @param response
-	     * @param data
-	     * @throws IOException
-	     */
-	    @SuppressWarnings({"rawtypes", "unchecked"})
-	    @Deprecated
-	    protected void writeSuccessData(HttpServletResponse response, Object data) throws IOException {
-	        ResultMsg resultMsg = new ResultMsg();
-	        resultMsg.IsOk(true);
-	        resultMsg.setData(data);
-	        response.getWriter().print(JSON.toJSONString(resultMsg));
-	    }
-	    
-	    @Deprecated
-	    protected void writeSuccessData(HttpServletResponse response, Object data, String msg) throws IOException {
-	        ResultMsg resultMsg = new ResultMsg();
-	        resultMsg.IsOk(true);
-	        resultMsg.setMsg(msg);
-	        resultMsg.setData(data);
-	        response.getWriter().print(JSON.toJSONString(resultMsg));
-	    }
-	    @Deprecated
-	    protected void writeSuccessResult(HttpServletResponse response, String msg) throws IOException {
-	        ResultMsg resultMsg = new ResultMsg();
-	        resultMsg.IsOk(true);
-	        resultMsg.setMsg(msg);
-	        response.getWriter().print(JSON.toJSONString(resultMsg));
-	    }
-	    /**
-	     * 返回出错或成功的信息。
-	     *
-	     * @param writer
-	     * @param resultMsg
-	     */
-	    @Deprecated
-	    protected void writeResultMessage(PrintWriter writer, ResultMsg resultMsg) {
-	        writer.print(JSON.toJSONString(resultMsg));
-	    }
-	    
+
 }

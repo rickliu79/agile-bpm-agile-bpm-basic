@@ -124,6 +124,7 @@ public class BusinessObjectManagerImpl extends BaseManager<String, BusinessObjec
 		root.put("id", businessTable.getId());
 		root.put("key", businessTable.getKey());
 		root.put("name", businessTable.getName() + "(" + BusTableRelType.getByKey(busTableRel.getType()).getDesc() + ")");
+		root.put("comment",businessTable.getComment());
 		root.put("parentId", parentId);
 		root.put("nodeType", "table");// 节点类型-表
 		list.add(root);

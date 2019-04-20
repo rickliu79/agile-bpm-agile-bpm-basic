@@ -55,6 +55,7 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 			data.pass = false;
 			return;
 		}
+		
 		// 删除循环索引
 		delete $scope.data.columnsWithoutPk;
 		delete $scope.data.columnsWithOutHidden;

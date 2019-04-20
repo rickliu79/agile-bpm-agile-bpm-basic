@@ -44,11 +44,7 @@ public class BusinessDataService implements IBusinessDataService {
 
 	@Override
 	public JSONObject getFormDefData(IBusinessObject businessObject, Object id) {
-		BusinessData businessData = BusinessDataPersistenceServiceFactory.loadData((BusinessObject) businessObject, id);
-		if (id == null) {// id为空时需要初始化数据
-			initFormDefData(businessData);
-		}
-
+		BusinessData businessData = (BusinessData) loadData((BusinessObject) businessObject, id, true);
 		JSONObject data = new JSONObject();
 
 		assemblyFormDefData(data, businessData);
@@ -106,12 +102,15 @@ public class BusinessDataService implements IBusinessDataService {
 			List<BusinessData> children = entry.getValue();
 			if (BusTableRelType.ONE_TO_ONE.equalsWithKey(children.get(0).getBusTableRel().getType())) {
 				JSONObject cData = new JSONObject();
+				if (!children.isEmpty()) {
+					cData = new JSONObject(children.get(0).getData());
+				}
 				assemblyFormDefData(cData, children.get(0));
 				data.put(tableKey, cData);
 			} else {// 下面要是数组类型
 				JSONArray dataList = new JSONArray();
 				for (BusinessData bd : children) {
-					JSONObject cData = new JSONObject();
+					JSONObject cData = new JSONObject(bd.getData());
 					assemblyFormDefData(cData, bd);
 					dataList.add(cData);
 				}
@@ -175,7 +174,16 @@ public class BusinessDataService implements IBusinessDataService {
 
 	@Override
 	public IBusinessData loadData(IBusinessObject businessObject, Object id) {
-		return BusinessDataPersistenceServiceFactory.loadData((BusinessObject) businessObject, id);
+		return loadData(businessObject, id, false);
+	}
+
+	@Override
+	public IBusinessData loadData(IBusinessObject businessObject, Object id, boolean init) {
+		BusinessData businessData = BusinessDataPersistenceServiceFactory.loadData((BusinessObject) businessObject, id);
+		if (id == null && init) {
+			initFormDefData(businessData);
+		}
+		return businessData;
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public class LoginController extends GenericController {
     @Resource
     JWTService jWTService;
 
-    @RequestMapping(value = "login/valid",method= {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/org/login/valid",method= {RequestMethod.POST,RequestMethod.GET})
     @CatchErr
     @ApiOperation(value = "用户登录",notes="登录鉴权")
     @ApiImplicitParams({

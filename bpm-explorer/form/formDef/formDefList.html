@@ -7,8 +7,10 @@
 <script type="text/javascript" src="../../build/common/easyLayout.js"></script>
 <script type="text/javascript" src="../../assets/js/common/tools/businessPermissionUtil.js"></script>
 <script type="text/javascript">
+	window.top.__ctx_mb = "http://localhost:8082";//移动端地址 
+	window.top.__ctx_pc_iview = "http://localhost:8081";//iview地址
 	function openEdit(id) {
-		$.openFullWindow("formDefEdit.html?id=" + (id ? id : ""));
+		$.openFullWindow("formDefEdit.html?formType="+$.getParam("formType")+"&id=" + (id ? id : ""));
 	}
 </script>
 </head>
@@ -47,7 +49,7 @@
 		<div class="btn-group toolbar">
 			<button class="btn btn-outline btn-primary fa-plus" onclick="openEdit()">新增</button>
 		</div>
-		<table ab-grid data-id-field="id" data-url="/form/formDef/listJson">
+		<table ab-grid data-id-field="id" data-url="/form/formDef/listJson?formType={formType}">
 			<thead>
 				<tr>
 					<th data-checkbox="true">ID</th>
@@ -59,7 +61,7 @@
 					<th data-formatter="innerHtmlFormatter" data-title="管理">
 						<span class='btn btn-outline btn-primary fa-edit' qtip='编辑' onclick="openEdit('{id}')"></span>
 						<span class='btn btn-outline btn-primary fa-user-times' qtip='权限' onclick="BusinessPermission.openDialog('form','{key}','{boKey}')"></span>
-						<span class='btn btn-outline btn-primary fa-list' qtip='业务对象列表' openDialog='列表' url='./formDefDataList.html?boKey={boKey}&key={key}'></span>
+						<span class='btn btn-outline btn-primary fa-list' qtip='业务对象列表' openDialog='列表' url='./formDefDataList.html?boKey={boKey}&key={key}&formType={url.formType}'></span>
 						<span class='btn btn-outline btn-primary fa fa-trash' sendAction='删除' qtip='删除' url='/form/formDef/remove?id={id}'></span>
 					</th>
 				</tr>

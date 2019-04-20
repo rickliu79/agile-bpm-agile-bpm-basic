@@ -35,11 +35,11 @@
 </head>
 <body ng-controller="ctrl" class="panel success">
 	<div class="panel-heading">
-		<a class="btn btn-sm btn-primary fa-save" ng-model="data" ab-save="/sys/sysResource/save">
+		<a class="btn btn-sm btn-primary fa-save" ng-model="data" ab-save="/org/sysResource/save">
 			<span>保存</span>
 		</a>
 	</div>
-	<form name="form" method="post" ab-load="/sys/sysResource/getJson?id={id}&systemId={systemId}&parentId={parentId}" ng-model="data">
+	<form name="form" method="post" ab-load="/org/sysResource/getJson?id={id}&systemId={systemId}&parentId={parentId}" ng-model="data">
 		<table class="form-table" cellspacing="0">
 			<tr>
 				<th>资源名:</th>
@@ -92,7 +92,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>排序:</th>
+				<th>排序:{{data.sn}}</th>
 				<td>
 					<input class="form-control input-width-5" type="text" ng-model="data.sn" ab-validate="{required:false,number:true}" />
 					<span class="fa fa-question-circle btn text-info ng-isolate-scope" ab-tip=""  title="默认值1，数字越大同级排序越靠后"></span>

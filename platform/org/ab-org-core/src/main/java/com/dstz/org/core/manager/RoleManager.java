@@ -29,6 +29,6 @@ public interface RoleManager extends Manager<String, Role> {
      * @param userId
      * @return
      */
-	List getByUserId(String userId);
+	List<Role> getByUserId(String userId);
 
 }

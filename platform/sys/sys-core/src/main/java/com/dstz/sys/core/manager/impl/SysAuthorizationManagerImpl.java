@@ -40,7 +40,7 @@ public class SysAuthorizationManagerImpl extends BaseManager<String, SysAuthoriz
      */
     @Override
     public Set<String> getUserRights(String userId) {
-        List<IGroup> list = userGroupService.getGroupsByUserId(userId);
+        List<? extends IGroup> list = userGroupService.getGroupsByUserId(userId);
 
         Set<String> rights = new HashSet<String>();
         rights.add(String.format("%s-%s", userId, SysAuthorization.RIGHT_TYPE_USER));

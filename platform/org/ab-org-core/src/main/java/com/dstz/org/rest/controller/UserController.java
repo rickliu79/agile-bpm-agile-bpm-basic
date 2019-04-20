@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
@@ -77,6 +78,22 @@ public class UserController extends BaseController<User> {
         return getSuccessResult("更新密码成功");
 
     }
+    
+    /**
+     * 批量删除
+     */
+    @Override
+    @RequestMapping("remove")
+    @CatchErr
+    public ResultMsg<String> remove(@RequestParam String id) throws Exception {
+    	if(AppUtil.getCtxEnvironment().contains(EnvironmentConstant.SIT.key())) {
+          	 throw new BusinessError("测试环境为了防止不法之徒恶意破坏演示数据，禁止删除用户！<br/>您的访问信息已经被我们统计！");
+        }
+    	
+    	return super.remove(id);
+    }
+    
+    
 
     @Override
     protected String getModelDesc() {

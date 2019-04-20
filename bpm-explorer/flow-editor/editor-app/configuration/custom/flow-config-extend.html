@@ -57,6 +57,25 @@
 			</table>
 		 </div>
 	</div>
+	<div class="panel panel-default col-md-4 inline" style="margin-top: 6px" ng-show="pluginHasPermission('reminder')" ng-hide="b">
+	  	<div class="toolbar-head"> 流程催办设置
+	  		<span class="btn btn-primary glyphicon glyphicon-plus pull-right btn-sm" ng-click="editReminder()"></span>
+	  	 </div>
+	  	<div class="panel-body">
+		  	<table class="table table-hover table-striped table-bordered">
+		  		<tr><th style="max-width:100px">催办节点</th><th>描述</th><th>操作</th></tr>
+		  		<tr ng-repeat="reminder in reminderList track by $index">
+		  			<th>{{reminder.nodeId?reminder.nodeId:'所有节点'}}</th>
+		  			<td>{{reminder.desc}}</td>
+		  			<td>
+		  			<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.up($index,reminderList)" class="btn btn-primary btn-xs glyphicon glyphicon-chevron-up"></a>
+		  			<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.down($index,reminderList)" class="btn btn-primary btn-xs glyphicon glyphicon-chevron-down"></a>
+		  			<span class="btn btn-danger btn-xs glyphicon glyphicon-trash pull-right"ng-click="ArrayTool.del($index,reminderList)"></span>
+		  			<span class="btn btn-primary btn-xs glyphicon glyphicon-edit pull-right" ng-click="editReminder($index)"></span></td>
+		  		</tr>
+			</table>
+		 </div>
+	</div>
 </div>
 
 <style>

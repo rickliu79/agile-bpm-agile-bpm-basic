@@ -135,7 +135,24 @@ app.controller("ctrl", [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 	$scope.clear = function() {
 		$scope.selectedList.splice(0, $scope.selectedList.length);// 清空数组
 	};
-
+	
+	/**
+	 * 是否显示搜索栏
+	 */
+	$scope.isShowSearch = function(){
+		var show = false;
+		if(!$scope.data){
+			return show;
+		}
+		angular.forEach($scope.data.conditionFields, function(field) {
+			//有参数，且有控件类型
+			if(field.valueSource=="param"&&field.value.ctrlType){
+				show = true;
+			}
+		});
+		return show;
+	};
+	
 	/**
 	 * 把row转化为返回数据
 	 */

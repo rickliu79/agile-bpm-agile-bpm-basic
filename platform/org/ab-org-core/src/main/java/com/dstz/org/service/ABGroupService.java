@@ -47,18 +47,18 @@ public class ABGroupService implements GroupService {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<IGroup> getGroupsByGroupTypeUserId(String groupType, String userId) {
+    public List<? extends IGroup> getGroupsByGroupTypeUserId(String groupType, String userId) {
     	List listGroup  = null;
     	
         if (groupType.equals(GroupTypeConstant.ORG.key())) {
-        	listGroup = (List) groupManager.getByUserId(userId);
+        	listGroup =  groupManager.getByUserId(userId);
         }
         if (groupType.equals(GroupTypeConstant.ROLE.key())) {
-        	listGroup = (List) roleManager.getByUserId(userId);
+        	listGroup =  roleManager.getByUserId(userId);
         }
         
         if (groupType.equals(GroupTypeConstant.POST.key()) && false) {
-        	listGroup = (List) orgRelationManager.getPostByUserId(userId);
+        	listGroup = orgRelationManager.getPostByUserId(userId);
         }
         
         if(listGroup != null) {
@@ -69,7 +69,7 @@ public class ABGroupService implements GroupService {
     }
 
     @Override
-    public Map<String, List<IGroup>> getAllGroupByAccount(String account) {
+    public Map<String, List<? extends IGroup>> getAllGroupByAccount(String account) {
     	User user = userManager.getByAccount(account);
     	if(user == null) return Collections.emptyMap();
     	
@@ -78,17 +78,17 @@ public class ABGroupService implements GroupService {
 
     
     @Override
-    public Map<String, List<IGroup>> getAllGroupByUserId(String userId) {
-        Map<String, List<IGroup>> listMap = new HashMap<String, List<IGroup>>();
+    public Map<String, List<? extends IGroup>> getAllGroupByUserId(String userId) {
+        Map<String, List<? extends IGroup>> listMap = new HashMap<String, List<? extends IGroup>>();
         
-        List<IGroup> listOrg = (List) groupManager.getByUserId(userId);
+        List<? extends IGroup> listOrg = groupManager.getByUserId(userId);
         if (CollectionUtil.isNotEmpty(listOrg)) {
-        	List<IGroup> groupList = (List)BeanCopierUtils.transformList(listOrg, GroupDTO.class);
+        	List<? extends IGroup> groupList = BeanCopierUtils.transformList(listOrg, GroupDTO.class);
             listMap.put(GroupTypeConstant.ORG.key(), groupList);
         }
-        List<IGroup> listRole = (List) roleManager.getByUserId(userId);
+        List<? extends IGroup> listRole = roleManager.getByUserId(userId);
         if (CollectionUtil.isNotEmpty(listRole)) {
-        	List<IGroup> groupList = (List)BeanCopierUtils.transformList(listRole, GroupDTO.class);
+        	List<? extends IGroup> groupList = BeanCopierUtils.transformList(listRole, GroupDTO.class);
             listMap.put(GroupTypeConstant.ROLE.key(), groupList);
         }
         
@@ -115,13 +115,13 @@ public class ABGroupService implements GroupService {
      * 根据用户ID获取所有组
      */
     @Override
-    public List<IGroup> getGroupsByUserId(String userId) {
+    public List<? extends IGroup> getGroupsByUserId(String userId) {
         List<IGroup> userGroups = new ArrayList<IGroup>();
-        List<IGroup> listOrg = (List) groupManager.getByUserId(userId);
+        List<? extends IGroup> listOrg = groupManager.getByUserId(userId);
         if (CollectionUtil.isNotEmpty(listOrg)) {
             userGroups.addAll(listOrg);
         }
-        List<IGroup> listRole = (List) roleManager.getByUserId(userId);
+        List<? extends IGroup> listRole = roleManager.getByUserId(userId);
         if (CollectionUtil.isNotEmpty(listRole)) {
             userGroups.addAll(listRole);
         }
@@ -131,7 +131,7 @@ public class ABGroupService implements GroupService {
         });
         
         //转换成GROUP DTO 13556806587
-        List<IGroup> groupList = (List)BeanCopierUtils.transformList(userGroups, GroupDTO.class);
+        List<? extends IGroup> groupList = BeanCopierUtils.transformList(userGroups, GroupDTO.class);
         return groupList;
     }
 

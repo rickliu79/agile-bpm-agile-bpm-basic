@@ -1,10 +1,14 @@
 package com.dstz.form.rest.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dstz.base.api.response.impl.ResultMsg;
+import com.dstz.base.db.model.table.Column;
+import com.dstz.base.db.model.table.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,7 +57,7 @@ public class FormCustDialogController extends BaseController<FormCustDialog> {
      */
     @RequestMapping("getObject")
     @CatchErr(write2response = true, value = "获取formCustDialog异常")
-    public void getObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResultMsg<FormCustDialog> getObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id = RequestUtil.getString(request, "id");
         String key = RequestUtil.getString(request, "key");
         FormCustDialog formCustDialog = null;
@@ -63,7 +67,7 @@ public class FormCustDialogController extends BaseController<FormCustDialog> {
             formCustDialog = formCustDialogManager.getByKey(key);
         }
 
-        writeSuccessData(response, formCustDialog);
+        return getSuccessResult(formCustDialog);
     }
 
     /**
@@ -80,8 +84,8 @@ public class FormCustDialogController extends BaseController<FormCustDialog> {
      */
     @RequestMapping("searchObjName")
     @CatchErr(write2response = true, value = "根据数据源获取objName信息失败")
-    public void searchObjName(HttpServletRequest request, HttpServletResponse response, @RequestBody FormCustDialog formCustDialog) throws Exception {
-        writeSuccessData(response, formCustDialogManager.searchObjName(formCustDialog), "根据数据源获取objName信息成功");
+    public ResultMsg<Map<String, String>> searchObjName(HttpServletRequest request, HttpServletResponse response, @RequestBody FormCustDialog formCustDialog) throws Exception {
+       return getSuccessResult(formCustDialogManager.searchObjName(formCustDialog), "根据数据源获取objName信息成功");
     }
 
     /**
@@ -98,8 +102,8 @@ public class FormCustDialogController extends BaseController<FormCustDialog> {
      */
     @RequestMapping("getTable")
     @CatchErr(write2response = true, value = "根据数据源获取objName的字段信息失败")
-    public void getTable(HttpServletRequest request, HttpServletResponse response, @RequestBody FormCustDialog formCustDialog) throws Exception {
-    	writeSuccessData(response, formCustDialogManager.getTable(formCustDialog), "根据数据源获取objName的字段信息成功");
+    public ResultMsg<Table<Column>> getTable(HttpServletRequest request, HttpServletResponse response, @RequestBody FormCustDialog formCustDialog) throws Exception {
+    	return getSuccessResult(formCustDialogManager.getTable(formCustDialog), "根据数据源获取objName的字段信息成功");
     }
 
     /**
@@ -142,6 +146,7 @@ public class FormCustDialogController extends BaseController<FormCustDialog> {
     @RequestMapping("treeData_{key}")
     public List<?> treeData(HttpServletRequest request, HttpServletResponse response, @PathVariable(value = "key") String key) throws Exception {
         QueryFilter queryFilter = getQueryFilter(request);
+        queryFilter.setPage(null);
         // 页面来的参数
         FormCustDialog formCustDialog = formCustDialogManager.getByKey(key);
         ISysDataSource sysDataSource = sysDataSourceService.getByKey(formCustDialog.getDsKey());

@@ -1,5 +1,6 @@
 <div class="form-inline" ng-controller="FlowPluginsController" style="height:97%">
-	<div class="panel  panel-default inline {{plugin.row}}" ng-repeat="plugin in pluginList" ng-if="plugin.supprotType.indexOf(selectedItem.nodeType)!=-1">
+	<div class="panel  panel-default inline {{plugin.row}}" ng-repeat="plugin in pluginList" 
+				ng-if="plugin.supprotType.indexOf(selectedItem.nodeType)!=-1" ng-show="pluginHasPermission(plugin.pluginKey)">
 		  <div class="toolbar-head">{{plugin.name}}</div>
 		  <div class="panel-body">
 		  	<div dynamic-directive="bpm-{{plugin.key}}:''">

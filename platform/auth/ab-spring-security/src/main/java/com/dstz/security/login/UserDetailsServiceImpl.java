@@ -54,7 +54,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         loginUser = new LoginUser(defaultUser);
 
         //构建用户角色。
-        List<IUserRole> userRoleList = userService.getUserRole(loginUser.getUserId());
+        List<? extends IUserRole> userRoleList = userService.getUserRole(loginUser.getUserId());
         Collection<GrantedAuthority> collection = new ArrayList<GrantedAuthority>();
         for (IUserRole userRole : userRoleList) {
             GrantedAuthority role = new SimpleGrantedAuthority(userRole.getAlias());

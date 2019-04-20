@@ -183,9 +183,13 @@
 	}
 	//获取参数
 	$.getQueryParam = function(params){
-		//params.limit,   //页面大小
-       // params.offset,  //页码
-		//bug sort
+		$("input,select","#searchForm").each(function(item,i){
+			if(!$(this).val() && params[$(this).attr("id")]){
+				delete params[$(this).attr("id")];
+				return;
+			}
+			params[$(this).attr("id")] = $(this).val();
+		});
 		
 		return params;
 	}

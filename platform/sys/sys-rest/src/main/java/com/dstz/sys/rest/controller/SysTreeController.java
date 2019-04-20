@@ -2,6 +2,7 @@ package com.dstz.sys.rest.controller;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.query.QueryFilter;
+import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
@@ -49,14 +50,14 @@ public class SysTreeController extends GenericController {
      */
     @RequestMapping("save")
     @CatchErr(write2response = true, value = "保存系统树失败")
-    public void save(HttpServletRequest request, HttpServletResponse response, @RequestBody SysTree sysTree) throws Exception {
+    public ResultMsg<SysTree> save(HttpServletRequest request, HttpServletResponse response, @RequestBody SysTree sysTree) throws Exception {
         if (StringUtil.isEmpty(sysTree.getId())) {
             sysTree.setId(IdUtil.getSuid());
             sysTreeManager.create(sysTree);
         } else {
             sysTreeManager.update(sysTree);
         }
-        writeSuccessData(response, sysTree, "保存系统树成功");
+        return getSuccessResult( sysTree, "保存系统树成功");
     }
 
     /**
@@ -71,7 +72,7 @@ public class SysTreeController extends GenericController {
      */
     @RequestMapping("getObject")
     @CatchErr(write2response = true, value = "获取sysTree异常")
-    public void getObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResultMsg<SysTree> getObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id = RequestUtil.getString(request, "id");
         String key = RequestUtil.getString(request, "key");
         SysTree sysTree = null;
@@ -80,7 +81,7 @@ public class SysTreeController extends GenericController {
         } else if (StringUtil.isNotEmpty(key)) {
             sysTree = sysTreeManager.getByKey(key);
         }
-        writeSuccessData(response, sysTree);
+        return getSuccessResult(sysTree);
     }
 
     /**
@@ -112,11 +113,11 @@ public class SysTreeController extends GenericController {
      */
     @RequestMapping("remove")
     @CatchErr(write2response = true, value = "删除系统树失败")
-    public void remove(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResultMsg<String> remove(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String[] aryIds = RequestUtil.getStringAryByStr(request, "id");
         for (String id : aryIds) {
             sysTreeManager.removeContainNode(id);
         }
-        writeSuccessResult(response, "删除系统树成功");
+        return  getSuccessResult( "删除系统树成功");
     }
 }

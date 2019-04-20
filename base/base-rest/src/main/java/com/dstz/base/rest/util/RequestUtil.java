@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.constant.ColumnType;
+import com.dstz.base.api.constant.StringConstants;
 import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.FieldLogic;
 import com.dstz.base.api.query.FieldRelation;
@@ -299,9 +300,10 @@ public class RequestUtil {
             }
 
             String value = request.getParameter(key);
-            if (StringUtil.isEmpty(value)) {
-                continue;
-            }
+            if (value == null) continue;
+    		
+            value = value.trim();
+    		if (value.equals(StringConstants.EMPTY)) continue;
 
             String[] aryParamKey = key.split("\\"+specialSplitKey);
             if (aryParamKey.length != 2) {

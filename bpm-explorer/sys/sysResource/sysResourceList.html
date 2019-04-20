@@ -36,7 +36,7 @@
 var ztreeObject ;
 function loadTree() {
 	 var systemId = $("#systemId").val()||1;
-	var url = __ctx + "/sys/sysResource/getTreeData";
+	var url = __ctx + "/org/sysResource/getTreeData";
 	var params = {systemId:systemId};
 	
 	var ztreeCreator = new ZtreeCreator('sysztreeObject',url)
@@ -117,7 +117,7 @@ function moveNode() {
 			var callback = function(rtn){
 				if (!rtn) return;
 				
-				var url = __ctx + "/sys/sysResource/moveResource";
+				var url = __ctx + "/org/sysResource/moveResource";
 				var params = {
 					id : nodeId,
 					parentId : parentId
@@ -183,7 +183,7 @@ function delNode() {
 	} 
  
 	$.Dialog.confirm('提示信息', '确定删除？', function(){
-		var url = __ctx + "/sys/sysResource/remove";
+		var url = __ctx + "/org/sysResource/remove";
 		var params = {
 			id : nodeId
 		};
@@ -208,7 +208,7 @@ function getSelectNode() {
 };
 
 function laodSystem(){
-	var url = __ctx + "/sys/subsystem/getUserSystem";
+	var url = __ctx + "/org/subsystem/getUserSystem";
 	$.post(url, {}, function(result) {
 		var result = eval("("+result+")");
 		if (result.isOk) {//成功
