@@ -42,19 +42,11 @@
               <th data-field="taskType" data-formatter="labelFormatter" 
               			data-value-style="NORMAL-普通-primary,SIGN-会签-info,SIGN_SOURCE-会签_父-info,TRANSFORMING-事项-warning,">类型</th>
               <th data-field="status" data-formatter="labelFormatter" 
-<<<<<<< HEAD
               			data-value-style="NORMAL-普通-primary,SUSPEND-挂起-info,LOCK-锁定-warning,BACK-驳回-warning,DESIGNATE-指派-info,TURN-转办-info,AGENCY-代理-info,">状态</th>
               <th data-field="createTime" data-formatter=dateTimeFormatter data-sort-name="create_time_" data-sortable="true">任务创建时间</th>
               <th data-formatter="innerHtmlFormatter" data-title="管理">
 					<!-- <a class="fa-detail btn btn-outline btn-primary btn-sm" openDialog="明细"   url="taskGet?id={taskId}" qtip="明细"></a> -->
 					<span class="fa-check-circle btn btn-outline btn-primary btn-sm" openDialog="处理"  top="true" qtip="新窗口处理" url="/bpm/task/taskComplete.html?taskId={id}"></span>
-=======
-              			data-value-style="NORMAL-普通-primary,SUSPEND-挂起-info,LOCK-锁定-warning,BACK-驳回-warning,DESIGNATE-指派-info,TURN-转办-info,">状态</th>
-              <th data-field="createTime" data-formatter=dateTimeFormatter data-sort-name="create_time_" data-sortable="true">任务创建时间</th>
-              <th data-formatter="innerHtmlFormatter" data-title="管理">
-					<!-- <a class="fa-detail btn btn-outline btn-primary btn-sm" openDialog="明细"   url="taskGet?id={taskId}" qtip="明细"></a> -->
-					<span class="fa-check-circle btn btn-outline btn-primary btn-sm" openDialog="处理"  top="true" qtip="新窗口处理" url="bpm/task/taskComplete.html?taskId={id}"></span>
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 					<span class="fa-user btn btn-outline btn-primary btn-sm" top="true" qtip="指派候选人" onclick="assignUser('{id}')"></span>
 					<span if="'{status}'==='DESIGNATE'" class="fa-refresh btn btn-outline btn-primary btn-sm" top="true" qtip="取消指派" sendAction="取消指派" url="/bpm/task/unLock?taskId={id}"></span>
 					

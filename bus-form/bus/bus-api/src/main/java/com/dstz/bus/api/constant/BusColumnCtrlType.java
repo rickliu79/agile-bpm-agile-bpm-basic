@@ -26,11 +26,7 @@ public enum BusColumnCtrlType {
 	/**
 	 * "multiselect", "下拉框多选", new String[] { "varchar"}
 	 */
-<<<<<<< HEAD
 //	MULTISELECT("multiselect", "下拉框多选", new String[] { "varchar" }), 先屏蔽
-=======
-	MULTISELECT("multiselect", "下拉框多选", new String[] { "varchar" }),
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 	/**
 	 * "checkbox", "复选框", new String[] { "varchar" }
 	 */

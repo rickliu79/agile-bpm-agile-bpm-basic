@@ -50,7 +50,6 @@
 					</div>
 				</div>
 			</div>
-<<<<<<< HEAD
 			<div ng-model="permissionPlugins" ab-load="sys/tools/getInterFaceImpls?classPath=com.dstz.bpm.engine.plugin.context.AbstractBpmPluginContext" simple-data="true" ></div>
 			<div data-options="region:'south',split:true,border:true,collapse:'south'" title="流程插件配置" style="height: 300px">
 				<ng-include src="'editor-app/configuration/custom/flow-config-extend.html'" style="height:100%"  ng-if="selectedItem.nodeType=='Global'"></ng-include>
@@ -113,56 +112,6 @@
 							<div class="col-sm-9">
 								<input type="text" class="form-control"  ng-model="bpmDefSetting.bpmDefinition.desc">
 							</div>
-=======
-			
-			<div data-options="region:'south',split:true,border:true,collapse:'south'" title="流程插件配置" style="height: 300px">
-				<ng-include src="'editor-app/configuration/custom/flow-config-extend.html'" style="height:100%"  ng-if="selectedItem.nodeType=='Global'"></ng-include>
-				<ng-include src="'editor-app/configuration/custom/flow-plugins.html'" style="height:100%"></ng-include>
-			</div>
-			
-			<div data-options="region:'west',split:true,border:true" title="流程节点" style="width:200px;">
-				<div class="stencils" id="paletteSection">
-					<div ng-if="stencilItemGroups.length > 1">
-						<div ng-repeat="group in stencilItemGroups">
-
-							<ul ng-if="group.visible && group.items" class="stencil-group" ng-class="{collapsed: !group.expanded, 'first': $first}">
-								<li ng-include="'editor-app/partials/stencil-item-template.html?version=4'"></li>
-							</ul>
-
-							<div ng-if="!group.items" ng-include="'editor-app/partials/root-stencil-item-template.html?version=4'"></div>
-
-						</div>
-					</div>
-					<div ng-if="stencilItemGroups.length == 1">
-						<ul class="stencil-group">
-							<li ng-repeat="item in stencilItemGroups[0].paletteItems" class="stencil-item" id="{{item.id}}" title="{{item.description}}" ng-model="draggedElement" data-drag="true" jqyoui-draggable="{onStart:'startDragCallback', onDrag:'dragCallback'}" data-jqyoui-options="{revert: 'invalid', helper: 'clone', opacity : 0.5}">
-
-								<img ng-src="editor-app/stencilsets/bpmn2.0/icons/{{item.icon}}" width="16px;" height="16px;" />
-								{{item.name}}
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div data-options="region:'east'" title="属性配置" style="width: 436px;">
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<label style="font-size: 23px;" class="control-label" ng-show="selectedItem.title != undefined && selectedItem.title != null && selectedItem.title.length > 0">节点：{{selectedItem.title}}</label>
-				<label style="font-size: 23px;" class="control-label" ng-show="!selectedItem || selectedItem.title == undefined || selectedItem.title == null || selectedItem.title.length == 0">流程：{{modelData.name}}</label>
-			</div>
-			<div class="panel-body" style="padding-top: 5px;">
-				<div class="form-horizontal" style="width: 95%">
-					<div class="form-group" ng-repeat="property in selectedItem.properties" ng-show="'oryx-documentation,oryx-process_id,oryx-name,oryx-overrideid,oryx-namepackage,oryx-name'.indexOf(property.key)!=-1" ng-click="propertyClicked($index)">
-						<label class="col-sm-3 control-label title">{{ property.title }}</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control" ng-if="property.key!=='oryx-name'" ng-blur="updatePropertyInModel(property,null,selectedItem.nodeId)" ng-model="property.value" ng-disabled="!property.hasReadWriteMode">
-							<input type="text" class="form-control" ng-if="property.key==='oryx-name'" ng-change="updatePropertyInModel(property,null,selectedItem.nodeId)" ng-model="property.value" ng-disabled="!property.hasReadWriteMode">
-							
-					
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 						</div>
 					</div>
 				</div>

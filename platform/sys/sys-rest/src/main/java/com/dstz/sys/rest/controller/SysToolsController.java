@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-<<<<<<< HEAD
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.dstz.base.api.response.impl.ResultMsg;
@@ -16,15 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
-=======
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.dstz.base.api.aop.annotion.CatchErr;
-import com.dstz.base.api.response.impl.ResultMsg;
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.ConstantUtil;
 import com.dstz.base.core.util.EnumUtil;

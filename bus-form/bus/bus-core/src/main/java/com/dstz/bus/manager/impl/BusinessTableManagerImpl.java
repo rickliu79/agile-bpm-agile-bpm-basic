@@ -86,17 +86,11 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 			ctrl.setColumnId(businessColumn.getId());
 			busColCtrlManager.create(businessColumn.getCtrl());
 		}
-<<<<<<< HEAD
 		
 		if(!businessTable.isExternal()) {
 			newTableOperator(businessTable).syncColumn();
 		}
 		
-=======
-
-		newTableOperator(businessTable).syncColumn();
-
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 		BusinessTableCacheUtil.put(businessTable);// 入缓存
 	}
 

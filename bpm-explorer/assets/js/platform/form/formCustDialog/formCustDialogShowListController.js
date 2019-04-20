@@ -135,7 +135,6 @@ app.controller("ctrl", [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 	$scope.clear = function() {
 		$scope.selectedList.splice(0, $scope.selectedList.length);// 清空数组
 	};
-<<<<<<< HEAD
 	
 	/**
 	 * 是否显示搜索栏
@@ -154,9 +153,6 @@ app.controller("ctrl", [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 		return show;
 	};
 	
-=======
-
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 	/**
 	 * 把row转化为返回数据
 	 */

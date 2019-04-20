@@ -20,11 +20,7 @@
 			 
 			 $scope.user = {password:"1",account:"admin"};
 		 	 $scope.login = function(){
-<<<<<<< HEAD
 		 		var post = baseService.postForm(__ctx+"/org/login/valid",$scope.user);
-=======
-		 		var post = baseService.postForm(__ctx+"/login/valid",$scope.user);
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 		 		 $.getResultData(post,function(){
 		 			window.location = "index.html";
 		 		})

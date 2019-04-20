@@ -4,11 +4,7 @@
     <parent>
         <groupId>com.dstz.agilebpm</groupId>
         <artifactId>org</artifactId>
-<<<<<<< HEAD
         <version>1.3.5</version>
-=======
-        <version>1.2.9</version>
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
     </parent>
     <groupId>com.dstz.agilebpm</groupId>
     <artifactId>org-api</artifactId>

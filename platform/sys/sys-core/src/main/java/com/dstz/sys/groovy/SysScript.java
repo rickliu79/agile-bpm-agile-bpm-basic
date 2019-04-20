@@ -31,12 +31,8 @@ public class SysScript implements IScript {
 	
 	
 	public IUser getCurrentUser() {
-<<<<<<< HEAD
 		IUser user = ContextUtil.getCurrentUser();
 		return user;
-=======
-		return ContextUtil.getCurrentUser();
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 	}
 	
 	public String getCurrentGroupName() {

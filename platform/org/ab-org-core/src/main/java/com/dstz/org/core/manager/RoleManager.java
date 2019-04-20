@@ -29,10 +29,6 @@ public interface RoleManager extends Manager<String, Role> {
      * @param userId
      * @return
      */
-<<<<<<< HEAD
 	List<Role> getByUserId(String userId);
-=======
-	List getByUserId(String userId);
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 
 }

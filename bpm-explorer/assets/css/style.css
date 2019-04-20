@@ -18,7 +18,6 @@ input.form-control,select.form-control{
 	max-width: 360px;	
 	display: inline;
 }
-<<<<<<< HEAD
 
 input.ng-valid, textarea.ng-valid, select.ng-valid, div.ng-valid {
     border-color: #5eb95e;
@@ -42,18 +41,6 @@ div.ab-invalid input[type='radio']{
 	color:#dd514c !important;
 }
 
-=======
-input.ng-valid, textarea.ng-valid, select.ng-valid, .edui-editor.ng-valid, div.ng-valid .ht-input {
-    border-color: #5eb95e !;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-}
-input.ng-invalid, textarea.ng-invalid, select.ng-invalid, .edui-editor.ng-invalid, span.ng-invalid input, div.ng-invalid .ht-input {
-    border-color: #dd514c !important;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-}
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 
 /* table-form css*/
 .form-table .red{

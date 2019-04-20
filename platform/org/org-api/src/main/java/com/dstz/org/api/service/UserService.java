@@ -37,7 +37,6 @@ public interface UserService {
      * @param groupType 组织类型
      * @return
      */
-<<<<<<< HEAD
     List<? extends IUser> getUserListByGroup(String groupType, String groupId);
     
     /**
@@ -46,16 +45,6 @@ public interface UserService {
      * @return
      */
 	List<? extends IUserRole> getUserRole(String userId);
-=======
-    List<IUser> getUserListByGroup(String groupType, String groupId);
-    
-    /**
-     * 获取用户的角色关系
-     * @param userId
-     * @return
-     */
-	List<IUserRole> getUserRole(String userId);
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 
 
 }

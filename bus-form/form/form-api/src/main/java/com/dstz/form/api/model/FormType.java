@@ -2,13 +2,9 @@ package com.dstz.form.api.model;
 
 public enum FormType {
     PC("pc"),
-<<<<<<< HEAD
     VUE("vue"),
     MOBILE("mobile"),
     PC_IVIEW("pc_iview");
-=======
-    MOBILE("mobile");
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 
     private final String value;
 

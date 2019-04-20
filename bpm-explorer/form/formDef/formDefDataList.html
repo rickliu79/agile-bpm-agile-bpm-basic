@@ -9,7 +9,6 @@
 <script type="text/javascript">
 	//编辑页
 	function edit(id) {
-<<<<<<< HEAD
 		var formType = $.getParam("formType");
 		var previewUrlMap = {
 			"pc" : 'formDefPreview.html',
@@ -43,28 +42,6 @@
 			}
 			var formKey = $.getParameter("key")
 			var url = __ctx + "/form/formDefData/removeData/" + formKey + "/" + id;
-=======
-		var url = "formDefPreview.html?key=" + $.getParameter("key");
-		if (id) {
-			url += "&id=" + id;
-		}
-		var conf = {
-			height : 0,
-			title : "预览",
-			url : url
-		};
-		$.Dialog.open(conf);
-	};
-
-	//删除
-	function remove(id) {
-		$.Dialog.confirm("对话框", '确认删除该数据吗？', function(r) {
-			if (!r) {
-				return;
-			}
-			var formKey = $.getParameter("key")
-			var url = __ctx + "/form/formDefData/removeData/"+formKey+"/"+id;
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 			jQuery.post(url, {}, function(rlt) {
 				$.getResult(rlt, function() {
 					$("[ab-grid]").bootstrapTable("refresh");

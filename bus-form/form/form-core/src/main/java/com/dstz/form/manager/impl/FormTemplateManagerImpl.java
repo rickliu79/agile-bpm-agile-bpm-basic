@@ -112,11 +112,7 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 				String dir = element.attributeValue("dir");
 
 				String fileName = templatePath + dir + "/" + key + ".ftl";
-<<<<<<< HEAD
 				System.out.println(fileName);
-=======
-				//System.out.println(fileName);
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 				String html = IOUtils.toString(this.getClass().getResourceAsStream(fileName),"UTF-8");
 
 				FormTemplate formTemplate = new FormTemplate();

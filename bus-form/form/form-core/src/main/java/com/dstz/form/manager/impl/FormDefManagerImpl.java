@@ -17,7 +17,6 @@ import com.dstz.sys.api.model.ISysTreeNode;
 import com.dstz.sys.api.service.ISysTreeNodeService;
 
 import cn.hutool.core.io.FileUtil;
-<<<<<<< HEAD
 
 /**
  * 表单 Manager处理实现类
@@ -38,28 +37,6 @@ public class FormDefManagerImpl extends BaseManager<String, FormDef> implements 
 		FormDef form = formDefDao.getByKey(key);
 		//return Assert.notNull(form, "业务表单[" + key + "]不存在，请检查");
 		return form;
-=======
-import cn.hutool.core.lang.Assert;
-
-/**
- * 表单 Manager处理实现类
- *
- * @author aschs
- * @email aschs@qq.com
- * @time 2018-03-19 20:30:46
- */
-@Service("formDefManager")
-public class FormDefManagerImpl extends BaseManager<String, FormDef> implements FormDefManager {
-	@Resource
-	FormDefDao formDefDao;
-	@Autowired
-	ISysTreeNodeService sysTreeNodeService;
-
-	@Override
-	public FormDef getByKey(String key) {
-		FormDef form = formDefDao.getByKey(key);
-		return Assert.notNull(form, "业务表单[" + key + "]不存在，请检查");
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 	}
 
 	@Override

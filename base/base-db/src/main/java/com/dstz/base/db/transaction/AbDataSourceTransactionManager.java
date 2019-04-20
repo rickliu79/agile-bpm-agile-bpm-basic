@@ -29,10 +29,6 @@ import com.dstz.base.db.datasource.DynamicDataSource;
 /**
  * <pre>
  * 描述：ab 结合sys多数据源操作 专门为bo db实例化做的事务管理器
-<<<<<<< HEAD
-=======
- * 在该事务管理器只支持PROPAGATION_REQUIRED 的
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
  * 作者:aschs
  * 邮箱:aschs@qq.com
  * 日期:2018年10月10日

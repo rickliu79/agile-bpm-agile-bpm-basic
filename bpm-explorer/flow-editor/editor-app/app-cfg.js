@@ -23,7 +23,6 @@ var ACTIVITI = ACTIVITI || {};
 ACTIVITI.CONFIG = {
 	'contextRoot' : '/agile-bpm-platform',
 };
-<<<<<<< HEAD
 var __ctx = '/agile-bpm-platform';
 
 
@@ -45,9 +44,3 @@ window.getCtxUrl = function(url,replaceRequestParam){
 jQuery(function () {  //, headers: { 'x-requested-with': 'XMLHttpRequest' }
 	jQuery.ajaxSetup({crossDomain: true, xhrFields: {withCredentials: true}});
 });
-=======
-
-window.__ctx = "/agile-bpm-platform";
-
-//var __ctx = '/agile-bpm-platform';
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git

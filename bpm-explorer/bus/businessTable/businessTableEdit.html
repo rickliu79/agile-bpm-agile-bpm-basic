@@ -102,7 +102,6 @@
 				<th style="width: 10%">字段控件</th>
 				<th style="width: 15%">控件配置</th>
 				<th style="width: 10%">字段校验</th>
-<<<<<<< HEAD
 				<th style="width: 7%">操作</th>
 			</tr>
 			<tr ng-repeat="column in data.columns">
@@ -194,97 +193,6 @@
 					<a href="javascript:void(0)" ng-if="!column.primary&&$index!=1" ng-click="ArrayTool.up($index,data.columns)" class="btn btn-sm btn-default fa-chevron-up"></a>
 					<a href="javascript:void(0)" ng-if="!column.primary" ng-click="ArrayTool.down($index,data.columns)" class="btn btn-sm btn-default fa-chevron-down"></a>
 					<a href="javaScript:void(0)" ng-if="!column.primary" ng-click="ArrayTool.del($index,data.columns)" class="btn btn-sm btn-default fa-times"></a>
-=======
-				<th style="width: 5%">操作</th>
-			</tr>
-			<tr ng-repeat="column in data.columns">
-				<!-- 注释 -->
-				<td>
-					<input type="text" class="form-control" ng-model="column.comment" ab-validate="{required:true}" />
-				</td>
-				<!-- 别名 -->
-				<td>
-					<input type="text" class="form-control" ng-model="column.key" ab-pinyin="column.comment" ab-validate="{required:true,keyCheck:true,varirule:true}" />
-				</td>
-				<!-- 名称 -->
-				<td>
-					<input ng-disabled="data.createdTable&&column.id" type="text" class="form-control" ng-model="column.name" ab-pinyin="column.comment" ab-validate="{required:true,nameCheck:true,varirule:true}" />
-				</td>
-				<!-- 必填 -->
-				<td>
-					<span  ab-boolean text="必填" ng-model="column.required"></span>
-				</td>
-				<!-- 数据类型 -->
-				<td>
-					<select ng-disabled="column.primary" class="form-control" ng-model="column.type" ng-change="changeColunmType(column)" ng-options="v.key as v.desc for (k,v) in ColumnType">
-					</select>
-				</td>
-				<!-- 属性长度 -->
-				<td>
-					<input type="text" class="form-control" style="width: 56px" ng-if="column.type=='varchar'  || column.type=='number'" ng-model="column.length" ab-validate="{required:true,number:true}" />
-					<span ng-if="column.type=='number'">.</span>
-					<input type="text" class="form-control" style="width: 36px" ng-if="column.type=='number'" ng-model="column.decimal" ab-validate="{required:true,number:true}" />
-				</td>
-				<!-- 默认值 -->
-				<td>
-					<input ng-if="!column.primary" type="text" class="form-control" ng-if="column.type!='clob'" ng-model="column.defaultValue" />
-				</td>
-				<!-- 字段控件 -->
-				<td>
-					<select ng-if="!column.primary" class="form-control" ng-model="column.ctrl.type" ng-change="initCtrlConfig(column.ctrl)" ng-options="m.key as m.desc for m in getCtrlTypeList(column)">
-					</select>
-				</td>
-				<!-- 控件配置 -->
-				<td>
-					<div ng-if="!column.primary">
-						<!-- {{column.ctrl.config |json}} -->
-						<!-- 多行行文本框 -->
-						<div ng-if="column.ctrl.type=='multitext'" class="form-inline">
-							<label>
-								<span ab-boolean="1/0" text="编辑器/TextArea" ng-model="column.ctrl.config.isEditor" />
-							</label>
-							宽:
-							<input type="text" class="form-control" ng-model="column.ctrl.config.ewidth" style="width: 50px" ab-validate="{required:true,number:true}" />
-							高:
-							<input type="text" class="form-control" ng-model="column.ctrl.config.eheight" style="width: 50px" ab-validate="{required:true,number:true}" />
-						</div>
-						<!-- 下拉框 -->
-						<div ng-if="column.ctrl.type=='select'||column.ctrl.type=='multiselect'||column.ctrl.type=='checkbox'||column.ctrl.type=='radio'">
-							<a class="btn btn-outline btn-primary fa-edit" ng-click="openColCtrlCfgDialog(column)" href="javascript:void(0)">设置 </a>
-						</div>
-						<!-- 数据字典 -->
-						<div ng-if="column.ctrl.type=='dic'" style="width: 180px">
-							<span ab-combox="" value-key="column.ctrl.config.key" value-name="column.ctrl.config.keyName" url="/sys/dataDict/getDictTree"></span>
-						</div>
-						<!-- 流水号 -->
-						<div ng-if="column.ctrl.type=='serialno'" style="width: 180px">
-							<span class="btn btn-primary" ng-if="column.ctrl.config.name">{{column.ctrl.config.name}}</span>
-							<a class="btn btn-outline btn-primary fa-edit" value-name="column.ctrl.config.name" value-alias="column.ctrl.config.alias" ab-cust-dialog="IdentitySeletor" href="javascript:void(0)">选择 </a>
-						</div>
-						<!-- 日期 -->
-						<div ng-if="column.ctrl.type=='date'" class="form-inline">
-							格式化:
-							<input ng-model="column.ctrl.config.format" class="form-control" />
-						</div>
-					</div>
-				</td>
-				<!-- 字段校验 -->
-				<td>
-					<select ng-if="!column.primary" class="form-control" ng-model="column.ctrl.newRule" ng-options="m as m.title for m in FormRules" ng-change="addRule(column.ctrl)">
-					</select>
-					<table ng-if="!column.primary" style="width: 100%">
-						<tr ng-repeat="rule in column.ctrl.validRule">
-							<td>{{rule.title}}</td>
-							<td>
-								<a class="fa fa-times-circle-o actionBtn" href="javascript:void(0)" ng-click="ArrayTool.del($index,column.ctrl.validRule)"></a>
-							</td>
-						</tr>
-					</table>
-				</td>
-				<!-- 操作 -->
-				<td>
-					<a href="javaScript:void(0)" ng-if="!column.primary" ng-click="ArrayTool.del($index,data.columns)" class="btn btn-sm btn-primary fa-times"></a>
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 					<span ng-if="column.primary" style="color: red">主键字段</span>
 				</td>
 			</tr>

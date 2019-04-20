@@ -76,7 +76,6 @@ public class FormDefDataController extends GenericController {
 	 */
 	@RequestMapping("getData")
 	@CatchErr(write2response = true, value = "获取FormDefData异常")
-<<<<<<< HEAD
 	public ResultMsg<FormDefData> getFormDefData(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String key = RequestUtil.getString(request, "key");
 		String id = RequestUtil.getString(request, "id", null);
@@ -102,33 +101,6 @@ public class FormDefDataController extends GenericController {
 		IBusinessPermission permission = businessPermissionService.getByObjTypeAndObjVal(BusinessPermissionObjType.FORM.getKey(), key, formDef.getBoKey(), true);
 		businessDataService.saveFormDefData(data, permission);
 		return getSuccessResult("保存数据成功");
-=======
-	public void getFormDefData(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String key = RequestUtil.getString(request, "key");
-		String id = RequestUtil.getString(request, "id", null);
-		FormDefData formDefData = formDefDataService.getByFormDefKey(key, id);
-		writeSuccessData(response, formDefData);
-	}
-
-	/**
-	 * <pre>
-	 * 保存formDef中的data数据
-	 * </pre>
-	 * 
-	 * @param request
-	 * @param response
-	 * @param data
-	 * @throws Exception
-	 */
-	@RequestMapping("saveData")
-	@CatchErr(write2response = true, value = "保存formDef中的data数据异常")
-	public void saveData(HttpServletRequest request, HttpServletResponse response, @RequestBody JSONObject data) throws Exception {
-		String key = RequestUtil.getString(request, "key");
-		FormDef formDef = formDefManager.getByKey(key);
-		IBusinessPermission permission = businessPermissionService.getByObjTypeAndObjVal(BusinessPermissionObjType.FORM.getKey(), key, formDef.getBoKey(), true);
-		businessDataService.saveFormDefData(data, permission);
-		writeSuccessResult(response, "保存数据成功");
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 	}
 
 	/**

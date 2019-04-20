@@ -183,7 +183,6 @@
 	}
 	//获取参数
 	$.getQueryParam = function(params){
-<<<<<<< HEAD
 		$("input,select","#searchForm").each(function(item,i){
 			if(!$(this).val() && params[$(this).attr("id")]){
 				delete params[$(this).attr("id")];
@@ -191,11 +190,6 @@
 			}
 			params[$(this).attr("id")] = $(this).val();
 		});
-=======
-		//params.limit,   //页面大小
-       // params.offset,  //页码
-		//bug sort
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 		
 		return params;
 	}

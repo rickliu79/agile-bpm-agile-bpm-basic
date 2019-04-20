@@ -38,11 +38,7 @@ public class LoginController extends GenericController {
     @Resource
     JWTService jWTService;
 
-<<<<<<< HEAD
     @RequestMapping(value = "/org/login/valid",method= {RequestMethod.POST,RequestMethod.GET})
-=======
-    @RequestMapping(value = "login/valid",method= {RequestMethod.POST,RequestMethod.GET})
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
     @CatchErr
     @ApiOperation(value = "用户登录",notes="登录鉴权")
     @ApiImplicitParams({

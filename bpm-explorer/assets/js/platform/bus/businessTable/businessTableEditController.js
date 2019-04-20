@@ -55,10 +55,7 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 			data.pass = false;
 			return;
 		}
-<<<<<<< HEAD
 		
-=======
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 		// 删除循环索引
 		delete $scope.data.columnsWithoutPk;
 		delete $scope.data.columnsWithOutHidden;

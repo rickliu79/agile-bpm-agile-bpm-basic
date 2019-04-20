@@ -40,7 +40,6 @@ public interface CalendarService{
 	
 	public ResultMsg<Date> getEndWorkDay(Date startDay,int days, String system);
 	
-<<<<<<< HEAD
 	/**
 	 * 获取多少分钟后的天数
 	 * @param startDay
@@ -49,7 +48,5 @@ public interface CalendarService{
 	 */
 	public ResultMsg<Date> getEndWorkDayByMinute(Date startDay,int minute);
 	
-=======
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 	
 }

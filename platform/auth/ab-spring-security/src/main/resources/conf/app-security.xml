@@ -49,10 +49,7 @@
         <property name="ingores">
             <list>
                  <value>127.0.0.1</value>
-<<<<<<< HEAD
                  <value>localhost</value>
-=======
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
                  <value>47.106.139.29</value>
             </list>
         </property>

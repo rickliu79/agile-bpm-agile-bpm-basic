@@ -40,11 +40,7 @@ public class SysAuthorizationManagerImpl extends BaseManager<String, SysAuthoriz
      */
     @Override
     public Set<String> getUserRights(String userId) {
-<<<<<<< HEAD
         List<? extends IGroup> list = userGroupService.getGroupsByUserId(userId);
-=======
-        List<IGroup> list = userGroupService.getGroupsByUserId(userId);
->>>>>>> branch 'master' of https://gitee.com/agile-bpm/agile-bpm-basic.git
 
         Set<String> rights = new HashSet<String>();
         rights.add(String.format("%s-%s", userId, SysAuthorization.RIGHT_TYPE_USER));
