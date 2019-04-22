@@ -38,12 +38,6 @@
 
         <dependency>
             <groupId>com.dstz.agilebpm</groupId>
-            <artifactId>wf-plugin-biz</artifactId>
-            <version>${bpm.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.dstz.agilebpm</groupId>
             <artifactId>bus-rest</artifactId>
             <version>${bus-form.version}</version>
         </dependency>
