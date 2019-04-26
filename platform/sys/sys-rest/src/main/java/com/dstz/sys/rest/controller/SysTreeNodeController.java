@@ -5,17 +5,17 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.dstz.base.api.response.impl.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
+import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys.core.manager.SysTreeManager;
 import com.dstz.sys.core.manager.SysTreeNodeManager;
@@ -30,9 +30,9 @@ import com.dstz.sys.core.model.SysTreeNode;
  * 版权:summer
  * </pre>
  */
-@Controller
+@RestController
 @RequestMapping("/sys/sysTreeNode/")
-public class SysTreeNodeController extends GenericController {
+public class SysTreeNodeController extends ControllerTools {
     @Autowired
     SysTreeManager sysTreeManager;
     @Autowired

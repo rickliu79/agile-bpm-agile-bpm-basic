@@ -16,7 +16,7 @@ import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.Manager;
 import com.dstz.base.rest.BaseController;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys.core.manager.WorkbenchLayoutManager;
 import com.dstz.sys.core.manager.WorkbenchPanelManager;

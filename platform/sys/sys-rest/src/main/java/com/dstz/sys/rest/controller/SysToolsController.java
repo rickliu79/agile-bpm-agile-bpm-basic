@@ -22,7 +22,7 @@ import com.dstz.base.core.util.HanyuPinyinHelper;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.api.table.DbType;
 import com.dstz.base.db.datasource.DbContextHolder;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.RequestUtil;
 
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -34,7 +34,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
  */
 @RestController
 @RequestMapping("/sys/tools/")
-public class SysToolsController extends GenericController {
+public class SysToolsController extends ControllerTools {
 	/**
 	 * <pre>
 	 * 根据一个枚举类的路径获取这个枚举的json形式，供前端使用

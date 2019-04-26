@@ -22,7 +22,7 @@ import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.security.constant.PlatFormStatusCode;
 import com.dstz.security.jwt.service.JWTService;
@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-public class LoginController extends GenericController {
+public class LoginController extends ControllerTools {
     SessionAuthenticationStrategy sessionStrategy = new NullAuthenticatedSessionStrategy();
     @Resource
     JWTService jWTService;

@@ -17,7 +17,7 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys.api.constant.SysStatusCode;
 import com.dstz.sys.core.manager.SerialNoManager;
@@ -29,7 +29,7 @@ import com.github.pagehelper.Page;
  */
 @RestController
 @RequestMapping("/sys/serialNo/")
-public class SysSerialNoController extends GenericController {
+public class SysSerialNoController extends ControllerTools {
     @Resource
     SerialNoManager serialNoManager;
     @Resource

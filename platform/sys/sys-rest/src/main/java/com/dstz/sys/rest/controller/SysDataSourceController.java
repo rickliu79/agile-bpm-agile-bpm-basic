@@ -7,19 +7,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import com.dstz.base.api.response.impl.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.query.QueryFilter;
+import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys.core.manager.SysDataSourceManager;
 import com.dstz.sys.core.model.SysDataSource;
@@ -33,9 +33,9 @@ import com.dstz.sys.core.model.SysDataSource;
  * 版权:summer
  * </pre>
  */
-@Controller
+@RestController
 @RequestMapping("/sys/sysDataSource/")
-public class SysDataSourceController extends GenericController {
+public class SysDataSourceController extends ControllerTools {
     @Autowired
     SysDataSourceManager sysDataSourceManager;
 

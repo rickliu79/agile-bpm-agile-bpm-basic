@@ -17,7 +17,7 @@ import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.form.manager.FormTemplateManager;
 import com.dstz.form.model.FormTemplate;
@@ -29,7 +29,7 @@ import com.dstz.form.model.FormTemplate;
  */
 @RestController
 @RequestMapping("/form/formTemplate/")
-public class FormTemplateController extends GenericController {
+public class FormTemplateController extends ControllerTools {
     @Autowired
     FormTemplateManager formTemplateManager;
 

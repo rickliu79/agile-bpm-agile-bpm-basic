@@ -20,7 +20,7 @@ import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.CookieUitl;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.api.constant.GroupTypeConstant;
@@ -45,7 +45,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api(description="用户资源信息")
-public class UserResourceController extends GenericController {
+public class UserResourceController extends ControllerTools {
     @Resource
     GroupService orgService;
     @Resource

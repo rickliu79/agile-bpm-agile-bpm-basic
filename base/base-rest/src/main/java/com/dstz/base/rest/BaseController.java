@@ -27,7 +27,7 @@ import com.github.pagehelper.Page;
  * 版权:summer
  * </pre>
  */
-public abstract class BaseController<T extends IDModel> extends GenericController{
+public abstract class BaseController<T extends IDModel> extends ControllerTools{
 	
     protected abstract String getModelDesc();
 

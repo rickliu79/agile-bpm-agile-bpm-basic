@@ -27,7 +27,7 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.ZipUtil;
 import com.dstz.base.db.model.page.PageResult;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.sys.core.manager.SysFileManager;
 import com.dstz.sys.core.model.SysFile;
 import com.github.pagehelper.Page;
@@ -47,7 +47,7 @@ import net.lingala.zip4j.core.ZipFile;
  */
 @RestController
 @RequestMapping("/sys/sysFile/")
-public class SysFileController extends GenericController {
+public class SysFileController extends ControllerTools {
 	@Autowired
 	SysFileManager sysFileManager;
 

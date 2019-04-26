@@ -18,7 +18,7 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.core.manager.SubsystemManager;
 import com.dstz.org.core.manager.SysResourceManager;
@@ -35,7 +35,7 @@ import cn.hutool.core.collection.CollectionUtil;
  */
 @RestController
 @RequestMapping("/org/sysResource")
-public class SysResourceController extends GenericController {
+public class SysResourceController extends ControllerTools {
     @Resource
     SysResourceManager sysResourceManager;
     @Resource

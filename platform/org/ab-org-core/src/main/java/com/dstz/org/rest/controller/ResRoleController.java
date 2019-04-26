@@ -10,16 +10,16 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.core.manager.ResRoleManager;
 import com.dstz.org.core.manager.SubsystemManager;
@@ -36,9 +36,9 @@ import cn.hutool.core.collection.CollectionUtil;
  * 描述：角色资源分配 控制器类
  * </pre>
  */
-@Controller
+@RestController
 @RequestMapping("/org/resRole")
-public class ResRoleController extends GenericController {
+public class ResRoleController extends ControllerTools {
     @Resource
     ResRoleManager resRoleManager;
 

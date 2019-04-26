@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenericController {
+public class ControllerTools {
 	protected  Logger LOG = LoggerFactory.getLogger(getClass());
 	
 	   protected <T> ResultMsg<T> getSuccessResult(T data, String msg){

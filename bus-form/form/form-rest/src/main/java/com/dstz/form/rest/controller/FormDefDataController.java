@@ -20,7 +20,7 @@ import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.dao.CommonDao;
 import com.dstz.base.db.datasource.DbContextHolder;
 import com.dstz.base.db.model.page.PageResult;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.bus.api.constant.BusinessPermissionObjType;
 import com.dstz.bus.api.model.IBusinessObject;
@@ -48,7 +48,7 @@ import com.dstz.sys.api.service.ISysDataSourceService;
  */
 @RestController
 @RequestMapping("/form/formDefData/")
-public class FormDefDataController extends GenericController {
+public class FormDefDataController extends ControllerTools {
 	@Autowired
 	FormDefDataService formDefDataService;
 	@Autowired

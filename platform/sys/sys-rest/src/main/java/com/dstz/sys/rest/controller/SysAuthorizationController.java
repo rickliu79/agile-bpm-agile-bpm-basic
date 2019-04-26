@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.dstz.base.api.aop.annotion.CatchErr;
-import com.dstz.base.rest.GenericController;
+import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.sys.api.constant.RightsObjectConstants;
 import com.dstz.sys.core.manager.SysAuthorizationManager;
@@ -22,7 +22,7 @@ import com.dstz.sys.core.model.SysAuthorization;
  
 @RestController
 @RequestMapping("/sys/authorization")
-public class SysAuthorizationController extends GenericController{
+public class SysAuthorizationController extends ControllerTools{
 	@Resource
 	SysAuthorizationManager sysAuthorizationManager;
 	
