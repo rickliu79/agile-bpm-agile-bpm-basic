@@ -1,5 +1,6 @@
 package com.dstz.base.api.response.impl;
 
+import com.dstz.base.api.constant.BaseStatusCode;
 import com.dstz.base.api.response.IResult;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -38,6 +39,9 @@ public class BaseResult implements IResult {
     private String code;
 
     public void setOk(Boolean ok) {
+    	if(ok) {
+    		this.setCode(BaseStatusCode.SUCCESS.getCode());
+    	}
         isOk = ok;
     }
 
