@@ -110,3 +110,7 @@ https://gitee.com/agile-bpm/bpm-app
 
 ## 欢迎 **Star** 持续关注！！！ 
 qq 群 477781857  
+
+## 欢迎关注技术公众号 java葵花宝典
+
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0515/110137_4c644b78_1861740.png "java葵花宝典")
