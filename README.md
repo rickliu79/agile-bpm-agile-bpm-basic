@@ -111,6 +111,17 @@ https://gitee.com/agile-bpm/bpm-app
 ## 欢迎 **Star** 持续关注！！！ 
 qq 群 477781857  
 
-## 欢迎关注技术公众号 java葵花宝典
+## AgileBPM 项目模块总览脑图
+<iframe 
+    height=450 
+    width=800 
+    src="http://naotu.baidu.com/file/08a8388689b651e4848ed07845bb5c76?token=5ec9a04eaf5b83bf" 
+    frameborder=0 
+    allowfullscreen>
+</iframe>
+ 
+http://naotu.baidu.com/file/08a8388689b651e4848ed07845bb5c76?token=5ec9a04eaf5b83bf
+
+#### 欢迎关注技术公众号 java葵花宝典
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0515/110137_4c644b78_1861740.png "java葵花宝典")
