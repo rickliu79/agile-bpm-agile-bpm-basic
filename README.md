@@ -52,8 +52,7 @@ AgileBPM 是完全模块化的项目集合，含【流程模块】、【业务�
 ## 软件架构说明
 
 #### AgileBPM 项目模块总览脑图
-[项目模块说明](http://naotu.baidu.com/file/08a8388689b651e4848ed07845bb5c76?token=5ec9a04eaf5b83bf
-)
+http://naotu.baidu.com/file/08a8388689b651e4848ed07845bb5c76?token=5ec9a04eaf5b83bf
 
 #### 组件化
 系统通过功能划分出了多个模块，每个模块由API、CORE、REST、SERVICE(apiImpl) 几部分组成。模块与模块间通过API交互，WEB则用于整合各个模块 
