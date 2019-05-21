@@ -38,7 +38,7 @@
       	<dependency>
 			<groupId>com.dstz.agilebpm</groupId>
 			<artifactId>wf-api</artifactId>
-			<version>1.5.1</version>
+			<version>1.5.1.1</version>
 		</dependency>
 		 
     </dependencies>
