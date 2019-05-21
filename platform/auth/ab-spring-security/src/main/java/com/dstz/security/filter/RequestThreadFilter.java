@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.dstz.base.db.datasource.DbContextHolder;
 import com.dstz.base.rest.util.RequestContext;
+import com.dstz.base.core.util.ThreadMsgUtil;
 import com.dstz.sys.util.ContextUtil;
 
 /**
@@ -34,6 +35,7 @@ public class RequestThreadFilter implements Filter {
     private void cleanThreadLocal() {
         RequestContext.clearHttpReqResponse();
         ContextUtil.clearAll();
+        ThreadMsgUtil.clean();
         DbContextHolder.setDefaultDataSource();
   //      ActivitiDefCache.clearLocal();
   //      BpmContext.cleanTread();
