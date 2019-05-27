@@ -6,7 +6,7 @@
     <parent>
         <artifactId>agile-bpm</artifactId>
         <groupId>com.dstz.agilebpm</groupId>
-        <version>1.3.5</version>
+        <version>1.3.6</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -16,10 +16,10 @@
     <description>提供主服务</description>
 
     <properties>
-        <base.version>1.3.5</base.version>
+        <base.version>1.3.6</base.version>
         <bpm.version>1.5.1.1</bpm.version>
-        <bus-form.version>1.3.5</bus-form.version>
-        <platform.version>1.3.5</platform.version>
+        <bus-form.version>1.3.6</bus-form.version>
+        <platform.version>1.3.6</platform.version>
     </properties>
 
     <dependencies>
