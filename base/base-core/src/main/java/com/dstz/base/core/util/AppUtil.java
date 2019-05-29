@@ -113,7 +113,7 @@ public class AppUtil implements ApplicationContextAware {
      * @return
      */
     public static ICache getCache() {
-        return (ICache) getBean("iCache");
+        return getBean(ICache.class);
     }
 
 
