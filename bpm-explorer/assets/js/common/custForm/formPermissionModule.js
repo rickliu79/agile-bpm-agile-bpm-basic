@@ -149,11 +149,17 @@ var formPermissionModule = angular.module("formPermissionModule", [ "base" ])
 	return {
 		link : function(scope, element, attrs) {
 			
-			var handlePermission = function(){
+			var handlePermission = function(value){
 				var permission = getPermission(attrs.abEditPermission,scope);
-				
-				if(permission === 'n' || permission === 'r' ){
-					element.remove();
+
+				if(permission=='r')	{
+					element.after(value);
+					element.hide();
+					return ;
+				}
+				if(permission=='n')	{
+					$(element).remove();
+					return ;
 				}
 			}
 			
