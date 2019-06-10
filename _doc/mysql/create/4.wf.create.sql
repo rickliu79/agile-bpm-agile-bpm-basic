@@ -409,7 +409,7 @@ CREATE TABLE `bpm_task_identitylink` (
   `inst_id_` varchar(64) DEFAULT NULL,
   `type_` varchar(20) DEFAULT NULL COMMENT '候选人类型',
   `identity_name_` varchar(64) DEFAULT NULL COMMENT '名字',
-  `identity_` varchar(20) DEFAULT NULL COMMENT 'ID',
+  `identity_` varchar(64) DEFAULT NULL COMMENT 'ID',
   `permission_code_` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id_`),
   KEY `idx_taskcandidate_taskid` (`task_id_`) USING BTREE,
