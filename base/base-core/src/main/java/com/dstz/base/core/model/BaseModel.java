@@ -20,7 +20,6 @@ import java.util.Date;
  */
 public abstract class BaseModel extends ToStringUtil implements IBaseModel {
     // 主键
-    @NotEmpty
     protected String id;
     // 创建时间
     protected Date createTime;

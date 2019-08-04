@@ -57,7 +57,7 @@
 							<tr>								
 								<th>名字:<span class="required">*</span></th>
 								<td>
-									<input id="input" class="form-control" type="text" ng-model="data.name"   ab-validate="{required:true,maxlength:120}"  />
+									<input id="input" class="form-control" type="text" ng-model="data.name"   ab-validate="{required:true,maxlength:60}"  />
 									<select class="form-control" type="text" ng-model="data.name"   ab-validate="{required:true,maxlength:120}" onchange="document.getElementById('input').value=this.value">
 									    <option value="元旦">元旦</option>
 									    <option value="春节">春节</option>
@@ -113,7 +113,7 @@
 							<tr>								
 								<th>描述:</th>
 								<td>
-									<textarea class="form-control" type="text" style="width:500px" ng-model="data.remark"   ab-validate="{required:false}"  ></textarea>
+									<textarea class="form-control" type="text" style="width:500px" ng-model="data.remark"   ab-validate="{required:false,maxlength:500}"  ></textarea>
 								</td>								
 							</tr>
 				</table>

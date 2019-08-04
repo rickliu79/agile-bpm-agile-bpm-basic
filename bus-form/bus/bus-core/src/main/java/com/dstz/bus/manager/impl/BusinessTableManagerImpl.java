@@ -14,6 +14,7 @@ import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
+import com.dstz.base.db.api.table.DbType;
 import com.dstz.base.db.datasource.DbContextHolder;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.db.tableoper.TableOperator;
@@ -52,7 +53,10 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 
 	@Override
 	public void save(BusinessTable businessTable) {
-		
+		//oracle保存变大写
+		if (DbType.ORACLE.equalsWithKey(DbContextHolder.getDataSourceDbType(businessTable.getDsKey()))) {
+			businessTable.setName(businessTable.getName().toUpperCase());
+		}
 		if (StringUtil.isEmpty(businessTable.getId())) {
 			businessTable.setId(IdUtil.getSuid());
 			// 新建内部表时，表已经存在库中，则抛出异常
@@ -65,10 +69,14 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 			busColCtrlManager.removeByTableId(businessTable.getId());// 删除关联字段控件
 			businessColumnManager.removeByTableId(businessTable.getId());// 删除关联字段
 		}
-		
+
 		for (BusinessColumn businessColumn : businessTable.getColumns()) {
 			if (StringUtil.isEmpty(businessColumn.getId())) {
 				businessColumn.setId(IdUtil.getSuid());
+			}
+			//oracle保存变大写
+			if (DbType.ORACLE.equalsWithKey(DbContextHolder.getDataSourceDbType(businessTable.getDsKey()))) {
+				businessColumn.setName(businessColumn.getName().toUpperCase());
 			}
 			businessColumn.setTable(businessTable);
 			businessColumn.setTableId(businessTable.getId());
@@ -77,7 +85,7 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 			if (businessColumn.isPrimary()) {// 主键没控件
 				continue;
 			}
-			if(ctrl == null) {
+			if (ctrl == null) {
 				throw new BusinessMessage("字段必须配置控件！");
 			}
 			if (StringUtil.isEmpty(ctrl.getId())) {
@@ -86,11 +94,11 @@ public class BusinessTableManagerImpl extends BaseManager<String, BusinessTable>
 			ctrl.setColumnId(businessColumn.getId());
 			busColCtrlManager.create(businessColumn.getCtrl());
 		}
-		
-		if(!businessTable.isExternal()) {
+
+		if (!businessTable.isExternal()) {
 			newTableOperator(businessTable).syncColumn();
 		}
-		
+
 		BusinessTableCacheUtil.put(businessTable);// 入缓存
 	}
 

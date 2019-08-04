@@ -19,6 +19,10 @@ public class LoginUser extends UserDTO implements UserDetails {
      */
     private static final long serialVersionUID = 4962121675615445357L;
 
+    public LoginUser() {
+        super();
+    }
+
     public LoginUser(IUser user) {
         this.account = user.getAccount();
         this.email = user.getEmail();

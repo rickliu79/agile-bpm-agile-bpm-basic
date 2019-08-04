@@ -99,7 +99,23 @@ public class BusinessTableController extends BaseController<BusinessTable> {
 		BusinessTableCacheUtil.put(businessTable);//入缓存
 		return getSuccessResult("建表成功");
 	}
-
+	
+	/**
+	 * <pre>
+	 * 清空业务表缓存
+	 * </pre>
+	 *
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("cleanCache")
+	@CatchErr(write2response = true, value = "清空缓存失败")
+	public ResultMsg<String> cleanCache(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		BusinessTableCacheUtil.clean();
+		return getSuccessResult("建表成功");
+	}
+	
 	@Override
 	protected String getModelDesc() {
 		return "业务表";

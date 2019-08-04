@@ -7,6 +7,11 @@
 	<script type="text/javascript" src="../../build/common/gridList.js"></script>
 	<script type="text/javascript">
 		$(function(){
+			if(navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion.match(/9./i)=="9."){
+				$("#group").height(500);
+				$("#groupUser").height(500);
+			}
+			
 			var groupId = $.getParam("id");
 			$("#listFrame").attr("src","groupGet.html?id="+groupId);
 			$("#listFrame2").attr("src","groupUserList.html?groupId="+groupId);

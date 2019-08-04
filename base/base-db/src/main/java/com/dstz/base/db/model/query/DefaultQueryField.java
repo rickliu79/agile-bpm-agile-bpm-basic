@@ -124,7 +124,7 @@ public class DefaultQueryField implements QueryField {
 			sql += " < " + fieldParam;
 			break;
 		case LESS_EQUAL:
-			sql = "upper(" + sql + ") = " + fieldParam;
+			sql += " <= " + fieldParam;
 			break;
 		case GREAT:
 			sql += " > " + fieldParam;
@@ -138,17 +138,14 @@ public class DefaultQueryField implements QueryField {
 		case LEFT_LIKE:
 			sql += " like " + fieldParam;
 			this.setValue("%" + String.valueOf(this.value));
-
 			break;
 		case RIGHT_LIKE:
 			sql += " like  " + fieldParam;
 			this.setValue(String.valueOf(this.value) + "%");
-
 			break;
 		case LIKE:
 			sql += " like  " + fieldParam;
 			this.setValue("%" + String.valueOf(this.value) + "%");
-
 			break;
 		case IS_NULL:
 			sql += " is null";
@@ -158,6 +155,13 @@ public class DefaultQueryField implements QueryField {
 			break;
 		case NOT_IN:
 			sql += " not in  " + this.value;
+			break;
+		case BETWEEN:
+			if (field.endsWith("-end")) {
+				sql = field.substring(0, field.length() - 4) + " <= " + fieldParam;
+			} else {
+				sql += " >= " + fieldParam;
+			}
 			break;
 		default:
 			sql += " =  " + fieldParam;

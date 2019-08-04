@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.dstz.base.api.model.Tree;
+
 /**
  * @author jeff
  */
-public class OrgTree extends Group {
+public class OrgTree extends Group implements Tree<OrgTree> {
 
     public static final String ICON_COMORG = "/styles/theme/default/images/icons/u_darkblue/u_zzgl_darkblue.png";
     protected Integer sn; /*序号*/
@@ -18,6 +20,8 @@ public class OrgTree extends Group {
     protected boolean chkDisabled = false;
     protected boolean click = true;
     protected String title = ""; //*title  默认为name 、如果name添加了 css 、则默认为 “” */
+    
+    protected List<OrgTree> children;
 
     public OrgTree() {
     }
@@ -115,5 +119,15 @@ public class OrgTree extends Group {
     public void setChkDisabled(boolean chkDisabled) {
         this.chkDisabled = chkDisabled;
     }
+
+	@Override
+	public List<OrgTree> getChildren() {
+		return children;
+	}
+
+	@Override
+	public void setChildren(List<OrgTree> list) {
+		this.children = list;		
+	}
 
 }

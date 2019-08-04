@@ -2,7 +2,6 @@ package com.dstz.security.authentication;
 
 import java.io.IOException;
 
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,14 +15,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.dstz.base.core.cache.ICache;
+import com.dstz.base.core.jwt.JWTService;
+import com.dstz.base.core.util.CookieUitl;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.rest.util.CookieUitl;
-import com.dstz.base.rest.util.RequestUtil;
-import com.dstz.security.jwt.service.JWTService;
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
-	
 	@Autowired
     private JWTService jwtService;
 	@Autowired 
@@ -46,9 +44,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
           
           if (authHeader != null && authHeader.startsWith(tokenHead)) {
               String authToken = authHeader.substring(tokenHead.length());
-              if (jwtService.validateToken(authToken)) {
-                  String username = jwtService.getSubjectFromToken(authToken);
-                  
+              
+              String username = jwtService.getValidSubjectFromRedisToken(authToken);
+              if (StringUtil.isNotEmpty(username)) {
                   //从缓存中获取，获取失败则通过实现接口的方法获取用户
                   UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                   

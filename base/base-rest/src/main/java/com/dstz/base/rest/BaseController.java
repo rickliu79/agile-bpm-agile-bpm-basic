@@ -71,7 +71,7 @@ public abstract class BaseController<T extends IDModel> extends ControllerTools{
             manager.update(t);
             desc = "更新%s成功";
         }
-        return getSuccessResult(String.format(desc, getModelDesc()));
+        return getSuccessResult(t.getId(),String.format(desc, getModelDesc()));
     }
 
     /**

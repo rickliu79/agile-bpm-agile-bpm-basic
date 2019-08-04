@@ -76,12 +76,13 @@
 		var userCondition = {calcs:[],rule:""};
 		if (i != undefined) {
 			userCondition = angular.copy(scope.nodeMessage.userRules[i]);
-		}
+		} 
+		var passData = {nodeList:scope.nodeList,userCondition:userCondition};
 		
 		var url = '/bpm/nodeDef/userConditionDialog.html?defId=' + defId ;
 		
 		var dialogConf = {
-				passData :userCondition ,width : 1000, height : 600,topOpen:true,btnAlign: 'c',title:"人员条件配置",
+				passData :passData ,width : 1000, height : 600,topOpen:true,btnAlign: 'c',title:"人员条件配置",
 				url:url,
 				ok: function(index,innerWindow){
 					var data = innerWindow.getData();

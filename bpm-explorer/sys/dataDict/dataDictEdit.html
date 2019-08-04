@@ -50,7 +50,7 @@
 			<tr>
 				<th><span>KEY</span></th>
 				<td>
-					<input type="text" ab-pinyin="data.name" ng-model="data.key" class="form-control" ab-validate="{required:true,maxlength:60}" />
+					<input type="text" ab-pinyin="data.name" ng-model="data.key" ng-disabled="data.id" class="form-control" ab-validate="{required:true,maxlength:60}" />
 				</td>
 			</tr>
 			<tr ng-if="data.dictType=='node'">

@@ -1,16 +1,17 @@
 package com.dstz.base.core.validate.aop;
 
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.alibaba.fastjson.JSON;
 import com.dstz.base.api.aop.annotion.ParamValidate;
 import com.dstz.base.api.response.impl.BaseResult;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.core.validate.ValidateUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.reflect.MethodSignature;
 
 /**
  * 提供接口响应aop拦截 TODO test
@@ -22,7 +23,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 @Component*/
 public class ValidateParamAspect {
 
-    private Log logger = LogFactory.getLog(ValidateParamAspect.class);
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Around(value = "@annotation(paramValidate)")
     public Object doAround(ProceedingJoinPoint pjp, ParamValidate paramValidate) throws Throwable {

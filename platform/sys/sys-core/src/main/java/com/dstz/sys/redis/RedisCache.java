@@ -5,13 +5,13 @@ import com.dstz.base.core.cache.ICache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * Redis缓存实现
+ *
+ * @author jeff
  */
 @SuppressWarnings("unchecked")
 public class RedisCache<T extends Object> implements ICache<T> {
@@ -41,12 +41,9 @@ public class RedisCache<T extends Object> implements ICache<T> {
 
     @Override
     public void clearAll() {
-        redisTemplate.execute(new RedisCallback<Object>() {
-            @Override
-            public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
-                redisConnection.flushDb();
-                return null;
-            }
+        redisTemplate.execute((RedisCallback<Object>) redisConnection -> {
+            redisConnection.flushDb();
+            return null;
         });
         logger.info("redis flushDB");
     }
@@ -65,5 +62,31 @@ public class RedisCache<T extends Object> implements ICache<T> {
     @Override
     public boolean containKey(String key) {
         return Boolean.TRUE.equals(redisTemplate.hasKey(key));
+    }
+
+
+    @Override
+    public void add2Region(String region, String key, T obj) {
+        this.add(key, obj);
+    }
+
+    @Override
+    public T getByKey(String region, String key) {
+        return this.getByKey(key);
+    }
+
+    @Override
+    public void clearRegion(String region) {
+
+    }
+
+    @Override
+    public void delByKey(String region, String key) {
+        this.delByKey(key);
+    }
+
+    @Override
+    public boolean containKey(String region, String key) {
+        return this.containKey(key);
     }
 }

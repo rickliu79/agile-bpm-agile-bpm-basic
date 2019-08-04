@@ -7,16 +7,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +29,6 @@ import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.FieldLogic;
 import com.dstz.base.api.query.FieldRelation;
 import com.dstz.base.api.query.QueryOP;
-import com.dstz.base.core.encrypt.Base64;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.BeanCopierUtils;
 import com.dstz.base.core.util.BeanUtils;
@@ -288,55 +284,61 @@ public class RequestUtil {
         Enumeration<String> paramNames = request.getParameterNames();
         while (paramNames.hasMoreElements()) {
             String key = paramNames.nextElement();
-            //老版本用的^但是Tomcat8 get请求不支持此类型参数。故这里做兼容使用-
-            String specialSplitKey = "$";
-            if (key.contains("^")) {
-            	specialSplitKey = "^";
-            }
-            
-            
-            if (!key.contains(specialSplitKey)) {
-                continue;
-            }
-
             String value = request.getParameter(key);
-            if (value == null) continue;
-    		
-            value = value.trim();
-    		if (value.equals(StringConstants.EMPTY)) continue;
-
-            String[] aryParamKey = key.split("\\"+specialSplitKey);
-            if (aryParamKey.length != 2) {
-                continue;
-            }
-
-            String columnName = aryParamKey[0];//截取字段名字
-            String condition = aryParamKey[1];//截取条件
-            String columnType = condition.substring(0, 1);
-
-            if ("V".equals(columnType)) {
-                columnType = ColumnType.VARCHAR.getKey();
-            } else if ("N".equals(columnType)) {
-                columnType = ColumnType.NUMBER.getKey();
-            } else if ("D".equals(columnType)) {
-                columnType = ColumnType.DATE.getKey();
-            }
-            //仅仅将参数设置进入mapper环境
-            if (condition.length() == 1) {
-                queryFilter.addParamsFilter(columnName, BeanUtils.getValue(columnType,value));
-            } else {
-                QueryOP queryOP = QueryOP.getByVal(condition.substring(1, condition.length()));
-                andFieldLogic.getWhereClauses().add(new DefaultQueryField(columnName, queryOP, BeanUtils.getValue(columnType, queryOP, value)));
-            }
+            handleKeyVal(key, value, queryFilter, andFieldLogic);
+        }
+        
+        Enumeration<String> attrNames = request.getAttributeNames();
+        while (attrNames.hasMoreElements()) {
+            String key = attrNames.nextElement();
+            Object val = request.getAttribute(key);
+            handleKeyVal(key, val, queryFilter, andFieldLogic);
         }
         queryFilter.setFieldLogic(andFieldLogic);
     }
     
-    
-    public static <T> Class<T> copyProperties(Class<T> source, Object target) {
-    	BeanCopierUtils.copyProperties(source, target);
-    	return source;
+    private static void handleKeyVal(String key,Object val,DefaultQueryFilter queryFilter,FieldLogic andFieldLogic) {
+    	//老版本用的^但是Tomcat8 get请求不支持此类型参数。故这里做兼容使用-
+        String specialSplitKey = "$";
+        if (key.contains("^")) {
+        	specialSplitKey = "^";
+        }
+        
+        if (!key.contains(specialSplitKey)) {
+            return;
+        }
+       
+        if (val == null) return;
+		
+        String value =val.toString();
+        value = value.trim();
+		if (value.equals(StringConstants.EMPTY)) return;
+
+        String[] aryParamKey = key.split("\\"+specialSplitKey);
+        if (aryParamKey.length != 2) {
+            return;
+        }
+
+        String columnName = aryParamKey[0];//截取字段名字
+        String condition = aryParamKey[1];//截取条件
+        String columnType = condition.substring(0, 1);
+
+        if ("V".equals(columnType)) {
+            columnType = ColumnType.VARCHAR.getKey();
+        } else if ("N".equals(columnType)) {
+            columnType = ColumnType.NUMBER.getKey();
+        } else if ("D".equals(columnType)) {
+            columnType = ColumnType.DATE.getKey();
+        }
+        //仅仅将参数设置进入mapper环境
+        if (condition.length() == 1) {
+            queryFilter.addParamsFilter(columnName, BeanUtils.getValue(columnType,value));
+        } else {
+            QueryOP queryOP = QueryOP.getByVal(condition.substring(1, condition.length()));
+            andFieldLogic.getWhereClauses().add(new DefaultQueryField(columnName, queryOP, BeanUtils.getValue(columnType, queryOP, value)));
+        }
     }
+    
 
     /**
      * 把当前上下文的请求封装在map中

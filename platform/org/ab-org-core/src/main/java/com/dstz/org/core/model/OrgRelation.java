@@ -45,6 +45,7 @@ public class OrgRelation extends BaseModel{
 	 */
 	protected String groupName;
 	protected String userName;
+	protected String userAccount;
 	protected String roleName;
 	protected String roleAlias;
 	
@@ -189,6 +190,12 @@ public class OrgRelation extends BaseModel{
 	 */
 	public  String getType() {
 		return this.type;
+	}
+	public String getUserAccount() {
+		return userAccount;
+	}
+	public void setUserAccount(String userAccount) {
+		this.userAccount = userAccount;
 	}
 	
 	

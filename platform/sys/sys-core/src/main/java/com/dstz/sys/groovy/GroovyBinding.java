@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import groovy.lang.Binding;
 
@@ -15,7 +15,7 @@ import groovy.lang.Binding;
  * @author ray
  */
 public class GroovyBinding extends Binding {
-	private Log logger = LogFactory.getLog(GroovyScriptEngine.class);
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@SuppressWarnings("unused")
 	private Map<?, ?> variables;
@@ -48,7 +48,7 @@ public class GroovyBinding extends Binding {
 		}
 
 		if (result == null) {
-			logger.warn("执行Groovy 语句时,Context 缺少 Variable ：" + name);
+			logger.warn("执行Groovy 语句时,Context 缺少 Variable ：{}", name);
 		}
 
 		return result;

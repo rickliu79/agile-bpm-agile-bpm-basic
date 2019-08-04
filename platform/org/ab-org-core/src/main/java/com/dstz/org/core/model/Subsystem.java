@@ -22,6 +22,14 @@ public class Subsystem extends BaseModel implements  ISubsystem {
      * 系统别名
      */
     protected String alias;
+    
+    
+    /**
+     * 如果url不为空则 跳转对应系统的url
+     */
+    protected String url;
+    
+    protected String openType = "_top";
 
     /**
      * 是否可用 1 可用，0 ，不可用
@@ -81,7 +89,23 @@ public class Subsystem extends BaseModel implements  ISubsystem {
     }
 
 
-    public void setEnabled(Integer enabled) {
+    public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getOpenType() {
+		return openType;
+	}
+
+	public void setOpenType(String openType) {
+		this.openType = openType;
+	}
+
+	public void setEnabled(Integer enabled) {
         this.enabled = enabled;
     }
 

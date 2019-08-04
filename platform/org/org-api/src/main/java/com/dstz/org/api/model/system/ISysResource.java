@@ -2,7 +2,9 @@ package com.dstz.org.api.model.system;
 
 import java.util.List;
 
-public interface ISysResource {
+import com.dstz.base.api.model.Tree;
+
+public interface ISysResource extends Tree{
 	
 	
    /**

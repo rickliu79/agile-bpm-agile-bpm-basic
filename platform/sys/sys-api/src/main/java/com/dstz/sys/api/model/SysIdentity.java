@@ -12,7 +12,7 @@ public interface SysIdentity extends Serializable{
      * 用户。
      */
     public final static String TYPE_USER = "user";
-    /***role**/
+    /***role **/
     public final static String TYPE_ROLE = "role";
 
     /**

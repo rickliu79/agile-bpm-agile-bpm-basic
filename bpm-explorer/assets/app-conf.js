@@ -5,7 +5,8 @@ window.__ctx = "/agile-bpm-platform";
 
 //jQuery 跨域处理
 jQuery(function () {  //, headers: { 'x-requested-with': 'XMLHttpRequest' }
-    $.ajaxSetup({crossDomain: true, xhrFields: {withCredentials: true}});
+	jQuery.ajaxSetup({crossDomain: true, xhrFields: {withCredentials: true}});
+	jQuery.support.cors = true;
 }); 
 
 /**
@@ -22,7 +23,7 @@ window.getCtxUrl = function(url,replaceRequestParam){
 		url = __ctx + url;
 		
 		//如果URL含?且需要替换页面请求参数，则进行格式化
-		if(replaceRequestParam && url.indexOf("?")!=-1){
+		if(replaceRequestParam && url.indexOf("?")!=-1 && $.getParams){
 			url = url.format($.getParams());
 		}
 	}

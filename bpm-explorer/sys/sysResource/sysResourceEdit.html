@@ -44,26 +44,26 @@
 			<tr>
 				<th>资源名:</th>
 				<td>
-					<input class="form-control" type="text" ng-model="data.name" ab-validate="{required:true,maxlength:150}" />
+					<input class="form-control" type="text" ng-model="data.name" ab-validate="{required:true,maxlength:60}" />
 				</td>
 			</tr>
 			<tr>
 				<th>别名:</th>
 				<td>
-					<input class="form-control" type="text" placeholder="资源别名，全局唯一" ng-model="data.alias" ab-validate="{required:true,maxlength:150}" />
+					<input class="form-control" type="text" placeholder="资源别名，全局唯一" ng-model="data.alias" ab-validate="{required:true,maxlength:60}" />
 				</td>
 			</tr>
 			<tr>
 				<th>请求地址:</th>
 				<td>
-					<input class="form-control input-width-80" type="text" ng-model="data.url" ab-validate="{required:false,maxlength:150}" />
+					<input class="form-control input-width-80" type="text" ng-model="data.url" ab-validate="{required:false,maxlength:120}" />
 					<span class="fa fa-question-circle btn text-danger ng-isolate-scope" ab-tip=""  title="按钮、链接需要正确配置请求链接，该链接会用于系统鉴权"></span>
 				</td>
 			</tr>
 			<tr>
 				<th>类型:</th>
 				<td>
-					 <select class="form-control" ng-model="data.type" ab-validate="{required:true,maxlength:150}">
+					 <select class="form-control" ng-model="data.type" ab-validate="{required:true,maxlength:120}">
 					 	<option value="menu"> 菜单</option>
 					 	<option value="button"> 按钮</option>
 					 	<option value="link"> 链接</option>
@@ -87,14 +87,14 @@
 			<tr>
 				<th>字体图标:</th>
 				<td>
-					<input class="form-control" type="text" ng-model="data.icon" ab-validate="{required:false,maxlength:150}" />
+					<input class="form-control" type="text" ng-model="data.icon" ab-validate="{required:false,maxlength:60}" />
 					<span class="fa fa-question-circle btn text-info ng-isolate-scope" ab-tip=""  title="字体图标,可以在开发辅助-字体图标中选择合适的图标，按钮、链接目前不支持该配置"></span>
 				</td>
 			</tr>
 			<tr>
 				<th>排序:{{data.sn}}</th>
 				<td>
-					<input class="form-control input-width-5" type="text" ng-model="data.sn" ab-validate="{required:false,number:true}" />
+					<input class="form-control input-width-5" type="text" ng-model="data.sn" ab-validate="{required:false,number:true,maxlength:10}" />
 					<span class="fa fa-question-circle btn text-info ng-isolate-scope" ab-tip=""  title="默认值1，数字越大同级排序越靠后"></span>
 				</td>
 			</tr>

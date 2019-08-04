@@ -30,5 +30,12 @@ public interface GroupDao extends BaseDao<String, Group> {
      * @return
      */
     List<Group> getByUserId(String userId);
+    
+    /**
+     * 获取子组织
+     * @param path
+     * @return
+     */
+	List<Group> getChildByPath(String path);
 
 }

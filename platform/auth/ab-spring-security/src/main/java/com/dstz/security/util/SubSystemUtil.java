@@ -1,10 +1,10 @@
 package com.dstz.security.util;
 
-import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.rest.util.CookieUitl;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.dstz.base.core.util.CookieUitl;
+import com.dstz.base.core.util.StringUtil;
 
 public class SubSystemUtil {
 

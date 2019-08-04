@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.dstz.base.core.model.BaseModel;
 import com.dstz.org.api.model.IUser;
@@ -18,11 +19,13 @@ public class User extends BaseModel implements IUser{
     /**
      * 姓名
      */
+	@NotBlank(message="用户账户不能为空")
     protected String fullname;
 
     /**
      * 账号
      */
+	@NotBlank(message="用户账户不能为空")
     protected String account;
 
     /**

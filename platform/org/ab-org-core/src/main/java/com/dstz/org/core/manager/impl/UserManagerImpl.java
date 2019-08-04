@@ -5,11 +5,15 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dstz.base.api.constant.StringConstants;
+import com.dstz.base.core.cache.ICache;
 import com.dstz.base.core.encrypt.EncryptUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.manager.impl.BaseManager;
+import com.dstz.org.api.context.ICurrentContext;
 import com.dstz.org.core.constant.RelationTypeConstant;
 import com.dstz.org.core.dao.UserDao;
 import com.dstz.org.core.manager.OrgRelationManager;
@@ -30,6 +34,8 @@ public class UserManagerImpl extends BaseManager<String, User> implements UserMa
     UserDao userDao;
     @Resource
     OrgRelationManager orgRelationMananger;
+    @Autowired
+    ICache icache;
 
     public User getByAccount(String account) {
         return this.userDao.getByAccount(account);
@@ -43,9 +49,11 @@ public class UserManagerImpl extends BaseManager<String, User> implements UserMa
 	@Override
 	public List<User> getUserListByRelation(String relId, String type) {
 		if(type.equals(RelationTypeConstant.POST_USER.getKey())) {
-			OrgRelation postRelation = orgRelationMananger.get(relId);
-			if(postRelation == null) return Collections.emptyList();
-			return userDao.getUserListByPost(postRelation.getGroupId(),postRelation.getUserId());
+			String [] postId = relId.split(StringConstants.DASH);
+			if(postId.length != 2) {
+				return Collections.emptyList();
+			}
+			return userDao.getUserListByPost(postId[1],postId[0]);
 		}
 		
 		return userDao.getUserListByRelation(relId,type);
@@ -91,6 +99,9 @@ public class UserManagerImpl extends BaseManager<String, User> implements UserMa
 			orgRelationMananger.create(rel);
 		});
 		 
+		//删除组织缓存
+	    icache.delByKey(ICurrentContext.CURRENT_ORG .concat(user.getId()));
+	    icache.delByKey("agilebpm:loginUser:".concat(user.getAccount()));
 	}
 
 }

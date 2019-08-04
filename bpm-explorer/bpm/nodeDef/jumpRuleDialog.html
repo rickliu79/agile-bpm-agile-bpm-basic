@@ -98,7 +98,8 @@
 				<td>
 					<select ng-model="rule.targetNode" ab-validate="{required:true}" class="form-control" id="select">
 						<option value="">请选择</option>
-						<option ng-repeat="(nodeId,node) in nodeMap" value="{{nodeId}}"  ng-selected="nodeId===rule.targetNode">{{node.nodeName}}</option>
+						<option ng-repeat="(nodeId,node) in nodeMap" value="{{nodeId}}" ng-show="node.nodeType==='UserTask'"
+						 ng-selected="nodeId===rule.targetNode">{{node.nodeName}}</option>
 					</select>
 				</td>
 			</tr>

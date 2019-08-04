@@ -1,17 +1,19 @@
 package com.dstz.sys.groovy;
 
-import com.dstz.base.core.util.AppUtil;
-import com.dstz.sys.api.groovy.IGroovyScriptEngine;
-import com.dstz.sys.api.groovy.IScript;
-import groovy.lang.GroovyShell;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.Map.Entry;
+import com.dstz.base.core.util.AppUtil;
+import com.dstz.sys.api.groovy.IGroovyScriptEngine;
+import com.dstz.sys.api.groovy.IScript;
+
+import groovy.lang.GroovyShell;
 
 /**
  * 脚本引擎用于执行groovy脚本。<br/>
@@ -20,7 +22,7 @@ import java.util.Map.Entry;
 @Component
 public class GroovyScriptEngine implements IGroovyScriptEngine, ApplicationListener<ContextRefreshedEvent>{
 
-    private Log logger = LogFactory.getLog(GroovyScriptEngine.class);
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private GroovyBinding groovyBinding = new GroovyBinding();
     
     @Override
@@ -59,8 +61,8 @@ public class GroovyScriptEngine implements IGroovyScriptEngine, ApplicationListe
         groovyBinding.setThreadVariables(vars);
         
         if(logger.isDebugEnabled()) {
-        	logger.debug("执行:" + script);
-        	logger.debug("variables:" +vars+"");
+        	logger.debug("执行:{}", script);
+        	logger.debug("variables:{}",vars+"");
         }
         
         GroovyShell shell = new GroovyShell(groovyBinding);

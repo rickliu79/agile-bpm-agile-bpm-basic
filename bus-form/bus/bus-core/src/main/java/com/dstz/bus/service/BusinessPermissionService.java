@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.dstz.base.core.util.StringUtil;
+import com.dstz.base.core.util.ThreadMapUtil;
 import com.dstz.bus.api.constant.RightsType;
 import com.dstz.bus.api.service.IBusinessPermissionService;
 import com.dstz.bus.manager.BusinessObjectManager;
@@ -82,7 +83,6 @@ public class BusinessPermissionService implements IBusinessPermissionService {
 	 * @param permission
 	 */
 	private void calculateResult(AbstractPermission permission) {
-
 		for (RightsType rightsType : RightsType.values()) {
 			JSONArray jsonArray = permission.getRights().get(rightsType.getKey());
 			boolean b = PermissionCalculatorFactory.haveRights(jsonArray);
@@ -95,5 +95,8 @@ public class BusinessPermissionService implements IBusinessPermissionService {
 		if (StringUtil.isEmpty(permission.getResult())) {
 			permission.setResult(RightsType.values()[RightsType.values().length - 1].getKey());
 		}
+		
+		//清空权限使用到的线程变量
+		ThreadMapUtil.remove("com.dstz.sys.permission.impl.GroupPermission");
 	}
 }

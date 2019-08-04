@@ -81,4 +81,10 @@
 		code_=#{code}
 	</select>
 	
+	<select id="getChildByPath"   parameterType="java.lang.String" resultMap="Group">
+		SELECT * FROM org_group 
+		WHERE 
+		path_ like #{path}
+	</select>
+	
 </mapper>

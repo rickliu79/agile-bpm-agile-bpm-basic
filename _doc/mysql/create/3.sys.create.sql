@@ -172,16 +172,19 @@ CREATE TABLE `sys_subsystem` (
   `id_` varchar(64) NOT NULL COMMENT '主键',
   `name_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '系统名称',
   `alias_` varchar(64) DEFAULT NULL COMMENT '系统别名',
+  `url_` varchar(500) DEFAULT NULL COMMENT '子系统地址，空则为当前系统',
+  `open_type_` varchar(64) DEFAULT NULL COMMENT '打开方式',
   `enabled_` int(11) DEFAULT NULL COMMENT '是否可用 1 可用，0 ，不可用',
+  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
   `is_default_` int(11) DEFAULT NULL COMMENT '是否默认 1 可用，0 ，不可用',
   `desc_` varchar(500) DEFAULT NULL,
   `config_` varchar(2000) DEFAULT NULL,
-  `create_time_` datetime DEFAULT NULL COMMENT '创建时间',
   `create_by_` varchar(64) DEFAULT NULL,
   `update_time_` datetime DEFAULT NULL,
   `update_by_` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_`)
+  PRIMARY KEY (`id_`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='子系统定义';
+
 
 -- ----------------------------
 -- Table structure for sys_tree

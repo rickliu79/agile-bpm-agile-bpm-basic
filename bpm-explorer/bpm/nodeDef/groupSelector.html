@@ -20,6 +20,10 @@
 		}
 
 		$scope.groupDialog = function() {
+			if(!$scope.conf.type){
+				$.Toast.warning("请选择组织类型！",null,window);
+				return;
+			}
 			var callBack = function(data, dialog) {
 				$scope.$apply(function() {
 					$scope.initList = {};

@@ -21,6 +21,7 @@ import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.BaseController;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.core.manager.GroupManager;
+import com.dstz.org.core.manager.OrgRelationManager;
 import com.dstz.org.core.manager.UserManager;
 import com.dstz.org.core.model.Group;
 import com.dstz.org.core.model.OrgTree;
@@ -38,6 +39,8 @@ public class GroupController extends BaseController<Group> {
     GroupManager groupManager;
     @Resource
     UserManager userManager;
+    @Resource
+    OrgRelationManager orgRelationMananger;
 
     /**
      * 组织架构列表(分页条件查询)数据
@@ -58,7 +61,7 @@ public class GroupController extends BaseController<Group> {
         Page<Group> orgList = (Page<Group>) groupManager.query(queryFilter);
         return new PageResult(orgList);
     }
-
+    
 
     @RequestMapping("isExist")
     public boolean isExist(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -114,6 +117,20 @@ public class GroupController extends BaseController<Group> {
             groupTreeList.add(groupTree);
         }
         return groupTreeList;
+    }
+    
+    @RequestMapping("getOrgTree")
+    public ResultMsg<List<OrgTree>> getOrgTree(){
+        List<OrgTree> groupTreeList = getGroupTree();
+        if (CollectionUtil.isEmpty(groupTreeList)) {
+            groupTreeList = new ArrayList<OrgTree>();
+        }
+        OrgTree rootGroup = new OrgTree();
+        rootGroup.setName("组织");
+        rootGroup.setId("0");
+        groupTreeList.add(rootGroup);
+        
+        return getSuccessResult(BeanUtils.listToTree(groupTreeList));
     }
 
     @Override

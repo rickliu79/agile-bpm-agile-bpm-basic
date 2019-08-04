@@ -68,4 +68,9 @@ public class SubsystemManagerImpl extends BaseManager<String, Subsystem> impleme
 
         return subsystemDao.getSystemByUser(user.getUserId());
     }
+
+	@Override
+	public Subsystem getByAlias(String systemAlias) {
+		return subsystemDao.getByAlias(systemAlias);
+	}
 }

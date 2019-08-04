@@ -1,6 +1,10 @@
 package com.dstz.bus.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.alibaba.fastjson.JSONObject;
@@ -206,7 +210,7 @@ public class BusinessData implements IBusinessData {
 			initData = new JSONObject();
 
 		JSONObject initTables = new JSONObject();
-		for (IBusTableRel rel : this.getBusTableRel().getChildren()) {
+		for (IBusTableRel rel : this.getBusTableRel().list()) {
 			initTables.put(rel.getTableKey(), getInitData(rel));
 		}
 		initData.put(this.getBusTableRel().getBusObj().getKey(), initTables);

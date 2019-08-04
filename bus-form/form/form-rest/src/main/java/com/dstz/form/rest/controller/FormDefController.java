@@ -1,6 +1,5 @@
 package com.dstz.form.rest.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,18 +27,12 @@ import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.BaseController;
 import com.dstz.base.rest.util.RequestUtil;
-import com.dstz.bus.api.model.IBusTableRel;
-import com.dstz.bus.api.model.IBusinessObject;
 import com.dstz.bus.api.service.IBusinessObjectService;
-import com.dstz.bus.api.service.IBusinessTableService;
 import com.dstz.form.api.model.FormType;
-import com.dstz.form.generator.AbsFormElementGenerator;
 import com.dstz.form.manager.FormDefManager;
 import com.dstz.form.manager.FormTemplateManager;
 import com.dstz.form.model.FormDef;
-import com.dstz.form.model.FormTemplate;
 import com.dstz.sys.api.constant.EnvironmentConstant;
-import com.dstz.sys.api.freemark.IFreemarkerEngine;
 import com.github.pagehelper.Page;
 
 /**
@@ -54,24 +47,19 @@ public class FormDefController extends BaseController<FormDef> {
 	@Autowired
 	IBusinessObjectService businessObjectService;
 	@Autowired
-	IBusinessTableService businessTableService;
-	@Autowired
 	FormTemplateManager formTemplateManager;
-	@Autowired
-    IFreemarkerEngine freemarkEngine;
 
-	
 	@Override
 	@RequestMapping("listJson")
 	public PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String formType = RequestUtil.getString(request, "formType",FormType.PC.value());
+		String formType = RequestUtil.getString(request, "formType", FormType.PC.value());
 		QueryFilter queryFilter = getQueryFilter(request);
 		queryFilter.addFilter("type_", formType, QueryOP.EQUAL);
-	    Page<FormDef> pageList = (Page<FormDef>) formDefManager.query(queryFilter);
-	      
-        return new PageResult(pageList);
+		Page<Map> pageList = (Page<Map>) formDefManager.queryWithBo(queryFilter);
+		
+		return new PageResult(pageList);
 	}
-	
+
 	/**
 	 * formDefEdit.html的save后端
 	 */
@@ -79,11 +67,11 @@ public class FormDefController extends BaseController<FormDef> {
 	@Override
 	@CatchErr(write2response = true, value = "保存表单失败")
 	public ResultMsg<String> save(@RequestBody FormDef formDef) throws Exception {
-		if(StringUtil.isEmpty(formDef.getKey()) && formDefManager.getByKey(formDef.getKey())!= null) {
+		if (StringUtil.isEmpty(formDef.getKey()) && formDefManager.getByKey(formDef.getKey()) != null) {
 			throw new BusinessMessage("表单 KEY 已经存在，请修改 表单 KEY 的 值");
 		}
 
-		ResultMsg<String> msg =super.save( formDef);
+		ResultMsg<String> msg = super.save(formDef);
 		formDefManager.saveBackupHtml(formDef);
 		return msg;
 	}
@@ -146,6 +134,7 @@ public class FormDefController extends BaseController<FormDef> {
 	 * <pre>
 	 * boTree数据树
 	 * </pre>
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -166,9 +155,9 @@ public class FormDefController extends BaseController<FormDef> {
 	@RequestMapping("templateData")
 	@CatchErr(write2response = true, value = "根据bo获取表单模板信息异常")
 	public ResultMsg<JSONArray> templateData(@RequestParam String boKey, @RequestParam String type) throws Exception {
-		
-		JSONArray array = formTemplateManager.templateData(boKey,type);
-		
+
+		JSONArray array = formTemplateManager.templateData(boKey, type);
+
 		return new ResultMsg<>(array);
 	}
 
@@ -185,49 +174,24 @@ public class FormDefController extends BaseController<FormDef> {
 	@CatchErr(write2response = true, value = "生成html异常")
 	public ResultMsg<String> createHtml(HttpServletRequest request, HttpServletResponse response, @RequestBody JSONArray jsonArray) throws Exception {
 		String boKey = RequestUtil.getString(request, "boKey");
-		IBusinessObject businessObject = businessObjectService.getFilledByKey(boKey);
-		StringBuilder sb = new StringBuilder();
-		for (Object object : jsonArray) {
-			JSONObject jsonObject = (JSONObject) object;
-			IBusTableRel relation = businessObject.getRelation().find(jsonObject.getString("tableKey"));
-			FormTemplate template = formTemplateManager.getByKey(jsonObject.getString("templateKey"));
-			if (template == null) {
-				continue;
-			}
-			Map<String, Object> map = new HashMap<>();
-			map.put("relation", relation);
-			
-			//将所有表单生成器的实现类注入到模板引擎中
-			for(AbsFormElementGenerator generator : AppUtil.getImplInstanceArray(AbsFormElementGenerator.class)) {
-				map.put(generator.getGeneratorName(), generator);
-			}
-			
-			String html = freemarkEngine.parseByString(template.getHtml(), map);
-			
-			sb.append(html);
-		}
-		if(sb.length()>0){
-			sb.insert(0, "<div class=\"ivu-form ivu-form-label-right\">");
-			sb.append("</div>");
+		String formType = RequestUtil.getString(request, "formType");
+		String html = formDefManager.generateFormHtml(boKey, jsonArray, formType);
+		return getSuccessResult(html, "生成成功");
+	}
+
+	@RequestMapping("remove")
+	@CatchErr
+	public ResultMsg<String> remove(@RequestParam String id) throws Exception {
+		String[] aryIds = StringUtil.getStringAryByStr(id);
+
+		if (AppUtil.getCtxEnvironment().contains(EnvironmentConstant.SIT.key())) {
+			throw new BusinessError("测试环境为了防止不法之徒恶意破坏演示数据，禁止表单删除！<br/>您的访问信息已经被我们统计！");
 		}
 
-		return getSuccessResult(sb.toString(),"生成成功");
+		formDefManager.removeByIds(aryIds);
+		return getSuccessResult(String.format("删除%s成功", getModelDesc()));
 	}
-	
-    @RequestMapping("remove")
-    @CatchErr
-    public ResultMsg<String> remove(@RequestParam String id) throws Exception {
-         String[] aryIds = StringUtil.getStringAryByStr(id);
-         
-         if(AppUtil.getCtxEnvironment().contains(EnvironmentConstant.SIT.key())) {
-        	 throw new BusinessError("测试环境为了防止不法之徒恶意破坏演示数据，禁止表单删除！<br/>您的访问信息已经被我们统计！");
-         }
-         
-         formDefManager.removeByIds(aryIds);
-         return getSuccessResult(String.format("删除%s成功", getModelDesc()));
-    }
-	
-	
+
 	@Override
 	protected String getModelDesc() {
 		return "自定义表单";

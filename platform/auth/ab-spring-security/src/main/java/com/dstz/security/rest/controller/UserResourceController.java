@@ -19,9 +19,9 @@ import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.BeanUtils;
+import com.dstz.base.core.util.CookieUitl;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.ControllerTools;
-import com.dstz.base.rest.util.CookieUitl;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.api.constant.GroupTypeConstant;
 import com.dstz.org.api.model.IGroup;
@@ -44,7 +44,7 @@ import io.swagger.annotations.ApiOperation;
  * @author Jeff
  */
 @RestController
-@Api(description="用户资源信息")
+@Api(description="登陆用户信息服务接口")
 public class UserResourceController extends ControllerTools {
     @Resource
     GroupService orgService;
@@ -84,7 +84,6 @@ public class UserResourceController extends ControllerTools {
         if (currentSystem == null) {
             currentSystem = subsystemList.get(0);
         }
-        SubSystemUtil.setSystemId(request, response, currentSystem.getAlias());
 
         IGroup group = ContextUtil.getCurrentGroup();
         List<? extends IGroup> orgList = orgService.getGroupsByGroupTypeUserId(GroupTypeConstant.ORG.key(), ContextUtil.getCurrentUserId());

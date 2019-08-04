@@ -7,7 +7,7 @@ var base = angular.module("base", [])
 	    	  return config;
 	      },
 	      'response': function(response) {
-	    	  if(response.data && !response.data.isOk && response.data.code==="401" && window.location.href.indexOf("index") == -1 && !window.location.href.endWith("bpm-explorer/")){
+	    	  if(response.data && !response.data.isOk && response.data.code==="401" && window.location.href.indexOf("index") == -1 && (!window.location.href.endWith || !window.location.href.endWith("bpm-explorer/"))){
 	    		  jQuery.Toast.error("登录超时，请重新登录");
 	    		  console.info(response.data);
 	    		  console.info(window.location.href);

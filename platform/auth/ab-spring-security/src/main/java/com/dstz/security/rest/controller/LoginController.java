@@ -21,17 +21,18 @@ import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
+import com.dstz.base.core.jwt.JWTService;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.ControllerTools;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.security.constant.PlatFormStatusCode;
-import com.dstz.security.jwt.service.JWTService;
 import com.dstz.security.login.SecurityUtil;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-
+@Api(description="登陆服务接口")
 @RestController
 public class LoginController extends ControllerTools {
     SessionAuthenticationStrategy sessionStrategy = new NullAuthenticatedSessionStrategy();
@@ -43,10 +44,12 @@ public class LoginController extends ControllerTools {
     @ApiOperation(value = "用户登录",notes="登录鉴权")
     @ApiImplicitParams({
     	@ApiImplicitParam(paramType = "form", dataType = "String", name = "account", value = "账号"),
-		@ApiImplicitParam(paramType = "form", dataType = "String", name = "password", value = "密码")})
+		@ApiImplicitParam(paramType = "form", dataType = "String", name = "password", value = "密码"),
+		@ApiImplicitParam(paramType = "form", dataType = "String", name = "audience", value = "接收方，pc/mobile/android")})
     public ResultMsg login(HttpServletRequest request, HttpServletResponse response) {
         String account = RequestUtil.getString(request, "account");
         String password = RequestUtil.getString(request, "password");
+        String audience = RequestUtil.getString(request, "audience","pc");
         if (StringUtil.isEmpty(account)) {
             throw new BusinessMessage("账户不能为空", PlatFormStatusCode.LOGIN_ERROR);
         }
@@ -60,7 +63,7 @@ public class LoginController extends ControllerTools {
             
             //jwt 模式 支持cookie模式和token调用形式
             if(jWTService.getJwtEnabled()) {
-            	String token = jWTService.generateToken(account);
+            	String token = jWTService.generateToken(account,audience);
             	//直接写入 cookie ,把cookie当做session来用
             	wiriteJwtToken2Cookie(request,response,token);
             	return getSuccessResult(token, "登录成功！");
@@ -106,6 +109,7 @@ public class LoginController extends ControllerTools {
      * @param request
      * @param response
      * @param token
+     * @param audience 
      * @param jwtHeader
      */
     private void wiriteJwtToken2Cookie(HttpServletRequest request,HttpServletResponse response, String token){

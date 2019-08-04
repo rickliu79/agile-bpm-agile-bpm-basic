@@ -39,4 +39,12 @@ public class BusinessTableCacheUtil {
 		}
 		return map.get(key);
 	}
+
+	public static void clean() {
+		Map<String, BusinessTable> map = (Map<String, BusinessTable>) AppUtil.getBean(ICache.class).getByKey(businessTableMap);
+		if (map == null) {
+			return;
+		}
+		map.clear();
+	}
 }

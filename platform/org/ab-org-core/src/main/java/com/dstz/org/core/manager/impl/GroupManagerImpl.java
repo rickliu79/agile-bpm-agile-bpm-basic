@@ -40,6 +40,21 @@ public class GroupManagerImpl extends BaseManager<String, Group> implements Grou
     }
     
     @Override
+    public void remove(String id) {
+    	orgRelationMananger.removeCheck(id, null);
+    	Group group =	groupDao.get(id);
+    	List<Group> childList = groupDao.getChildByPath(group.getPath()+"%");
+    	
+    	// 级联删除子组织
+    	childList.forEach(g ->{
+    		orgRelationMananger.removeCheck(g.getId(), null);
+    		super.remove(g.getId());
+    	});
+    	
+    	super.remove(id);
+    }
+    
+    @Override
     public Group get(String entityId) {
     	Group group =  super.get(entityId);
     	if(group != null) {

@@ -10,9 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.dstz.base.api.exception.BusinessMessage;
+import com.dstz.base.api.query.QueryFilter;
+import com.dstz.base.api.query.QueryOP;
+import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.cache.ICache;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.StringUtil;
+import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.org.api.context.ICurrentContext;
 import com.dstz.org.api.model.IGroup;
@@ -20,6 +25,7 @@ import com.dstz.org.core.constant.RelationTypeConstant;
 import com.dstz.org.core.dao.OrgRelationDao;
 import com.dstz.org.core.manager.OrgRelationManager;
 import com.dstz.org.core.model.OrgRelation;
+import com.github.pagehelper.Page;
 
 import cn.hutool.core.util.ArrayUtil;
 /**
@@ -155,5 +161,54 @@ public class OrgRelationManagerImpl extends BaseManager<String, OrgRelation> imp
 	public OrgRelation getPost(String id) {
 		return orgRelationDao.getPost(id);
 	}
+
+	/**
+	 * 删除 角色、删除组织、删除岗位前进行校验
+     * 删除角色 校验 岗位、岗位人员、角色人员是否存在
+     * 删除组织、 校验岗位、组织人员
+     * 删除岗位  校验岗位人员
+	 */
+	@Override
+	public void removeCheck(String groupId, String roleId) {
+		// 通过  关系查询 用户
+    	QueryFilter filter = new DefaultQueryFilter();
+    	// 岗位检查 岗位下人员是否存在
+    	if(StringUtil.isNotEmpty(groupId)) {
+    		filter.addFilter("relation.group_id_", groupId, QueryOP.EQUAL);
+    	}
+    	if(StringUtil.isNotEmpty(roleId)) {
+    		filter.addFilter("relation.role_id_", roleId, QueryOP.EQUAL);
+    	}
+    	if(StringUtil.isNotEmpty(roleId) && StringUtil.isNotEmpty(groupId)) {
+    		filter.addFilter("relation.type_", RelationTypeConstant.POST.getKey(), QueryOP.NOT_EQUAL);
+    	}
+    	
+    	Page<OrgRelation> relationList = (Page<OrgRelation>)this.query(filter);
+		if(relationList.isEmpty())  return ;
+		
+
+		StringBuilder sb = new StringBuilder("请先移除以下关系：<br>");
+		for(OrgRelation relation : relationList) {
+			getRelationNotes(relation,sb);
+		}
+		sb.append(" 共[").append(relationList.getTotal()).append("]条，待移除关系");
+		
+		throw new BusinessMessage(sb.toString());
+	}
+	
+	private void getRelationNotes(OrgRelation relation, StringBuilder sb) {
+		// 岗位
+		if(relation.getType().equals(RelationTypeConstant.POST.getKey())) {
+			sb.append("岗位：").append(relation.getPostName());
+		}else if(relation.getType().equals(RelationTypeConstant.POST_USER.getKey())) {
+			sb.append("岗位 [").append(relation.getPostName()).append("] 下用户：").append(relation.getUserName());
+		}else if(relation.getType().equals(RelationTypeConstant.GROUP_USER.getKey())) {
+			sb.append("组织 [").append(relation.getGroupName()).append("] 下用户：").append(relation.getUserName());
+		}else if(relation.getType().equals(RelationTypeConstant.USER_ROLE.getKey())) {
+			sb.append("角色 [").append(relation.getRoleName()).append("] 下用户：").append(relation.getUserName());
+		}
+		sb.append("<br>");
+	}
+    
 
 }

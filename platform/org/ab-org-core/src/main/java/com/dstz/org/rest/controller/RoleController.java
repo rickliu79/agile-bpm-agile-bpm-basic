@@ -11,6 +11,7 @@ import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.rest.BaseController;
+import com.dstz.org.core.manager.OrgRelationManager;
 import com.dstz.org.core.manager.RoleManager;
 import com.dstz.org.core.model.Role;
 
@@ -22,7 +23,8 @@ import com.dstz.org.core.model.Role;
 public class RoleController extends BaseController<Role> {
     @Resource
     RoleManager roleManager;
-
+    @Resource
+    OrgRelationManager orgRelationMananger;
 
     @Override
     protected String getModelDesc() {
@@ -39,6 +41,15 @@ public class RoleController extends BaseController<Role> {
             }
         }
        return super.save(role);
+    }
+    
+    /**
+     * 移除 角色 权限
+     */
+    @Override @CatchErr
+    public ResultMsg<String> remove(String id) throws Exception {
+    	orgRelationMananger.removeCheck(null, id);
+     	return super.remove(id);
     }
 
 }

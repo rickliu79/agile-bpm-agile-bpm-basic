@@ -12,8 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.dstz.base.core.cache.ICache;
 import com.dstz.base.core.util.AppUtil;
+import com.dstz.base.core.util.CookieUitl;
 import com.dstz.base.core.util.StringUtil;
-import com.dstz.base.rest.util.CookieUitl;
 import com.dstz.org.api.constant.GroupTypeConstant;
 import com.dstz.org.api.context.ICurrentContext;
 import com.dstz.org.api.model.IGroup;

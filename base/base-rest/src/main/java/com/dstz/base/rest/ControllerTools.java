@@ -1,6 +1,14 @@
 package com.dstz.base.rest;
 
-import com.alibaba.fastjson.JSON;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.ibatis.session.RowBounds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dstz.base.api.query.Direction;
 import com.dstz.base.api.query.FieldSort;
 import com.dstz.base.api.query.QueryFilter;
@@ -10,16 +18,6 @@ import com.dstz.base.db.model.query.DefaultFieldSort;
 import com.dstz.base.db.model.query.DefaultPage;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.rest.util.RequestUtil;
-import org.apache.ibatis.session.RowBounds;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ControllerTools {
 	protected  Logger LOG = LoggerFactory.getLogger(getClass());
@@ -43,6 +41,14 @@ public class ControllerTools {
 	    protected ResultMsg<String> getSuccessResult(String msg) {
 	        ResultMsg<String> resultMsg = new ResultMsg<String>();
 	        resultMsg.setOk(true);
+	        resultMsg.setMsg(msg);
+	        resultMsg.setData(msg);
+	        return resultMsg;
+	    }
+	    
+	    protected ResultMsg<String> getWarnResult(String msg) {
+	        ResultMsg<String> resultMsg = new ResultMsg<String>();
+	        resultMsg.setOk(false);
 	        resultMsg.setMsg(msg);
 	        return resultMsg;
 	    }

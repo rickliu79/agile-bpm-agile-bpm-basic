@@ -5,6 +5,8 @@
        		<id property="id" column="id_" jdbcType="VARCHAR"/>
 		<result property="name" column="name_" jdbcType="VARCHAR"/>
 		<result property="alias" column="alias_" jdbcType="VARCHAR"/>
+		<result property="url" column="url_" jdbcType="VARCHAR"/>
+		<result property="openType" column="open_type_" jdbcType="VARCHAR"/>
 		<result property="enabled" column="enabled_" jdbcType="NUMERIC"/>
 		<result property="isDefault" column="is_default_" jdbcType="NUMERIC"/>
 		<result property="desc" column="desc_" jdbcType="VARCHAR"/>
@@ -17,15 +19,21 @@
 
 	<insert id="create" parameterType="com.dstz.org.core.model.Subsystem">
 		INSERT INTO sys_subSystem
-		(id_,name_,alias_,enabled_,is_default_,desc_,config_,create_time_,create_by_,update_time_,update_by_)
+		(id_,name_,alias_,url_,open_type_,enabled_,is_default_,desc_,config_,create_time_,create_by_,update_time_,update_by_)
 		VALUES 
-		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, #{enabled,jdbcType=NUMERIC}, #{isDefault,jdbcType=NUMERIC}, #{desc,jdbcType=VARCHAR}, #{config,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, 
+		#{url,jdbcType=VARCHAR},#{openType,jdbcType=VARCHAR},#{enabled,jdbcType=NUMERIC}, #{isDefault,jdbcType=NUMERIC}, #{desc,jdbcType=VARCHAR}, #{config,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
 	</insert>
 
     <select id="get" parameterType="java.lang.String" resultMap="Subsystem">
 		SELECT * FROM sys_subsystem 
 		WHERE 
 		ID_=#{id}
+	</select>
+	<select id="getByAlias" parameterType="java.lang.String" resultMap="Subsystem">
+		SELECT * FROM sys_subsystem 
+		WHERE 
+		alias_=#{systemAlias}
 	</select>
 
     <select id="query" parameterType="java.util.Map" resultMap="Subsystem">
@@ -44,6 +52,8 @@
 		UPDATE sys_subSystem SET
 		name_=#{name,jdbcType=VARCHAR},
 		alias_=#{alias,jdbcType=VARCHAR},
+		url_=#{url,jdbcType=VARCHAR},
+		open_type_=#{openType,jdbcType=VARCHAR},
 		enabled_=#{enabled,jdbcType=NUMERIC},
 		is_default_=#{isDefault,jdbcType=NUMERIC},
 		desc_=#{desc,jdbcType=VARCHAR},

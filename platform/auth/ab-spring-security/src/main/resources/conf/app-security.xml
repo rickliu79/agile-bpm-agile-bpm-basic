@@ -28,7 +28,6 @@
 
 	<!-- jwt 判断登录用户的过滤器 -->
     <bean id="jwtAuthenticationFilter" class="com.dstz.security.authentication.JWTAuthenticationFilter"/>
-    <bean id="jWTService" class="com.dstz.security.jwt.service.JWTService"/>
 		
     <bean id="authenticationLoginEntry" class="com.dstz.security.forbidden.DefualtAuthenticationEntryPoint"/>
     <bean id="accessDeniedHandler" class="com.dstz.security.forbidden.DefaultAccessDeniedHandler"/>

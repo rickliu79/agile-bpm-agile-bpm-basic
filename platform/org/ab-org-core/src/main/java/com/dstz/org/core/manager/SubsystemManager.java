@@ -6,9 +6,7 @@ import com.dstz.base.manager.Manager;
 import com.dstz.org.core.model.Subsystem;
 
 /**
- * <pre>
- * 描述：子系统定义 处理接口
- * </pre>
+ * 子系统定义 处理接口
  */
 public interface SubsystemManager extends Manager<String, Subsystem> {
 
@@ -47,5 +45,7 @@ public interface SubsystemManager extends Manager<String, Subsystem> {
     void setDefaultSystem(String systemId);
 
     List<Subsystem> getCuurentUserSystem();
+
+	Subsystem getByAlias(String systemAlias);
 
 }

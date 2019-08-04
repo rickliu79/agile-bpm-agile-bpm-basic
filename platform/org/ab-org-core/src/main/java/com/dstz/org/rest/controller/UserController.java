@@ -3,13 +3,16 @@ package com.dstz.org.rest.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
+import com.dstz.base.api.aop.annotion.ParamValidate;
 import com.dstz.base.api.exception.BusinessError;
 import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.exception.BusinessMessage;
@@ -41,12 +44,12 @@ public class UserController extends BaseController<User> {
     UserManager userManager;
     
     /**
-     * 保存用户表信息
+     * 保存用户表信息，后端添加实体校验
      */
     @RequestMapping("save")
     @Override
-    @CatchErr(write2response = true, value = "操作用户失败！")
-    public ResultMsg<String> save( @RequestBody User user) throws Exception {
+    @CatchErr("操作用户失败！")@ParamValidate
+    public ResultMsg<String> save(@RequestBody User user) throws Exception {
         if (userManager.isUserExist(user)) throw new BusinessMessage("用户在系统中已存在!");
         
         userManager.saveUserInfo(user);

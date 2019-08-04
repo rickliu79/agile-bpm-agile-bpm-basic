@@ -17,9 +17,6 @@ AgileBPM 是完全模块化的项目集合，含【流程模块】、【业务�
 
 - PC在线测试地址: http://test.agilebpm.cn/login.html
 
-- 【商业版 iview版本】 门户平台地址：http://test1.agilebpm.cn/agilebpm-eip-ui/index.html
-- 【商业版 iview版本】 流程设计开发平台地址：http://test1.agilebpm.cn/index.html
-
 - 功能缺陷请在项目上创建建 **issues**，可以查看已完成issues来寻找问题解决方法
 <br/>
 
@@ -50,9 +47,6 @@ AgileBPM 是完全模块化的项目集合，含【流程模块】、【业务�
 
 
 ## 软件架构说明
-
-#### AgileBPM 项目模块总览脑图
-http://naotu.baidu.com/file/08a8388689b651e4848ed07845bb5c76?token=5ec9a04eaf5b83bf
 
 #### 组件化
 系统通过功能划分出了多个模块，每个模块由API、CORE、REST、SERVICE(apiImpl) 几部分组成。模块与模块间通过API交互，WEB则用于整合各个模块 
@@ -112,8 +106,4 @@ https://gitee.com/agile-bpm/bpm-app
 ##### SpringCloud 微服务版本正在构建中...
 
 ## 欢迎 **Star** 持续关注！！！ 
-qq ①群： 477781857     ②群： 364350411
-
-#### 欢迎关注技术公众号 java葵花宝典
-
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0515/110137_4c644b78_1861740.png "java葵花宝典")
+qq 群 477781857  

@@ -131,7 +131,7 @@
 				scope.reset();
 			},
 			template:'	<input type="text" ng-model="day" class="form-control" style="width: 80px;" placeholder="天数" ht-validate="{number:true}"/><label>天</label>\
-						<select ng-model="hour" class="form-control" style="width: 80px;" ng-options="hour as (hour+\'小时\') for hour in hourArr">\
+						<select ng-model="hour" class="form-control" style="width: 100px;" ng-options="hour as (hour+\'小时\') for hour in hourArr">\
 						</select>小时\
 						<select ng-model="minute" class="form-control" style="width: 80px;" ng-options="minute as (minute+\'分\') for minute in minuteArr">\
 						</select>分\
@@ -200,7 +200,7 @@
 				<th>催办属性</th>
 				<td>
 					<span ab-boolean text="工作日模式/日历日模式" ng-model="reminder.isCalcWorkDay" ab-tip title="工作日，催办计算周期会以工作日模式计算（自动跳过周末、节假日）"></span>
-					<span ab-boolean text="催办时加急任务/不加急任务" ng-model="reminder.isUrgent" ab-tip title="若加急，催办时候会默认讲任务紧急程度增加1，默认是50，任务列表会通过紧急程度排序"></span>
+					<span ab-boolean text="催办时加急任务/不加急任务" ng-model="reminder.isUrgent" ab-tip title="若加急，催办时候会默认将任务紧急程度增加1，默认是50，任务列表会通过紧急程度排序"></span>
 				</td>
 			</tr>
 			<tr>

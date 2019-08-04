@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
+import com.dstz.base.api.exception.BusinessError;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.response.impl.ResultMsg;
+import com.dstz.base.core.util.BeanUtils;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.ControllerTools;
@@ -25,6 +27,7 @@ import com.dstz.org.core.manager.ResRoleManager;
 import com.dstz.org.core.manager.SubsystemManager;
 import com.dstz.org.core.manager.SysResourceManager;
 import com.dstz.org.core.model.ResRole;
+import com.dstz.org.core.model.Subsystem;
 import com.dstz.org.core.model.SysResource;
 import com.github.pagehelper.Page;
 
@@ -126,9 +129,8 @@ public class ResRoleController extends ControllerTools {
     }
 
 
-    @RequestMapping("getTreeData")
-    @ResponseBody
-    public List<SysResource> getTreeData(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping("getTreeData")@CatchErr
+    public ResultMsg<List<SysResource>> getTreeData(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String roleId = RequestUtil.getRQString(request, "roleId");
         String systemId = RequestUtil.getRQString(request, "systemId");
         
@@ -152,6 +154,42 @@ public class ResRoleController extends ControllerTools {
         rootRes.setId("0");
         rootRes.setSystemId(systemId); // 根节点
         resourceList.add(rootRes);
-        return resourceList;
+        return getSuccessResult(resourceList);
+    }
+    
+    
+    @RequestMapping("getRoleResTreeData")@CatchErr
+    public ResultMsg<List<SysResource>> getRoleResTreeData(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String roleId = RequestUtil.getRQString(request, "roleId");
+        String systemAlias = RequestUtil.getRQString(request, "systemAlias");
+        
+    	Subsystem system = subsystemManager.getByAlias(systemAlias);
+    	if(system == null) {
+    		throw new BusinessError("不存在的系统 ,系统别名:"+systemAlias);
+    	}
+    	String systemId = system.getId();
+        
+        List<SysResource> roleResourceList = sysResourceManager.getBySystemAndRole(systemId, roleId);
+        Set<String> userResourceId = new HashSet<>(roleResourceList.size(),1);
+        roleResourceList.forEach(resouces -> userResourceId.add(resouces.getId()));
+        
+        List<SysResource> resourceList = sysResourceManager.getBySystemId(system.getId());
+        for (SysResource sysResource : resourceList) {
+            if (userResourceId.contains(sysResource.getId())) {
+                sysResource.setChecked(true);
+            }
+        }
+        
+        if (CollectionUtil.isEmpty(resourceList))
+            resourceList = new ArrayList<SysResource>();
+
+        SysResource rootRes = new SysResource();
+        String rootName = subsystemManager.get(systemId).getName();
+        rootRes.setName(rootName);
+        rootRes.setId("0");
+        rootRes.setSystemId(systemId); // 根节点
+        resourceList.add(rootRes);
+        
+        return getSuccessResult(BeanUtils.listToTree(resourceList));
     }
 }

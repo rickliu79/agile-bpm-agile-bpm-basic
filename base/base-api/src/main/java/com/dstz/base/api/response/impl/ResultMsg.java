@@ -12,14 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 返回结果
  * @param <E>
  * @author Administrator
- * @描述 返回结果
  */
-@ApiModel
+@ApiModel(description="标准的返回结果包装类")
 public class ResultMsg<E> extends BaseResult {
 
-    private static final long serialVersionUID = 7420095794265453471L;
+    private static final long serialVersionUID = 7420095794453471L;
 
     @Deprecated
     public static final int SUCCESS = 1;

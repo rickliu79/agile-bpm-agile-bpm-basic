@@ -21,7 +21,7 @@ public class BeanUtils {
      * @author jeff
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    public static <T> List<T> listToTree(List<T> list) {
+    public static <T extends Tree> List<T> listToTree(List<T> list) {
         Map<String, Tree> tempMap = new LinkedHashMap<String, Tree>();
         if (CollectionUtil.isEmpty(list)) return Collections.emptyList();
         if (!(list.get(0) instanceof Tree)) {

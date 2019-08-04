@@ -20,12 +20,7 @@ import com.dstz.base.core.cache.ICache;
 import cn.hutool.core.util.ArrayUtil;
 
 /**
- * 获取上下文bean。
- *
- * <pre>
- * 在spring配置文件中做如下配置。
- * &lt;bean id="appUtil" class="com.dstz.base.core.util.AppUtil" />
- * </pre>
+ * 获取Spring Context 中的 bean
  */
 @Component
 public class AppUtil implements ApplicationContextAware {
@@ -105,15 +100,6 @@ public class AppUtil implements ApplicationContextAware {
     		list.add(t);
 		}
     	return list;
-    }
-
-    /**
-     * 获取系统中的ICache实现类。
-     *
-     * @return
-     */
-    public static ICache getCache() {
-        return getBean(ICache.class);
     }
 
 

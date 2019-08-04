@@ -17,3 +17,8 @@
     height: 34px;
 }
 
+ 
+/* 编辑模式下设置展示 */
+.tab-content>.tab-pane {
+    display: block;
+}

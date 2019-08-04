@@ -6,7 +6,7 @@
     <parent>
         <artifactId>agile-bpm</artifactId>
         <groupId>com.dstz.agilebpm</groupId>
-        <version>1.3.6</version>
+        <version>1.3.7</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -16,10 +16,10 @@
     <description>提供主服务</description>
 
     <properties>
-        <base.version>1.3.6</base.version>
-        <bpm.version>1.5.1.1</bpm.version>
-        <bus-form.version>1.3.6</bus-form.version>
-        <platform.version>1.3.6</platform.version>
+        <base.version>1.3.7</base.version>
+        <bpm.version>1.5.3</bpm.version>
+        <bus-form.version>1.3.7</bus-form.version>
+        <platform.version>1.3.7</platform.version>
     </properties>
 
     <dependencies>
@@ -109,7 +109,19 @@
             <artifactId>demo-core</artifactId>
             <version>0.0.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dstz.agilebpm</groupId>
+            <artifactId>agilebpm-component-j2cache</artifactId>
+            <version>${agilebpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.ruedigermoeller</groupId>
+            <artifactId>fst</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

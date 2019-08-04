@@ -2,13 +2,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="../../build/common/base.css" rel="stylesheet">
-<script type="text/javascript" src="../../build/common/base.js"></script>
-<script type="text/javascript" src="../../build/common/ngEdit.js"></script>
+<script type="text/javascript" src="../../build/common/ngEdit-ori.js"></script>
 <script type="text/javascript" src="../../build/common/easyLayout.js"></script>
 <script type="text/javascript" src="../../assets/js/platform/form/formDef/formDefEditController.js"></script>
 
 <script type="text/javascript">
 	var formType = $.getParam("formType");
+	
+	window.__ctx_mb = "http://localhost:8082";//移动端地址 
+	window.__ctx_pc_iview = "http://localhost:8081";//iview地址
+	
 </script>
 <script type="text/javascript" src="../../build/common/uedtor.js"></script>
 </head>
@@ -23,6 +26,7 @@
 			<a href="javascript:void(0)" class="btn btn-primary fa-reply" onclick="javaScript:window.close()">取消</a>
 			<a ng-show="data.boKey" href="javascript:void(0)" class="btn btn-primary fa-cubes" ng-click="selectTemplate()">生成表单</a>
 			<a href="javascript:void(0)" class="btn btn-primary fa-eye" ng-click="preview()" ng-show="data.id">预览</a>
+			<a href="javascript:void(0)" class="btn btn-primary fa-eye" ng-click="preview(1)" ng-show="data.id">新页面预览</a>
 			<a href="javaScript:void(0)" ng-if="data.type=='mobile'||data.type=='pc_iview'" style="text-decoration: none; color: red;" title="当前类型的表单预览需要正确配置服务器地址，并且由于是跨域预览，请在保存后再预览" class="fa fa-exclamation-circle ab-help" ab-tip></a>
 			<span ng-if="data.isDeveloper">
 				<a class="btn btn-primary fa-hand-o-up" ng-click="getBackupHtml()">

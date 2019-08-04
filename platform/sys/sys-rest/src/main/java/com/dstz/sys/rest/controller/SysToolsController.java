@@ -6,15 +6,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
-import com.dstz.base.api.response.impl.ResultMsg;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dstz.base.api.aop.annotion.CatchErr;
+import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.ConstantUtil;
 import com.dstz.base.core.util.EnumUtil;
@@ -115,4 +113,13 @@ public class SysToolsController extends ControllerTools {
         resultMsg.setData(DateFormatUtils.format(new Date(), format));
         return resultMsg;
     }
+     
+    @RequestMapping("getResultEnum")
+	public Object getResultEnum(@RequestParam String path,@RequestParam(required=false,defaultValue="false") Boolean listMode ) throws Exception {
+		if (listMode) {
+			return getSuccessResult(EnumUtil.toJSONArray(path));
+		}
+		
+		return getSuccessResult(EnumUtil.toJSON(path));
+	}
 }

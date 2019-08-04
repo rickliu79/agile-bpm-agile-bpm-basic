@@ -146,7 +146,7 @@
 					<div ng-if="!column.primary">
 						<!-- {{column.ctrl.config |json}} -->
 						<!-- 多行行文本框 -->
-						<div ng-if="column.ctrl.type=='multitext'" class="form-inline">
+						<span ng-if="column.ctrl.type=='multitext'" class="form-inline">
 							<label>
 								<span ab-boolean="1/0" text="编辑器/TextArea" ng-model="column.ctrl.config.isEditor" />
 							</label>
@@ -154,28 +154,33 @@
 							<input type="text" class="form-control" ng-model="column.ctrl.config.ewidth" style="width: 50px" ab-validate="{required:true,number:true}" />
 							高:
 							<input type="text" class="form-control" ng-model="column.ctrl.config.eheight" style="width: 50px" ab-validate="{required:true,number:true}" />
-						</div>
+						</span>
 						<!-- 下拉框 -->
-						<div ng-if="column.ctrl.type=='select'||column.ctrl.type=='multiselect'||column.ctrl.type=='checkbox'||column.ctrl.type=='radio'">
+						<span ng-if="column.ctrl.type=='select'||column.ctrl.type=='multiselect'||column.ctrl.type=='checkbox'||column.ctrl.type=='radio'">
 							<a class="btn btn-outline btn-primary fa-edit" ng-click="openColCtrlCfgDialog(column)" href="javascript:void(0)">设置 </a>
-						</div>
+						</span>
 						<!-- 数据字典 -->
-						<div ng-if="column.ctrl.type=='dic'" style="width: 180px">
+						<span ng-if="column.ctrl.type=='dic'" style="width: 180px">
 							<span ab-combox="" value-key="column.ctrl.config.key" value-name="column.ctrl.config.keyName" url="/sys/dataDict/getDictTree"></span>
-						</div>
+						</span>
 						<!-- 流水号 -->
-						<div ng-if="column.ctrl.type=='serialno'" style="width: 180px">
+						<span ng-if="column.ctrl.type=='serialno'" style="width: 180px">
 							<span class="btn btn-primary" ng-if="column.ctrl.config.name">{{column.ctrl.config.name}}</span>
 							<a class="btn btn-outline btn-primary fa-edit" value-name="column.ctrl.config.name" value-alias="column.ctrl.config.alias" ab-cust-dialog="IdentitySeletor" href="javascript:void(0)">选择 </a>
-						</div>
+						</span>
 						<!-- 日期 -->
-						<div ng-if="column.ctrl.type=='date'" class="form-inline">
+						<span ng-if="column.ctrl.type=='date'" class="form-inline">
 							格式化:
 							<input ng-model="column.ctrl.config.format" class="form-control" />
-						</div>
+						</span>
+						<span>
+							<span ab-boolean text="隐藏占位符/显示占位符" ng-model="column.ctrl.config.placeholder"></span>
+							<input ng-if="column.ctrl.config.placeholder"   ab-validate="{required:true}" placeholder="请输入控件  placeholder 信息" ng-model="column.ctrl.config.placeholderText" class="form-control" />
+						</span>
 					</div>
 				</td>
-				<!-- 字段校验 -->
+				<!-- 
+				字段校验 -->
 				<td>
 					<select ng-if="!column.primary" class="form-control" ng-model="column.ctrl.newRule" ng-options="m as m.title for m in FormRules" ng-change="addRule(column.ctrl)">
 					</select>

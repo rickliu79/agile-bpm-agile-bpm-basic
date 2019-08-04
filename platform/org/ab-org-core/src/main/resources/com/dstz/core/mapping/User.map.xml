@@ -38,17 +38,18 @@
 		SELECT * FROM org_user  WHERE  account_=#{account}
 	</select>
 	
+	<!-- 获取角色用户，组织用户 -->
 	<select id="getUserListByRelation" parameterType="java.util.Map" resultMap="User">
-		SELECT user.* FROM org_user user  
-		left join org_relation relation on relation.user_id_ = user.id_
-		WHERE  relation.type_ = #{relationType}
-		<if test="relationType.equals('groupUser')"> and relation.group_id_ = #{relationId}</if>
-		<if test="relationType.equals('userRole')"> and relation.role_id_ = #{relationId}</if>
+		SELECT distinct orgUser.* FROM org_user orgUser
+		left join org_relation relation on relation.user_id_ = orgUser.id_ 
+		where
+		<if test="relationType.equals('groupUser')"> relation.group_id_ = #{relationId}</if>
+		<if test="relationType.equals('userRole')"> relation.role_id_ = #{relationId}</if>
 	</select>
 	
 	<select id="getUserListByPost" parameterType="java.util.Map" resultMap="User">
-		SELECT user.* FROM org_user user  
-		left join org_relation relation on relation.user_id_ = user.id_
+		SELECT orgUser.* FROM org_user orgUser  
+		left join org_relation relation on relation.user_id_ = orgUser.id_
 		WHERE  relation.type_ = 'groupUserRole'
 		and relation.group_id_ = #{groupId}
 		and relation.role_id_ = #{roleId}

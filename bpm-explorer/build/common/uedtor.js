@@ -10,15 +10,9 @@ var aryJs__=[ "/assets/js/plugins/ueditor/ab.ueditor.config.js",
 
 // 表单设计器内的东西
 if(typeof(formType)!=="undefined"){
-	var custDialogjs = "custDialog.js";
-	if(formType && formType !== 'pc'){
-		custDialogjs = "custDialog-"+formType+".js";
+	if(formType === 'pc'){
+		aryJs__.push("/assets/js/platform/form/formDef/custDialog.js");
 	}
-	
-	aryJs__.push("/form/formPlugin/datePlugn/datePlugn-"+formType+".js");
-	aryJs__.push("/assets/js/platform/form/formDef/"+custDialogjs);
-	aryJs__.push("/form/formPlugin/formCalculate/formCalculate.js");
-	aryJs__.push("/form/formPlugin/inputTools.js");
 }
 
 

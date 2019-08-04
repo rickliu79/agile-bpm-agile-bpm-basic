@@ -5,7 +5,7 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 
 	var ifremeCssUrlMap = {
 		"pc" : '../../assets/js/plugins/ueditor/themes/pcframe.css',
-		"vue" : '../../assets/js/plugins/ueditor/themes/pcframe.css',
+		"pc_vue" : '../../assets/js/plugins/ueditor/themes/pcframe.css',
 		"mobile" : '../../assets/js/plugins/ueditor/themes/mobileFormIframe.css',
 		"pc_iview" : '../../assets/iview/css/iview.css',
 	};
@@ -41,17 +41,21 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 	/**
 	 * 预览
 	 */
-	$scope.preview = function() {
+	$scope.preview = function(isBlank) {
 		var previewUrlMap = {
 			"pc" : 'formDefPreview.html',
-			"vue" : 'vueFormDefPreview.html',
-			"pc_iview" : window.opener.top.__ctx_pc_iview + '/bpm/form/preview',
-			"mobile" : window.opener.__ctx_mb + '/#/bpm/preview',
+			"pc_vue" : 'vueFormDefPreview.html',
+			"pc_iview" : window.__ctx_pc_iview + '/#/bpm/form/preview',
+			"mobile" : window.__ctx_mb + '/#/bpm/preview',
 		};
 
 		if (!previewUrlMap[formType]) {
 			$.Dialog.alert(formType + "类型表单暂不支持预览");
 			return;
+		}
+		if(isBlank){
+			window.open(previewUrlMap[formType] + "?key=" + $scope.data.key,"_blank");
+			return ;
 		}
 
 		var conf = {

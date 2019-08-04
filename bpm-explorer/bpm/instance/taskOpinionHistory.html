@@ -30,30 +30,33 @@
 			if(!info){
 				return "";
 			}
-			
 			var msg = "";
 			angular.forEach(info.split(","),function(item){
 				if(!item){
 					return;
 				}
 				if(msg){
-					msg+=",";
+					msg+="；";
 				}
 				var strs = item.split("-");
+				var typeName ="";
 				if(strs[0]==="user"){
-					msg="[用户]";
+					typeName="[用户]";
 				}else if(strs[0]==="role"){
-					msg="[角色]";
+					typeName="[角色]";
 				}else if(strs[0]==="group"){
-					msg="[组]";
+					typeName="[组]";
 				}else if(strs[0]==="org"){
-					msg="[组织]";
+					typeName="[组织]";
 				}else if(strs[0]==="post"){
-					msg="[岗位]";
+					typeName="[岗位]";
+					if(strs[2]){
+						return msg += typeName + strs[1] + "-" + strs[2];
+					}
 				}else if(strs[0]==="job"){
-					msg="[职称]";
+					typeName="[职称]";
 				}
-				msg = msg + strs[1];
+				msg += typeName + strs[1];
 			});
 			return msg;
 		};

@@ -14,7 +14,6 @@
 	<div class="ibox-title">
 		<a class="btn btn-primary fa-save" href="javascript:void(0)" ng-model="data" ab-save="/bus/businessObject/save">保存</a>
 		<a href="javascript:void(0)" class="btn btn-primary fa-reply" onclick="javascript:$.Dialog.close(window);">取消</a>
-		<a href="javaScript:void(0)" openDialog='业务对象总体布置' url='./businessObjectOverallArrangement.html?boCode={{data.key}}' ng-show="data.id" class="btn btn-sm btn-primary btn-outline fa-edit">配置控件布局</a>
 	</div>
 	<form name="form" ab-load="/bus/businessObject/getObject?id={id}" ng-model="data" fastjson>
 		<table class="form-table">
@@ -25,14 +24,14 @@
 				</td>
 				<th>持久化方式</th>
 				<td>
-					<select class="form-control" ng-model="data.persistenceType" ng-options="v.key as v.desc for (k,v) in BusinessObjectPersistenceType">
+					<select class="form-control" style="width: 150px;" ng-model="data.persistenceType" ng-change="data.perTypeConfig=null" ng-options="v.key as v.desc for (k,v) in BusinessObjectPersistenceType">
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<th>名字</th>
 				<td>
-					<input ng-model="data.name" ab-validate="{required:true}" class="form-control" />
+					<input ng-model="data.name" ab-validate="{required:true,maxlength:30}" class="form-control" />
 				</td>
 				<th>对象名</th>
 				<td>
@@ -42,7 +41,7 @@
 			<tr>
 				<th>描述</th>
 				<td>
-					<textarea ng-model="data.desc" class="form-control"></textarea>
+					<textarea ng-model="data.desc" class="form-control"  ab-validate="{maxlength:80}" ></textarea>
 				</td>
 				<th>主业务表</th>
 				<td>

@@ -70,6 +70,10 @@ public class BusinessDataPersistenceDbService implements BusinessDataPersistence
 
 		// 没有表数据库操作权限
 		if (!businessData.getBusTableRel().getBusObj().haveTableDbEditRights(businessData.getBusTableRel().getTableKey())) {
+			//没编辑，但是有读权限，则需要操作一下子表
+			if (businessData.getBusTableRel().getBusObj().haveTableDbReadRights(businessData.getBusTableRel().getTableKey())) {
+				saveChildren(businessData);
+			}
 			return;
 		}
 

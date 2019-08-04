@@ -8,9 +8,10 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-@ApiModel("分页结果")
-public class PageResult extends BaseResult {
-    // 总记录数
+@ApiModel(description="通用分页结果包装类")
+public class PageResult<T> extends BaseResult {
+	private static final long serialVersionUID = 1L;
+	// 总记录数
     @ApiModelProperty("分页大小")
     private Integer pageSize = 0;
     @ApiModelProperty("当前页")
@@ -26,12 +27,12 @@ public class PageResult extends BaseResult {
 
     }
 
-    public PageResult(List rows, Integer total) {
+    public PageResult(List<T> rows, Integer total) {
         this.rows = rows;
         this.total = total;
     }
 
-    public PageResult(List arrayList) {
+    public PageResult(List<T> arrayList) {
         this.rows = arrayList;
 
         //适配 pagehelper 的 page
@@ -56,11 +57,11 @@ public class PageResult extends BaseResult {
         this.pageSize = pageSize;
     }
 
-    public List getRows() {
+    public List<T> getRows() {
         return rows;
     }
 
-    public void setRows(List rows) {
+    public void setRows(List<T> rows) {
         this.rows = rows;
     }
 

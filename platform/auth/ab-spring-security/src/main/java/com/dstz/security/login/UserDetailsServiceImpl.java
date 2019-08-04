@@ -14,11 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.dstz.base.core.cache.ICache;
+import com.dstz.base.core.jwt.JWTService;
 import com.dstz.org.api.model.IUser;
 import com.dstz.org.api.model.IUserRole;
 import com.dstz.org.api.service.UserService;
 import com.dstz.security.constans.PlatformConsts;
-import com.dstz.security.jwt.service.JWTService;
 import com.dstz.security.login.model.LoginUser;
 import com.dstz.sys.util.ContextUtil;
 

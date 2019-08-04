@@ -46,6 +46,18 @@ public class MobileFormElementGenerator extends AbsFormElementGenerator{
 		}
 		
 		element.attr("v-model",getScopePath(relation)+ "." + column.getKey());
+		
+		//添加上  placeholder 的支持
+		String configStr = column.getCtrl().getConfig();
+		if (StringUtil.isEmpty(configStr)) {
+			return;
+		}
+
+		JSONObject config = JSON.parseObject(configStr);
+		Boolean placeholder = config.getBoolean("placeholder");
+		
+		if(placeholder == null || !placeholder )return ;
+		element.attr("placeholder", config.getString("placeholderText"));
 	}
  
 	
@@ -67,6 +79,7 @@ public class MobileFormElementGenerator extends AbsFormElementGenerator{
 		handleVModel(element, column);
 		handleValidateRules(element, column);
 		handlePermission(element, column);
+		element.attr(":ab-permission", getPermissionPath(column));
 		
 		String configStr = column.getCtrl().getConfig();
 		if(StringUtil.isEmpty(configStr)) {
@@ -178,7 +191,6 @@ public class MobileFormElementGenerator extends AbsFormElementGenerator{
 			
 			child.attr("value", option.getString("key"));
 			label.appendText(option.getString("txt"));
-			child.attr("name",String.format("%s-%s-%s",(String) ThreadMapUtil.get("boCode"), column.getTable().getKey(),column.getName()));
 		}
 		
 		return permissionElement.toString();

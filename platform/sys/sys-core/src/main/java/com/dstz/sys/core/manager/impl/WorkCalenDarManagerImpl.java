@@ -17,6 +17,7 @@ import com.dstz.sys.core.dao.WorkCalenDarDao;
 import com.dstz.sys.core.manager.HolidayConfManager;
 import com.dstz.sys.core.manager.WorkCalenDarManager;
 import com.dstz.sys.core.model.HolidayConf;
+import com.github.pagehelper.PageHelper;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
@@ -101,14 +102,20 @@ public class WorkCalenDarManagerImpl extends BaseManager<String, WorkCalenDar> i
      */
 	@Override
 	public Date getWorkDayByDays(Date startDay, int days) {
-		WorkCalenDar day = workCalenDarDao.getWorkDayByDays(startDay, days);
-		return day == null ? null :day.getDay();
+		PageHelper.offsetPage(days, 1);
+		
+		List<WorkCalenDar> day = workCalenDarDao.getWorkDayByDays(startDay);
+		
+		return day.isEmpty() ? null :day.get(0).getDay();
 	}
 	
 	@Override
 	public Date getWorkDayByDays(Date startDay, int days, String system) {
-		WorkCalenDar day =  workCalenDarDao.getWorkDayByDays(startDay, days, system);
-		return day == null ? null :day.getDay();
+		PageHelper.offsetPage(days, 1);
+		
+		List<WorkCalenDar> day =  workCalenDarDao.getWorkDayByDays(startDay, system);
+		
+		return day.isEmpty() ? null :day.get(0).getDay();
 	}
 	
 	/**

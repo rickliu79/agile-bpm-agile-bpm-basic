@@ -2,6 +2,7 @@ package com.dstz.org.core.manager;
 
 import java.util.List;
 
+import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.manager.Manager;
 import com.dstz.org.api.model.IGroup;
 import com.dstz.org.core.model.OrgRelation;
@@ -90,5 +91,7 @@ public interface OrgRelationManager extends Manager<String, OrgRelation>{
 	 * @return
 	 */
 	OrgRelation getPost(String groupId);
+
+	void removeCheck(String groupId, String roleId);
 	
 }

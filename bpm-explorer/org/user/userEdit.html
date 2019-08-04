@@ -65,6 +65,39 @@
 			},arr);
 	 	}
 	 	
+	 	$scope.selectPostRelation = function(){
+	 		if(!$scope.data.orgRelationList){
+	 			$scope.data.orgRelationList = [];
+	 		}
+	 		var arr = [];
+	 		var newList = [];
+			for(var i=0,relation;relation = $scope.data.orgRelationList[i++];){
+				if(relation.type == "groupUserRole"){
+					arr.push(relation);
+				}else{
+					newList.push(relation);
+				}
+			}
+	 		CustUtil.openCustDialog("postSelector",function(data,innerWindow){
+				$scope.$apply(function(){
+					$scope.data.orgRelationList = newList;
+					
+					//将重新选择的放入到List中
+					for(var i = 0; i < data.length; i++) {
+						var rights = {
+							type :"groupUserRole",
+							groupId: data[i].groupId,
+							roleId: data[i].roleId,
+							postName : data[i].name,
+							};
+						$scope.data.orgRelationList.push(rights);
+					}
+					});
+			   $.Dialog.close(innerWindow);
+			},arr);
+	 		
+	 	}
+	 	
 	 	$scope.selectGroupRelation = function(){
 	 		if(!$scope.data.orgRelationList){
 	 			$scope.data.orgRelationList = [];
@@ -193,7 +226,7 @@
 				<td>
 					<select class="form-control" ng-model="data.status" ab-validate="{required:true}">
 						<option value="0">禁用</option>
-						<option value="1">正常</option>
+						<option value="1">启用</option>
 					</select>
 				</td>
 			</tr>
@@ -204,7 +237,7 @@
 					<span class="required">*</span>
 				</th>
 				<td>
-					<span ng-repeat="relation in data.orgRelationList |filter:{type:'userRole'}" style="margin-right: 10px" class="label label-danger"> {{relation.roleName}}
+					<span ng-repeat="relation in data.orgRelationList" ng-show="relation.type ==='userRole'" style="margin-right: 10px" class="label label-danger"> {{relation.roleName}}
 					<button href="javascript:void(0)" class="btn btn-link btn-default btn-xs" ng-click="ArrayTool.remove(relation,data.orgRelationList)">×</button></span>
 					<span class="btn  btn-sm btn-primary fa fa-search" ng-click="selectRoleRelation()">选择</span> 
 				</td>
@@ -215,9 +248,20 @@
 					<span class="required">*</span>
 				</th>
 				<td>
-					<span ng-repeat="relation in data.orgRelationList|filter:{type:'groupUser'}" style="margin-right: 10px" class="label label-danger"> {{relation.groupName}}
+					<span ng-repeat="relation in data.orgRelationList" ng-show="relation.type ==='groupUser'" style="margin-right: 10px" class="label label-danger"> {{relation.groupName}}
 					<button href="javascript:void(0)" class="btn btn-link btn-default btn-xs" ng-click="ArrayTool.remove(relation,data.orgRelationList)">×</button></span>
 					<span class="btn  btn-sm btn-primary fa fa-search" ng-click="selectGroupRelation()" >选择</span> 
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<span>岗位:</span>
+					<span class="required">*</span>
+				</th>
+				<td>
+					<span ng-repeat="relation in data.orgRelationList|filter:{type:'groupUserRole'}" style="margin-right: 10px" class="label label-danger"> {{relation.postName}}
+					<button href="javascript:void(0)" class="btn btn-link btn-default btn-xs" ng-click="ArrayTool.remove(relation,data.orgRelationList)">×</button></span>
+					<span class="btn  btn-sm btn-primary fa fa-search" ng-click="selectPostRelation()" >选择</span> 暂不支持回显
 				</td>
 			</tr>
 			<tr>

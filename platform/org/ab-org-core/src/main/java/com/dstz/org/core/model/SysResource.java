@@ -14,7 +14,7 @@ import com.dstz.org.api.model.system.ISysResource;
  * @author jeff
  *
  */
-public class SysResource implements Tree,ISysResource, IDModel {
+public class SysResource implements ISysResource, IDModel {
     /**
      * 主键
      */
@@ -112,6 +112,10 @@ public class SysResource implements Tree,ISysResource, IDModel {
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+    
+    public String getTitle() {
+    	return this.name;
     }
 
     /**
@@ -215,7 +219,7 @@ public class SysResource implements Tree,ISysResource, IDModel {
     public boolean isChecked() {
         return checked;
     }
-
+    
     public void setChecked(boolean checked) {
         this.checked = checked;
     }

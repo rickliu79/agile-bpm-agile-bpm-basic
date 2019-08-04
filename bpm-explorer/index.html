@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=8; IE=9; IE=EDGE;">
 	
 	<link href="./build/common/base.css" rel="stylesheet">
-	<script type="text/javascript" src="./build/common/base.js"></script>
+		<script type="text/javascript" src="./build/common/base.js"></script>
 	<script type="text/javascript" src="./build/common/ngEdit.js"></script>
 	<script type="text/javascript" src="./build/home/index.js"></script>
 	<script type="text/javascript" src="./assets/js/plugins/pace/pace.min.js"></script>
@@ -64,7 +64,6 @@
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header" style="width:80%">
-                    	<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="javascript:void(0);"><i class="fa fa-bars"></i> </a>
                    		<a ng-repeat="topMenu in userRes" ng-click="topClick(topMenu)" ab-tip title="{{topMenu.name}}"  ng-if="topMenu.enable"
                    		 	class="navbar-minimalize minimalize-styl-2 btn btn-primary {{topMenu.active}}" href="javascript:void(0);">
                    		  	<i class="fa fa-{{topMenu.icon ||'server'}} fa-2x" style="display: block;" ></i> {{topMenu.name}}
@@ -98,7 +97,7 @@
                              <li ng-repeat="system in userMsg.subsystemList" ng-show="system.id != userMsg.currentSystem.id">
                              		<a href="#">
                                           <i class="fa fa-align-justify"></i> {{system.name}}
-                                          <span class="pull-right btn btn-xs btn-danger fa fa-exchange" ng-click="changeCurrentSystem(system.alias)">切换系统</span>
+                                          <span class="pull-right btn btn-xs btn-danger fa fa-exchange" ng-click="changeCurrentSystem(system)">切换系统</span>
                                    </a>
                              </li>
                               <li class="divider"></li>
@@ -185,7 +184,7 @@
             </div>
             
             <div class="footer">
-                <div class="pull-right">&copy; AGILE-BPM ©2019 版权所有 可以用于商业用途  </div>
+                <div class="pull-right">&copy; AGILE-BPM ©2018 版权所有 禁止用于商业用途 违者必究 </div>
             </div>
         </div>
         <!--右侧部分结束-->
@@ -195,4 +194,45 @@
 <style>
 .iframe-block{ display:block }
 .iframe-none{ display:none; }
+
+*{ -webkit-user-select: none; }
+
+::-webkit-scrollbar-thumb {
+  background-color:#f5f5f5;
+}
+
+.nav-header{
+  height: 63px;
+  padding: 2px 12px;
+  border-bottom:1px solid #333;
+}
+
+.navbar-static-side{
+  opacity:0.85;
+}
+
+.nav-item{
+  display: inline;line-height: 40px;font-size: 18px;
+}
+
+.btn-primary {
+    margin:10px 0 10px 10px;
+    0background-color: #609e94;
+    border-color: transparent;
+    0color: #fff;
+    background-color: transparent;
+    color: #609e94;
+}
+
+.btn-primary.menuActive{
+	background-color: #18a689;
+    border-color: #18a689;
+    color: #fff;
+}
+
+
+.nav>li.active {
+    border-left: 4px solid #F0F0F0;
+    background: transparent;
+}
 </style>

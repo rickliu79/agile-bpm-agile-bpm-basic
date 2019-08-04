@@ -126,7 +126,7 @@
 							<th>岗位:</th>
 							<td>
 								<span ng-repeat="rights in rightsList |filter:{rightsType:'post'}" class="label label-danger"> {{rights.rightsIdentityName}}</span>
-								<span class="btn  btn-sm btn-primary fa  ng-scope" ng-click="selectIdentitys('post','postSelector')">选择</span>							</td>								
+								<span class="btn  btn-sm btn-primary fa  ng-scope" ng-click="selectIdentitys('post','postSelector','name','postId')">选择</span>							</td>								
 						</tr>
 
 						<tr id="orgTr" ng-if="!isAll">								

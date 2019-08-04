@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.exception.BusinessMessage;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.impl.BaseManager;
+import com.dstz.bus.api.constant.BusColumnCtrlType;
 import com.dstz.bus.api.constant.BusTableRelType;
 import com.dstz.bus.dao.BusinessObjectDao;
 import com.dstz.bus.manager.BusinessObjectManager;
@@ -123,10 +125,11 @@ public class BusinessObjectManagerImpl extends BaseManager<String, BusinessObjec
 		JSONObject root = new JSONObject();
 		root.put("id", businessTable.getId());
 		root.put("key", businessTable.getKey());
-		root.put("name", businessTable.getName() + "(" + BusTableRelType.getByKey(busTableRel.getType()).getDesc() + ")");
+		root.put("name",businessTable.getComment()+ "(" + BusTableRelType.getByKey(busTableRel.getType()).getDesc()+ "#" + businessTable.getName() + ")");
 		root.put("comment",businessTable.getComment());
 		root.put("parentId", parentId);
 		root.put("nodeType", "table");// 节点类型-表
+		root.put("relationType", busTableRel.getType());
 		list.add(root);
 
 		for (BusinessColumn businessColumn : businessTable.getColumns()) {
@@ -136,6 +139,12 @@ public class BusinessObjectManagerImpl extends BaseManager<String, BusinessObjec
 			columnJson.put("name", businessColumn.getComment());
 			columnJson.put("tableKey", businessTable.getKey());
 			columnJson.put("parentId", businessTable.getId());
+			
+			if (businessColumn.isPrimary() || businessColumn.getCtrl() == null
+					||BusColumnCtrlType.HIDDEN.getKey().equals(businessColumn.getCtrl().getType()) ) {
+				columnJson.put("isHidden", true);
+			}
+
 			columnJson.put("nodeType", "column");// 节点类型-字段
 			list.add(columnJson);
 		}
@@ -160,5 +169,19 @@ public class BusinessObjectManagerImpl extends BaseManager<String, BusinessObjec
 		}
 		
 		super.remove(entityId);
+	}
+
+	@Override
+	public void updateOverallArrangementByCode(String boCode, String overallArrangement) {
+		JSONObject json = JSON.parseObject(overallArrangement);
+		if(json.getJSONArray("groupList").isEmpty()) {
+			overallArrangement = null;
+		}
+		
+		businessObjectDao.updateOverallArrangementByCode(boCode,overallArrangement);
+	}
+	@Override
+	public String getOverallArrangementByCode(String boCode) {
+		return businessObjectDao.getOverallArrangementByCode(boCode);
 	}
 }

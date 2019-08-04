@@ -31,15 +31,13 @@ import com.dstz.base.api.response.impl.ResultMsg;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.ExceptionUtil;
-import com.dstz.base.rest.util.RequestContext;
+import com.dstz.base.core.util.RequestContext;
 import com.dstz.base.rest.util.RequestUtil;
 import com.dstz.org.api.model.IUser;
 import com.dstz.sys.api.constant.EnvironmentConstant;
 import com.dstz.sys.core.manager.LogErrManager;
 import com.dstz.sys.core.model.LogErr;
 import com.dstz.sys.util.ContextUtil;
-
-import cn.hutool.core.collection.CollectionUtil;
 
 /**
  * @author jeff

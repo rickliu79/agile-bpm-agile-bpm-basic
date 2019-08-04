@@ -1,7 +1,5 @@
 package com.dstz.org.api.constant;
 
-import com.dstz.base.api.exception.BusinessException;
-
 /**
  * 系统支持的组类型
  */
@@ -32,7 +30,7 @@ public enum GroupTypeConstant {
             if (key.equals(e.key)) return e;
         }
         
-        throw new BusinessException("获取 GroupType 失败".concat(key));
-    }
+        return null;
+     }
 
 }

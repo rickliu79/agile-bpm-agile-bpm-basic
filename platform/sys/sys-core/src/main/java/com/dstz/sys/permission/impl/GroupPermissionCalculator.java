@@ -7,7 +7,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.core.util.AppUtil;
 import com.dstz.base.core.util.ThreadMapUtil;
 import com.dstz.org.api.model.IGroup;
-import com.dstz.org.api.model.IUser;
 import com.dstz.org.api.service.GroupService;
 import com.dstz.sys.api.permission.IPermissionCalculator;
 import com.dstz.sys.util.ContextUtil;

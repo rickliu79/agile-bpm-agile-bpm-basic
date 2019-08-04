@@ -75,6 +75,8 @@ CREATE TABLE `bpm_user_agency_log` (
 
 -- 新增三个菜单资源
 
+INSERT INTO `sys_resource` (`ID_`, `system_id_`, `alias_`, `name_`, `url_`, `enable_`, `opened_`, `icon_`, `type_`, `sn_`, `parent_id_`, `create_time_`) VALUES ('406714104337661953', '1', 'userAgencyLogList', '代理记录', 'bpmplugin/userAgencyConfig/userAgencyLogList.html', '1', '1', '', 'menu', '6', '7', NULL);
+INSERT INTO `sys_resource` (`ID_`, `system_id_`, `alias_`, `name_`, `url_`, `enable_`, `opened_`, `icon_`, `type_`, `sn_`, `parent_id_`, `create_time_`) VALUES ('406714125032357889', '1', 'userAgencyConfig', '流程代理', 'bpmplugin/userAgencyConfig/tabs.html', '1', '1', '', 'menu', '5', '7', NULL);
 INSERT INTO `sys_resource` (`ID_`, `system_id_`, `alias_`, `name_`, `url_`, `enable_`, `opened_`, `icon_`, `type_`, `sn_`, `parent_id_`, `create_time_`) VALUES ('406719341437911041', '1', 'instanceList', '流程实例-部门', 'bpm/instance/instanceList_org.html', '1', '1', '', 'menu', '6', '10000000710005', NULL);
 
 -- 流程乐观锁字段修改

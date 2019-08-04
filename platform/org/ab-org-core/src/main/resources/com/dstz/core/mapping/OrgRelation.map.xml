@@ -17,6 +17,7 @@
 		<result property="roleName" column="roleName" jdbcType="VARCHAR"/>
 		<result property="roleAlias" column="roleAlias" jdbcType="VARCHAR"/>
 		<result property="userName" column="userName" jdbcType="VARCHAR"/>
+		<result property="userAccount" column="userAccount" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.dstz.org.core.model.OrgRelation">
@@ -33,7 +34,7 @@
 	</select>
 	
 	<select id="query" parameterType="java.util.Map" resultMap="OrgRelation">
-		SELECT relation.*,tgroup.name_ groupName,tuser.fullname_ userName,role.name_ roleName 
+		SELECT relation.*,tgroup.name_ groupName,tuser.fullname_ userName,tuser.account_ userAccount,role.name_ roleName 
 		FROM org_relation relation 
 		left join org_user tuser on relation.user_id_ = tuser.id_
 		left join org_group tgroup on relation.group_id_ = tgroup.id_
@@ -86,7 +87,7 @@
 	</delete>
 	
 	<select id="getUserRelation"   parameterType="java.util.Map" resultMap="OrgRelation">
-		SELECT relation.*,tgroup.name_ groupName,tuser.fullname_ userName,role.name_ roleName 
+		SELECT relation.*,tgroup.name_ groupName,tuser.fullname_ userName,tuser.account_ userAccount,role.name_ roleName 
 		FROM org_relation relation 
 		left join org_user tuser on relation.user_id_ = tuser.id_
 		left join org_group tgroup on relation.group_id_ = tgroup.id_
@@ -115,7 +116,7 @@
 	</select>
 	
 	<select id="getRelationsByParam"   parameterType="java.util.Map" resultMap="OrgRelation">
-		SELECT relation.*,tgroup.name_ groupName,tuser.fullname_ userName,role.name_ roleName 
+		SELECT relation.*,tgroup.name_ groupName,tuser.fullname_ userName,tuser.account_ userAccount,role.name_ roleName 
 		FROM org_relation relation 
 		left join org_user tuser on relation.user_id_ = tuser.id_
 		left join org_group tgroup on relation.group_id_ = tgroup.id_
@@ -133,7 +134,7 @@
 	</select>
 	
 	<select id="getUserRole"   parameterType="java.lang.String" resultMap="OrgRelation">
-		SELECT relation.*,tuser.fullname_ userName,role.name_ roleName ,role.alias_ as roleAlias
+		SELECT relation.*,tuser.fullname_ userName,tuser.account_ userAccount,role.name_ roleName ,role.alias_ as roleAlias
 		FROM org_relation relation 
 		left join org_user tuser on relation.user_id_ = tuser.id_
 		left join org_role role on relation.role_id_ = role.id_

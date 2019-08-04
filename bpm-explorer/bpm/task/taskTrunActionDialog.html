@@ -24,18 +24,18 @@
 								scope.userSet = scope.flowParam.nodeUsers[scope.flowParam.nodeId][0] = newUser;
 							});
 						});
-					}, null, null, true);
+					}, null, {multiple:false}, true);
 				}
 			}];
 			
 			function isValidate(){
 				var flowParam = AngularUtil.getScope().flowParam;
 				if (!flowParam.opinion) {
-					$.Toast.warning("请填写意见！");
+					$.Toast.warning("请填写意见！",null,window);
 					return false;
 				}
 				if(!flowParam.nodeUsers[flowParam.nodeId][0].name){
-					$.Toast.warning("请选择一位转交人！");
+					$.Toast.warning("请选择一位转交人！",null,window);
 					return false;
 				}
 				return true;

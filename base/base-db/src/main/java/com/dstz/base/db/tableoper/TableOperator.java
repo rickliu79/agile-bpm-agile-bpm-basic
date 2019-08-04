@@ -345,10 +345,17 @@ public abstract class TableOperator {
 		}
 
 		for (Column column : table.getColumns()) {
-			if (!dbColumnNames.contains(column.getName())) {// 结构有，数据库表内没有，增加
+			boolean exits = false;
+			for (String columnName : dbColumnNames) {
+				if (columnName.equalsIgnoreCase(column.getName())) {
+					exits = true;
+					break;
+				}
+			}
+			if (!exits) {// 结构有，数据库表内没有，增加
 				addColumn(column);
-			}else {
-				updateColumn(column);//更新一遍结构
+			} else if (!dbTable.getColumn(column.getName()).equals(column)) {
+				updateColumn(column);// 更新一遍结构
 			}
 		}
 	}

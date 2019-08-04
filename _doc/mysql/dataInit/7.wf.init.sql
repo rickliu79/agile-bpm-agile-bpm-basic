@@ -10,5 +10,6 @@ UPDATE `sys_resource` SET `ENABLE_`='1' WHERE (`ID_`='10000000710005');
 UPDATE `sys_resource` SET `ENABLE_`='1' WHERE (`ID_`='1');
 
 
-
-
+-- 使用 angular 表单
+UPDATE `sys_resource` SET `ENABLE_`='1' WHERE (`ID_`='30'); 
+UPDATE `sys_resource` SET `ENABLE_`='0' WHERE (`ID_`='33');

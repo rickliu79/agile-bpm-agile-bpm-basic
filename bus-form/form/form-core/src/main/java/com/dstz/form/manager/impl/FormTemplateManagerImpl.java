@@ -22,6 +22,7 @@ import com.dstz.base.api.exception.BusinessException;
 import com.dstz.base.api.query.QueryFilter;
 import com.dstz.base.api.query.QueryOP;
 import com.dstz.base.core.id.IdUtil;
+import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.query.DefaultQueryFilter;
 import com.dstz.base.manager.impl.BaseManager;
 import com.dstz.bus.api.constant.BusTableRelType;
@@ -29,6 +30,7 @@ import com.dstz.bus.api.model.IBusTableRel;
 import com.dstz.bus.api.model.IBusinessObject;
 import com.dstz.bus.api.service.IBusinessObjectService;
 import com.dstz.form.api.constant.FormTemplateType;
+import com.dstz.form.api.model.FormType;
 import com.dstz.form.dao.FormTemplateDao;
 import com.dstz.form.manager.FormTemplateManager;
 import com.dstz.form.model.FormTemplate;
@@ -69,6 +71,8 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 
 	@Override
 	public FormTemplate getByKey(String key) {
+		if(StringUtil.isEmpty(key))return null;
+		
 		QueryFilter filter = new DefaultQueryFilter();
 		filter.addFilter("key_", key, QueryOP.EQUAL);
 		return this.queryOne(filter);
@@ -173,10 +177,14 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 		formTemplateDao.update(formTemplate);
 	}
 
-	public List<FormTemplate> getByType(String type, String formType) {
+	public List<FormTemplate> getByType(String type, String formType,Boolean hasDesignForm) {
 		QueryFilter filter = new DefaultQueryFilter();
-		filter.addFilter("type_", type, QueryOP.IN);
+		filter.setPage(null);
+		filter.addFilter("type_", type, QueryOP.EQUAL);
 		filter.addFilter("form_type_", formType, QueryOP.EQUAL);
+		if(hasDesignForm) {
+			filter.addFilter("type_", type.concat("FormOverallArrangement"), QueryOP.EQUAL);
+		}
 		return this.query(filter);
 	}
 	
@@ -186,10 +194,14 @@ public class FormTemplateManagerImpl extends BaseManager<String, FormTemplate> i
 		if(bo == null) {
 			throw new BusinessException(String.format("业务对象丢失，请检查业务对象：%s", boKey));
 		}
+		boolean hasDesignForm = false;
+		if(StringUtil.isNotEmpty(businessObjectService.getBoOverallArrangement(boKey)) && !FormType.MOBILE.value().equals(type)) {
+			hasDesignForm = true;
+		}
 		
 		List<IBusTableRel> rels = (List<IBusTableRel>) bo.getRelation().list();
-		List<FormTemplate> mainTemplates = getByType(FormTemplateType.MAIN.getKey(),type);
-		List<FormTemplate> subTableTemplates = getByType(FormTemplateType.SUB_TABLE.getKey(),type);
+		List<FormTemplate> mainTemplates = getByType(FormTemplateType.MAIN.getKey(),type,hasDesignForm);
+		List<FormTemplate> subTableTemplates = getByType(FormTemplateType.SUB_TABLE.getKey(),type,hasDesignForm);
 		for (FormTemplate template : mainTemplates) {
 			template.setHtml(null);
 		}

@@ -35,7 +35,6 @@ public interface SubsystemDao extends BaseDao<String, Subsystem> {
      */
     void updNoDefault();
 
-
     /**
      * 根据用户获取子系统列表。
      *
@@ -43,4 +42,6 @@ public interface SubsystemDao extends BaseDao<String, Subsystem> {
      * @return
      */
     List<Subsystem> getSystemByUser(String userId);
+
+	Subsystem getByAlias(String systemAlias);
 }

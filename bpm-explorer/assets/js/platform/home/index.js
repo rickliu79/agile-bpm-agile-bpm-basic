@@ -13,6 +13,13 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 				
 				scope.userMsg = FastJson.format(result).data;
 				scope.userRes = scope.userMsg.userMenuList;
+				
+				//将子系统url前缀添加至top中
+				top.subSystem = {};
+				for(var i=0,s;s=scope.userMsg.subsystemList[i++];){
+					top.subSystem[s.alias] = s;
+				}
+				
 				//将权限放到缓存中
 				if(window.localStorage){
 					 window.localStorage.setItem( 'buttonPermision', JSON.stringify(scope.userMsg.buttonPermision));
@@ -59,7 +66,6 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 		},10)
 	}
 	scope.menuClick = function(menu,noReload){
-		debugger;
 		if(!menu.url){
 			return;
 		}
@@ -127,8 +133,13 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 		return "";
 	}
 	
-	scope.changeCurrentSystem = function(systemAlias){
-		var get = baseService.get(__ctx+"/userResource/changeSystem?systemAlias="+systemAlias);
+	scope.changeCurrentSystem = function(system){
+		if(system.url){
+			window.open(system.url,system.openType ||"_top");
+			return;
+		}
+		
+		var get = baseService.get(__ctx+"/userResource/changeSystem?systemAlias="+system.alias);
 		$.getResultData(get,function(){
 			window.location = "index.html";
 		})

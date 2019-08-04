@@ -35,6 +35,9 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 		});
 		ToolsController.getEnum("com.dstz.base.api.constant.ColumnType").then(function(data) {
 			$scope.ColumnType = data;
+			if ($scope.data.columns.length != 0) {
+				return;
+			}
 			$scope.$apply(function() {
 				// 初始化主键默认值
 				$scope.data.columns.push({
@@ -55,7 +58,7 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 			data.pass = false;
 			return;
 		}
-		
+
 		// 删除循环索引
 		delete $scope.data.columnsWithoutPk;
 		delete $scope.data.columnsWithOutHidden;
@@ -74,7 +77,7 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 	$scope.$on("afterSaveEvent", function(event, data) {
 		if (!data.r) {
 			$.Dialog.close(window);
-		}else{
+		} else {
 			window.location.reload();
 		}
 	});

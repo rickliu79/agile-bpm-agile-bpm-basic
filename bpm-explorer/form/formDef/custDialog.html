@@ -192,7 +192,6 @@
 
 	//父页面打开按【确定】按钮时的回调函数
 	function getData() {
-		debugger;
 		var scope = AngularUtil.getScope();
 		if(scope.form.$invalid){
 			$.Toast.error("请完善表单！");
@@ -262,7 +261,7 @@
 			</tr>
 		</table>
 		<div class="btn-group toolbar">
-			<a ng-show="data.key" class="fa fa-plus btn btn-primary" href="javascript:void(0)" ng-click="addMap()">添加映射字段</a>
+			<a ng-show="dialog.key" class="fa fa-plus btn btn-primary" href="javascript:void(0)" ng-click="addMap()">添加映射字段</a>
 		</div>
 		<table class="form-table">
 			<tr>
