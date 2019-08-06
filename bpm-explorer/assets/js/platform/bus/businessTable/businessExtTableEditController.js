@@ -64,7 +64,7 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 	$scope.$on("afterSaveEvent", function(event, data) {
 		if (!data.r) {
 			$.Dialog.close(window);
-		}else{
+		} else {
 			window.location.reload();
 		}
 	});
@@ -191,15 +191,26 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 			objName : $scope.data.name
 		});
 		$.getResultData(defer, function(data) {
+			var pkNum = 0;
+			angular.forEach(data.columns, function(c) {
+				if (c.primary) {
+					pkNum++;
+				}
+			});
+			if (pkNum != 1) {
+				jQuery.Toast.error("注意", "请保证外部表符合唯一主键的规则");
+				return;
+			}
+
 			delete data.pkColumn;// 删除无用索引
 			angular.forEach(data.columns, function(c) {
 				var column = getColumn(c.name);
 				if (!column) {
 					column = c;
 				} else {
-					jQuery.extend(column, c);//以库的字段为准
+					jQuery.extend(column, c);// 以库的字段为准
 				}
-				
+
 				if (!column.comment) {
 					column.comment = column.name;
 				}
@@ -208,8 +219,8 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 				}
 
 				// 字段控件已存在
-				if (column.ctrl||column.primary) {
-					jQuery.extend(c, column);//复用已配置好的字段属性
+				if (column.ctrl || column.primary) {
+					jQuery.extend(c, column);// 复用已配置好的字段属性
 					return;
 				}
 				if (column.type == $scope.ColumnType.DATE.key) {
@@ -224,15 +235,15 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', '$filter',
 					};
 				}
 				$scope.initCtrlConfig(column.ctrl);
-				jQuery.extend(c, column);//复用已配置好的字段属性
+				jQuery.extend(c, column);// 复用已配置好的字段属性
 			});
-			
+
 			if (!$scope.data.key) {
 				$scope.data.key = data.name;
 			}
-			
+
 			jQuery.extend($scope.data, data);
-			
+
 			if (b) {
 				$.Toast.success("同步成功，【保存】后生效");
 			}

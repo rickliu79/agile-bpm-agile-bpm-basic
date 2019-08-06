@@ -205,6 +205,20 @@ app.controller('ctrl', [ '$scope', 'baseService', 'ArrayToolService', function($
         	 for(var i=0,g;g=$scope.overallArrangement.groupList[i++];){
         		 $scope.sortableColumn(g,i-1);
                }
+        	 
+        	 if($scope.overallArrangement.tabList)
+        	 for(var i=0,tab;tab=$scope.overallArrangement.tabList[i++];){
+        		 var groupList = [];
+        		 if(tab.groupList)
+        		 for(var i=0,tabGroup;tabGroup=tab.groupList[i++];){
+        			 for(var i=0,g;g=$scope.overallArrangement.groupList[i++];){
+                		 if(tabGroup.key === g.key){
+                			 groupList.push(g);
+                		 }
+                       }
+                   }
+        		 tab.groupList = groupList;
+               }
         },100)
     	
     	
