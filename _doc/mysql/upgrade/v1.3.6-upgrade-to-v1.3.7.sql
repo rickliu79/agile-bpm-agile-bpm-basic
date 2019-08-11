@@ -15,4 +15,7 @@ UPDATE  `form_cust_dialog` SET `id_`='20000002250001', `key_`='busObjectSelect',
 ALTER TABLE `bpm_plugin_reminder_trigger`
 MODIFY COLUMN `msg_type_`  varchar(64)  NULL DEFAULT NULL COMMENT '催办消息类型' AFTER `before_script_`;
 
+ALTER TABLE `bpm_bus_link`
+ADD INDEX `link_inst_id_idx` (`inst_id_`) ;
+
 -- 【重要】 缓存升级，如果默认使用Redis 缓存 升级版本需要清除缓存后升级 ，序列化修改成了 FST
