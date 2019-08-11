@@ -297,10 +297,14 @@ CREATE TABLE `bpm_bus_link` (
   `inst_id_` varchar(64) DEFAULT NULL COMMENT '流程实例ID',
   `biz_id_` varchar(64) DEFAULT NULL COMMENT '业务主键',
   `biz_code_` varchar(64) NOT NULL COMMENT 'bo_code',
-  PRIMARY KEY (`id_`,`biz_code_`)
-) ENGINE=InnoDB COMMENT='流程实例与业务数据关系表'
+  PRIMARY KEY (`id_`,`biz_code_`),
+  KEY `link_inst_id_idx` (`inst_id_`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='流程实例与业务数据关系表'
 /*!50500 PARTITION BY LIST  COLUMNS(biz_code_)
 (PARTITION p01 VALUES IN ('unknown') ENGINE = InnoDB) */;
+
+
+
 
 -- ----------------------------
 -- Table structure for bpm_definition
