@@ -1088,7 +1088,7 @@ var directive = angular.module("baseDirective", [ "base" ])
 					return;
 				}
 				console.info(btnRightsKey +" no rights");
-				$(target).hide();
+				$(element).hide();
 			}else{
 				console.info("浏览器版本太低不支持按钮权限！");
 			}
