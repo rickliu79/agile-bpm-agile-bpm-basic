@@ -146,4 +146,4 @@ https://gitee.com/agile-bpm/bpm-app
 ##### 欢迎了解企业版 SpringCloud版本
 
 ## 欢迎 **Star** 持续关注！！！ 
-qq 群 477781857  
+qq 群 364350411
